@@ -1,8 +1,8 @@
 package IntelliHomeNode;
-use IH::Interfaces::Terminal;
-use IH::Recorder::Sox;
-use IH::Event;
-use IH::Monitor;
-use Proc::Daemon;
+require IH::Interfaces::Terminal;
+require IH::Recorder::Sox;
+require IH::Event;
+require IH::Monitor;
+require Proc::Daemon;
 
 1;
