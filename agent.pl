@@ -2,6 +2,9 @@
 use lib './lib';
 use IntelliHomeAgent;
 
+my $IHOutput = new IH::Interfaces::Terminal;
+
+$IHOutput->info("agent started");
 #Proc::Daemon::Init();
 
 #use App::Daemon qw( daemonize );
@@ -20,17 +23,17 @@ use IntelliHomeAgent;
 #$test->off();
 
 #}
-my $Lampada = IH::Pin::GPIO->new( Pin => 67, Direction => "out" );
-$Lampada->Sync();
-$Lampada->Status(0);
+# my $Lampada = IH::Pin::GPIO->new( Pin => 67, Direction => "out" );
+# $Lampada->Sync();
+# $Lampada->Status(0);
 
-#$seconds = 5;
-$seconds = 43200;    #12 h
-my $w = AnyEvent->timer(
-    after    => 0,
-    interval => $seconds,
-    cb       => sub { $Lampada->toggle(); print "CAMBIATO LO STATO!!!!!\n"; }
-);
+# #$seconds = 5;
+# $seconds = 43200;    #12 h
+# my $w = AnyEvent->timer(
+#     after    => 0,
+#     interval => $seconds,
+#     cb       => sub { $Lampada->toggle(); print "CAMBIATO LO STATO!!!!!\n"; }
+# );
 
-my $cv = AnyEvent->condvar;
-$cv->recv;
+# my $cv = AnyEvent->condvar;
+# $cv->recv;
