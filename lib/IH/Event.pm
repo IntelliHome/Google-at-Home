@@ -1,7 +1,7 @@
 package IH::Event;
 
 use Moo;
-
+has 'LastModified' =>(is=>"rw");
 sub events() {
     my $self = shift;
     foreach my $event (@_) {
@@ -15,6 +15,7 @@ sub process_modified_file {
     my $self = shift;
     my $File = shift;
     print "Someone modified $File, that's really bad\n";
+    $self->LastModified($File);
 
 }
 
@@ -30,6 +31,12 @@ sub process_created_file {
     my $self = shift;
     my $File = shift;
     print "Someone created $File, that's really bad\n";
+    if($self->LastModified){
+        print "we have to process ".$self->LastModified().", damn!\n";
+        my $Synth=new IH::GSynth;
+        $Synth->File($File);
+        $Synth->synth();
+    }
 
 }
 1;
