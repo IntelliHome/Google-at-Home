@@ -1,0 +1,13 @@
+requires 'AnyEvent';
+requires 'AnyEvent::Filesys::Notify';
+requires 'IH::Pin::Analogic';
+requires 'IH::Pin::GPIO';
+requires 'Log::Any';
+requires 'Log::Any::Adapter';
+requires 'Moo';
+requires 'Moo::Role';
+requires 'Moose::Util::TypeConstraints';
+requires 'Proc::Daemon';
+requires 'Term::ANSIColor';
+requires 'Time::Piece';
+requires 'Unix::PID';

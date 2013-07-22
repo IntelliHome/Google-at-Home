@@ -5,6 +5,7 @@ use Log::Any qw($log);
 use Time::Piece;
 
 use Moo;
+
 sub setLogFile() {
     my $month = Time::Piece->new->strftime('%m');
     my $day   = Time::Piece->new->strftime('%d');
@@ -26,24 +27,23 @@ sub setLogFile() {
 
 sub AUTOLOAD {
     our $AUTOLOAD;
-    my $self = shift;
-        my $caller= caller();
+    my $self   = shift;
+    my $caller = caller();
 
     ( my $method = $AUTOLOAD ) =~ s/.*:://s;    # remove package name
     my $printable = uc($method);
     &setLogFile();
-    print 
-colored( "[", "magenta on_black bold" )
-        . colored( $caller, "green on_black bold" )
-        . colored( "]",   "magenta on_black bold" )
-        . colored( "[", "magenta on_black bold" )
-        . colored(  "**".$method, "green on_black bold" )
-        . colored( "]",   "magenta on_black bold" )
-        . colored( " (",  "magenta on_black bold" )
+    print colored( "[",            "magenta on_black bold" )
+        . colored( $caller,        "green on_black bold" )
+        . colored( "]",            "magenta on_black bold" )
+        . colored( "[",            "magenta on_black bold" )
+        . colored( "**" . $method, "green on_black bold" )
+        . colored( "]",            "magenta on_black bold" )
+        . colored( " (",           "magenta on_black bold" )
         . colored( join( " ", @_ ), "blue on_black bold" )
 
         . colored( ") ", "magenta on_black bold" ) . "\n";
-    eval { $log->$method("[$caller][$method] " . join( " ", @_ ) ); }
+    eval { $log->$method( "[$caller][$method] " . join( " ", @_ ) ); }
 
 }
 

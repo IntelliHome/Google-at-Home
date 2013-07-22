@@ -31,7 +31,7 @@ sub start() {
 sub stop() {
     my $self = shift;
     $self->UnixPid->kill( $self->Pid() );
-    waitpid($self->Pid(),0);
+    waitpid( $self->Pid(), 0 );
 }
 
 sub is_running() {
