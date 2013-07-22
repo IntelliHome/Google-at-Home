@@ -24,46 +24,26 @@ sub setLogFile() {
 
 }
 
-
-sub print() {
-
+sub AUTOLOAD {
+    our $AUTOLOAD;
     my $self = shift;
-    my $caller= caller();
+        my $caller= caller();
+
+    ( my $method = $AUTOLOAD ) =~ s/.*:://s;    # remove package name
+    my $printable = uc($method);
     &setLogFile();
     print 
 colored( "[", "magenta on_black bold" )
         . colored( $caller, "green on_black bold" )
         . colored( "]",   "magenta on_black bold" )
         . colored( "[", "magenta on_black bold" )
-        . colored( $_[1] || "**", "green on_black bold" )
+        . colored(  "**".$method, "green on_black bold" )
         . colored( "]",   "magenta on_black bold" )
         . colored( " (",  "magenta on_black bold" )
-        . colored( $_[0], "blue on_black bold" )
+        . colored( join( " ", @_ ), "blue on_black bold" )
 
         . colored( ") ", "magenta on_black bold" ) . "\n";
-
-    $log->info( $_[0] );
-}
-
-sub print_ascii() {
-    my $self  = shift;
-    my $FH    = $_[0];
-    my $COLOR = $_[1];
-
-    while ( my $line = <$FH> ) {
-        print colored( $line, $COLOR );
-
-    }
-}
-
-sub AUTOLOAD {
-    our $AUTOLOAD;
-    my $self = shift;
-
-    ( my $method = $AUTOLOAD ) =~ s/.*:://s;    # remove package name
-    my $printable = uc($method);
-    $self->print( "[$method] " . join( " ", @_ ) );
-    eval { $log->$method(@_); }
+    eval { $log->$method("[$caller][$method] " . join( " ", @_ ) ); }
 
 }
 

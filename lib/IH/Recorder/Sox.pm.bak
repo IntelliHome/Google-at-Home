@@ -1,6 +1,6 @@
 package IH::Recorder::Sox;
 use Moo;
-with("IH::Workers::Process");
+with("IH::Process");
 
 has 'command'             => ( is => "rw" );
 has 'Rate'                => ( is => "rw", default => "16000" );
