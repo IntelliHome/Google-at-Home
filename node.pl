@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use lib './lib';
 use IntelliHomeNode;
-use IH::Interfaces::Terminal;
+
 my $IHOutput = new IH::Interfaces::Terminal;
 
 $IHOutput->info("Node started");
