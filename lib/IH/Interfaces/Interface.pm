@@ -43,7 +43,7 @@ sub AUTOLOAD {
         . colored( join( " ", @_ ), "blue on_black bold" )
 
         . colored( ") ", "magenta on_black bold" ) . "\n";
-    eval { $log->$method( "[$caller][$method] " . join( " ", @_ ) ); }
+    eval { $log->$method( "[$caller][$method] " . join( " ", @_ ) ); } if $method ne "DESTROY";
 
 }
 
