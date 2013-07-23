@@ -17,8 +17,6 @@ sub start() {
     if ( !defined $self->callback ) {
         croak 'No callback defined for thread';
     }
-
-    print "Starting thread\n";
     my $thr = threads->create(
 
         $self->callback()
