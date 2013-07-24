@@ -1,5 +1,6 @@
 package IH::GSynth;
 use Moo;
+use Try::Tiny;
 use Time::HiRes qw(usleep ualarm gettimeofday tv_interval);
 require IH::Interfaces::Terminal;
 require  LWP::UserAgent;
@@ -13,32 +14,40 @@ has 'Time' => (is=>"rw");
 sub synth(){
 	my $self=shift;
 	    my $request_arrival_time = [gettimeofday];
-
+	    return 0 if($self->File =~ /^0$/);
 	my $url = $self->GoogleURL. $self->Language;
 	my @hypotheses = ();
 	my $audio;
 	my $result;
+	my $response;
 	$self->Output()->info("Synthesys of ".$self->File ." delegated to google (do you know a better machine learning as googlebrain?)");
- 	open( FILE, "<" . $self->File );
+ 	open( FILE, "<" . $self->File ) or $self->Output->error("Cannot open ".$self->File);
 	while (<FILE>) {
 		$audio .= $_;
 	}
 	close(FILE);
-	my $ua       = LWP::UserAgent->new;
-	my $response = $ua->post(
-		$url,
-		Content_Type => "audio/x-flac; rate=16000",
-		Content      => $audio
-	);
-	if ( $response->is_success ) {
+	try {
+		my $ua       = LWP::UserAgent->new;
+		 $response = $ua->post(
+			$url,
+			Content_Type => "audio/x-flac; rate=16000",
+			Content      => $audio
+		);
+	} catch {
+		$self->Output->error("Error processing to google: $_");
+	};
+	if (defined $response and $response->is_success ) {
 		$result = $response->content;
+		$self->Output->info("Google answered, good.");
 	}
-	while (  $result =~ m/\"utterance\"\:\"(.*?)\"/g ) {
-		push( @hypotheses, $1 );
+	if(defined $result ){
+		while (  $result =~ m/\"utterance\"\:\"(.*?)\"/g ) {
+			push( @hypotheses, $1 );
+		}
 	}
 	unlink($self->File);
 	$self->hypotheses(\@hypotheses);
-	    my $elapsed = tv_interval( $request_arrival_time, [gettimeofday] );
+	my $elapsed = tv_interval( $request_arrival_time, [gettimeofday] );
 	$self->Time($elapsed);
 	return 0 if @hypotheses <= 0;
 	return @hypotheses;
