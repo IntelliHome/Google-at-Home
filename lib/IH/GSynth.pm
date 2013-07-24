@@ -45,7 +45,7 @@ sub synth(){
 			push( @hypotheses, $1 );
 		}
 	}
-	unlink($self->File);
+	#unlink($self->File);
 	$self->hypotheses(\@hypotheses);
 	my $elapsed = tv_interval( $request_arrival_time, [gettimeofday] );
 	$self->Time($elapsed);
