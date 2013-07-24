@@ -5,6 +5,7 @@ use IntelliHomeAgent;
 my $IHOutput = new IH::Interfaces::Terminal;
 
 $IHOutput->info("agent started");
+
 #Proc::Daemon::Init();
 
 #use App::Daemon qw( daemonize );
