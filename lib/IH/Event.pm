@@ -5,6 +5,7 @@ use Data::Dumper;
 use Moo;
 has 'LastModified' =>(is=>"rw");
 has 'Output'       =>(is=>"rw",default=>sub{return new IH::Interfaces::Terminal});
+has 'GSynth'       =>(is=>"rw",default=>sub{return new IH::GSynth});
 sub events() {
     my $self = shift;
     foreach my $event (@_) {
@@ -35,7 +36,7 @@ sub process_created_file {
     if($self->LastModified){
             $self->Output->info("processing \^".$self->LastModified."\^");
 
-        my $Synth=new IH::GSynth;
+        my $Synth=$self->GSynth;
         $Synth->File($self->LastModified);
         $Synth->synth();
         my @hypotheses=@{$Synth->hypotheses()};
@@ -44,6 +45,7 @@ sub process_created_file {
         } else {
             $self->Output->info("Google result : ".join("\t",  @hypotheses)." ".$Synth->Time."s")  ;
         }
+        $self->LastModified(0);
     }
 
 }
