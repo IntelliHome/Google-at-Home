@@ -25,25 +25,39 @@ sub setLogFile() {
 
 }
 
-sub AUTOLOAD {
-    our $AUTOLOAD;
-    my $self   = shift;
-    my $caller = caller();
+sub display(){
+    my $self=shift;
+    my $caller=shift;
+    my $method=shift;
+    my @message=@_;
 
-    ( my $method = $AUTOLOAD ) =~ s/.*:://s;    # remove package name
-    my $printable = uc($method);
-    &setLogFile();
+    my $methodcolor="green on_black bold";
+    my $messagecolor="blue on_black bold";
+    if($method =~ /error|alert|warning/) {
+        $methodcolor="red on_black blink";
+        $messagecolor="red on_black bold";
+    }
     print colored( "[",            "magenta on_black bold" )
         . colored( $caller,        "green on_black bold" )
         . colored( "]",            "magenta on_black bold" )
         . colored( "[",            "magenta on_black bold" )
-        . colored( "**" . $method, "green on_black bold" )
+        . colored( "**" . $method, $methodcolor)
         . colored( "]",            "magenta on_black bold" )
         . colored( " (",           "magenta on_black bold" )
-        . colored( join( " ", @_ ), "blue on_black bold" )
+        . colored( join( " ", @_ ), $messagecolor )
 
         . colored( ") ", "magenta on_black bold" ) . "\n";
-    eval { $log->$method( "[$caller][$method] " . join( " ", @_ ) ); } if $method ne "DESTROY";
+    eval { $log->$method( "[$caller][$method] " . join( " ", @_ ) ); };
+}
+
+sub AUTOLOAD {
+    our $AUTOLOAD;
+    my $self   = shift;
+    my $caller = caller();
+    ( my $method = $AUTOLOAD ) =~ s/.*:://s;    # remove package name
+    my $printable = uc($method);
+    &setLogFile();
+    $self->display($caller,$method,@_);
 
 }
 
