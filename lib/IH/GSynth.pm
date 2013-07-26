@@ -13,20 +13,35 @@ has 'hypotheses' => (is=>"rw");
 has 'Time' => (is=>"rw");
 sub synth(){
 	my $self=shift;
-	    my $request_arrival_time = [gettimeofday];
 	    return 0 if($self->File =~ /^0$/);
-	my $url = $self->GoogleURL. $self->Language;
-	my @hypotheses = ();
+
 	my $audio;
-	my $result;
-	my $response;
+
 	$self->Output()->info("Synthesys of ".$self->File ." delegated to google (do you know a better machine learning as googlebrain?)");
  	open( FILE, "<" . $self->File ) or $self->Output->error("Cannot open ".$self->File);
 	while (<FILE>) {
 		$audio .= $_;
 	}
 	close(FILE);
-	try {
+	
+	$self->audiosynth($audio);
+	my @hypotheses = $self->hypotheses;
+	#unlink($self->File);
+
+	return 0 if @hypotheses <= 0;
+	return @hypotheses;
+}
+
+
+sub audiosynth(){
+	my $self=shift;
+	my $audio=shift;
+		my $url = $self->GoogleURL. $self->Language;
+			    my $request_arrival_time = [gettimeofday];
+	my $result;
+	my $response;
+	my @hypotheses = ();
+try {
 		my $ua       = LWP::UserAgent->new;
 		 $response = $ua->post(
 			$url,
@@ -45,15 +60,12 @@ sub synth(){
 			push( @hypotheses, $1 );
 		}
 	}
-	#unlink($self->File);
 	$self->hypotheses(\@hypotheses);
+
 	my $elapsed = tv_interval( $request_arrival_time, [gettimeofday] );
 	$self->Time($elapsed);
-	return 0 if @hypotheses <= 0;
-	return @hypotheses;
+
 }
-
-
 
 
 1;
