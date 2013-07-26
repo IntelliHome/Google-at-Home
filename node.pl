@@ -11,6 +11,8 @@ my $Sox = new IH::Recorder::Sox;
 my $Monitor = new IH::Monitor( Process => $Sox );
 $Sox->start();
 my $WorkerOnEvent = new IH::Event;
+$WorkerOnEvent->Connector->connect();
+
 $Monitor->worker($WorkerOnEvent);
 $Monitor->launch();
 while ( sleep 1 ) {
