@@ -6,7 +6,7 @@ use Data::Dumper;
 use Moo;
 has 'LastModified' =>(is=>"rw");
 has 'Output'       =>(is=>"rw",default=>sub{return new IH::Interfaces::Terminal});
-has 'GSynth'       =>(is=>"rw",default=>sub{return new IH::GSynth});
+#has 'GSynth'       =>(is=>"rw",default=>sub{return new IH::GSynth});
 has 'Connector'    => (is=>"rw",default=> sub{return new IH::Connector});
 sub events() {
     my $self = shift;
@@ -38,7 +38,7 @@ sub process_created_file {
     if($self->LastModified){
         $self->Output->info("processing \^".$self->LastModified."\^");
         $self->Connector->send_file($self->LastModified);
-
+        unlink($File);
         # my $Synth=$self->GSynth;
         # $Synth->File($self->LastModified);
         # $Synth->synth();
