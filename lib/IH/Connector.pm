@@ -8,6 +8,45 @@ has 'Host' => (is=>"rw", default=>'localhost');
 has 'Port' => (is=>"rw", default => '23456');
 has 'Output' => (is=>"rw",default=> sub{ return new IH::Interfaces::Terminal});
 has 'Worker' => (is=>"rw");
+has 'Username' => (is=>"rw");
+has 'Password' =>(is=>"rw");
+has 'Config'   => (is=>"rw"); #if has config can auto select where things must be done
+has 'Socket'	=> (is=>"rw");
+
+sub selectFromType()
+{
+	my $self=shift;
+	my $type=shift;
+	my $Nodes=$self->Config->Nodes;
+	foreach my $Node (keys (%{$Nodes} ) ){
+		if($Nodes->{$Node}->{type} eq $type){
+			$self->select($Nodes,$Node);
+		}
+	}
+}
+
+sub selectFromHost()
+{
+	my $self=shift;
+	my $H=shift;
+	my $Nodes=$self->Config->Nodes;
+	foreach my $Node (keys (%{$Nodes} ) ){
+		if($Node eq $H){
+			$self->select($Nodes,$Node);
+
+		}
+	}
+}
+
+sub select(){
+	my $self=shift;
+	my $Nodes=shift;
+	my $Node=shift;
+	$self->Host($Node);
+	$self->Port($Nodes->{$Node}->{port});
+	$self->Username($Nodes->{$Node}->{username});
+	$self->Password($Nodes->{$Node}->{password});
+}
 
 sub listen(){
 	my $self=shift;
@@ -50,11 +89,19 @@ sub listen(){
 
 
 sub connect(){
-
+	my $self=shift;
+	 my $server = IO::Socket::INET->new(Proto => "tcp",
+                                       PeerPort => $self->Port,
+                                       PeerAddr => $self->Host,
+                                       Timeout => 2000)
+                 || $self->Output->error("failed to connect to the server");
+         
+     $self->Socket($server);
 }
 
 sub read(){
-
+my $self=shift;
+return $self->Socket;
 }
 
 sub send_file(){
