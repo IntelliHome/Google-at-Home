@@ -1,10 +1,15 @@
 #!/usr/bin/perl
 use lib './lib';
 use IntelliHomeAgent;
+ my $IHOutput = new IH::Interfaces::Terminal;
 
-my $IHOutput = new IH::Interfaces::Terminal;
-
-$IHOutput->info("agent started");
+ 
+$IHOutput->info("IntelliHome : Node agent started");
+$IHOutput->info("Bringing up sockets (non secured, i assume you have vpn on your network)");
+my $Delegate=new IH::ListenAgent;
+my $Connector= new IH::Connector;
+$Connector->Worker($Delegate);
+$Connector->listen();
 
 #Proc::Daemon::Init();
 
