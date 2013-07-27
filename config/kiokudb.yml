@@ -1,0 +1,9 @@
+---
+backend:
+  create: 1
+  class: KiokuDB::Backend::BDB
+  dir: ./db
+
+
+
+
