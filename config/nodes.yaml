@@ -4,14 +4,12 @@ port: 23456
 type: master
 username: root
 password: test
-
 ---
 host: localhost
 port: 23456
 type: agent
 username: root
 password: test
-
 ---
 host: localhost
 port: 23456
