@@ -1,5 +1,5 @@
-package Pin::Analogic;
-use Moo
+package IH::Pin::Analogic;
+use Moo;
 
     has 'Pin' => ( is => "rw" );
 our $Default_dir = "/sys/bus/platform/devices/at91_adc/chan";
