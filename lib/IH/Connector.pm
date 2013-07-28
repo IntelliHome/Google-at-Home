@@ -13,6 +13,23 @@ has 'Password' =>(is=>"rw");
 has 'Config'   => (is=>"rw"); #if has config can auto select where things must be done
 has 'Socket'	=> (is=>"rw");
 
+sub broadcastMessage(){
+		my $self=shift;
+		my $Type =shift;
+	my $Message=shift;
+	my $Nodes=$self->Config->Nodes;
+	foreach my $Node (keys (%{$Nodes} ) ){
+		if($Nodes->{$Node}->{type} eq $Type){
+			$self->select($Nodes,$Node);
+			$self->connect();
+			$self->send_command($Message);
+		}
+	}
+
+}
+
+
+
 sub selectFromType()
 {
 	my $self=shift;
@@ -99,10 +116,6 @@ sub connect(){
      $self->Socket($server);
 }
 
-sub read(){
-my $self=shift;
-return $self->Socket;
-}
 
 sub send_file(){
 	 my $self=shift;
@@ -123,8 +136,17 @@ sub send_file(){
              $server->close();
 }
 
-sub handle(){
-
+sub send_command(){
+	my $self=shift;
+	my $Command=shift;
+	if($self->Socket){
+		my $Sock=$self->Socket();
+		print $Sock $Command;
+		$self->Socket->close();
+	} else {
+		$self->connect();
+		$self->send_command($Command);
+	}
 }
 
 1;
