@@ -6,10 +6,14 @@ use Data::Dumper;
 my $IHOutput = new IH::Interfaces::Terminal; #set up output (debug)
 my $Config= new IH::Config( Dirs=> [ './config']); #specify where yaml file are
 $Config->read(); # Read and load yaml configuration
-my $Connector=new IH::Connector(Config => $Config); #set up a connector and supply the config file (For auto select of nodes)
-$Connector->selectFromType("master"); #Select the last master node (there will be one for now)
+
+
+my $MasterNode=IH::Node->new(Config=> $Config)->selectFromType("master");
+
+my $Connector=new IH::Connector(Node=>$MasterNode); #set up a connector and supply the config file (For auto select of nodes)
+
 $IHOutput->info("IntelliHome : Node started");
-$IHOutput->info("Bringing up sox and sending recordings to ".$Connector->Host);
+$IHOutput->info("Bringing up sox and sending recordings to ".$MasterNode->Host);
 
 my $Sox = new IH::Recorder::Sox; #set up a sox process
 my $Monitor = new IH::Monitor( Process => $Sox ); # an anyevent monitor for file changes
