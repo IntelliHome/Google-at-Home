@@ -4,17 +4,23 @@ port: 23456
 type: master
 username: root
 password: test
+
 ---
 host: localhost
 port: 23456
 type: agent
 username: root
 password: test
+
 ---
-host: localhost
+host: 10.10.10.10
 port: 23456
 type: node
+description: "ih0"
 username: root
-password: test
+password: password
+deployer: 'IH::Deployer::Debian' #If it's debian, i'll use a debian deployer :)
+
 
 #BootStrap configuration file
+
