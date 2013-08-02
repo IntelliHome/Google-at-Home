@@ -4,14 +4,11 @@ use Moo;
 use IO::Select;
 use IO::Socket;
 
-has 'Host' => (is=>"rw", default=>'localhost');
-has 'Port' => (is=>"rw", default => '23456');
 has 'Output' => (is=>"rw",default=> sub{ return new IH::Interfaces::Terminal});
 has 'Worker' => (is=>"rw");
-has 'Username' => (is=>"rw");
-has 'Password' =>(is=>"rw");
 has 'Config'   => (is=>"rw"); #if has config can auto select where things must be done
 has 'Socket'	=> (is=>"rw");
+has 'Node'     => (is=>"rw");
 
 sub broadcastMessage(){
 		my $self=shift;
@@ -20,49 +17,11 @@ sub broadcastMessage(){
 	my $Nodes=$self->Config->Nodes;
 	foreach my $Node (keys (%{$Nodes} ) ){
 		if($Nodes->{$Node}->{type} eq $Type){
-			$self->select($Nodes,$Node);
+			$self->Node->select($Nodes,$Node);
 			$self->connect();
 			$self->send_command($Message);
 		}
 	}
-
-}
-
-
-
-sub selectFromType()
-{
-	my $self=shift;
-	my $type=shift;
-	my $Nodes=$self->Config->Nodes;
-	foreach my $Node (keys (%{$Nodes} ) ){
-		if($Nodes->{$Node}->{type} eq $type){
-			$self->select($Nodes,$Node);
-		}
-	}
-}
-
-sub selectFromHost()
-{
-	my $self=shift;
-	my $H=shift;
-	my $Nodes=$self->Config->Nodes;
-	foreach my $Node (keys (%{$Nodes} ) ){
-		if($Node eq $H){
-			$self->select($Nodes,$Node);
-
-		}
-	}
-}
-
-sub select(){
-	my $self=shift;
-	my $Nodes=shift;
-	my $Node=shift;
-	$self->Host($Node);
-	$self->Port($Nodes->{$Node}->{port});
-	$self->Username($Nodes->{$Node}->{username});
-	$self->Password($Nodes->{$Node}->{password});
 }
 
 sub listen(){
@@ -74,8 +33,8 @@ sub listen(){
 
 	my $lsn = IO::Socket::INET->new(
 		Listen => 1,
-		LocalAddr => $self->Host,
-		LocalPort => $self->Port,
+		LocalAddr => $self->Node->Host,
+		LocalPort => $self->Node->Port,
 	) or $self->Output->error("Can't create server socket: $!");
 
 	my $sel = new IO::Select( $lsn );
@@ -108,8 +67,8 @@ sub listen(){
 sub connect(){
 	my $self=shift;
 	 my $server = IO::Socket::INET->new(Proto => "tcp",
-                                       PeerPort => $self->Port,
-                                       PeerAddr => $self->Host,
+                                       PeerPort => $self->Node->Port,
+                                       PeerAddr => $self->Node->Host,
                                        Timeout => 2000)
                  || $self->Output->error("failed to connect to the server");
          
@@ -121,8 +80,8 @@ sub send_file(){
 	 my $self=shift;
 	 my $File =shift;
     my $server = IO::Socket::INET->new(Proto => "tcp",
-                                       PeerPort => $self->Port,
-                                       PeerAddr => $self->Host,
+                         PeerPort => $self->Node->Port,
+                                       PeerAddr => $self->Node->Host,
                                        Timeout => 2000)
                  || $self->Output->error("failed to connect to the server");
              open FILE, "<".$File or $self->Output->error("Error: $!");
