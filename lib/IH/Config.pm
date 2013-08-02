@@ -46,11 +46,14 @@ while ( my $r = $tree->next_obj() ) {
                         
                     );
                 if(exists($Key->{username})
-            	and exists ($Key->{password}))
+            	and exists ($Key->{password})
+                and exists ($Key->{deployer})
+                )
             	 {
             	 	$output->info("Node can be deployed");
             	      $Nodes->{ $Key->{host} }->{username} = $Key->{username};
                 $Nodes->{ $Key->{host} }->{password}     = $Key->{password};
+                $Nodes->{ $Key->{host} }->{deployer}      = $Key->{deployer};
 
             	 }
                 $Nodes->{ $Key->{host} }->{description}      = $Key->{description};
