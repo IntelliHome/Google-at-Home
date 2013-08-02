@@ -7,6 +7,7 @@ has 'Host' => (is=>"rw", default=>'localhost');
 has 'Port' => (is=>"rw", default => '23456');
 has 'Config'   => (is=>"rw"); #if has config can auto select where things must be done
 has 'Description' => (is=>"rw");
+has 'Output' => (is=>"rw",default=> sub{ return new IH::Interfaces::Terminal});
 
 sub select(){
 	my $self=shift;
@@ -18,8 +19,15 @@ sub select(){
 	$self->Password($Nodes->{$Node}->{password});
 	$self->Description($Nodes->{$Node}->{description});
 	if(exists($Nodes->{$Node}->{deployer})){
-		$self->Deployer( sub { return $Nodes->{$Node}->{deployer}->new( Node => $self ) } );
-	} 
+		my $Deployer=$Nodes->{$Node}->{deployer};
+		$self->Output->info("Deployer present: ".$Deployer);
+		eval("use $Deployer"); #Not so elegant, i know, but for now i leave this like that.... because i'm lazy :)
+		$self->Deployer( $Deployer->new( Node => $self ));
+	}  else {
+		$self->Output->info("Deployer not present :(");
+	}
+$self->Output->debug("Selected node: ".$self->Host);
+
 	return $self;
 }
 
@@ -71,6 +79,7 @@ sub selectFromDescription()
 	my $H=shift;
 	my $Nodes=$self->Config->Nodes;
 	foreach my $Node (keys (%{$Nodes} ) ){
+		next if !$Nodes->{$Node}->{description};
 		if($Nodes->{$Node}->{description} eq $H){
 			$self->select($Nodes,$Node);
 
@@ -82,7 +91,12 @@ sub selectFromDescription()
 
 sub deploy(){
 	my $self=shift;
-	$self->Deployer->deploy();
+	if($self->Deployer){
+			$self->Deployer->deploy();
+
+			} else {
+				$self->Output->warn("Deployer not configured");
+			}
 	return $self;
 }
 
