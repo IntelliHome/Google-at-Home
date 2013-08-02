@@ -53,6 +53,8 @@ while ( my $r = $tree->next_obj() ) {
                 $Nodes->{ $Key->{host} }->{password}     = $Key->{password};
 
             	 }
+                $Nodes->{ $Key->{host} }->{description}      = $Key->{description};
+
                 $Nodes->{ $Key->{host} }->{port}      = $Key->{port};
                 $Nodes->{ $Key->{host} }->{type}     = $Key->{type};
 
