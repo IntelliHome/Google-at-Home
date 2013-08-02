@@ -23,5 +23,8 @@ my $me= IH::Node->new( Config=> $Config )->selectFromType("master");
 my $Connector= new IH::Connector( Config=>$Config, Node=>$me ); #Config parameter is optional, only needed if you wanna send broadcast messages
 $Connector->Worker($Delegate);
 $Connector->listen();
+#blocking so down can't be esecuted (was used just for test)
+my $NodeToDeploy = IH::Node->new(Config=>$Config)->selectFromDescription("ih0");
+$NodeToDeploy->deploy();
 
 #$Connector->broadcastMessage("node","test");
