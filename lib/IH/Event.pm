@@ -38,7 +38,7 @@ sub process_created_file {
     if($self->LastModified){
         $self->Output->info("processing \^".$self->LastModified."\^");
         $self->Connector->send_file($self->LastModified);
-        unlink($File);
+        unlink($self->LastModified);
         # my $Synth=$self->GSynth;
         # $Synth->File($self->LastModified);
         # $Synth->synth();
