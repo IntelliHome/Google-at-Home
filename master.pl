@@ -17,8 +17,11 @@ my $Config= new IH::Config( Dirs=> [ './config']); #specify where yaml file are
 $Config->read(); # Read and load yaml configuration
 
 my $Delegate=new IH::Delegate;
-my $Connector= new IH::Connector(Config=>$Config,Host=>"localhost",Port=>23457);
-$Connector->Worker($Delegate);
-#$Connector->listen();
 
-$Connector->broadcastMessage("node","test");
+my $me= IH::Node->new( Config=> $Config )->selectFromType("master");
+
+my $Connector= new IH::Connector( Config=>$Config, Node=>$me ); #Config parameter is optional, only needed if you wanna send broadcast messages
+$Connector->Worker($Delegate);
+$Connector->listen();
+
+#$Connector->broadcastMessage("node","test");
