@@ -1,5 +1,5 @@
 package IH::Workers::Process;
-use Moo::Role;
+use Moose::Role;
 use IPC::Open3;
 use Cwd;
 use Unix::PID;
@@ -10,7 +10,7 @@ has 'Reader' => ( is => "rw" );
 has 'Error'  => ( is => "rw" );
 
 has 'UnixPid' => ( is => "rw", default => sub { return new Unix::PID; } );
-has 'Directory' => ( is => "rw", default => "/tmp" );
+has 'Directory' => ( is => "rw", default => "/var/tmp" );
 
 sub start() {
     my $self = shift;

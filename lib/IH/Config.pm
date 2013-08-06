@@ -1,7 +1,7 @@
 package IH::Config;
 #Handles configuration import
 use YAML::Tiny;
-use Moo;
+use Moose;
 use IH::Interfaces::Terminal;
 use Data::Dumper;
 use File::Find::Object;
@@ -50,7 +50,7 @@ while ( my $r = $tree->next_obj() ) {
                 and exists ($Key->{deployer})
                 )
             	 {
-            	 	$output->info("Node can be deployed");
+            	 	$output->info("Node [".$Key->{host}."] can be deployed with ".$Key->{deployer});
             	      $Nodes->{ $Key->{host} }->{username} = $Key->{username};
                 $Nodes->{ $Key->{host} }->{password}     = $Key->{password};
                 $Nodes->{ $Key->{host} }->{deployer}      = $Key->{deployer};

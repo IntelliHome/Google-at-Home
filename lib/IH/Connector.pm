@@ -1,7 +1,7 @@
 package IH::Connector;
 
-use Moo;
-use IO::Select;
+use Moose;
+use IH::Workers::SocketListener;
 use IO::Socket;
 
 has 'Output' => (is=>"rw",default=> sub{ return new IH::Interfaces::Terminal});
@@ -37,32 +37,17 @@ sub listen(){
 		LocalPort => $self->Node->Port,
 	) or $self->Output->error("Can't create server socket: $!");
 
-	my $sel = new IO::Select( $lsn );
-	while(@ready = $sel->can_read) 
-	{
-	    foreach $fh (@ready) 
-	    {
-	        if($fh == $lsn) 
-	        {
-	            # Create a new socket
-	            $new = $lsn->accept;
-	            $sel->add($new);
-	           $self->Output->info("Created a new socket $new");
-	        }
-	        else 
-	        {
-	            # Process socket
-	            $self->Output->info("processing socket $lsn with ".$self->Worker);
-	            $self->Worker->process($fh);
-	            $sel->remove($fh);
-	            $fh->close;
-	        }
-	    }
-	}
+
+my @Threads;
+while (my $client=$lsn->accept()) 
+{
+	my $Thread = IH::Workers::SocketListener->new(Worker=>$self->Worker , Socket=>$client);
+    $Thread->launch();
+	push(@Threads,$Thread);
+}
 
 
 }
-
 
 sub connect(){
 	my $self=shift;
@@ -73,6 +58,7 @@ sub connect(){
                  || $self->Output->error("failed to connect to the server");
          
      $self->Socket($server);
+     return $self;
 }
 
 
@@ -84,15 +70,31 @@ sub send_file(){
                                        PeerAddr => $self->Node->Host,
                                        Timeout => 2000)
                  || $self->Output->error("failed to connect to the server");
+                 if($server){
              open FILE, "<".$File or $self->Output->error("Error: $!");
-         #   print $server "ivr\n";
              while (<FILE>) 
              {
-              #   print $_;
                  print $server $_;
              }
              close FILE;   
              $server->close();
+         }
+}
+
+sub send_raw(){
+	my $self=shift;
+my @RAW=@_;
+use Data::Dumper;
+print Dumper(@RAW);
+    my $server = IO::Socket::INET->new(Proto => "tcp",
+                         PeerPort => $self->Node->Port,
+                                       PeerAddr => $self->Node->Host,
+                                       Timeout => 2000)
+                 || $self->Output->error("failed to connect to the server");
+                 if($server){
+             print $server @RAW;
+                          $server->close();
+         }
 }
 
 sub send_command(){

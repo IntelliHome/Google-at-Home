@@ -1,5 +1,6 @@
 package IH::Node;
-use Moo;
+use Moose;
+use Module::Load;
 has 'Deployer' => (is=>"rw");
 has 'Username' => (is=>"rw");
 has 'Password' => (is=>"rw");
@@ -21,8 +22,8 @@ sub select(){
 	if(exists($Nodes->{$Node}->{deployer})){
 		my $Deployer=$Nodes->{$Node}->{deployer};
 		$self->Output->info("Deployer present: ".$Deployer);
-		eval("use $Deployer"); #Not so elegant, i know, but for now i leave this like that.... because i'm lazy :)
-		$self->Deployer( $Deployer->new( Node => $self ));
+		load $Deployer;
+	$self->Deployer( $Deployer->new( Node => $self ) );
 	}  else {
 		$self->Output->info("Deployer not present :(");
 	}
@@ -92,7 +93,7 @@ sub selectFromDescription()
 sub deploy(){
 	my $self=shift;
 	if($self->Deployer){
-			$self->Deployer->deploy();
+			$self->Deployer()->deploy();
 
 			} else {
 				$self->Output->warn("Deployer not configured");

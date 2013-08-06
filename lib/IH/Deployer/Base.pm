@@ -1,5 +1,5 @@
 package IH::Deployer::Base;
-use Moo;
+use Moose;
 use IH::Interfaces::Terminal;
 
 has 'Node' => (is=>"rw");

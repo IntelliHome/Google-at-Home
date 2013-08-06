@@ -1,5 +1,5 @@
-package IH::GSynth;
-use Moo;
+package IH::Google::Synth;
+use Moose;
 use Try::Tiny;
 use Time::HiRes qw(usleep ualarm gettimeofday tv_interval);
 require IH::Interfaces::Terminal;
