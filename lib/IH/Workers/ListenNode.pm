@@ -16,7 +16,7 @@ sub process(){
 		if($line=~/exit/){
 		#do stuff
 		} else {
-		$audio.=$_;	
+		$audio.=$line;	
 		}
 	}
 
