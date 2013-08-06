@@ -1,8 +1,8 @@
 package IH::Workers::ListenNode;
 
-use Moo;
+use Moose;
 
-has 'Output' => (is=>"rw",default=> sub{ return new IH::Interfaces::Voice});
+has 'Output' => (is=>"rw",default=> sub{ return new IH::Interfaces::Terminal});
 has 'tmp' => (is=>"rw", default=>"/var/tmp/ih");
 
 sub process(){

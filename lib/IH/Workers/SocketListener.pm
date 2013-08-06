@@ -1,5 +1,5 @@
 package IH::Workers::SocketListener;
-use Moo;
+use Moose;
 has 'Socket' =>( is=>"rw");
 has 'Worker' =>( is=>"rw");
 

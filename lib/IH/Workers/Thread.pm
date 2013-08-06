@@ -1,5 +1,5 @@
 package IH::Workers::Thread;
-use Moo::Role;
+use Moose::Role;
 use threads (
     'yield',
     'stack_size' => 64 * 4096,
