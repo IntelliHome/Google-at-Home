@@ -25,7 +25,7 @@ sub process(){
 	open FILE,">".$out;
 	print FILE $audio;
 	close FILE;
-		if(!system('madplay', $out)){
+		if(!system('madplay', '-Q', $out)){
 					unlink($out);
 		}
 }
