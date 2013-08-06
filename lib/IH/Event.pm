@@ -1,6 +1,6 @@
 package IH::Event;
 use IH::Interfaces::Terminal;
-use IH::GSynth;
+use IH::Google::Synth;
 use IH::Connector;
 use Data::Dumper;
 use Moo;
