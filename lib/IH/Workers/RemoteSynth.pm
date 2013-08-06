@@ -24,7 +24,7 @@ sub process(){
 
 
 		my $Client=IH::Node->new(Config=> $self->Config);
-		$Client->selectFromDescription("ih0");
+		$Client->selectFromHost($host);
 		$self->Output->Node($Client);
 		$self->Output->info($hypotheses[0]);
       #     $self->Output->info("Google result for ".$host.": ".join("\t",  @hypotheses)." ".$self->GSynth->Time."s")  ;
