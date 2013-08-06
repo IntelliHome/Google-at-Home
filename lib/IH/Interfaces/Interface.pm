@@ -1,7 +1,5 @@
 package IH::Interfaces::Interface;
-use Term::ANSIColor;
-use Log::Any::Adapter ( 'File', './intellihome.log' );
-use Log::Any qw($log);
+
 use Time::Piece;
 
 use Moo;
@@ -25,34 +23,6 @@ sub setLogFile() {
 
 }
 
-sub display(){
-    my $self=shift;
-    my $caller=shift;
-    my $method=shift;
-    my @message=@_;
-
-    my $methodcolor="green on_black bold";
-    my $messagecolor="blue on_black bold";
-    if($method =~ /error|alert|warning/) {
-        $methodcolor="red on_black blink";
-        $messagecolor="red on_black bold";
-    }
-my $time = Time::Piece->new->strftime( "%Y-%m-%d %H:%M");
-    print colored( "[",            "magenta on_black bold" )
-        . colored( $time,        "green on_black bold" )
-        . colored( "]",            "magenta on_black bold" )
-        . colored( "[",            "magenta on_black bold" )
-        . colored( $caller,        "green on_black bold" )
-        . colored( "]",            "magenta on_black bold" )
-        . colored( "[",            "magenta on_black bold" )
-        . colored( "**" . $method, $methodcolor)
-        . colored( "]",            "magenta on_black bold" )
-        . colored( " # ",           "magenta on_black bold" )
-        . colored( join( " ", @_ ), $messagecolor )
-
-        . colored( " # ", "magenta on_black bold" ) . "\n";
-    eval { $log->$method( "[$caller][$method] " . join( " ", @_ ) ); };
-}
 
 sub AUTOLOAD {
     our $AUTOLOAD;
