@@ -4,7 +4,7 @@ use IntelliHomeNodeMaster;
 use KiokuDB::Backend::Files;
 
 use Cwd;
-my $DB=IH::DB->connect("./config/kiokudb.yml");
+#my $DB=IH::DB->connect("./config/kiokudb.yml");
 
 
 my $IHOutput = new IH::Interfaces::Terminal;

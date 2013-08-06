@@ -9,7 +9,7 @@ sub run(){
 	my $socket=shift;
 	my $worker=shift;
 	$worker->process($socket);
-
+   threads->exit;
 }
 
 sub launch() {
@@ -20,6 +20,7 @@ sub launch() {
     $self->callback( \&run );
     $self->args( [ $self->Socket, $self->Worker] );
     $self->start();#actually starts the real thread
+    $self->thread->detach();
 }
 
 1;

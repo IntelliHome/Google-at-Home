@@ -38,12 +38,10 @@ sub listen(){
 	) or $self->Output->error("Can't create server socket: $!");
 
 
-my @Threads;
 while (my $client=$lsn->accept()) 
 {
 	my $Thread = IH::Workers::SocketListener->new(Worker=>$self->Worker , Socket=>$client);
     $Thread->launch();
-	push(@Threads,$Thread);
 }
 
 
