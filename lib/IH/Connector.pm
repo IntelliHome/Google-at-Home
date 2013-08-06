@@ -81,21 +81,6 @@ sub send_file(){
          }
 }
 
-sub send_raw(){
-	my $self=shift;
-my @RAW=@_;
-use Data::Dumper;
-print Dumper(@RAW);
-    my $server = IO::Socket::INET->new(Proto => "tcp",
-                         PeerPort => $self->Node->Port,
-                                       PeerAddr => $self->Node->Host,
-                                       Timeout => 2000)
-                 || $self->Output->error("failed to connect to the server");
-                 if($server){
-             print $server @RAW;
-                          $server->close();
-         }
-}
 
 sub send_command(){
 	my $self=shift;
