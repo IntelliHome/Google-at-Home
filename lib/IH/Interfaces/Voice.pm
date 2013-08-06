@@ -21,16 +21,21 @@ sub display (){
     $self->TTS->text(@message);
 
 			if($self->TTS->tts()){
+								$self->failback->debug( "TTS ok");
+
 				    if(defined($self->Node())){
  						 my $conn=IH::Connector->new(Node=>$self->Node);
 
-
-   	 					  $conn->send_raw($self->TTS->Result) if($self->TTS->tts());
+								$self->failback->debug( "sending raw audio");
+   	 					  $conn->send_file($self->TTS->out);
 				   	   } else {
+
+				$self->failback->failback( $caller,$method,"[FailBack Mode from TTS] ",@message);
+
 
 				   	   		#if(!system('madplay', $self->TTS->out)){
 							#				unlink($self->TTS->out);
-							#	}
+							#}
 
 				   	   }
 
