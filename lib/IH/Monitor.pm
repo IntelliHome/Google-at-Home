@@ -1,5 +1,5 @@
 package IH::Monitor;
-use Moo;
+use Moose;
 
 use AnyEvent;
 use AnyEvent::Filesys::Notify;
