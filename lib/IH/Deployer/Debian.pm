@@ -2,18 +2,18 @@ package IH::Deployer::Debian;
 use Moo;
 use Net::SSH::Any;
 
-extends 'IH::Deplyer::Base';
+extends 'IH::Deployer::Base';
 
 sub deploy(){
 	my $self=shift;
 
-my $ssh = Net::SSH::Any->new($self->Node, user => $self->Node->Username, password => $self->Node->Password);
+my $ssh = Net::SSH::Any->new($self->Node->Host, user => $self->Node->Username, password => $self->Node->Password);
  
 #my @out = $ssh->capture(cat => "/etc/passwd");
 #my ($out, $err) = $ssh->capture2("ls -l /");
 $ssh->system("foo");
 
-if(!$ssh->system('apt-get install --force-yes libparallel-iterator-perl libmodule-depends-perl cpanminus git libfile-homedir-perl libmoo-perl libmoose-perl liblog-any-adapter-perl liblog-any-perl build-essential libdpkg-perl libapt-pkg-perl')){
+if($ssh->system('apt-get install --force-yes libparallel-iterator-perl libmodule-depends-perl cpanminus git libfile-homedir-perl libmoo-perl libmoose-perl liblog-any-adapter-perl liblog-any-perl build-essential libdpkg-perl libapt-pkg-perl')){
 	$self->Output->info("git, cpanminus and few deps are correctly installed");
 	$self->Output->info("Cloning from repository");
 
