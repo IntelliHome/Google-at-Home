@@ -37,7 +37,7 @@ sub listen() {
         Listen    => 1,
         LocalAddr => $self->Node->Host,
         LocalPort => $self->Node->Port,
-    ) or $self->Output->error("Can't create server socket: $!");
+    ) or ( $self->Output->error("$!") && exit 1 );
 
     while ( my $client = $lsn->accept() ) {
         my $Thread = IH::Workers::SocketListener->new(
