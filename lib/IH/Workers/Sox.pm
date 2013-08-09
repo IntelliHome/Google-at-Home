@@ -12,18 +12,18 @@ has 'beginThreshold'      => ( is => "rw", default => '1%' );
 has 'finishEnable'        => ( is => "rw", default => "1" );
 has 'finishSoundDuration' => ( is => "rw", default => "2.0" );
 has 'finishThreshold'     => ( is => "rw", default => '2%' );
-has 'outputDir'           => ( is => "rw", default => "/var/tmp/sox/" );
+has 'Directory'           => ( is => "rw", default => "/var/tmp/sox/" );
 
 sub _generateOutputCommand() {
     my $self = shift;
-    mkdir( $self->outputDir ) if ( !-d $self->outputDir );
+    mkdir( $self->Directory ) if ( !-d $self->Directory );
 
     $self->command(
 
         "sox -b 32 -t alsa hw:"
             . $self->HW() . " -r "
             . $self->Rate() . " "
-            . $self->outputDir
+            . $self->Directory()
             . $self->Output()
             . " silence "
             . $self->beginEnable() . " "
