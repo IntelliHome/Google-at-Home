@@ -1,12 +1,13 @@
 package IH::Workers::Thread;
 use Moose::Role;
-use forks;
-# use threads (
-#     'yield',
-#     'stack_size' => 64 * 4096,
-#     'exit'       => 'threads_only',
-#     'stringify'
-# );
+use threads (
+    'yield',
+    'stack_size' => 64 * 4096,
+    'exit'       => 'threads_only',
+    'stringify'
+);
+
+#Or you want to use forks?
 use Carp qw( croak );
 has 'Directory' => ( is => "rw", default => "/tmp" );
 has 'callback'  => ( is => "rw" );

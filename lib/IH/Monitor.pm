@@ -5,7 +5,7 @@ use AnyEvent;
 use AnyEvent::Filesys::Notify;
 use Data::Dumper;
 use Carp qw( croak );
-with("IH::Workers::Thread"); #is a thread
+with("IH::Workers::Thread");    #is a thread
 
 has 'Process' => ( is => "rw" );
 has 'worker'  => ( is => "rw" );

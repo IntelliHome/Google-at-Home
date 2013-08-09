@@ -4,25 +4,30 @@ use IntelliHomeNodeMaster;
 use KiokuDB::Backend::Files;
 
 use Cwd;
-#my $DB=IH::DB->connect("./config/kiokudb.yml");
 
+#my $DB=IH::DB->connect("./config/kiokudb.yml");
 
 my $IHOutput = new IH::Interfaces::Terminal;
 
- 
 $IHOutput->info("IntelliHome : Node master started");
-$IHOutput->info("Bringing up sockets (not secured, i assume you have vpn on your network)");
+$IHOutput->info(
+    "Bringing up sockets (not secured, i assume you have vpn on your network)"
+);
 
-my $Config= new IH::Config( Dirs=> [ './config']); #specify where yaml file are
-$Config->read(); # Read and load yaml configuration
+my $Config =
+    new IH::Config( Dirs => ['./config'] );    #specify where yaml file are
+$Config->read();    # Read and load yaml configuration
 
-my $remote=IH::Workers::RemoteSynth->new(Config=>$Config);
-my $me= IH::Node->new( Config=> $Config )->selectFromType("master");
-my $Connector= new IH::Connector( Config=>$Config, Node=>$me ); #Config parameter is optional, only needed if you wanna send broadcast messages
+my $remote = IH::Workers::RemoteSynth->new( Config => $Config );
+my $me = IH::Node->new( Config => $Config )->selectFromType("master");
+my $Connector = new IH::Connector( Config => $Config, Node => $me )
+    ; #Config parameter is optional, only needed if you wanna send broadcast messages
 $Connector->Worker($remote);
 $Connector->listen();
+
 #blocking so down can't be esecuted (was used just for test)
-my $NodeToDeploy = IH::Node->new(Config=>$Config)->selectFromDescription("ih0");
+my $NodeToDeploy =
+    IH::Node->new( Config => $Config )->selectFromDescription("ih0");
 $NodeToDeploy->deploy();
 
 #$Connector->broadcastMessage("node","test");

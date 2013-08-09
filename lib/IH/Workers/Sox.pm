@@ -16,14 +16,15 @@ has 'outputDir'           => ( is => "rw", default => "/var/tmp/sox/" );
 
 sub _generateOutputCommand() {
     my $self = shift;
-   mkdir($self->outputDir) if (!-d $self->outputDir);
+    mkdir( $self->outputDir ) if ( !-d $self->outputDir );
 
     $self->command(
 
         "sox -b 32 -t alsa hw:"
             . $self->HW() . " -r "
             . $self->Rate() . " "
-            . $self->outputDir. $self->Output()
+            . $self->outputDir
+            . $self->Output()
             . " silence "
             . $self->beginEnable() . " "
             . $self->beginSoundDuration . " "
