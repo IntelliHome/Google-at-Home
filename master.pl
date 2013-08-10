@@ -1,10 +1,9 @@
 #!/usr/bin/perl
 use lib './lib';
 use IntelliHomeNodeMaster;
-use KiokuDB::Backend::Files;
 
 use Cwd;
-
+#use KiokuDB::Backend::Files;
 #my $DB=IH::DB->connect("./config/kiokudb.yml");
 
 my $IHOutput = new IH::Interfaces::Terminal;
@@ -23,6 +22,7 @@ my $me = IH::Node->new( Config => $Config )->selectFromType("master");
 my $Connector = new IH::Connector( Config => $Config, Node => $me )
     ; #Config parameter is optional, only needed if you wanna send broadcast messages
 $Connector->Worker($remote);
+$Connector->blocking(1);
 $Connector->listen();
 
 #blocking so down can't be esecuted (was used just for test)
