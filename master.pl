@@ -3,6 +3,7 @@ use lib './lib';
 use IntelliHomeNodeMaster;
 
 use Cwd;
+
 #use KiokuDB::Backend::Files;
 #my $DB=IH::DB->connect("./config/kiokudb.yml");
 
@@ -13,8 +14,8 @@ $IHOutput->info(
     "Bringing up sockets (not secured, i assume you have vpn on your network)"
 );
 
-my $Config =
-    new IH::Config( Dirs => ['./config'] );    #specify where yaml file are
+my $Config
+    = new IH::Config( Dirs => ['./config'] );    #specify where yaml file are
 $Config->read();    # Read and load yaml configuration
 
 my $remote = IH::Workers::RemoteSynth->new( Config => $Config );
@@ -26,8 +27,8 @@ $Connector->blocking(1);
 $Connector->listen();
 
 #blocking so down can't be esecuted (was used just for test)
-my $NodeToDeploy =
-    IH::Node->new( Config => $Config )->selectFromDescription("ih0");
+my $NodeToDeploy
+    = IH::Node->new( Config => $Config )->selectFromDescription("ih0");
 $NodeToDeploy->deploy();
 
 #$Connector->broadcastMessage("node","test");

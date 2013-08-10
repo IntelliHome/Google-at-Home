@@ -4,8 +4,8 @@ use IntelliHomeNode;    #Load node library set
 use Data::Dumper;
 
 my $IHOutput = new IH::Interfaces::Terminal;    #set up output (debug)
-my $Config =
-    new IH::Config( Dirs => ['./config'] );     #specify where yaml file are
+my $Config
+    = new IH::Config( Dirs => ['./config'] );    #specify where yaml file are
 $Config->read();    # Read and load yaml configuration
 
 my $MasterNode = IH::Node->new( Config => $Config )->selectFromType("master");
@@ -17,13 +17,13 @@ $IHOutput->info("IntelliHome : Node started");
 $IHOutput->info(
     "Bringing up sox and sending recordings to " . $MasterNode->Host );
 
-my $Sox = new IH::Workers::Sox;    #set up a sox process
-my $Monitor =
-    new IH::Monitor( Process => $Sox ); # an anyevent monitor for file changes
+my $Sox = new IH::Workers::Sox;                    #set up a sox process
+my $Monitor = new IH::Monitor( Process => $Sox )
+    ;    # an anyevent monitor for file changes
 $Sox->start();
 
-my $WorkerOnEvent =
-    new IH::Event( Connector => $Connector );    # Prepare the remote worker
+my $WorkerOnEvent
+    = new IH::Event( Connector => $Connector );    # Prepare the remote worker
 $Monitor->worker($WorkerOnEvent);    #Set the worker on the monitor
 $Monitor->launch();                  #Launches the monitor
 
@@ -33,11 +33,13 @@ my $Connector = new IH::Connector( Config => $Config, Node => $me )
 $Connector->Worker( new IH::Workers::ListenNode );
 
 $Connector->listen();
-while(sleep 30) {
-	$IHOutput->debug("refreshing sox - small workaround for now (it seems to hang after a few seconds)");
-	$Sox->stop;
-	while($Sox->is_running){
-		$Sox->stop;
-	}
-	$Sox->start;
+while ( sleep 30 ) {
+    $IHOutput->debug(
+        "refreshing sox - small workaround for now (it seems to hang after a few seconds)"
+    );
+    $Sox->stop;
+    while ( $Sox->is_running ) {
+        $Sox->stop;
+    }
+    $Sox->start;
 }
