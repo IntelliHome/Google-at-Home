@@ -1,6 +1,5 @@
 package IH::Interfaces::Terminal;
 use Moo;
-use Log::Any::Adapter;
 use Log::Any qw($log);
 use Term::ANSIColor;
 
@@ -33,6 +32,9 @@ sub display() {
         . colored( join( " ", @_ ), $messagecolor )
 
         . colored( " # ", "magenta on_black bold" ) . "\n";
+        if($method eq "failback"){
+            $method="debug";
+        }
     eval { $log->$method( "[$caller][$method] " . join( " ", @_ ) ); };
 }
 

@@ -102,6 +102,7 @@ sub send_file() {
         }
         close FILE;
         $server->close();
+        return 1;
     }
 }
 
