@@ -21,11 +21,15 @@ sub process() {
     $self->GSynth->audiosynth($audio);
     my @hypotheses = @{ $self->GSynth->hypotheses() };
     if ( @hypotheses <= 0 ) {
+
         $self->Output->info( " ["
                 . $host
                 . "] No result from google elapsed "
                 . $self->GSynth->Time
                 . "s" );
+
+
+
     }
     else {
 
