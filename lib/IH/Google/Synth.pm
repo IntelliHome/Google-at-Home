@@ -48,6 +48,7 @@ try {
 			Content_Type => "audio/x-flac; rate=16000",
 			Content      => $audio
 		);
+		  $ua->timeout(10);
 	} catch {
 		$self->Output->error("Error processing to google: $_");
 	};

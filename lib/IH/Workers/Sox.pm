@@ -10,7 +10,7 @@ has 'beginEnable'         => ( is => "rw", default => "1" );
 has 'beginSoundDuration'  => ( is => "rw", default => "0.5" );
 has 'beginThreshold'      => ( is => "rw", default => '1%' );
 has 'finishEnable'        => ( is => "rw", default => "1" );
-has 'finishSoundDuration' => ( is => "rw", default => "2.0" );
+has 'finishSoundDuration' => ( is => "rw", default => "3.0" );
 has 'finishThreshold'     => ( is => "rw", default => '2%' );
 has 'Directory'           => ( is => "rw", default => "/var/tmp/sox/" );
 
