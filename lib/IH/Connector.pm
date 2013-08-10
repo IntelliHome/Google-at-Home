@@ -2,6 +2,8 @@ package IH::Connector;
 
 use Moose;
 use IH::Workers::SocketListener;
+use IH::Workers::SocketAsync;
+
 use IO::Socket;
 
 has 'Output' =>
@@ -11,6 +13,8 @@ has 'Config' => ( is => "rw" )
     ;    #if has config can auto select where things must be done
 has 'Socket' => ( is => "rw" );
 has 'Node'   => ( is => "rw" );
+has 'Thread' => ( is => "rw" );
+has 'blocking' => (is=>"rw",default=>0);
 
 sub broadcastMessage() {
     my $self    = shift;
@@ -39,13 +43,29 @@ sub listen() {
         LocalPort => $self->Node->Port,
     ) or ( $self->Output->error("$!") && exit 1 );
 
-    while ( my $client = $lsn->accept() ) {
+    if($self->blocking){
+        #oldaway
+          while ( my $client = $lsn->accept() ) {
         my $Thread = IH::Workers::SocketListener->new(
             Worker => $self->Worker,
-            Socket => $client
+            Socket => $lsn
         );
         $Thread->launch();
     }
+    } else {
+
+
+
+    my $Thread = IH::Workers::SocketAsync->new(
+        Worker => $self->Worker,
+        Socket => $lsn
+    );
+    $Thread->launch();
+        $self->Thread($Thread);
+
+    }
+
+return $self->Thread->is_running ? 1 : 0;
 
 }
 
@@ -56,7 +76,7 @@ sub connect() {
         PeerPort => $self->Node->Port,
         PeerAddr => $self->Node->Host,
         Timeout  => 2000
-    ) || $self->Output->error("failed to connect to the server");
+    ) || ($self->Output->error("failed to connect to the server") && return 0);
 
     $self->Socket($server);
     return $self;
@@ -70,7 +90,7 @@ sub send_file() {
         PeerPort => $self->Node->Port,
         PeerAddr => $self->Node->Host,
         Timeout  => 2000
-    ) || $self->Output->error("failed to connect to the server");
+    ) || ($self->Output->error("failed to connect to the server") && return 0);
     if ($server) {
         open FILE, "<" . $File or $self->Output->error("Error: $!");
         while (<FILE>) {
