@@ -1,6 +1,6 @@
 package IH::Interfaces::Terminal;
 use Moo;
-use Log::Any::Adapter ( 'File', './intellihome.log' );
+use Log::Any::Adapter;
 use Log::Any qw($log);
 use Term::ANSIColor;
 
@@ -12,7 +12,7 @@ sub display() {
     my $caller  = shift;
     my $method  = shift;
     my @message = @_;
-
+    $self->setLogFile();
     my $methodcolor  = "green on_black bold";
     my $messagecolor = "blue on_black bold";
     if ( $method =~ /error|alert|warning/ ) {

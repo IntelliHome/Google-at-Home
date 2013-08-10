@@ -7,7 +7,7 @@ use IH::Connector;
 
 extends 'IH::Interfaces::Interface';
 
-#override display to change: has this arguments (caller, method,@message)
+#declare display to change: has this arguments (caller, method,@message)
 has 'TTS' => ( is => "rw", default => sub { return new IH::Google::TTS; } );
 has 'failback' =>
     ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );
@@ -19,6 +19,7 @@ sub display () {
     my $caller  = shift;
     my $method  = shift;
     my @message = @_;
+    $self->setLogFile();
     $self->TTS->text(@message);
 
     if ( $self->TTS->tts() ) {
@@ -36,7 +37,7 @@ sub display () {
                 "[FailBack Mode from TTS] ", @message );
 
             #if(!system('madplay', $self->TTS->out)){
-            #				unlink($self->TTS->out);
+            #               unlink($self->TTS->out);
             #}
 
         }
@@ -47,7 +48,7 @@ sub display () {
             "[FailBack Mode from TTS] ", @message );
 
         #if(!system('madplay', $self->TTS->out)){
-        #			unlink($self->TTS->out);
+        #           unlink($self->TTS->out);
         #}
     }
 
