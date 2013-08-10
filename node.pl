@@ -31,4 +31,13 @@ my $me = IH::Node->new( Config => $Config )->selectFromType("node");
 my $Connector = new IH::Connector( Config => $Config, Node => $me )
     ; #Config parameter is optional, only needed if you wanna send broadcast messages
 $Connector->Worker( new IH::Workers::ListenNode );
+
 $Connector->listen();
+while(sleep 30) {
+	$IHOutput->debug("refreshing sox - small workaround for now (it seems to hang after a few seconds)");
+	$Sox->stop;
+	while($Sox->is_running){
+		$Sox->stop;
+	}
+	$Sox->start;
+}
