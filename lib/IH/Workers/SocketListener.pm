@@ -20,7 +20,9 @@ sub launch() {
     $self->callback( \&run );
     $self->args( [ $self->Socket, $self->Worker ] );
     $self->start();    #actually starts the real thread
+   # $self->thread->join();
     $self->thread->detach();
+
 }
 
 1;
