@@ -37,6 +37,7 @@ while ( sleep 30 ) {
     $IHOutput->debug(
         "refreshing sox - small workaround for now (it seems to hang after a few seconds)"
     );
+    $Monitor->worker->process();
     $Sox->stop;
     while ( $Sox->is_running ) {
         $Sox->stop;
