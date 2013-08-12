@@ -37,7 +37,7 @@ while ( sleep 30 ) {
     $IHOutput->debug(
         "refreshing sox - small workaround for now (it seems to hang after a few seconds)"
     );
-    $Monitor->worker->process();
+    $WorkerOnEvent->process(); #Process the last file before clean
     $Sox->stop;
     while ( $Sox->is_running ) {
         $Sox->stop;
