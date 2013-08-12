@@ -42,7 +42,7 @@ sub run() {
 
 sub process() {
     my $self = shift;
-    $self->Process->kill('SIGUSR1');
+    $self->thread->kill('SIGUSR1');
 }
 
 sub launch() {
