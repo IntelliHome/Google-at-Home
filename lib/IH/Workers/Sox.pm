@@ -1,5 +1,7 @@
 package IH::Workers::Sox;
 use Moose;
+use Fcntl qw(:DEFAULT :flock);
+
 with("IH::Workers::Process");
 
 has 'command'             => ( is => "rw" );
@@ -40,7 +42,12 @@ sub _generateOutputCommand() {
 sub clean() {
     my $self = shift;
     foreach my $file ( glob $self->Directory . "*.flac" ) {
-        unlink $file;
+        open FILE, "<" . $file;
+        if ( flock( FILE, 1 ) ) {
+            unlink $file;
+
+        }
+
     }
 
 }
