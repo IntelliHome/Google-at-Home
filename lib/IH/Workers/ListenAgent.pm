@@ -1,4 +1,4 @@
-package IH::ListenAgent;
+package IH::Workers::ListenAgent;
 use Moo;
 
 has 'Output' => (is=>"rw",default=> sub{ return new IH::Interfaces::Terminal});

@@ -18,12 +18,12 @@ $IHOutput->info(
     "Bringing up sox and sending recordings to " . $MasterNode->Host );
 
 my $Sox = new IH::Workers::Sox;                    #set up a sox process
-my $Monitor = new IH::Monitor( Process => $Sox )
+my $Monitor = new IH::Workers::Monitor( Process => $Sox )
     ;    # an anyevent monitor for file changes
 $Sox->start();
 
 my $WorkerOnEvent
-    = new IH::Event( Connector => $Connector );    # Prepare the remote worker
+    = new IH::Workers::Event( Connector => $Connector );    # Prepare the remote worker
 $Monitor->worker($WorkerOnEvent);    #Set the worker on the monitor
 $Monitor->launch();                  #Launches the monitor
 

@@ -6,7 +6,7 @@ use IntelliHomeAgent;
  
 $IHOutput->info("IntelliHome : Node agent started");
 $IHOutput->info("Bringing up sockets (non secured, i assume you have vpn on your network)");
-my $Delegate=new IH::ListenAgent;
+my $Delegate=new IH::Workers::ListenAgent;
 my $Connector= new IH::Connector;
 $Connector->Worker($Delegate);
 $Connector->listen();

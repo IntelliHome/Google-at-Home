@@ -1,8 +1,8 @@
 package IntelliHomeNode;
 require IH::Interfaces::Terminal;
 require IH::Workers::Sox;
-require IH::Event;
-require IH::Monitor;
+require IH::Workers::Event;
+require IH::Workers::Monitor;
 require IH::Config;
 require IH::Workers::ListenNode;
 require Proc::Daemon;

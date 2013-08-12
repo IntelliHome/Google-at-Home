@@ -1,4 +1,4 @@
-package IH::Monitor;
+package IH::Workers::Monitor;
 use Moose;
 
 use AnyEvent;

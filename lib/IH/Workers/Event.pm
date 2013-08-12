@@ -1,4 +1,4 @@
-package IH::Event;
+package IH::Workers::Event;
 use IH::Interfaces::Terminal;
 use IH::Google::Synth;
 use IH::Connector;
