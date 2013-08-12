@@ -31,6 +31,9 @@ sub start() {
 sub stop() {
     my $self = shift;
     $self->UnixPid->kill( $self->Pid() );
+    if(eval{$self->can("clean")}){
+        $self->clean;
+    }
     waitpid( $self->Pid(), 0 );
 }
 
