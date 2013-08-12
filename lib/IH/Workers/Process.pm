@@ -20,6 +20,9 @@ sub start() {
     my ( $wtr, $rdr, $err );
     use Symbol 'gensym';
     $err = gensym;
+    if ( eval { $self->can("clean") } ) {
+        $self->clean;
+    }
     my $pid = open3( $wtr, $rdr, $err, $self->command() );
     chdir($CWD);
     $self->Pid($pid);
@@ -31,9 +34,6 @@ sub start() {
 sub stop() {
     my $self = shift;
     $self->UnixPid->kill( $self->Pid() );
-    if(eval{$self->can("clean")}){
-        $self->clean;
-    }
     waitpid( $self->Pid(), 0 );
 }
 
