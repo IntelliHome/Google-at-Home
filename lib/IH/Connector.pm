@@ -3,6 +3,7 @@ package IH::Connector;
 use Moose;
 use IH::Workers::SocketListener;
 use IH::Workers::SocketAsync;
+use Fcntl qw(:DEFAULT :flock);
 
 use IO::Socket;
 
@@ -97,12 +98,22 @@ sub send_file() {
         && return 0 );
     if ($server) {
         open FILE, "<" . $File or $self->Output->error("Error: $!");
-        while (<FILE>) {
-            print $server $_;
+
+        if ( flock( FILE, 1 ) ) {
+
+            while (<FILE>) {
+                print $server $_;
+            }
+            close FILE;
+            $server->close();
+            return 1;
         }
-        close FILE;
-        $server->close();
-        return 1;
+        else {
+            $server->close();
+            $self->Output->error("Cannot send file -> LOCKED!");
+            return 0;
+
+        }
     }
 }
 
