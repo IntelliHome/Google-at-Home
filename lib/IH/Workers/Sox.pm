@@ -40,7 +40,7 @@ sub _generateOutputCommand() {
 sub clean() {
     my $self = shift;
     foreach my $file ( glob $self->Directory . "*.flac" ) {
-        unlink $file;
+        #unlink $file;
     }
 
 }
