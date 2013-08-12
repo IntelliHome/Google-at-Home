@@ -11,8 +11,13 @@ has 'Process' => ( is => "rw" );
 has 'worker'  => ( is => "rw" );
 
 sub run() {
-    my $self     = shift;
-    my $cv       = AnyEvent->condvar;
+    my $self = shift;
+    my $cv   = AnyEvent->condvar;
+
+    $SIG{'KILL'} = sub { threads->exit(); };
+
+    $SIG{'USR1'} = sub { $self->worker->process };
+
     my $notifier = AnyEvent::Filesys::Notify->new(
         dirs => [@_],
 
@@ -33,6 +38,11 @@ sub run() {
     );
     $cv->recv;
 
+}
+
+sub process() {
+    my $self = shift;
+    $self->Process->kill('SIGUSR1');
 }
 
 sub launch() {
