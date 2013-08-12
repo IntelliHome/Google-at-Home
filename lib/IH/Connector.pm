@@ -97,7 +97,7 @@ sub send_file() {
         || ( $self->Output->error("failed to connect to the server")
         && return 0 );
     if ($server) {
-        open FILE, "<" . $File or $self->Output->error("Error: $!");
+        open FILE, "<" . $File or $self->Output->error("Error $File: $!");
 
         if ( flock( FILE, 1 ) ) {
 

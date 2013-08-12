@@ -40,14 +40,14 @@ sub _generateOutputCommand() {
 }
 
 sub clean() {
+    #Called on start by IH::Workers::Process
     my $self = shift;
     foreach my $file ( glob $self->Directory . "*.flac" ) {
-        open FILE, "<" . $file;
-        if ( flock( FILE, 1 ) ) {
-            unlink $file;
+        # open FILE, "<" . $file;
+        # if ( flock( FILE, 1 ) ) {
+        #     unlink $file;
 
-        }
-
+        # }
     }
 
 }
