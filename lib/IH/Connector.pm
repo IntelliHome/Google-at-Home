@@ -110,7 +110,7 @@ sub send_file() {
         }
         else {
             $server->close();
-            $self->Output->error("Cannot send file -> LOCKED!");
+            $self->Output->error("Cannot send file, it's LOCKED!");
             return 0;
 
         }
