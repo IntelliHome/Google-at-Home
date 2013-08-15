@@ -1,6 +1,6 @@
 package IH::DB;
 use Moose;
-use IH::Schema::Extractor;
+use IH::Schema::NodeExtractor;
 extends qw(KiokuX::Model);
 has '+extra_args' => (
     default => sub {
@@ -35,3 +35,4 @@ sub class_search() {
     # get results
     return $self->search($query);
 }
+1;

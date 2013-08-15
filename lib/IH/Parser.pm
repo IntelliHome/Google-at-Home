@@ -23,14 +23,21 @@ sub parse() {
 
         my @Tasks = $DB->search($query)->all;
 
-        my $results = $DB->class_search("IH::Schema::Trigger");
+        if ( scalar @Tasks > 0 ) {
+            ##XXX:
+            ##Se i task ci sono, vengono processati perchè si suppone questa submission dell'utente sia una parziale risposta
+            ## Dunque, si riempie i dati del task precedente, così l'altro thread può terminare la richiesta e quindi la risposta (se eventualmente genera altri task, ci sarà un motivo)
+#Si controllano comandi di tipologia di annullamento, in tal caso si pone il task in deletion così il thread si chiude.
+        }
+
+        $results = $DB->class_search("IH::Schema::Trigger");
 
         while ( my $block = $results->next ) {
             foreach my $item ( @{$block} ) {
 
                 #Every Trigger cycled here.
                 #
-                local $r = $item->regex();
+                my $r = $item->regex();
                 if ( $hypo =~ /$r/i ) {
 
                     $hypo =~ s/$r//g;    #removes the trigger
@@ -43,8 +50,7 @@ sub parse() {
 
                         my @Needs = $item->needs->members;
                         foreach my $Need (@Needs) {
-                            local $re = $Need->regex();
-
+                            my $re = $Need->regex();
                             if ( $hypo =~ /$re/ ) {
                                 $Need->hypo($hypo);
                                 $Need->compile();
@@ -58,6 +64,9 @@ sub parse() {
                                 my @Q = $Need->questions->members;
                                 $caller->Output->info(
                                     $Q[ int( rand( scalar @Q ) ) ]->ask() );
+                                ###XXX:
+                                ### QUI CREO IL TASK E ASPETTO UN CAMBIAMENTO DI STATO.
+
                             }
 
                         }
@@ -73,3 +82,4 @@ sub parse() {
     }
 
 }
+1;

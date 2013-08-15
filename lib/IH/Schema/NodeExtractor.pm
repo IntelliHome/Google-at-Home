@@ -25,3 +25,4 @@ sub extract_values {
 
     $self->process_keys( { Host => $obj->Host } ); #process the keys thru the given set
 }
+1;
