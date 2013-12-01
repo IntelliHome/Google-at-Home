@@ -14,6 +14,8 @@ sub process() {
         if ( !-d $self->tmp() );
 
     my $host = $fh->peerhost();
+#        $self->Output->info->("received answer from $host");
+
     while ( my $line = <$fh> ) {
         if ( $line =~ /exit/ ) {
 
@@ -29,7 +31,7 @@ sub process() {
     open FILE, ">" . $out;
     print FILE $audio;
     close FILE;
-    if ( !system( 'madplay', '-Q', $out ) ) {
+    if ( !system( 'mplayer', $out ) ) {
         unlink($out);
     }
 }

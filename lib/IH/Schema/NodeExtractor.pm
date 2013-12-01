@@ -23,6 +23,6 @@ sub extract_values {
     #\@prefs
 
 
-    $self->process_keys( { Host => $obj->Host } ); #process the keys thru the given set
+    $self->process_keys( { Host => $obj->Node->Host } ); #process the keys thru the given set
 }
 1;

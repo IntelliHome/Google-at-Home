@@ -8,7 +8,7 @@ use Fcntl qw(:DEFAULT :flock);
 use IO::Socket;
 
 has 'Output' =>
-    ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );
+    ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );  ##XXX: FEATURE REQUEST unique interface
 has 'Worker' => ( is => "rw" );
 has 'Config' => ( is => "rw" )
     ;    #if has config can auto select where things must be done
@@ -106,6 +106,7 @@ sub send_file() {
             }
             close FILE;
             $server->close();
+            $self->Output->info("recording sent to ".$self->Node->Host);
             return 1;
         }
         else {

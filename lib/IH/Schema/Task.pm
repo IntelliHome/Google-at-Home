@@ -4,7 +4,7 @@ use namespace::autoclean;
 
 use KiokuDB::Set;
 use KiokuDB::Util qw(set);
-has 'status' => ( is => "rw", default => 0 );
+has 'status' => ( is => "rw", default => "new" );
 has 'node' => (
     isa  => "IH::Node",
     lazy => 1

@@ -21,10 +21,10 @@ sub display () {
     my @message = @_;
     $self->setLogFile();
     $self->TTS->text(@message);
+       # print Dumper($self->Node);
 
     if ( $self->TTS->tts() ) {
-        $self->failback->debug("TTS ok");
-
+        $self->failback->debug("TTS started");
         if ( defined( $self->Node() ) ) {
             my $conn = IH::Connector->new( Node => $self->Node );
 

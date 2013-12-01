@@ -3,6 +3,10 @@ use Moose::Role;
 
 has 'Commands' => (is=>"rw");
 
-sub pretty{ print "I am pretty" }
+sub pretty{
+	
+ print "I am pretty\n" ;
+
+}
  
 1;

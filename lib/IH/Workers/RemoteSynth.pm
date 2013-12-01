@@ -16,6 +16,11 @@ sub process() {
     my $fh   = shift;    ## IO::Socket
     my $audio;
     my $host = $fh->peerhost();
+
+        my $Client = IH::Node->new( Config => $self->Config );
+    $Client->selectFromHost($host);
+  $Client->selectFromType("node");
+$self->Output->Node($Client);
     while (<$fh>) {
         $audio .= $_;
     }
@@ -24,21 +29,16 @@ sub process() {
     my @hypotheses = @{ $self->GSynth->hypotheses() };
     if ( @hypotheses <= 0 ) {
 
-        $self->Output->info( " ["
-                . $host
-                . "] No result from google elapsed "
-                . $self->GSynth->Time
-                . "s" );
+        #$self->Output->info( "Penso di non aver ben capito" ); #### XXX: Doesn't know what to say
 
     }
     else {
 
-        my $Client = IH::Node->new( Config => $self->Config );
-        $Client->selectFromHost($host);
-        # $self->Parser->Node($Client);
-        # $self->Parser->parse(@hypotheses);
 
-        $self->Output->info( $hypotheses[0] );
+         $self->Parser->Node($Client);
+         $self->Parser->parse(@hypotheses);
+
+        #$self->Output->info( $hypotheses[0] );
 
 #     $self->Output->info("Google result for ".$host.": ".join("\t",  @hypotheses)." ".$self->GSynth->Time."s")  ;
     }

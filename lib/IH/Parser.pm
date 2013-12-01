@@ -16,18 +16,29 @@ sub parse() {
     foreach my $hypo (@hypotheses) {
         my $DB = IH::DB->connect("./config/kiokudb.yml");
 
-        my $results = $DB->class_search("IH::Schema::Task");
+        my $results = $DB->class_search("IH::Schema::Task"); #Check for an open task
 
         my $query = Search::GIN::Query::Manual->new(
-            values => { Host => $self->Node->Host }, );
+            values => { Host => $self->Node->Host } );
 
         my @Tasks = $DB->search($query)->all;
 
         if ( scalar @Tasks > 0 ) {
+            $caller->Output->info("Ci sono ".scalar(@Tasks)." task aperti");
+            foreach my $Task (@Tasks) {
+
+
+
+            }
+
             ##XXX:
-            ##Se i task ci sono, vengono processati perchè si suppone questa submission dell'utente sia una parziale risposta
-            ## Dunque, si riempie i dati del task precedente, così l'altro thread può terminare la richiesta e quindi la risposta (se eventualmente genera altri task, ci sarà un motivo)
-#Si controllano comandi di tipologia di annullamento, in tal caso si pone il task in deletion così il thread si chiude.
+            ## Se i task ci sono, vengono processati perchè si suppone questa submission dell'utente sia una parziale risposta
+            ## Dunque, si riempie i dati del task precedente,
+            ## così l'altro thread può terminare la richiesta e quindi la risposta (se eventualmente genera altri task, ci sarà un motivo)
+            ## Si controllano comandi di tipologia di annullamento, in tal caso si pone il task in deletion così il thread si chiude.
+        } else {
+            $caller->Output->info("nessun task per ".$self->Node->Host);
+
         }
 
         $results = $DB->class_search("IH::Schema::Trigger");
@@ -59,7 +70,6 @@ sub parse() {
 
                             }
                             elsif ( $Need->forced ) {
-
                                 #ASkUsers
                                 my @Q = $Need->questions->members;
                                 $caller->Output->info(
@@ -74,7 +84,7 @@ sub parse() {
                     }
                 }
                 else {
-                    #No match for trigger.
+                    print "No match for trigger.\n";
                 }
             }
         }

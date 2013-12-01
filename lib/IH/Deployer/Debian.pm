@@ -4,7 +4,11 @@ use Net::SSH::Any;
 
 extends 'IH::Deployer::Base';
 
-sub deploy() {
+sub deploy(){
+    return undef;
+}
+
+sub deploy_t() {
     my $self = shift;
 
     my $ssh = Net::SSH::Any->new(

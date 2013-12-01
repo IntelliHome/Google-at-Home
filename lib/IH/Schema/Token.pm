@@ -9,8 +9,7 @@ has 'hypo'     => ( is => "rw" );
 
 sub compile() {
     my $self = shift;
-    my $r    = $self->regex();
-    if ( $self->hypo =~ /$r/i ) {
+    if ( $self->test ) {
         my @matches = ( $self->hypo =~ /$r/ );
         $self->result(@matches);
     }
@@ -28,3 +27,11 @@ sub satisfy() {
     }
 
 }
+
+sub test() {
+    my $self=shift;
+        my $r    = $self->regex();
+    $self->hypo =~ /$r/i ? return 1 : return 0;
+}
+
+1;
