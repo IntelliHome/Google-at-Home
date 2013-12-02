@@ -9,6 +9,6 @@ with 'Mongoose::Document' => {
 #has 'title' => ( is => "rw" );
 has 'status' => (is=>"rw");
 has 'node' => (is=>"rw",isa=>"IH::Node");
-has 'need' => (is=>"rw", isa=> "IH::Schema::Need");
+has 'trigger' => (is=>"rw", isa=> "IH::Schema::Trigger");
 has 'start_time' => (is=>"rw",default=> sub{time();});
 1;

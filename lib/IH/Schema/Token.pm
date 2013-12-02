@@ -4,20 +4,18 @@ use namespace::autoclean;
 use Mongoose::Class;
 with 'Mongoose::Document' => {
     -collection_name => 'tokens',
-   # -pk              => [qw/ title /]
+
+    # -pk              => [qw/ title /]
 };
 
 has 'language' => ( is => "rw" );
 has 'regex'    => ( is => "rw" );
 has 'result'   => ( is => "rw" );
-has 'hypo'     => ( is => "rw" );
 
 sub compile() {
     my $self = shift;
-    if ( $self->test ) {
-        my @matches = ( $self->hypo =~ /$r/ );
-        $self->result(@matches);
-    }
+    my $regex=shift;
+    $self->result(@matches) if my @matches = ( $regex =~ /$r/ );
     return $self;
 }
 
@@ -32,13 +30,5 @@ sub satisfy() {
     }
 
 }
-
-sub test() {
-    my $self=shift;
-        my $r    = $self->regex();
-    $self->hypo =~ /$r/i ? return 1 : return 0;
-}
-
-1;
 
 1;
