@@ -1,6 +1,11 @@
 package IH::Schema::Token;
 use Moose;
 use namespace::autoclean;
+use Mongoose::Class;
+with 'Mongoose::Document' => {
+    -collection_name => 'tokens',
+   # -pk              => [qw/ title /]
+};
 
 has 'language' => ( is => "rw" );
 has 'regex'    => ( is => "rw" );
@@ -33,5 +38,7 @@ sub test() {
         my $r    = $self->regex();
     $self->hypo =~ /$r/i ? return 1 : return 0;
 }
+
+1;
 
 1;

@@ -1,15 +1,17 @@
 package IH::Schema::Need;
 use Moose;
 use namespace::autoclean;
-
+use Mongoose::Class;
+with 'Mongoose::Document' => {
+    -collection_name => 'needs',
+   # -pk              => [qw/ title /]
+};
 extends 'IH::Schema::Token';
-use KiokuDB::Set;
 
-use KiokuDB::Util qw(set);
 has 'forced' => ( is => "rw", default => 0 );
-has 'question' => (
-    isa     => "KiokuDB::Set",
-    lazy    => 1,
-    default => sub { set() },    # empty set
+has 'questions' => (
+    is      => 'rw',
+    isa     => 'Mongoose::Join[IH::Schema::Question]',
+    default => sub { Mongoose::Join->new( with_class => 'IH::Schema::Question' ) }
 );
 1;
