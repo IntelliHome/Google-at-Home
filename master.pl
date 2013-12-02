@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use lib './lib';
 use IntelliHomeNodeMaster;
-
+use Mongoose;
 use Cwd;
 
 #use KiokuDB::Backend::Files;
@@ -17,6 +17,11 @@ $IHOutput->info(
 my $Config
     = new IH::Config( Dirs => ['./config'] );    #specify where yaml file are
 $Config->read();    # Read and load yaml configuration
+
+Mongoose->db(
+    host    => $Config->DBConfiguration->{'db_dsn'},
+    db_name => $Config->DBConfiguration->{'db_name'}
+);
 
 my $remote = IH::Workers::RemoteSynth->new( Config => $Config );
 my $me = IH::Node->new( Config => $Config )->selectFromType("master");
