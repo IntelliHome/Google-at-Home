@@ -1,5 +1,5 @@
 ---
-host: localhost
+host: 192.168.1.129
 port: 23456
 type: master
 username: root
@@ -7,14 +7,14 @@ password: test
 
 ---
 host: localhost
-port: 23456
-type: agent
+port: 23459
+type: node
 username: root
 password: test
 
 ---
-host: 10.10.10.10
-port: 23456
+host: 192.168.1.129
+port: 23457
 type: node
 description: "ih0"
 username: root

@@ -15,7 +15,7 @@ sub detectTasks() {
     my @Tasks      = IH::Schema::Task->query(
         { node => { host => $self->Node->Host }, status => 1 } )->all;
     if ( scalar @Tasks > 0 ) {
-        $caller->Output->info( "Ci sono " . scalar(@Tasks) . " task aperti" );
+        caller->Output->info( "Ci sono " . scalar(@Tasks) . " task aperti" );
         foreach my $Task (@Tasks) {
 
         }
@@ -27,7 +27,7 @@ sub detectTasks() {
         ## Si controllano comandi di tipologia di annullamento, in tal caso si pone il task in deletion così il thread si chiude.
     }
     else {
-        $caller->Output->info( "nessun task per " . $self->Node->Host );
+        caller->Output->info( "nessun task per " . $self->Node->Host );
 
     }
 }

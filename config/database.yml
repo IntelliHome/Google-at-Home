@@ -1,8 +1,3 @@
 ---
-backend:
-	host: 'mongodb://localhost:4000'
-	db_name: 'google-at-home'
-
-
-
-
+db_dsn: 'mongodb://localhost:4000'
+db_name: 'google-at-home'
