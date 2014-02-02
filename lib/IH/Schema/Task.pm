@@ -1,21 +1,16 @@
 package IH::Trigger::Task;
 use Moose;
 use namespace::autoclean;
+use Mongoose::Class;
+with 'Mongoose::Document' => {
+    -collection_name => 'tasks',
 
-use KiokuDB::Set;
-use KiokuDB::Util qw(set);
-has 'status' => ( is => "rw", default => "new" );
-has 'node' => (
-    isa  => "IH::Node",
-    lazy => 1
-);
-has 'need' => (
-    isa  => "IH::Schema::Need",
-    lazy => 1
-);
-has 'start_time' => (
-    is      => "rw",
-    default => time()
-);
+    # -pk              => [qw/ title /]
+};
 
+#has 'title' => ( is => "rw" );
+has 'status'     => ( is => "rw" );
+has 'node'       => ( is => "rw", isa => "IH::Node" );
+has 'trigger'    => ( is => "rw", isa => "IH::Schema::Trigger" );
+has 'start_time' => ( is => "rw", default => sub { time(); } );
 1;

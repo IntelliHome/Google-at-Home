@@ -1,38 +1,28 @@
 package IH::DB;
-use Moose;
-use IH::Schema::NodeExtractor;
-extends qw(KiokuX::Model);
-has '+extra_args' => (
-    default => sub {
-        {   extract =>
-                IH::Schema::NodeExtractor->new( Class => "IH::Schema::Task" ),
+use MooseX::Singleton;
+use IH::Schema::Need;
+use IH::Schema::Question;
+use IH::Schema::Task;
+use IH::Schema::Token;
+use IH::Schema::Trigger;
+use IH::Schema::Hypo;
 
-            # ...
-        };
-    },
-);
-
-sub add_user {
-    my ( $self, @args ) = @_;
-
-    #    my $user = MyApp::User->new(@args);
-
-    $self->txn_do(
-        sub {
-            #         $self->insert($user);
-        }
-    );
-
-    #     return $user;
+sub addHypo() {
+    my %$Hypos = shift;
+    return $_ if IH::Schema::Hypo->find_one( hypo => $Hypos{hypo} );
+    return IH::Schema::Hypo->new(%Hypos);
 }
 
-sub class_search() {
-    my ( $self, $Class ) = @_;
+sub addTask {
+    my %$Task = shift;
+    return IH::Schema::Task->new(%Task);
 
-    # create query
-    my $query = Search::GIN::Query::Class->new( class => $Class );
-
-    # get results
-    return $self->search($query);
 }
+
+sub getActiveTasks {
+    my $Node = shift;
+    return IH::Schema::Task->query( { status => 1, node => $Node->Host } )
+        ->all();
+}
+
 1;

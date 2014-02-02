@@ -1,19 +1,18 @@
 package IH::Schema::Trigger;
 use Moose;
 use namespace::autoclean;
-
-use KiokuDB::Set;
-
-use KiokuDB::Util qw(set);
-
+use Mongoose::Class;
+with 'Mongoose::Document' => {
+    -collection_name => 'triggers',
+   # -pk              => [qw/ title /]
+};
 extends 'IH::Schema::Token';
 
 has 'plugin' => ( is => "rw" );
 has 'plugin_method' => (is=>"rw");
 has 'needed' => (
-    isa     => "KiokuDB::Set",
-    lazy    => 1,
-    default => sub { set() },    # empty set
+    is      => 'rw',
+    isa     => 'Mongoose::Join[IH::Schema::Need]',
+    default => sub { Mongoose::Join->new( with_class => 'IH::Schema::Need' ) }
 );
-
 1;
