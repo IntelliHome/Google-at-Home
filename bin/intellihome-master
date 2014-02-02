@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 use lib './lib';
-use IntelliHomeNodeMaster;
+use IH::IntelliHomeNodeMaster;
 use Mongoose;
 use Cwd;
 

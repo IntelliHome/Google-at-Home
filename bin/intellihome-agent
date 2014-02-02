@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 use lib './lib';
-use IntelliHomeAgent;
+use IH::IntelliHomeAgent;
  my $IHOutput = new IH::Interfaces::Terminal;
 
  
