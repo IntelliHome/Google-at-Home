@@ -17,6 +17,8 @@ searches, use google now capability and open doors, gates and shutter at the sam
 
 Really, really prototype.
 
+CI Status: [![Build Status](https://travis-ci.org/mudler/Google-at-Home.png?branch=master)](https://travis-ci.org/mudler/Google-at-Home)
+
 Some things works, others not, that's because it's currently in development so doesn't expect to run something useful now, code is also ugly 
 and obscure in some parts.
 For now you can setup some agents and a master: you speak at the microphone at an agent and the master compute the answer (currently only for 
