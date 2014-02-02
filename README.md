@@ -7,7 +7,7 @@
  ***##########################################################***
  
  Do you like **Google** services? Would you like to bring them at home too? So are we, so this is why we started the deployment of this 
-personal project. *Android@Home* aim is to let control your home in your ownw ay that could be with android device or for example your voice, 
+personal project. *Google@Home* aim is to let control your home in your own way that could be with android device or for example your voice, 
 with the feature of an easy installation on every kind of device that have GPIO inteface and could run Linux.
  
 Would be great to fuse the Google Now functions in your domotic control of the house: the goal is to speak to your home to make google 
