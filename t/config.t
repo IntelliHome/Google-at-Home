@@ -1,4 +1,4 @@
-use Test::Simple tests => 1;
+use Test::Simple tests => 2;
 use IH::Config;
 my $Config = new IH::Config();
 
