@@ -19,4 +19,10 @@ sub addTask {
 
 }
 
+sub getActiveTasks {
+    my $Node = shift;
+    return IH::Schema::Task->query( { status => 1, node => $Node->Host } )
+        ->all();
+}
+
 1;
