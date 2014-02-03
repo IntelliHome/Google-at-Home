@@ -13,9 +13,9 @@ has 'regex'    => ( is => "rw" );
 has 'result'   => ( is => "rw" );
 
 sub compile() {
-    my $self = shift;
-    my $regex=shift;
-    $self->result(@matches) if my @matches = ( $regex =~ /$r/ );
+    my $self  = shift;
+    my $regex = shift;
+    $self->result( $regex =~ /$regex/g );
     return $self;
 }
 
