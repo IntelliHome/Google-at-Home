@@ -15,7 +15,7 @@ has 'result'   => ( is => "rw" );
 sub compile() {
     my $self  = shift;
     my $regex = shift;
-    $self->result( $regex =~ /$regex/g );
+    $self->result( $self->regex =~ /$regex/g );
     return $self;
 }
 
