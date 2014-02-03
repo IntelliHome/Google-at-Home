@@ -10,20 +10,31 @@ with 'Mongoose::Document' => {
 
 has 'language' => ( is => "rw" );
 has 'regex'    => ( is => "rw" );
-has 'result'   => ( is => "rw", default=>sub {[]} );
-has 'content' => (is=>"rw");
+has 'result'   => ( is => "rw", default => sub { [] } );
+has 'content'  => ( is => "rw" );
+
 sub compile() {
     my $self  = shift;
-    my $regex = shift;
-    my $match=  shift // $self->content;
-    push (@{$self->{'result'}}, $_) while( $match =~ m/$regex/g );
+    my $hypo  = shift;
+    my $regex = $self->regex;
+    @{$self->{'result'}} = $hypo =~ /$regex/g;
+
     return $self;
+}
+
+sub compile_regex() {
+    my $self  = shift;
+    my $regex = shift;
+    my $match = $self->content;
+    push( @{ $self->{'result'} }, $_ ) while ( $match =~ m/$regex/g );
+    return $self;
+
 }
 
 sub satisfy() {
 
     my $self = shift;
-    if ( scalar @{$self->{'result'}} > 0 ) {
+    if ( scalar @{ $self->{'result'} } > 0 ) {
         return 1;
     }
     else {
