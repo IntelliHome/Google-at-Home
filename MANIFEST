@@ -1,3 +1,4 @@
+.travis.yml
 bin/intellihome-agent
 bin/intellihome-master
 bin/intellihome-node
@@ -5,6 +6,9 @@ config/database.yml
 config/nodes.yaml
 cpanfile
 gpl-3.0.md
+intellihome-agent
+intellihome-master
+intellihome-node
 lib/IH.pm
 lib/IH/Config.pm
 lib/IH/Connector.pm
@@ -30,7 +34,6 @@ lib/IH/Schema/Hypo.pm
 lib/IH/Schema/Need.pm
 lib/IH/Schema/NodeExtractor.pm
 lib/IH/Schema/Question.pm
-lib/IH/Schema/Result/Hypo.pm
 lib/IH/Schema/Schema.pm
 lib/IH/Schema/Task.pm
 lib/IH/Schema/Token.pm
