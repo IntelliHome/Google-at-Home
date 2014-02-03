@@ -8,7 +8,7 @@ use IH::Connector;
 extends 'IH::Interfaces::Interface';
 
 #declare display to change: has this arguments (caller, method,@message)
-has 'TTS' => ( is => "rw", default => sub { return new IH::Google::TTS; } );
+has 'TTS' => ( is => "rw", default => sub { return new IH::Google::TTS } );
 has 'failback' =>
     ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );
 has 'Node' => ( is => "rw" );
