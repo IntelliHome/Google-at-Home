@@ -9,6 +9,8 @@ with 'Mongoose::Document' => {
 extends 'IH::Schema::Token';
 
 has 'forced' => ( is => "rw", default => 0 );
+has 'suggested' => ( is => "rw", default => 0 );
+
 has 'questions' => (
     is      => 'rw',
     isa     => 'Mongoose::Join[IH::Schema::Question]',
