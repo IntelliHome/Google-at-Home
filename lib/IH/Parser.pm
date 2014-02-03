@@ -44,7 +44,7 @@ sub detectTriggers() {
         #Every Trigger cycled here.
         #
         if ( $item->compile($hypo) ) {
-
+            my $r = $item->regex;
             $hypo =~ s/$r//g;    #removes the trigger
                                  #Checking the trigger needs.
 
@@ -57,7 +57,7 @@ sub detectTriggers() {
 
                     #ASkUsers
                     my @Q = $need->questions->all;
-                    $caller->Output->info(
+                    caller->Output->info(
                         $Q[ int( rand( scalar @Q ) ) ]->ask() );
                     ###XXX:
                     ### QUI CREO IL TASK E ASPETTO UN CAMBIAMENTO DI STATO.
