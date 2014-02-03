@@ -8,13 +8,13 @@ use IH::Schema::Trigger;
 use IH::Schema::Hypo;
 
 sub addHypo() {
-    my %$Hypos = shift;
+    my %Hypos = shift;
     return $_ if IH::Schema::Hypo->find_one( hypo => $Hypos{hypo} );
     return IH::Schema::Hypo->new(%Hypos);
 }
 
 sub addTask {
-    my %$Task = shift;
+    my %Task = shift;
     return IH::Schema::Task->new(%Task);
 
 }
