@@ -6,11 +6,11 @@ use Data::Dumper;
 use Moo;
 has 'LastModified' => ( is => "rw" );
 has 'Output' =>
-    ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );
+    ( is => "rw", default => sub { return  IH::Interfaces::Terminal->new } );
 
 #has 'GSynth'       =>(is=>"rw",default=>sub{return new IH::GSynth});
 has 'Connector' =>
-    ( is => "rw", default => sub { return new IH::Connector } );
+    ( is => "rw", default => sub { return IH::Connector->new } );
 
 sub events() {
     my $self = shift;
