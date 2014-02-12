@@ -69,9 +69,15 @@ Another thing, this project is strictly correlated with our lifes, that's becaus
 alfa-proto-beta-testers :)
 
 ***
+##Contact
 
 Suggestions, pull request or contributors, Bugs report, everything is well accepted.
-Contact: mudler@dark-lab.net, skullbocks@dark-lab.net
+E-Mail: mudler@dark-lab.net, skullbocks@dark-lab.net
+
+IRC: irc.perl.org , #Google-at-Home
+
+***
 
 Everything is released under GPLv3 
+
 
