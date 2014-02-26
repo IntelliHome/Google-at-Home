@@ -5,11 +5,11 @@ use IH::Interfaces::Voice;
 use IH::Parser;
 use Data::Dumper;
 has 'GSynth' =>
-    ( is => "rw", default => sub { return new IH::Google::Synth } );
+    ( is => "rw", default => sub { return IH::Google::Synth->new } );
 has 'Config' => ( is => "rw" );
 has 'Output' =>
-    ( is => "rw", default => sub { return new IH::Interfaces::Voice } );
-has 'Parser' => ( is => "rw", default => sub { return new IH::Parser } );
+    ( is => "rw", default => sub { return IH::Interfaces::Voice->new } );
+has 'Parser' => ( is => "rw", default => sub { return new IH::Parser->new } );
 
 sub process() {
     my $self = shift;
