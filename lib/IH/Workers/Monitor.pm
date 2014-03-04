@@ -10,7 +10,7 @@ with("IH::Workers::Thread");    #is a thread
 has 'Process' => ( is => "rw" );
 has 'worker'  => ( is => "rw" );
 
-sub run() {
+sub run {
     my $self = shift;
     my $cv   = AnyEvent->condvar;
 
@@ -40,12 +40,9 @@ sub run() {
 
 }
 
-sub process() {
-    my $self = shift;
-    $self->thread->kill('SIGUSR1');
-}
+sub process { shift->thread->kill('SIGUSR1'); }
 
-sub launch() {
+sub launch {
     my $self = shift;
     if ( !defined $self->Process ) {
         croak ' No process defined ';

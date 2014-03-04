@@ -12,7 +12,7 @@ has 'Error'  => ( is => "rw" );
 has 'UnixPid' => ( is => "rw", default => sub { return new Unix::PID; } );
 has 'Directory' => ( is => "rw", default => "/var/tmp" );
 
-sub start() {
+sub start {
     my $self = shift;
     $self->_generateOutputCommand();
     my $CWD = cwd();
@@ -31,16 +31,12 @@ sub start() {
     $self->Error($err);
 }
 
-sub stop() {
+sub stop {
     my $self = shift;
     $self->UnixPid->kill( $self->Pid() );
     waitpid( $self->Pid(), 0 );
 }
 
-sub is_running() {
-    my $self = shift;
-    return $self->UnixPid->is_running( $self->Pid() );
-
-}
+sub is_running { shift->UnixPid->is_running( $self->Pid() ); }
 
 1;

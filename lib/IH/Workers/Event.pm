@@ -12,7 +12,7 @@ has 'Output' =>
 has 'Connector' =>
     ( is => "rw", default => sub { return IH::Connector->new } );
 
-sub events() {
+sub events {
     my $self = shift;
     foreach my $event (@_) {
         $self->process_created_file( $event->path )  if $event->is_created;
@@ -35,7 +35,7 @@ sub process_deleted_file {
     $self->Output->info("\^$File\^ deleted");
 }
 
-sub process() {
+sub process {
     my $self = shift;
     if ( $self->LastModified ) {
         $self->Output->info( "processing \^" . $self->LastModified . "\^" );

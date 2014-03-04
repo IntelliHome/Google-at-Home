@@ -6,7 +6,7 @@ has 'Output' =>
     ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );
 has 'tmp' => ( is => "rw", default => "/var/tmp/ih" );
 
-sub process() {
+sub process {
     my $self = shift;
     my $fh   = shift;    ## IO::Socket
     my $audio;

@@ -14,7 +14,7 @@ has 'callback'  => ( is => "rw" );
 has 'args'      => ( is => "rw" );
 has 'thread'    => ( is => "rw" );
 
-sub start() {
+sub start {
     my $self = shift;
     if ( !defined $self->callback ) {
         croak 'No callback defined for thread';
@@ -29,22 +29,14 @@ sub start() {
 
 }
 
-sub stop() {
+sub stop {
     my $self = shift;
     if ( !$self->thread->is_detached ) {
         $self->thread->kill('KILL')->detach;
     }
 }
 
-sub is_running() {
-    my $self = shift;
-    return $self->thread->is_running();
+sub is_running { shift->thread->is_running(); }
 
-}
-
-sub is_detached() {
-    my $self = shift;
-    return $self->thread->is_detached();
-
-}
+sub is_detached { shift->thread->is_detached(); }
 1;
