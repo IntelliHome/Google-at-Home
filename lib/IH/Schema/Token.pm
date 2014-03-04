@@ -2,6 +2,10 @@ package IH::Schema::Token;
 use Moose;
 use namespace::autoclean;
 use Mongoose::Class;
+
+## Token it's an identification for a trigger(or other) that is needed by plugins and stuff to be run
+## triggers can have needs(arguments) to be satisfied(in the same way of the tokens) before launching the plugin
+
 with 'Mongoose::Document' => {
     -collection_name => 'tokens',
 
@@ -26,7 +30,7 @@ sub compile_regex() {
     my $self  = shift;
     my $regex = shift;
     my $match = $self->content;
-    push( @{ $self->{'result'} }, $_ ) while ( $match =~ m/$regex/g );
+    push( @{ $self->{'result'} }, $_ ) while ( $match =~ m/$regex/g ); #it's the opposite
     return $self;
 
 }
