@@ -8,7 +8,7 @@ use IH::DB;
 use IH::Plugin::Base;
 has 'Node' => ( is => "rw" );
 
-sub detectTasks() {
+sub detectTasks {
     my $self       = shift;
     my $Hypothesis = shift;
     my $hypo       = $Hypothesis->hypo;
@@ -32,7 +32,7 @@ sub detectTasks() {
     }
 }
 
-sub detectTriggers() {
+sub detectTriggers {
     my $self       = shift;
     my $Hypothesis = shift;
     my $hypo       = $Hypothesis->hypo;
@@ -73,9 +73,9 @@ sub detectTriggers() {
     }
 }
 
-sub parse() {
+sub parse {
     my $self       = shift;
-    my $caller     = caller();
+    my $caller     = caller;
     my @hypotheses = @_;
 
     return 0 if scalar @hypotheses < 0;
