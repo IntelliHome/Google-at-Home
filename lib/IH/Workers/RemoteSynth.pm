@@ -39,8 +39,13 @@ sub process {
 
         #$self->Output->info( $hypotheses[0] );
 
-     $self->Output->info("Google result for ".$host.": ".join("\t",  @hypotheses)." ".$self->GSynth->Time."s");
-     #Let's visualize the hypotesis for now
+        $self->Output->info( "Google result for "
+                . $host . ": "
+                . join( "\t", @hypotheses ) . " "
+                . $self->GSynth->Time
+                . "s" );
+
+        #Let's visualize the hypotesis for now
     }
 }
 

@@ -17,7 +17,7 @@ has 'regex'    => ( is => "rw" );
 has 'result'   => ( is => "rw", default => sub { [] } );
 has 'content'  => ( is => "rw" );
 
-sub compile() {
+sub compile {
     my $self  = shift;
     my $hypo  = shift;
     my $regex = $self->regex;
@@ -26,7 +26,7 @@ sub compile() {
     return $self;
 }
 
-sub compile_regex() {
+sub compile_regex {
     my $self  = shift;
     my $regex = shift;
     my $match = $self->content;
@@ -35,7 +35,7 @@ sub compile_regex() {
 
 }
 
-sub satisfy() {
+sub satisfy {
 
     my $self = shift;
     if ( scalar @{ $self->{'result'} } > 0 ) {

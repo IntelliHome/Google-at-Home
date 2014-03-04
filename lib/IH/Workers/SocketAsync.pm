@@ -5,7 +5,7 @@ has 'Worker' => ( is => "rw" );
 
 with("IH::Workers::Thread");    #is a thread
 
-sub run() {
+sub run {
     my $socket = shift;
     my $worker = shift;
 
@@ -18,7 +18,7 @@ sub run() {
     }
 }
 
-sub launch() {
+sub launch {
     my $self = shift;
     if ( !defined $self->Worker or !defined $self->Socket ) {
         die ' shame on you ';

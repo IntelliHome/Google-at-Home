@@ -11,7 +11,7 @@ has 'Output' =>
     ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );
 has 'Connector' => ( is => "rw" );
 
-sub on() {
+sub on {
     my $self = shift;
     if ( $self->Connector ) {
 
@@ -28,14 +28,22 @@ sub on() {
     }
 }
 
-sub off() {
+sub off {
     my $self = shift;
-    $self->setValue(0);        #Led On
-    $self->Status(0);
-    $self->Output->info( $self->Pin . " -> " . $self->Status );
+    if ( $self->Connector ) {
+
+        $self->Connector->send_command(
+            $self->Pin . ":0:" . $self->Direction );
+
+    }
+    else {
+        $self->setValue(0);    #Led On
+        $self->Status(0);
+        $self->Output->info( $self->Pin . " -> " . $self->Status );
+    }
 }
 
-sub toggle() {
+sub toggle {
     my $self = shift;
 
     my $Status = $self->Status();
@@ -48,7 +56,7 @@ sub toggle() {
     $self->Output->info( $self->Pin . " -> " . $self->Status );
 }
 
-sub status() {
+sub status {
     my $self = shift;
 
     open my $PIN, "<", $self->GpioDir . $self->Pin . "/value";
@@ -61,7 +69,7 @@ sub status() {
     return $currentValue[0];
 }
 
-sub setValue() {
+sub setValue {
     my $self  = shift;
     my $value = shift;
     $self->Output->info( "Setting " . $self->Pin . " to $value" );
@@ -70,7 +78,7 @@ sub setValue() {
     close($PIN);
 }
 
-sub Sync() {
+sub Sync {
     my $self = shift;
 
     $self->Output->info( "Synchronizing " . $self->Pin );
