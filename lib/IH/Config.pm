@@ -7,14 +7,14 @@ use IH::Interfaces::Terminal;
 use Data::Dumper;
 use File::Find::Object;
 
-has 'Nodes'           => ( is => "rw" );
-has 'DBConfiguration' => ( is => "rw" , default => sub{{}});
+has 'Nodes' => ( is => "rw" );
+has 'DBConfiguration' => ( is => "rw", default => sub { {} } );
 
 has 'Dirs' => ( is => "rw" );
 has 'Output' =>
     ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );
 
-sub read() {
+sub read {
     my $self   = shift;
     my $output = $self->Output;
     my $Tiny   = YAML::Tiny->new;
