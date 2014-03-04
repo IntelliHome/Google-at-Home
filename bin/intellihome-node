@@ -4,9 +4,14 @@ use IH::IntelliHomeNode;    #Load node library set
 use Data::Dumper;
 
 my $IHOutput = new IH::Interfaces::Terminal;    #set up output (debug)
+
+## XXX: For prototyping purposes we load a YAML file for now, but we should auto-configure stuff
+##      probing the network or the master
+
 my $Config
     = new IH::Config( Dirs => ['./config'] );    #specify where yaml file are
 $Config->read();    # Read and load yaml configuration
+my $me = IH::Node->new( Config => $Config )->selectFromType("node");
 
 my $MasterNode = IH::Node->new( Config => $Config )->selectFromType("master");
 
@@ -17,7 +22,7 @@ $IHOutput->info("IntelliHome : Node started");
 $IHOutput->info(
     "Bringing up sox and sending recordings to " . $MasterNode->Host );
 
-my $Sox = new IH::Workers::Sox;                          #set up a sox process
+my $Sox = new IH::Workers::Sox( HW => $me->HW() );    #set up a sox process
 my $Monitor = new IH::Workers::Monitor( Process => $Sox )
     ;    # an anyevent monitor for file changes
 $Sox->start();
@@ -28,12 +33,13 @@ my $WorkerOnEvent
 $Monitor->worker($WorkerOnEvent);    #Set the worker on the monitor
 $Monitor->launch();                  #Launches the monitor
 
-my $me = IH::Node->new( Config => $Config )->selectFromType("node");
 my $Connector = new IH::Connector( Config => $Config, Node => $me )
     ; #Config parameter is optional, only needed if you wanna send broadcast messages
 $Connector->Worker( new IH::Workers::ListenNode );
 
 $Connector->listen();
+
+##XXX: This below is ugly, need a proper solution
 while ( sleep 30 ) {
     $IHOutput->debug(
         "refreshing sox - small workaround for now (it seems to hang after a few seconds)"
