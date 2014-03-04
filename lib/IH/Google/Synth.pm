@@ -17,7 +17,7 @@ has 'Language' => ( is => "rw", default => "it" );
 has 'hypotheses' => ( is => "rw" );
 has 'Time'       => ( is => "rw" );
 
-sub synth() {
+sub synth {
     my $self = shift;
     return 0 if ( $self->File =~ /^0$/ );
 
@@ -43,7 +43,7 @@ sub synth() {
     return @hypotheses;
 }
 
-sub audiosynth() {
+sub audiosynth {
     my $self                 = shift;
     my $audio                = shift;
     my $url                  = $self->GoogleURL . $self->Language;
