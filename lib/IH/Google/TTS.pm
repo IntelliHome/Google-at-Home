@@ -11,7 +11,7 @@ has 'Result' => ( is => "rw" );
 has 'tmp'    => ( is => "rw", default => "/var/tmp/ih" );
 has 'out'    => ( is => "rw" );
 
-sub tts() {
+sub tts {
     my $self = shift;
 
     mkdir( $self->tmp() ) || die("Cannot create temporary directory")
