@@ -1,5 +1,5 @@
 package IH::Node;
-use Moose;
+use Moo;
 use Module::Load;
 has 'Deployer' => ( is => "rw" );
 has 'Username' => ( is => "rw" );
@@ -12,7 +12,7 @@ has 'Description' => ( is => "rw" );
 has 'Output' =>
     ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );
 
-sub select() {
+sub select {
     my $self  = shift;
     my $Nodes = shift;
     my $Node  = shift;
@@ -36,7 +36,7 @@ sub select() {
     return $self;
 }
 
-sub customSelect() {
+sub customSelect {
     my $self   = shift;
     my $field  = shift;
     my $custom = shift;
@@ -50,7 +50,7 @@ sub customSelect() {
 
 }
 
-sub selectFromType() {
+sub selectFromType {
     my $self  = shift;
     my $type  = shift;
     my $Nodes = $self->Config->Nodes;
@@ -62,7 +62,7 @@ sub selectFromType() {
     return $self;
 }
 
-sub selectFromHost() {
+sub selectFromHost {
     my $self  = shift;
     my $H     = shift;
     my $Nodes = $self->Config->Nodes;
@@ -76,7 +76,7 @@ sub selectFromHost() {
 
 }
 
-sub selectFromDescription() {
+sub selectFromDescription {
     my $self  = shift;
     my $H     = shift;
     my $Nodes = $self->Config->Nodes;
@@ -91,7 +91,7 @@ sub selectFromDescription() {
 
 }
 
-sub deploy() {
+sub deploy {
     my $self = shift;
     if ( $self->Deployer ) {
         $self->Deployer()->deploy();
