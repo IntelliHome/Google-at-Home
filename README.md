@@ -44,12 +44,12 @@ params.
  
 ##Todo
 
- * <del>Making a wrapper to linux gpio functionality</del>
- * <del>Make the node communicate</del>
- * <del>Delivering functions on a master node</del>
- * <del>Master node accept and respond to requests</del>
- * <del>Speech interface thru google</del>
- * <del>SpeechToText thru google</del>
+ * ~~Making a wrapper to linux gpio functionality~~
+ * ~~Make the node communicate~~
+ * ~~Delivering functions on a master node~~
+ * ~~Master node accept and respond to requests~~
+ * ~~Speech interface thru google~~
+ * ~~SpeechToText thru google~~
  * Auto-Calibration of mic, or an aided one
  * *Google Now* functionality interface
  * Ideas for a better database schema to collect and display informations
@@ -59,6 +59,13 @@ params.
  * Video surveillance and alarm
  * Simple majordomo interface with a personality (did you remember Jarvis?:P)
  * Write an api so to open the possibility to build an Android app or a web interface
+
+***
+
+##Special: GSoC
+
+Have a look at [GSoC](GSoC.md) to see what are the proposed tasks
+
 
 ***
 ##Notes
