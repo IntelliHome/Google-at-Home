@@ -17,7 +17,7 @@ has 'Node'     => ( is => "rw" );
 has 'Thread'   => ( is => "rw" );
 has 'blocking' => ( is => "rw", default => 0 );
 
-sub broadcastMessage() {
+sub broadcastMessage {
     my $self    = shift;
     my $Type    = shift;
     my $Message = shift;
@@ -31,7 +31,7 @@ sub broadcastMessage() {
     }
 }
 
-sub listen() {
+sub listen {
     my $self = shift;
 
     return 0 if ( !$self->Worker );
@@ -70,7 +70,7 @@ sub listen() {
 
 }
 
-sub connect() {
+sub connect {
     my $self   = shift;
     my $server = IO::Socket::INET->new(
         Proto    => "tcp",
@@ -85,7 +85,7 @@ sub connect() {
     return $self;
 }
 
-sub send_file() {
+sub send_file {
     my $self   = shift;
     my $File   = shift;
     my $server = IO::Socket::INET->new(
@@ -118,7 +118,7 @@ sub send_file() {
     }
 }
 
-sub send_command() {
+sub send_command {
     my $self    = shift;
     my $Command = shift;
     if ( $self->Socket ) {
