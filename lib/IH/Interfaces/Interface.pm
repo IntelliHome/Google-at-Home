@@ -8,7 +8,7 @@ has 'Today' => ( is => "rw" );
 has 'Year'  => ( is => "rw" );
 has 'Month' => ( is => "rw" );
 
-sub setLogFile() {
+sub setLogFile {
     my $self  = shift;
     my $month = Time::Piece->new->strftime('%m');
     my $day   = Time::Piece->new->strftime('%d');

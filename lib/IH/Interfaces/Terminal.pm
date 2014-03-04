@@ -6,7 +6,7 @@ use Term::ANSIColor;
 extends 'IH::Interfaces::Interface';
 
 #override display to change: has this arguments (caller, method,@message)
-sub display() {
+sub display {
     my $self    = shift;
     my $caller  = shift;
     my $method  = shift;

@@ -13,7 +13,7 @@ has 'failback' =>
     ( is => "rw", default => sub { return IH::Interfaces::Terminal->new } );
 has 'Node' => ( is => "rw" );
 
-sub display () {
+sub display {
     my $self = shift;
 
     my $caller  = shift;
@@ -21,7 +21,8 @@ sub display () {
     my @message = @_;
     $self->setLogFile();
     $self->TTS->text(@message);
-       # print Dumper($self->Node);
+
+    # print Dumper($self->Node);
 
     if ( $self->TTS->tts() ) {
         $self->failback->debug("TTS started");
