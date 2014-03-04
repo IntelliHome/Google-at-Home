@@ -6,7 +6,7 @@ with("IH::Workers::Process");
 
 has 'command'             => ( is => "rw" );
 has 'Rate'                => ( is => "rw", default => "16000" );
-has 'HW'                  => ( is => "rw", default => "0,0" );
+has 'HW'                  => ( is => "rw", default => "1,0" );
 has 'Output'              => ( is => "rw", default => "ih.flac" );
 has 'beginEnable'         => ( is => "rw", default => "1" );
 has 'beginSoundDuration'  => ( is => "rw", default => "0.5" );
@@ -16,7 +16,7 @@ has 'finishSoundDuration' => ( is => "rw", default => "3.0" );
 has 'finishThreshold'     => ( is => "rw", default => '2%' );
 has 'Directory'           => ( is => "rw", default => "/var/tmp/sox/" );
 
-sub _generateOutputCommand() {
+sub _generateOutputCommand {
     my $self = shift;
     mkdir( $self->Directory ) if ( !-d $self->Directory );
 
@@ -39,7 +39,7 @@ sub _generateOutputCommand() {
     );
 }
 
-sub clean() {
+sub clean {
     #Called on start by IH::Workers::Process
     my $self = shift;
     foreach my $file ( glob $self->Directory . "*.flac" ) {
