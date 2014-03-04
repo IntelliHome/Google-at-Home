@@ -1,25 +1,28 @@
 ---
-host: 192.168.1.129
+host: localhost
 port: 23456
+type: node
+username: root
+password: test
+HW: "1,0" #alsa hw address for recording
+
+---
+host: x.x.x.x
+port: 23459
 type: master
 username: root
 password: test
 
----
-host: localhost
-port: 23459
-type: node
-username: root
-password: test
 
----
-host: 192.168.1.129
-port: 23457
-type: node
-description: "ih0"
-username: root
-password: password
-deployer: 'IH::Deployer::Debian' #If it's debian, i'll use a debian deployer :)
+##XXX: YAML is for prototyping now, we should get over it with autodetection probing the master
+#---
+#host: x.x.x.x
+#port: 23457
+#type: node
+#description: "ih0"
+#username: root
+#password: password
+#deployer: 'IH::Deployer::Debian' #If it's debian, i'll use a debian deployer :)
 
 
 #BootStrap configuration file
