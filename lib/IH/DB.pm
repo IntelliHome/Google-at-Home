@@ -6,8 +6,8 @@ use IH::Schema::Task;
 use IH::Schema::Token;
 use IH::Schema::Trigger;
 use IH::Schema::Hypo;
-
-sub addHypo() {
+### XXX: untested
+sub addHypo {
     my %Hypos = shift;
     return $_ if IH::Schema::Hypo->find_one( hypo => $Hypos{hypo} );
     return IH::Schema::Hypo->new(%Hypos);
@@ -20,8 +20,7 @@ sub addTask {
 }
 
 sub getActiveTasks {
-    my $Node = shift;
-    return IH::Schema::Task->query( { status => 1, node => $Node->Host } )
+    return IH::Schema::Task->query( { status => 1, node => shift->Host } )
         ->all();
 }
 
