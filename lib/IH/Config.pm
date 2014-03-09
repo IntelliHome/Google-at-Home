@@ -35,6 +35,7 @@ sub read {
 
                     if (    exists( $Key->{db_dsn} )
                         and exists( $Key->{db_name} )
+                        and exists( $Key->{database_backend} )
 
                         #           and exists($Key->{username})
                         #               and exists ($Key->{password})
@@ -48,6 +49,11 @@ sub read {
                             = $Key->{'db_name'};
                         $output->info( "Database: "
                                 . $self->DBConfiguration->{'db_name'} );
+                        $self->DBConfiguration->{'database_backend'}
+                            = $Key->{'database_backend'};
+                        $output->info( "Database backend: "
+                                . $self->DBConfiguration->{'database_backend'}
+                        );
 
                     }
 
@@ -90,6 +96,8 @@ sub read {
 
                         $Nodes->{ $Key->{host} }->{port} = $Key->{port};
                         $Nodes->{ $Key->{host} }->{type} = $Key->{type};
+                        $Nodes->{ $Key->{host} }->{HW}   = $Key->{HW}
+                            if (exists ($Key->{HW}));
 
                     }
                 }
