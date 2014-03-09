@@ -37,6 +37,9 @@ sub stop {
     waitpid( $self->Pid(), 0 );
 }
 
-sub is_running { shift->UnixPid->is_running( $self->Pid() ); }
+sub is_running {
+    my $self = shift;
+    $self->UnixPid->is_running( $self->Pid() );
+}
 
 1;
