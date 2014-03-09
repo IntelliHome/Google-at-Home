@@ -11,18 +11,18 @@ my $IHOutput = new IH::Interfaces::Terminal;    #set up output (debug)
 my $Config
     = new IH::Config( Dirs => ['./config'] );    #specify where yaml file are
 $Config->read();    # Read and load yaml configuration
-my $me = IH::Node->new( Config => $Config )->selectFromType("node");
 
 my $MasterNode = IH::Node->new( Config => $Config )->selectFromType("master");
+my $me = IH::Node->new( Config => $Config )->selectFromType("node");
 
 my $Connector = new IH::Connector( Node => $MasterNode )
     ; #set up a connector and supply the config file (For auto select of nodes)
 
 $IHOutput->info("IntelliHome : Node started");
 $IHOutput->info(
-    "Bringing up sox and sending recordings to " . $MasterNode->Host );
+    "Bringing up sox and sending recordings to " . $MasterNode->Host." HW:".$me->HW);
 
-my $Sox = new IH::Workers::Sox( HW => $me->HW() );    #set up a sox process
+my $Sox = new IH::Workers::Sox( HW => $me->HW );    #set up a sox process
 my $Monitor = new IH::Workers::Monitor( Process => $Sox )
     ;    # an anyevent monitor for file changes
 $Sox->start();
