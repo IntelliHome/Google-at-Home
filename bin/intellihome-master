@@ -11,7 +11,7 @@ my $IHOutput = new IH::Interfaces::Terminal;
 
 $IHOutput->info("IntelliHome : Node master started");
 $IHOutput->info(
-    "Bringing up sockets (not secured, i assume you have vpn on your network)"
+    "Bringing up sockets (not secured, i assume you have properly secured your network)"
 );
 
 my $Config
@@ -31,7 +31,7 @@ $Connector->Worker($remote);
 $Connector->blocking(1);
 $Connector->listen();
 
-#blocking so down can't be esecuted (was used just for test)
+#blocking so down can't be executed (was used just for test)
 my $NodeToDeploy
     = IH::Node->new( Config => $Config )->selectFromDescription("ih0");
 $NodeToDeploy->deploy();
