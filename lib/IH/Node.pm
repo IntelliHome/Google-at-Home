@@ -6,11 +6,12 @@ has 'Username' => ( is => "rw" );
 has 'Password' => ( is => "rw" );
 has 'Host'     => ( is => "rw", default => 'localhost' );
 has 'Port'     => ( is => "rw", default => '23456' );
+has 'HW'       => ( is => "rw" );
 has 'Config'   => ( is => "rw" )
     ;    #if has config can auto select where things must be done
 has 'Description' => ( is => "rw" );
 has 'Output' =>
-    ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );
+    ( is => "rw", default => sub { return IH::Interfaces::Terminal->new } );
 
 sub select {
     my $self  = shift;
@@ -21,6 +22,7 @@ sub select {
     $self->Username( $Nodes->{$Node}->{username} );
     $self->Password( $Nodes->{$Node}->{password} );
     $self->Description( $Nodes->{$Node}->{description} );
+    $self->HW( $Nodes->{$Node}->{HW} ) if ($Nodes->{$Node}->{HW} );
 
     if ( exists( $Nodes->{$Node}->{deployer} ) ) {
         my $Deployer = $Nodes->{$Node}->{deployer};
