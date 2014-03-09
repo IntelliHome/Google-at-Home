@@ -2,3 +2,4 @@
 	* start to develop the database part and interpretation
 	* add language to the configuration parser
 	* add recording limit to 30 s
+    * Insert trigger
