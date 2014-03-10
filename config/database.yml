@@ -1,5 +1,5 @@
 ---
-db_dsn: 'mongodb://localhost:4000'
+db_dsn: 'mongodb://localhost:27017'
 db_name: 'google-at-home'
 database_backend: Mongo
 
