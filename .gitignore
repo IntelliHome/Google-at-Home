@@ -1,0 +1,12 @@
+/.build
+/_build*
+Makefile
+Makefile.old
+MYMETA.*
+*.log
+MANIFEST
+pm_to_blib
+MANIFEST.bak
+!META.json
+blib/
+cover_db/
