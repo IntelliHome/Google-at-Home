@@ -51,7 +51,7 @@ sub BUILD {
         = 'IH::Parser::'
         . $self->Config->DBConfiguration->{'database_backend'};
     load $Parser;
-    $Parser = $Parser->new( Config => $self->Config );
+    $Parser = $Parser->new( Config => $self->Config, Output=> $self->Output );
     $Parser->prepare;
     $self->Parser($Parser);
 }
@@ -80,14 +80,14 @@ sub process {
 
         $self->Parser->Node($Client);
         $self->Parser->parse(@hypotheses);
-
+        $self->Parser->Output($self->Output);
         #$self->Output->info( $hypotheses[0] );
 
-        $self->Output->info( "Google result for "
-                . $host . ": "
-                . join( "\t", @hypotheses ) . " "
-                . $self->GSynth->Time
-                . "s" );
+        # $self->Output->info( "Google result for "
+        #         . $host . ": "
+        #         . join( "\t", @hypotheses ) . " "
+        #         . $self->GSynth->Time
+        #         . "s" );
 
         #Let's visualize the hypotesis for now
     }

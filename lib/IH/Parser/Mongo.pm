@@ -30,7 +30,8 @@ sub detectTasks {
     my @Tasks      = IH::Schema::Mongo::Task->query(
         { node => { host => $self->Node->Host }, status => 1 } )->all;
     if ( scalar @Tasks > 0 ) {
-        caller->Output->info( "Ci sono " . scalar(@Tasks) . " task aperti" );
+
+        # $self->Output->info( "Ci sono " . scalar(@Tasks) . " task aperti" );
         foreach my $Task (@Tasks) {
 
         }
@@ -42,7 +43,7 @@ sub detectTasks {
         ## Si controllano comandi di tipologia di annullamento, in tal caso si pone il task in deletion così il thread si chiude.
     }
     else {
-        caller->Output->info( "nessun task per " . $self->Node->Host );
+        #   $self->Output->info( "nessun task per " . $self->Node->Host );
 
     }
 }
@@ -52,40 +53,45 @@ sub detectTriggers {
     my $Hypothesis = shift;
     my $hypo       = $Hypothesis->hypo;
 
-    my @Triggers = IH::Schema::Mongo::Trigger->all;
-
+    my @Triggers = IH::Schema::Mongo::Trigger->find( {} )->all;
+    my $Satisfied = 0;
     foreach my $item (@Triggers) {
 
         #Every Trigger cycled here.
         #
-        if ( $item->compile($hypo) ) {
+        if ( $item->compile($hypo) and $item->satisfy ) {
             my $r = $item->regex;
             $hypo =~ s/$r//g;    #removes the trigger
                                  #Checking the trigger needs.
 
-            foreach my $need ( $item->needs->all ) {
-                if ( $need->compile($hypo) ) {
+            $self->run_plugin( $item->plugin, $item->plugin_method, $item );
+            $Satisfied++;
 
-                    $hypo =~ s/$r//g;    #removes the trigger
-                }
-                elsif ( $need->forced ) {
+            # foreach my $need ( $item->needs->all ) {
+            #     if ( $need->compile($hypo) ) {
 
-                    #ASkUsers
-                    my @Q = $need->questions->all;
-                    caller->Output->info(
-                        $Q[ int( rand( scalar @Q ) ) ]->ask() );
-                    ###XXX:
-                    ### QUI CREO IL TASK E ASPETTO UN CAMBIAMENTO DI STATO.
+            #         $hypo =~ s/$r//g;    #removes the trigger
+            #     }
+            #     elsif ( $need->forced ) {
 
-                }
-            }
+            #         #ASkUsers
+            #         my @Q = $need->questions->all;
+            #         caller->Output->info(
+            #             $Q[ int( rand( scalar @Q ) ) ]->ask() );
+            #         ###XXX:
+            #         ### QUI CREO IL TASK E ASPETTO UN CAMBIAMENTO DI STATO.
+
+            #     }
+            # }
 
         }
         else {
-            print "No match for trigger.\n";
+            #   print "No match for trigger.\n";
+
         }
 
     }
+    return $Satisfied;
 }
 
 sub parse {
@@ -96,12 +102,14 @@ sub parse {
     return 0 if scalar @hypotheses < 0;
 
     foreach my $hypo (@hypotheses) {
+       # my $hypo
+       #     = $hypotheses[0];  #The first google give us is the more confident
 
-        my $Hypothesis = IH::Parser::Mongo::DB->newHypo( hypo => $hypo );
+        my $Hypothesis = IH::Parser::Mongo::DB->newHypo( { hypo => $hypo } );
 
         $self->detectTasks($Hypothesis);
 
-        $self->detectTriggers($Hypothesis);
+        last if $self->detectTriggers($Hypothesis) != 0;
 
     }
 

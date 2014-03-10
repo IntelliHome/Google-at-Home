@@ -1,8 +1,9 @@
 package IH::Parser::Base;
 use Moose;
+use Module::Load;
 has 'Config' => ( is => "rw" );
 has 'Plugins' => ( is => "rw", default => sub{{}} );
-
+has 'Output' => (is=>"rw");
 sub detectTasks() {
 
 }
@@ -22,6 +23,7 @@ sub prepare() {
 sub run_plugin() {
     my $self = shift;
     my $name = shift;
+    my $method =shift;
     my @args = @_;
     my $Plugin;
     if ( exists $self->Plugins->{$name} ) {
@@ -32,10 +34,10 @@ sub run_plugin() {
         load $Plugin;
         $self->Plugins->{$name}
             = $Plugin->new( Config => $self->Config, Parser => $self );
-        $self->Plugins->{$name}->prepare();
+        $self->Plugins->{$name}->prepare() if $self->Plugins->{$name}->can("prepare") ;
         $Plugin = $self->Plugins->{$name};
     }
-    $Plugin->run(@args);
+    $Plugin->$method(@args);
 }
 
 1;

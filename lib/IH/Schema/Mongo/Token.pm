@@ -9,7 +9,7 @@ use Mongoose::Class;
 with 'Mongoose::Document' => {
     -collection_name => 'tokens',
 
-    # -pk              => [qw/ title /]
+     #-pk              => [qw/ regex /]
 };
 
 has 'language' => ( is => "rw" );

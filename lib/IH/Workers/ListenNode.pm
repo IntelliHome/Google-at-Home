@@ -5,6 +5,7 @@ use Moose;
 has 'Output' =>
     ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );
 has 'tmp' => ( is => "rw", default => "/var/tmp/ih" );
+has 'Process' => ( is => "rw" );
 
 sub process {
     my $self = shift;
@@ -14,7 +15,8 @@ sub process {
         if ( !-d $self->tmp() );
 
     my $host = $fh->peerhost();
-#        $self->Output->info->("received answer from $host");
+
+    #        $self->Output->info->("received answer from $host");
 
     while ( my $line = <$fh> ) {
         if ( $line =~ /exit/ ) {
@@ -31,9 +33,13 @@ sub process {
     open FILE, ">" . $out;
     print FILE $audio;
     close FILE;
+
+    #$self->Process->stop() if $self->Process;
     if ( !system( 'mplayer', $out ) ) {
-        unlink($out);
+        $self->Output->debug("Error launching mplayer");
     }
+    unlink($out);
+
 }
 
 1;

@@ -35,7 +35,9 @@ $Monitor->launch();                  #Launches the monitor
 
 my $Connector = new IH::Connector( Config => $Config, Node => $me )
     ; #Config parameter is optional, only needed if you wanna send broadcast messages
-$Connector->Worker( new IH::Workers::ListenNode );
+$Connector->Worker( new IH::Workers::ListenNode(
+    #Process=> $Sox
+    ) );
 
 $Connector->listen();
 
@@ -51,3 +53,4 @@ while ( sleep 30 ) {
     }
     $Sox->start;
 }
+#while ( sleep 2 ) {$Sox->start and $IHOutput->debug("Sox Restart") if (!$Sox->is_running ) ;}
