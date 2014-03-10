@@ -5,17 +5,29 @@ extends 'IH::Parser::Base';
 
 use Search::GIN::Query::Class;
 use Search::GIN::Query::Manual;
-use IH::Schema::Trigger;
-use IH::Schema::Task;
-use IH::DB;
+use IH::Schema::Mongo::Trigger;
+use IH::Schema::Mongo::Task;
+use IH::Parser::Mongo::DB;
 use IH::Plugin::Base;
+use Mongoose;
+
 has 'Node' => ( is => "rw" );
+
+sub prepare {
+
+    my $self = shift;
+    Mongoose->db(
+        host    => $self->Config->DBConfiguration->{'db_dsn'},
+        db_name => $self->Config->DBConfiguration->{'db_name'}
+    );
+
+}
 
 sub detectTasks {
     my $self       = shift;
     my $Hypothesis = shift;
     my $hypo       = $Hypothesis->hypo;
-    my @Tasks      = IH::Schema::Task->query(
+    my @Tasks      = IH::Schema::Mongo::Task->query(
         { node => { host => $self->Node->Host }, status => 1 } )->all;
     if ( scalar @Tasks > 0 ) {
         caller->Output->info( "Ci sono " . scalar(@Tasks) . " task aperti" );
@@ -40,7 +52,7 @@ sub detectTriggers {
     my $Hypothesis = shift;
     my $hypo       = $Hypothesis->hypo;
 
-    my @Triggers = IH::Schema::Trigger->all;
+    my @Triggers = IH::Schema::Mongo::Trigger->all;
 
     foreach my $item (@Triggers) {
 
@@ -85,7 +97,7 @@ sub parse {
 
     foreach my $hypo (@hypotheses) {
 
-        my $Hypothesis = IH::DB->newHypo( hypo => $hypo );
+        my $Hypothesis = IH::Parser::Mongo::DB->newHypo( hypo => $hypo );
 
         $self->detectTasks($Hypothesis);
 
