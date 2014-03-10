@@ -51,7 +51,9 @@ sub BUILD {
         = 'IH::Parser::'
         . $self->Config->DBConfiguration->{'database_backend'};
     load $Parser;
-    $self->Parser( $Parser->new );
+    $Parser = $Parser->new( Config => $self->Config );
+    $Parser->prepare;
+    $self->Parser($Parser);
 }
 
 sub process {

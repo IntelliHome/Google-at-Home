@@ -1,4 +1,4 @@
-package IH::Schema::Token;
+package IH::Schema::Mongo::Token;
 use Moose;
 use namespace::autoclean;
 use Mongoose::Class;

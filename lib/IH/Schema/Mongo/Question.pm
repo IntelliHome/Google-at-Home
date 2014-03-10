@@ -1,4 +1,4 @@
-package IH::Schema::Question;
+package IH::Schema::Mongo::Question;
 use Moose;
 use namespace::autoclean;
 use Mongoose::Class;

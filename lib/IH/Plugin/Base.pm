@@ -1,5 +1,6 @@
 package IH::Plugin::Base;
 use Moose;
-with 'MooseX::Object::Pluggable';
+has 'Config' => (is=>"rw");
+has 'Parser' => (is=>"rw");
 
 1;

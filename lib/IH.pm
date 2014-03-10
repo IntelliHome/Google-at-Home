@@ -1,6 +1,6 @@
 package IH;
 
-our $VERSION="00.1";
+our $VERSION="0.002";
 
 require IH::Pin::GPIO;
 require IH::Pin::Analogic;
@@ -14,8 +14,6 @@ require IH::Workers::Event;
 require IH::Workers::Monitor;
 require IH::Config;
 require IH::Workers::ListenNode;
-require Proc::Daemon;
 require AnyEvent;
 require IH::Workers::RemoteSynth;
-require IH::DB;
 1;

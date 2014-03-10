@@ -1,8 +1,13 @@
 package IH::Plugin::Search;
-use Moose::Role;
+use Moose;
 
-has 'Commands' => (is=>"rw");
+extends 'IH::Plugin::Base';
 
+sub run{
+	my $self=shift;
+	my @hypothesis = @_;
+	
+}
 sub pretty{
 	
  print "I am pretty\n" ;
