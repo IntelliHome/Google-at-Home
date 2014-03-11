@@ -4,7 +4,7 @@ port: 23456
 type: node
 username: root
 password: test
-HW: "0,0" #alsa hw address for recording
+#HW: "0,0" #alsa hw address for recording
 
 ---
 host: localhost
@@ -12,7 +12,7 @@ port: 23459
 type: master
 username: root
 password: test
-HW: "0,0" #alsa hw address for recording
+#HW: "0,0" #alsa hw address for recording
 
 
 ##XXX: YAML is for prototyping now, we should get over it with autodetection probing the master
