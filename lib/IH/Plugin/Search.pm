@@ -17,9 +17,6 @@ sub echo {
 
 }
 
-sub prepare {    # this is called on first load in the thread session if defined
-    my $self = shift;
 
-}
 
 1;
