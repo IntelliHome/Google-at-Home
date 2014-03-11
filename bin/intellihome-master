@@ -3,11 +3,33 @@ use lib './lib';
 use IH::IntelliHomeNodeMaster;
 use Mongoose;
 use Cwd;
+use Getopt::Long;
 
 #use KiokuDB::Backend::Files;
 #my $DB=IH::DB->connect("./config/kiokudb.yml");
-
 my $IHOutput = new IH::Interfaces::Terminal;
+
+###################################################### PLUGIN INSTALL, REMOVE, UPDATE
+my $install_plugin, $remove_plugin, $update_plugin;
+GetOptions(
+    "i|installplugin=s" => \$install_plugin,
+    "r|removeplugin=s"  => \$remove_plugin,
+    "u|updateplugin=s"  => \$update_plugin
+) or die("Error in command line arguments\n");
+
+if ($install_plugin) {
+    $IHOutput->info("IntelliHome : installing plugin $install_plugin");
+    launch_plugin($IHOutput,$install_plugin,"install");
+}
+elsif ($remove_plugin) {
+    $IHOutput->info("IntelliHome : removing plugin $remove_plugin");
+    launch_plugin($IHOutput,$remove_plugin,"remove");
+}
+elsif ($update_plugin) {
+    $IHOutput->info("IntelliHome : updating plugin $update_plugin");
+    launch_plugin($IHOutput,$update_plugin,"update");
+}
+######################################################
 
 $IHOutput->info("IntelliHome : Node master started");
 $IHOutput->info(
@@ -17,7 +39,6 @@ $IHOutput->info(
 my $Config
     = new IH::Config( Dirs => ['./config'] );    #specify where yaml file are
 $Config->read();    # Read and load yaml configuration
-
 
 my $remote = IH::Workers::RemoteSynth->new( Config => $Config );
 my $me = IH::Node->new( Config => $Config )->selectFromType("master");
@@ -33,3 +54,12 @@ my $NodeToDeploy
 $NodeToDeploy->deploy();
 
 #$Connector->broadcastMessage("node","test");
+################### Convenience
+sub launch_plugin{
+	my $output=shift;
+	my $plugin=shift;
+	my $method=shift;
+	    my $Parser = IH::Parser::Base->new(Output=>$output);
+    $Parser->run_plugin( $plugin, $method );
+    exit 0;
+}
