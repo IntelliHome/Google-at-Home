@@ -3,12 +3,9 @@ package IH::Parser::Mongo;
 use Moose;
 extends 'IH::Parser::Base';
 
-use Search::GIN::Query::Class;
-use Search::GIN::Query::Manual;
 use IH::Schema::Mongo::Trigger;
 use IH::Schema::Mongo::Task;
 use IH::Parser::Mongo::DB;
-use IH::Plugin::Base;
 use Mongoose;
 
 has 'Node' => ( is => "rw" );
@@ -60,12 +57,13 @@ sub detectTriggers {
         #Every Trigger cycled here.
         #
         if ( $item->compile($hypo) and $item->satisfy ) {
-            my $r = $item->regex;
-            $hypo =~ s/$r//g;    #removes the trigger
+               $self->run_plugin( $item->plugin, $item->plugin_method, $item );
+            $Satisfied++;
+           # my $r = $item->regex;
+          #  $hypo =~ s/$r//g;    #removes the trigger
                                  #Checking the trigger needs.
 
-            $self->run_plugin( $item->plugin, $item->plugin_method, $item );
-            $Satisfied++;
+         
 
             # foreach my $need ( $item->needs->all ) {
             #     if ( $need->compile($hypo) ) {
