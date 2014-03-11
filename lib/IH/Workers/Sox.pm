@@ -15,8 +15,10 @@ has 'finishEnable'        => ( is => "rw", default => "1" );
 has 'finishSoundDuration' => ( is => "rw", default => "3.0" );
 has 'finishThreshold'     => ( is => "rw", default => '2%' );
 has 'Directory'           => ( is => "rw", default => "/var/tmp/sox/" );
-has 'Filters' =>
-    ( is => "rw", default => "trim 0 30 compand 0.3,1 6:-70,-60,-20 -5 -90 0.2" );
+has 'Filters' => (
+    is      => "rw",
+    default => "trim 0 30 compand 0.3,1 6:-70,-60,-20 -5 -90 0.2"
+);
 
 #XXX: "treble 10 3.5k" or "bass -10 300"  http://sox.10957.n7.nabble.com/band-pass-filter-for-voices-td3607.html
 
@@ -26,9 +28,7 @@ sub _generateOutputCommand {
 
     $self->command(
         defined $self->HW
-        ?
-
-            "rec -b 32 -t alsa hw:"
+        ? "sox -b 32 -t alsa hw:"
             . $self->HW() . " -r "
             . $self->Rate() . " "
             . $self->Directory()
@@ -57,7 +57,7 @@ sub _generateOutputCommand {
             . " : newfile : restart"
 
     );
-  ##  print $self->command . "\n";
+    print $self->command . "\n";
 }
 
 sub clean {
