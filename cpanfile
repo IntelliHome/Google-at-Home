@@ -1,9 +1,6 @@
 requires 'AnyEvent';
 requires 'AnyEvent::Filesys::Notify';
 requires 'File::Find::Object';
-requires 'IH::IntelliHomeAgent';
-requires 'IH::IntelliHomeNode';
-requires 'IH::IntelliHomeNodeMaster';
 requires 'LWP::UserAgent';
 requires 'Log::Any';
 requires 'Log::Any::Adapter';
