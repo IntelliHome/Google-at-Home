@@ -1,7 +1,9 @@
 requires 'AnyEvent';
-suggests 'DBIx::Class::Core';
-requires 'DBIx::Class::Schema';
+requires 'AnyEvent::Filesys::Notify';
 requires 'File::Find::Object';
+requires 'IH::IntelliHomeAgent';
+requires 'IH::IntelliHomeNode';
+requires 'IH::IntelliHomeNodeMaster';
 requires 'LWP::UserAgent';
 requires 'Log::Any';
 requires 'Log::Any::Adapter';
@@ -12,14 +14,9 @@ requires 'Mongoose::Document';
 requires 'Moo';
 requires 'Moose';
 requires 'Moose::Role';
-requires 'MooseX::Object::Pluggable';
 requires 'MooseX::Singleton';
 requires 'Net::SSH::Any';
 requires 'Proc::Daemon';
-requires 'Search::GIN::Extract';
-requires 'Search::GIN::Keys::Deep';
-requires 'Search::GIN::Query::Class';
-requires 'Search::GIN::Query::Manual';
 requires 'Term::ANSIColor';
 requires 'Time::HiRes';
 requires 'Time::Piece';
@@ -28,6 +25,10 @@ requires 'URI';
 requires 'Unix::PID';
 requires 'YAML::Tiny';
 requires 'namespace::autoclean';
+
+on configure => sub {
+    requires 'ExtUtils::MakeMaker';
+};
 
 on test => sub {
     requires 'Test::Simple';
