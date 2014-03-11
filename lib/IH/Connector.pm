@@ -17,6 +17,11 @@ has 'Node'     => ( is => "rw" );
 has 'Thread'   => ( is => "rw" );
 has 'blocking' => ( is => "rw", default => 0 );
 
+sub stop{
+    my $self=shift;
+    $self->Thread->stop if $self->blocking == 0;
+}
+
 sub broadcastMessage {
     my $self    = shift;
     my $Type    = shift;
