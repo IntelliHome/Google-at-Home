@@ -44,6 +44,9 @@ For now, we use SoX for recording on the mic so files are split up by silence (a
 params.
 [Coming Soon]
 
+For now you will need to define in the configuration file the sound card hardware for the nodes. 
+In the node configuration of ```config/nodes.yaml``` you need to set up the HW explicitally(it's the recording device address) , according to what ```aplay -l``` gives you (need to find your recording device looking at the ```card,device``` number).
+
 
 ###Installing dependencies
 
