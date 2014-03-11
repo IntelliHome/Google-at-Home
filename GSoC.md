@@ -1,7 +1,7 @@
 #Google Summer of Code
 
 For the GSoC 2014 (Google Summer of Code) we have quite a lot of tasks to be yet done, as said the project is young and there are a lot of prototyping functions that needs to be properly implemented and lot of core functionalities yet to be fully developed.
-This brings to you the decision of what you might want to do, here few ideas:
+This brings to you the decision of what you might want to do, here few ideas, but new proposal are welcome too:
 
 * Web Interface: Developing a Web interface and an API - **Difficulty:** *medium*
 * you could implement new functions like the interface to *Google Now*(this requires a bit of reverse engineering) - **Difficulty:** *medium*
