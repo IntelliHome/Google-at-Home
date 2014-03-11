@@ -14,8 +14,7 @@ sub run {
     my $self = shift;
     my $cv   = AnyEvent->condvar;
 
-    $SIG{'KILL'} = sub { threads->exit(); };
-
+    $SIG{'KILL'} = $SIG{'INT'} = sub { threads->exit(); };
     $SIG{'USR1'} = sub { $self->worker->process };
 
     my $notifier = AnyEvent::Filesys::Notify->new(
