@@ -16,7 +16,7 @@ has 'finishSoundDuration' => ( is => "rw", default => "3.0" );
 has 'finishThreshold'     => ( is => "rw", default => '2%' );
 has 'Directory'           => ( is => "rw", default => "/var/tmp/sox/" );
 has 'Filters' =>
-    ( is => "rw", default => "-q trim 0 30 compand 0.3,1 6:-70,-60,-20 -5 -90 0.2" );
+    ( is => "rw", default => "trim 0 30 compand 0.3,1 6:-70,-60,-20 -5 -90 0.2" );
 
 #XXX: "treble 10 3.5k" or "bass -10 300"  http://sox.10957.n7.nabble.com/band-pass-filter-for-voices-td3607.html
 
