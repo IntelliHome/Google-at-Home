@@ -26,14 +26,14 @@ sub select {
 
     if ( exists( $Nodes->{$Node}->{deployer} ) ) {
         my $Deployer = $Nodes->{$Node}->{deployer};
-        $self->Output->info( "Deployer present: " . $Deployer );
+      #  $self->Output->info( "Deployer present: " . $Deployer );
         load $Deployer;
         $self->Deployer( $Deployer->new( Node => $self ) );
     }
     else {
-        $self->Output->info("Deployer not present :(");
+       # $self->Output->info("Deployer not present :(");
     }
-    $self->Output->debug( "Selected node: " . $self->Host );
+   # $self->Output->debug( "Selected node: " . $self->Host );
 
     return $self;
 }
