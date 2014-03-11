@@ -45,7 +45,7 @@ params.
 [Coming Soon]
 
 For now you will need to define in the configuration file the sound card hardware for the nodes. 
-In the node configuration of ```config/nodes.yaml``` you need to set up the HW explicitally(it's the recording device address) , according to what ```aplay -l``` gives you (need to find your recording device looking at the ```card,device``` number).
+In the node configuration of ```config/nodes.yaml``` you can set up the recording HW address explicitally, according to what ```aplay -l``` gives you (need to find your recording device looking at the ```card,device``` format number).
 
 
 ###Installing dependencies
