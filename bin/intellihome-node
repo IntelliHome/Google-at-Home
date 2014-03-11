@@ -13,14 +13,15 @@ my $Config
 $Config->read();    # Read and load yaml configuration
 
 my $MasterNode = IH::Node->new( Config => $Config )->selectFromType("master");
-my $me = IH::Node->new( Config => $Config )->selectFromType("node");
+my $me         = IH::Node->new( Config => $Config )->selectFromType("node");
 
 my $Connector = new IH::Connector( Node => $MasterNode )
     ; #set up a connector and supply the config file (For auto select of nodes)
 
 $IHOutput->info("IntelliHome : Node started");
-$IHOutput->info(
-    "Bringing up sox and sending recordings to " . $MasterNode->Host." HW:".$me->HW);
+$IHOutput->info( "Bringing up sox and sending recordings to "
+        . $MasterNode->Host . " HW:"
+        . $me->HW );
 
 my $Sox = new IH::Workers::Sox( HW => $me->HW );    #set up a sox process
 my $Monitor = new IH::Workers::Monitor( Process => $Sox )
@@ -35,22 +36,29 @@ $Monitor->launch();                  #Launches the monitor
 
 my $Connector = new IH::Connector( Config => $Config, Node => $me )
     ; #Config parameter is optional, only needed if you wanna send broadcast messages
-$Connector->Worker( new IH::Workers::ListenNode(
-    #Process=> $Sox
-    ) );
+$Connector->Worker(
+    new IH::Workers::ListenNode(
+
+        #Process=> $Sox
+    )
+);
+$SIG{'INT'}
+    = sub { $Connector->stop(); $Sox->stop(); $Monitor->stop(); exit; };
 
 $Connector->listen();
 
+while (1) { }
 ##XXX: This below is ugly, need a proper solution
-while ( sleep 30 ) {
-    $IHOutput->debug(
-        "refreshing sox - small workaround for now (it seems to hang after a few seconds)"
-    );
-    $Monitor->process();    #Process last file
-    $Sox->stop;
-    while ( $Sox->is_running ) {
-        $Sox->stop;
-    }
-    $Sox->start;
-}
+# while ( sleep 30 ) {
+#     $IHOutput->debug(
+#         "refreshing sox - small workaround for now (it seems to hang after a few seconds)"
+#     );
+#     $Monitor->process();    #Process last file
+#     $Sox->stop;
+#     while ( $Sox->is_running ) {
+#         $Sox->stop;
+#     }
+#     $Sox->start;
+# }
+
 #while ( sleep 2 ) {$Sox->start and $IHOutput->debug("Sox Restart") if (!$Sox->is_running ) ;}
