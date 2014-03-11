@@ -86,9 +86,6 @@ and in another terminal:
 
 Now your PC will work both as master and node(default configuration). The plugin system is working, and the database setup it's WiP.
 
-
-```intellihome-master``` and ```intellihome-node``` in two diff
-
 ##Todo
 
 * ~~Making a wrapper to linux gpio functionality~~
