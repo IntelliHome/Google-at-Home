@@ -14,6 +14,9 @@ has 'Directory' => ( is => "rw", default => "/var/tmp" );
 
 sub start {
     my $self = shift;
+
+    $SIG{'KILL'} = $SIG{'INT'} = sub { $self->stop(); };
+
     $self->_generateOutputCommand();
     my $CWD = cwd();
     chdir( $self->Directory );
