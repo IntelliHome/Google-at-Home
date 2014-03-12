@@ -54,6 +54,10 @@ sub read {
                         $output->info( "Database backend: "
                                 . $self->DBConfiguration->{'database_backend'}
                         );
+                        $self->DBConfiguration->{'language'}
+                            = $Key->{'language'};
+                        $output->info( "Database lang: "
+                                . $self->DBConfiguration->{'language'} );
 
                     }
 
@@ -97,7 +101,7 @@ sub read {
                         $Nodes->{ $Key->{host} }->{port} = $Key->{port};
                         $Nodes->{ $Key->{host} }->{type} = $Key->{type};
                         $Nodes->{ $Key->{host} }->{HW}   = $Key->{HW}
-                            if (exists ($Key->{HW}));
+                            if ( exists( $Key->{HW} ) );
 
                     }
                 }
