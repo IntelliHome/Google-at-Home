@@ -3,7 +3,7 @@ use Moose;
 require LWP::UserAgent;
 use URI;
 
-has 'language' => ( default => "it", is => "rw" );
+has 'Language' => ( default => "it", is => "rw" );
 has 'text' => ( is => "rw" );
 has 'base_url' =>
     ( default => "http://translate.google.com/translate_tts", is => "rw" );
@@ -19,7 +19,7 @@ sub tts {
     my $url = URI->new( $self->base_url );
     $url->query_form(
         'q'       => $self->text,
-        'tl'      => $self->language,
+        'tl'      => $self->Language,
         'total'   => '1',
         'idx'     => '0',
         'textlen' => length( $self->text ),
