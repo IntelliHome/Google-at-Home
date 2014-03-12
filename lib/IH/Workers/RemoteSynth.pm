@@ -54,6 +54,8 @@ sub BUILD {
     $Parser = $Parser->new( Config => $self->Config, Output=> $self->Output );
     $Parser->prepare;
     $self->Parser($Parser);
+    ##
+    $self->GSynth->Language($self->Config->DBConfiguration->{'language'});
 }
 
 sub process {
@@ -79,8 +81,8 @@ sub process {
     else {
 
         $self->Parser->Node($Client);
-        $self->Parser->parse(@hypotheses);
         $self->Parser->Output($self->Output);
+        $self->Parser->parse(@hypotheses);
         #$self->Output->info( $hypotheses[0] );
 
         # $self->Output->info( "Google result for "
