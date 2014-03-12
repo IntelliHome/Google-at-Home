@@ -11,7 +11,14 @@ extends 'IH::Interfaces::Interface';
 has 'TTS' => ( is => "rw", default => sub { return IH::Google::TTS->new } );
 has 'failback' =>
     ( is => "rw", default => sub { return IH::Interfaces::Terminal->new } );
-has 'Node' => ( is => "rw" );
+has 'Node'   => ( is => "rw" );
+has 'Config' => ( is => "rw" );
+
+sub BUILD {
+    my $self = shift;
+    $self->TTS->Language( $self->Config->DBConfiguration->{'language'} )
+        if ( defined $self->Config );
+}
 
 sub display {
     my $self = shift;
