@@ -5,7 +5,7 @@ extends 'IH::Parser::Base';
 
 use IH::Schema::Mongo::Trigger;
 use IH::Schema::Mongo::Task;
-use IH::Parser::Mongo::DB;
+use IH::Parser::DB::Mongo;
 use Mongoose;
 
 has 'Node' => ( is => "rw" );
@@ -50,7 +50,7 @@ sub detectTriggers {
     my $Hypothesis = shift;
     my $hypo       = $Hypothesis->hypo;
 
-    my @Triggers = IH::Schema::Mongo::Trigger->find( {} )->all;
+    my @Triggers = IH::Parser::DB::Mongo->getTriggers();
     my $Satisfied = 0;
     foreach my $item (@Triggers) {
 
@@ -103,7 +103,7 @@ sub parse {
        # my $hypo
        #     = $hypotheses[0];  #The first google give us is the more confident
 
-        my $Hypothesis = IH::Parser::Mongo::DB->newHypo( { hypo => $hypo } );
+        my $Hypothesis = IH::Parser::DB::Mongo->newHypo( { hypo => $hypo } );
 
         $self->detectTasks($Hypothesis);
 
