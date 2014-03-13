@@ -16,8 +16,8 @@ sub getTriggers {
 sub installPlugin {
     my $self    = shift;
     my $Options = shift;
-    my $Trigger = IH::Schema::Mongo::Trigger->find_one( %{$Options} );
-    return if ($Trigger);
+    my $Trigger = IH::Schema::Mongo::Trigger->find_one( $Options );
+    return $Trigger if ($Trigger);
     $Trigger = IH::Schema::Mongo::Trigger->new( %{$Options} );
     return $Trigger->save();
 }
@@ -25,7 +25,7 @@ sub installPlugin {
 sub removePlugin {
     my $self    = shift;
     my $Options = shift;
-    my $Trigger = IH::Schema::Mongo::Trigger->find_one( %{$Options} );
+    my $Trigger = IH::Schema::Mongo::Trigger->find_one( $Options );
     return $Trigger->remove();
 }
 
