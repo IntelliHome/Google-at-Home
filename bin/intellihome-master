@@ -5,9 +5,13 @@ use Mongoose;
 use Cwd;
 use Getopt::Long;
 
-#use KiokuDB::Backend::Files;
-#my $DB=IH::DB->connect("./config/kiokudb.yml");
+
 my $IHOutput = new IH::Interfaces::Terminal;
+my $Config
+    = new IH::Config( Dirs => ['./config'] );    #specify where yaml file are
+$Config->read();    # Read and load yaml configuration
+
+my $remote = IH::Workers::RemoteSynth->new( Config => $Config );
 
 ###################################################### PLUGIN INSTALL, REMOVE, UPDATE
 my $install_plugin, $remove_plugin, $update_plugin;
@@ -19,15 +23,17 @@ GetOptions(
 
 if ($install_plugin) {
     $IHOutput->info("IntelliHome : installing plugin $install_plugin");
-    launch_plugin($IHOutput,$install_plugin,"install");
+    exit $remote->Parser->run_plugin($install_plugin,"install");
+
 }
 elsif ($remove_plugin) {
     $IHOutput->info("IntelliHome : removing plugin $remove_plugin");
-    launch_plugin($IHOutput,$remove_plugin,"remove");
+    exit $remote->Parser->run_plugin($install_plugin,"remove");
+
 }
 elsif ($update_plugin) {
     $IHOutput->info("IntelliHome : updating plugin $update_plugin");
-    launch_plugin($IHOutput,$update_plugin,"update");
+    exit $remote->Parser->run_plugin($install_plugin,"update");
 }
 ######################################################
 
@@ -36,11 +42,7 @@ $IHOutput->info(
     "Bringing up sockets (not secured, i assume you have properly secured your network)"
 );
 
-my $Config
-    = new IH::Config( Dirs => ['./config'] );    #specify where yaml file are
-$Config->read();    # Read and load yaml configuration
 
-my $remote = IH::Workers::RemoteSynth->new( Config => $Config );
 my $me = IH::Node->new( Config => $Config )->selectFromType("master");
 my $Connector = new IH::Connector( Config => $Config, Node => $me )
     ; #Config parameter is optional, only needed if you wanna send broadcast messages
@@ -49,17 +51,8 @@ $Connector->blocking(1);
 $Connector->listen();
 
 #blocking so down can't be executed (was used just for test)
-my $NodeToDeploy
-    = IH::Node->new( Config => $Config )->selectFromDescription("ih0");
-$NodeToDeploy->deploy();
+# my $NodeToDeploy
+#     = IH::Node->new( Config => $Config )->selectFromDescription("ih0");
+# $NodeToDeploy->deploy();
 
 #$Connector->broadcastMessage("node","test");
-################### Convenience
-sub launch_plugin{
-	my $output=shift;
-	my $plugin=shift;
-	my $method=shift;
-	    my $Parser = IH::Parser::Base->new(Output=>$output);
-    $Parser->run_plugin( $plugin, $method );
-    exit 0;
-}
