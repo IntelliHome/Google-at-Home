@@ -21,7 +21,7 @@ sub compile {
     my $self  = shift;
     my $hypo  = shift;
     my $regex = $self->regex;
-    @{$self->{'result'}} = $hypo =~ /$regex/g;
+    @{$self->{'result'}} = $hypo =~ /$regex/gi;
 
     return $self;
 }
@@ -30,7 +30,7 @@ sub compile_regex {
     my $self  = shift;
     my $regex = shift;
     my $match = $self->content;
-    push( @{ $self->{'result'} }, $_ ) while ( $match =~ m/$regex/g ); #it's the opposite
+    push( @{ $self->{'result'} }, $_ ) while ( $match =~ m/$regex/gi ); #it's the opposite
     return $self;
 
 }
