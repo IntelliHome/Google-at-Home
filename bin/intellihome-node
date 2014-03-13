@@ -47,18 +47,17 @@ $SIG{'INT'}
 
 $Connector->listen();
 
-while (1) { }
 ##XXX: This below is ugly, need a proper solution
-# while ( sleep 30 ) {
-#     $IHOutput->debug(
-#         "refreshing sox - small workaround for now (it seems to hang after a few seconds)"
-#     );
-#     $Monitor->process();    #Process last file
-#     $Sox->stop;
-#     while ( $Sox->is_running ) {
-#         $Sox->stop;
-#     }
-#     $Sox->start;
-# }
+while ( sleep 30 ) {
+    $IHOutput->debug(
+        "refreshing sox - small workaround for now (it seems to hang after a few seconds)"
+    );
+    $Monitor->process();    #Process last file
+    $Sox->stop;
+    while ( $Sox->is_running ) {
+        $Sox->stop;
+    }
+    $Sox->start;
+}
 
 #while ( sleep 2 ) {$Sox->start and $IHOutput->debug("Sox Restart") if (!$Sox->is_running ) ;}
