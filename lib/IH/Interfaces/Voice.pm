@@ -32,10 +32,8 @@ sub display {
     # print Dumper($self->Node);
 
     if ( $self->TTS->tts() ) {
-        $self->failback->debug("TTS started");
         if ( defined( $self->Node() ) ) {
             my $conn = IH::Connector->new( Node => $self->Node );
-
             $self->failback->debug("sending raw audio");
             $conn->send_file( $self->TTS->out );
         }
@@ -54,25 +52,14 @@ sub display {
     else {
         $self->failback->failback( $caller, $method,
             "[FailBack Mode from TTS] ", @message );
+    }
 
         #if(!system('madplay', $self->TTS->out)){
         #           unlink($self->TTS->out);
         #}
-    }
+    
 
-    if ( defined( $self->Node() ) ) {
 
-    }
-    else {
-        if ( $self->TTS->tts() ) {
-
-        }
-        else {
-            $self->failback->failback( $caller, $method,
-                "[FailBack Mode from TTS] ", @message );
-        }
-
-    }
 
 }
 

@@ -8,7 +8,8 @@ use IH::Schema::Mongo::Task;
 use IH::Parser::DB::Mongo;
 use Mongoose;
 
-has 'Node' => ( is => "rw" );
+has 'Backend' =>
+    ( is => "rw", default => sub { return IH::Parser::DB::Mongo->new } );
 
 sub prepare {
 
@@ -50,20 +51,19 @@ sub detectTriggers {
     my $Hypothesis = shift;
     my $hypo       = $Hypothesis->hypo;
 
-    my @Triggers = IH::Parser::DB::Mongo->getTriggers();
+    my @Triggers  = $self->Backend->getTriggers();
     my $Satisfied = 0;
     foreach my $item (@Triggers) {
 
         #Every Trigger cycled here.
         #
         if ( $item->compile($hypo) and $item->satisfy ) {
-               $self->run_plugin( $item->plugin, $item->plugin_method, $item );
+            $self->run_plugin( $item->plugin, $item->plugin_method, $item );
             $Satisfied++;
-           # my $r = $item->regex;
-          #  $hypo =~ s/$r//g;    #removes the trigger
-                                 #Checking the trigger needs.
 
-         
+            # my $r = $item->regex;
+            #  $hypo =~ s/$r//g;    #removes the trigger
+            #Checking the trigger needs.
 
             # foreach my $need ( $item->needs->all ) {
             #     if ( $need->compile($hypo) ) {
@@ -100,10 +100,11 @@ sub parse {
     return 0 if scalar @hypotheses < 0;
 
     foreach my $hypo (@hypotheses) {
-       # my $hypo
-       #     = $hypotheses[0];  #The first google give us is the more confident
 
-        my $Hypothesis = IH::Parser::DB::Mongo->newHypo( { hypo => $hypo } );
+      # my $hypo
+      #     = $hypotheses[0];  #The first google give us is the more confident
+
+        my $Hypothesis = $self->Backend->newHypo( { hypo => $hypo } );
 
         $self->detectTasks($Hypothesis);
 

@@ -4,6 +4,8 @@ use Module::Load;
 has 'Config'  => ( is => "rw" );
 has 'Plugins' => ( is => "rw", default => sub { {} } );
 has 'Output'  => ( is => "rw" );
+has 'Backend' => ( is => "rw" );
+has 'Node' => ( is => "rw" );
 
 sub detectTasks() {
 
@@ -45,7 +47,7 @@ sub run_plugin() {
             $Plugin = $self->Plugins->{$name};
         }
     }
-    return $Plugin->$method(@args) if ($Plugin->can($method));
+    return $Plugin->$method(@args) if ( $Plugin->can($method) );
 }
 
 1;

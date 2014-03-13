@@ -13,6 +13,30 @@ sub getTriggers {
     return IH::Schema::Mongo::Trigger->query( {} )->all();
 }
 
+sub installPlugin {
+    my $self    = shift;
+    my $Options = shift;
+    my $Trigger = IH::Schema::Mongo::Trigger->find_one( %{$Options} );
+    return if ($Trigger);
+    $Trigger = IH::Schema::Mongo::Trigger->new( %{$Options} );
+    return $Trigger->save();
+}
+
+sub removePlugin {
+    my $self    = shift;
+    my $Options = shift;
+    my $Trigger = IH::Schema::Mongo::Trigger->find_one( %{$Options} );
+    return $Trigger->remove();
+}
+
+sub updatePlugin {
+    my $self          = shift;
+    my $Options       = shift;
+    my $UpdateOptions = shift;
+    return IH::Schema::Mongo::Trigger->update( %{$Options},
+        %{$UpdateOptions} );
+}
+
 sub newHypo {
     my $self  = shift;
     my $Hypos = shift;

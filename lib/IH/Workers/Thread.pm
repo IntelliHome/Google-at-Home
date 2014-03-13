@@ -14,6 +14,7 @@ has 'callback'  => ( is => "rw" );
 has 'args'      => ( is => "rw" );
 has 'thread'    => ( is => "rw" );
 
+
 sub start {
     my $self = shift;
     if ( !defined $self->callback ) {
