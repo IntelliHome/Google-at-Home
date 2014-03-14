@@ -34,13 +34,15 @@ sub display {
     # print Dumper($self->Node);
     $self->TTS->text(@message);
     if (    $self->TTS->text()
-        and $self->TTS->tts() == 0
+        and my $errors=$self->TTS->tts()
         and defined( $self->Node() )
         )
     {
         my $conn = IH::Connector->new( Node => $self->Node );
       #  $self->failback->debug("sending raw audio");
         $conn->send_file( $self->TTS->out );
+
+        $self->failback->debug("There where ".$errors);
         unlink($self->TTS->out);
         unlink($_) for @{$self->TTS->responses};
     }

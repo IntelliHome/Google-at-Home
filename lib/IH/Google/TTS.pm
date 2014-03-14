@@ -77,7 +77,7 @@ sub _request {
 
     my $ua = LWP::UserAgent->new;
     $ua->agent('Mozilla/5.0');
-    $ua->timeout(10);
+    $ua->timeout(30);
     $ua->env_proxy;
 
     # $self->out( $self->tmp() . "/" . time().int(rand(10000)) . ".mp3" );
