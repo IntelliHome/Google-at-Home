@@ -1,4 +1,4 @@
-use Test::Simple tests => 3;
+use Test::More;
 use IH::Schema::Mongo::Token;
 my $Token = new IH::Schema::Mongo::Token();
 
@@ -12,3 +12,5 @@ $Token->regex('(.*?)\s+(.*?)');
 ok( $Token->compile('bar cane')->satisfy == 1,
     'IH::Schema::Mongo::Token compile() and content()'
 );
+
+done_testing;
