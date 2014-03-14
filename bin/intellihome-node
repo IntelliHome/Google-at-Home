@@ -44,7 +44,7 @@ $Connector->Worker(
 );
 $SIG{'INT'}
     = sub { $Connector->stop(); $Sox->stop(); $Monitor->stop(); exit; };
-$Connector->blocking(1);
+#$Connector->blocking(1);
 $Connector->listen();
 
 ##XXX: This below is ugly, need a proper solution
