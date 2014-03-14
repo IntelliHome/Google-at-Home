@@ -35,11 +35,38 @@ sub process {
     close FILE;
 
     #$self->Process->stop() if $self->Process;
+    print "Arrivato\n";
+    $self->acquire_audio_lock();
     if ( !system( 'mplayer', $out ) ) {
         $self->Output->debug("Error launching mplayer");
     }
     unlink($out);
+    $self->redeem_audio_lock();
 
 }
 
+sub acquire_audio_lock {
+    my $self = shift;
+    open FILE, "<" . $self->tmp() . "/.audio.lock";
+    my @LOCK = <FILE>;
+    close FILE;
+    if ( $LOCK[0] == 1 ) {
+        sleep 1;
+        return $self->acquire_audio_lock;
+    }
+    else {
+        open FILE, ">" . $self->tmp() . "/.audio.lock";
+        print FILE "1";
+        close FILE;
+    }
+}
+
+sub redeem_audio_lock {
+    my $self = shift;
+
+    open FILE, ">" . $self->tmp() . "/.audio.lock";
+    print FILE "0";
+    close FILE;
+
+}
 1;
