@@ -27,27 +27,27 @@ sub display {
     my $method  = shift;
     my @message = @_;
     $self->setLogFile();
+    return $self->failback->debug( $caller, $method,
+        "[FailBack Mode from TTS] ", @message )
+        if $method eq "debug";
 
     # print Dumper($self->Node);
-    $self->TTS->text(@message) if $method ne "debug";
-    if (    $self->TTS->tts()
+    $self->TTS->text(@message);
+    if (    $self->TTS->text()
+        and $self->TTS->tts() == 0
         and defined( $self->Node() )
-        and $method ne "debug" )
+        )
     {
-
         my $conn = IH::Connector->new( Node => $self->Node );
-        $self->failback->debug("sending raw audio");
+      #  $self->failback->debug("sending raw audio");
         $conn->send_file( $self->TTS->out );
+        unlink($self->TTS->out);
+        unlink($_) for @{$self->TTS->responses};
     }
     else {
         $self->failback->debug( $caller, $method,
             "[FailBack Mode from TTS] ", @message );
     }
-
-    #if(!system('madplay', $self->TTS->out)){
-    #           unlink($self->TTS->out);
-    #}
-
 }
 
 1;

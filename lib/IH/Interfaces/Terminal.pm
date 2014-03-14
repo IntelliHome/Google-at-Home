@@ -2,7 +2,7 @@ package IH::Interfaces::Terminal;
 use Moo;
 use Log::Any qw($log);
 use Term::ANSIColor;
-
+use Encode;
 extends 'IH::Interfaces::Interface';
 
 #override display to change: has this arguments (caller, method,@message)
@@ -29,12 +29,13 @@ sub display {
         . colored( "**" . $method, $methodcolor )
         . colored( "]",            "magenta on_black bold" )
         . colored( " # ",          "magenta on_black bold" )
-        . colored( join( " ", @_ ), $messagecolor )
+        . colored( join( " ", map { $_ = encode_utf8($_) } @message ),
+        $messagecolor )
 
         . colored( " # ", "magenta on_black bold" ) . "\n";
-        if($method eq "failback"){
-            $method="debug";
-        }
+    if ( $method eq "failback" ) {
+        $method = "debug";
+    }
     eval { $log->$method( "[$caller][$method] " . join( " ", @_ ) ); };
 }
 

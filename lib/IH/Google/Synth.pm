@@ -65,8 +65,8 @@ sub audiosynth {
     };
     if ( defined $response and $response->is_success ) {
         $result = $response->content;
-        $self->Output->info("Google answered, good.");
-        $self->Output->debug($result);
+        $self->Output->debug("Google answered, good.");
+        $self->Output->debug($result) if $result;
     }
     if ( defined $result ) {
         while ( $result =~ m/\"utterance\"\:\"(.*?)\"/g ) {
