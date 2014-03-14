@@ -33,8 +33,9 @@ sub display {
 
     # print Dumper($self->Node);
     $self->TTS->text(@message);
+     my $errors=$self->TTS->tts();
     if (    $self->TTS->text()
-        and my $errors=$self->TTS->tts()
+        and -e $self->TTS->out
         and defined( $self->Node() )
         )
     {

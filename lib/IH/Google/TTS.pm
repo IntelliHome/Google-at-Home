@@ -18,7 +18,7 @@ sub tts {
     my $self = shift;
     my $text = @_ ? shift : $self->text;
     return if !$text;
-    $text=encode_utf8($text);
+   # $text=encode_utf8($text);
     my @Speech;
     mkdir( $self->tmp() )
         or die("Cannot create temporary directory")
