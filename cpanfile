@@ -1,6 +1,8 @@
 requires 'AnyEvent';
 requires 'AnyEvent::Filesys::Notify';
+requires 'Encode';
 requires 'File::Find::Object';
+requires 'Getopt::Long';
 requires 'LWP::UserAgent';
 requires 'Log::Any';
 requires 'Log::Any::Adapter';
@@ -28,5 +30,5 @@ on configure => sub {
 };
 
 on test => sub {
-    requires 'Test::Simple';
+    requires 'Test::More';
 };
