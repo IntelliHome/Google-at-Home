@@ -9,8 +9,8 @@ has 'Rate'                => ( is => "rw", default => "16000" );
 has 'HW'                  => ( is => "rw", default => "1,0" );
 has 'Output'              => ( is => "rw", default => "ih.flac" );
 has 'beginEnable'         => ( is => "rw", default => "1" );
-has 'beginSoundDuration'  => ( is => "rw", default => "0.5" );
-has 'beginThreshold'      => ( is => "rw", default => '1%' );
+has 'beginSoundDuration'  => ( is => "rw", default => "1.0" );
+has 'beginThreshold'      => ( is => "rw", default => '2%' );
 has 'finishEnable'        => ( is => "rw", default => "1" );
 has 'finishSoundDuration' => ( is => "rw", default => "2.0" );
 has 'finishThreshold'     => ( is => "rw", default => '2%' );
@@ -21,7 +21,7 @@ has 'Filters' => (
 );
 
 #XXX: "treble 10 3.5k" or "bass -10 300"  http://sox.10957.n7.nabble.com/band-pass-filter-for-voices-td3607.html
-
+#XXX: http://sox.cvs.sourceforge.net/viewvc/sox/sox/scripts/voice-cleanup.sh?revision=1.1&content-type=text%2Fplain
 sub _generateOutputCommand {
     my $self = shift;
     mkdir( $self->Directory ) if ( !-d $self->Directory );
