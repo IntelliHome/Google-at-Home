@@ -1,6 +1,5 @@
-package IH::Workers::RemoteSynth;
+package IH::Workers::Master::RemoteSynth;
 use Moose;
-use IH::Workers::Base;
 extends 'IH::Workers::Base';
 use IH::Google::Synth;
 use IH::Interfaces::Voice;
