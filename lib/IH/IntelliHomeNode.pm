@@ -8,5 +8,14 @@ require IH::Workers::Node::AudioProcess;
 require Proc::Daemon;
 require AnyEvent;
 require IH::Node;
+use base qw(Exporter);
+use warnings;
+use strict;
+our @EXPORT = qw(cleanup);
+
+sub cleanup {
+    unlink($_) for ( glob "/var/tmp/sox/*" );
+    unlink($_) for ( glob "/var/tmp/ih/*" );
+}
 
 1;
