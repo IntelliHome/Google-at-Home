@@ -1,6 +1,5 @@
-package IH::Workers::Monitor;
-use Moose;
-
+package IH::Workers::Node::Monitor;
+use Moo;
 use AnyEvent;
 use AnyEvent::Filesys::Notify;
 use Data::Dumper;
@@ -21,7 +20,7 @@ sub run {
         dirs => [@_],
 
    #   interval => 2.0,             # Optional depending on underlying watcher
-        filter => sub { shift =~ /\.(flac|FLAC)$/ },
+        filter => sub { shift =~ /\.flac$/i },
         cb     => sub {
             my (@events) = @_;
             if ( $self->worker ) {

@@ -1,9 +1,8 @@
 package IH::Interfaces::Interface;
 use Log::Any::Adapter;
-
 use Time::Piece;
-
 use Moo;
+with 'MooX::Singleton';
 has 'Today' => ( is => "rw" );
 has 'Year'  => ( is => "rw" );
 has 'Month' => ( is => "rw" );

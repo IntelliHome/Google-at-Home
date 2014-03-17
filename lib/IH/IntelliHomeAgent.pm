@@ -6,5 +6,5 @@ require IH::Interfaces::Terminal;
 require IH::Config;
 require IH::Connector;
 require IH::Node;
-require IH::Workers::ListenAgent;
+require IH::Workers::Agent::CommandProcess;
 1;

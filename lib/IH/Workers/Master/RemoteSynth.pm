@@ -1,5 +1,5 @@
 package IH::Workers::Master::RemoteSynth;
-use Moose;
+use Moo;
 extends 'IH::Workers::Base';
 use IH::Google::Synth;
 use IH::Interfaces::Voice;
@@ -8,7 +8,7 @@ use Module::Load;
 
 =head1 NAME
 
-IH::Workers::RemoteSynth - Processes the voice hypothesis thru a defined parser
+IH::Workers::Master::RemoteSynth - Processes the voice hypothesis thru a defined parser
 
 =head1 DESCRIPTION
 
@@ -17,7 +17,7 @@ This Object implement process() that is called by the master node to parse and p
 
 =head1 ARGUMENTS 
 
-RemoteSynth implements the IH::Workers::Base arguments and implement the follow one
+RemoteSynth implements the IH::Workers::Master::Base arguments and implement the follow one
 
 =over
 =item GSynth() 
@@ -50,11 +50,12 @@ sub BUILD {
         = 'IH::Parser::'
         . $self->Config->DBConfiguration->{'database_backend'};
     load $Parser;
-    $Parser = $Parser->new( Config => $self->Config, Output=> $self->Output );
+    $Parser
+        = $Parser->new( Config => $self->Config, Output => $self->Output );
     $Parser->prepare;
     $self->Parser($Parser);
     ##
-    $self->GSynth->Language($self->Config->DBConfiguration->{'language'});
+    $self->GSynth->Language( $self->Config->DBConfiguration->{'language'} );
 }
 
 sub process {
@@ -65,7 +66,6 @@ sub process {
 
     my $Client = IH::Node->new( Config => $self->Config );
     $Client->selectFromHost($host);
-    $Client->selectFromType("node");
     $self->Output->Node($Client);
     while (<$fh>) {
         $audio .= $_;
@@ -73,15 +73,12 @@ sub process {
 
     $self->GSynth->audiosynth($audio);
     my @hypotheses = @{ $self->GSynth->hypotheses() };
-    if ( @hypotheses <= 0 ) {
-        #### XXX: Doesn't know what to say
-        #$self->Output->info( "Penso di non aver ben capito" );
-    }
-    else {
+    if ( @hypotheses > 0 ) {
 
         $self->Parser->Node($Client);
-        $self->Parser->Output($self->Output);
+        $self->Parser->Output( $self->Output );
         $self->Parser->parse(@hypotheses);
+
         #$self->Output->info( $hypotheses[0] );
 
         # $self->Output->info( "Google result for "

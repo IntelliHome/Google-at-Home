@@ -16,7 +16,7 @@ sub getTriggers {
 sub installPlugin {
     my $self    = shift;
     my $Options = shift;
-    my $Trigger = IH::Schema::Mongo::Trigger->find_one( $Options );
+    my $Trigger = IH::Schema::Mongo::Trigger->find_one($Options);
     return $Trigger if ($Trigger);
     $Trigger = IH::Schema::Mongo::Trigger->new( %{$Options} );
     return $Trigger->save();
@@ -25,7 +25,7 @@ sub installPlugin {
 sub removePlugin {
     my $self    = shift;
     my $Options = shift;
-    my $Trigger = IH::Schema::Mongo::Trigger->find_one( $Options );
+    my $Trigger = IH::Schema::Mongo::Trigger->find_one($Options);
     return $Trigger->remove();
 }
 
@@ -50,6 +50,28 @@ sub addTask {
     my $Task = shift;
     return IH::Schema::Mongo::Task->new( %{$Task} );
 
+}
+
+sub addNode {
+    my $self = shift;
+    my $Args = shift;
+    my $Node = IH::Schema::Mongo::Node->find_one($Args);
+    return $Node if ($Node);
+    $Node = IH::Schema::Mongo::Node->new( %{$Args} );
+    return $Node->save();
+}
+
+sub getNodes {
+    my $self  = shift;
+    my $Query = shift;
+    return IH::Schema::Mongo::Node->query($Query)->all();
+}
+
+sub updateNode {
+    my $self          = shift;
+    my $Options       = shift;
+    my $UpdateOptions = shift;
+    return IH::Schema::Mongo::Node->update( %{$Options}, %{$UpdateOptions} );
 }
 
 sub getActiveTasks {

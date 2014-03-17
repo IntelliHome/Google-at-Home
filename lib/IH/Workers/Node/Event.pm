@@ -1,4 +1,4 @@
-package IH::Workers::Event;
+package IH::Workers::Node::Event;
 use IH::Interfaces::Terminal;
 use IH::Google::Synth;
 use IH::Connector;
@@ -15,9 +15,9 @@ has 'Connector' =>
 sub events {
     my $self = shift;
     foreach my $event (@_) {
-        $self->process_created_file( $event->path )  if $event->is_created;
-        $self->process_modified_file( $event->path ) if $event->is_modified;
-        $self->process_deleted_file( $event->path )  if $event->is_deleted;
+        $self->process_created_file( $event->path )  if defined $event and $event->is_created;
+        $self->process_modified_file( $event->path ) if defined $event and $event->is_modified;
+        $self->process_deleted_file( $event->path )  if defined $event and $event->is_deleted;
     }
 }
 

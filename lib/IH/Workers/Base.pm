@@ -1,7 +1,5 @@
 package IH::Workers::Base;
-use Moose;
-
-use Data::Dumper;
+use Moo;
 
 =head1 NAME
 
@@ -32,12 +30,10 @@ has 'Config' => ( is => "rw" );
 has 'Output' => (
     is      => "rw",
     default => sub {
-        return IH::Interfaces::Voice->new 
+        return IH::Interfaces::Voice->new;
     }
 );
 
-sub process () {
-
-}
+sub process() { }
 
 1;

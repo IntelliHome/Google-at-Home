@@ -1,4 +1,4 @@
-package IH::Workers::ListenAgent;
+package IH::Workers::Agent::CommandProcess;
 use Moo;
 
 has 'Output' =>
