@@ -3,6 +3,7 @@ use lib './lib';
 use IH::IntelliHomeNode;    #Load node library set
 use Data::Dumper;
 
+cleanup;
 my $IHOutput =  IH::Interfaces::Terminal->new;    #set up output (debug)
 
 ## XXX: For prototyping purposes we load a YAML file for now, but we should auto-configure stuff
