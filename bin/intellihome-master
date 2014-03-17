@@ -5,7 +5,6 @@ use Mongoose;
 use Cwd;
 use Getopt::Long;
 
-
 my $IHOutput = new IH::Interfaces::Terminal;
 my $Config
     = new IH::Config( Dirs => ['./config'] );    #specify where yaml file are
@@ -23,17 +22,17 @@ GetOptions(
 
 if ($install_plugin) {
     $IHOutput->info("IntelliHome : installing plugin $install_plugin");
-    exit $remote->Parser->run_plugin($install_plugin,"install");
+    exit $remote->Parser->run_plugin( $install_plugin, "install" );
 
 }
 elsif ($remove_plugin) {
     $IHOutput->info("IntelliHome : removing plugin $remove_plugin");
-    exit $remote->Parser->run_plugin($install_plugin,"remove");
+    exit $remote->Parser->run_plugin( $install_plugin, "remove" );
 
 }
 elsif ($update_plugin) {
     $IHOutput->info("IntelliHome : updating plugin $update_plugin");
-    exit $remote->Parser->run_plugin($install_plugin,"update");
+    exit $remote->Parser->run_plugin( $install_plugin, "update" );
 }
 ######################################################
 
@@ -41,7 +40,6 @@ $IHOutput->info("IntelliHome : Node master started");
 $IHOutput->info(
     "Bringing up sockets (not secured, i assume you have properly secured your network)"
 );
-
 
 my $me = IH::Node->new( Config => $Config )->selectFromType("master");
 my $Connector = new IH::Connector( Config => $Config, Node => $me )
