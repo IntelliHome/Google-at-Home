@@ -8,7 +8,8 @@ use Fcntl qw(:DEFAULT :flock);
 use IO::Socket;
 
 has 'Output' =>
-    ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );  ##XXX: FEATURE REQUEST unique interface
+    ( is => "rw", default => sub { IH::Interfaces::Terminal->new } )
+    ; 
 has 'Worker' => ( is => "rw" );
 has 'Config' => ( is => "rw" )
     ;    #if has config can auto select where things must be done
@@ -17,8 +18,8 @@ has 'Node'     => ( is => "rw" );
 has 'Thread'   => ( is => "rw" );
 has 'blocking' => ( is => "rw", default => 0 );
 
-sub stop{
-    my $self=shift;
+sub stop {
+    my $self = shift;
     $self->Thread->stop if $self->blocking == 0;
 }
 
@@ -102,8 +103,8 @@ sub send_file {
         || ( $self->Output->error("failed to connect to the server")
         && return 0 );
     if ($server) {
-        open FILE, "<" . $File or $self->Output->error("Error $File: $!");
-
+        open FILE, "<" . $File
+            or ( $self->Output->error("Error $File: $!") and return 0 );
         if ( flock( FILE, 1 ) ) {
 
             while (<FILE>) {
@@ -111,7 +112,7 @@ sub send_file {
             }
             close FILE;
             $server->close();
-            $self->Output->info("recording sent to ".$self->Node->Host);
+            $self->Output->info( "recording sent to " . $self->Node->Host );
             return 1;
         }
         else {
