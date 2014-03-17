@@ -11,7 +11,7 @@ my $Config
     = new IH::Config( Dirs => ['./config'] );    #specify where yaml file are
 $Config->read();    # Read and load yaml configuration
 
-my $remote = IH::Workers::RemoteSynth->new( Config => $Config );
+my $remote = IH::Workers::Master::RemoteSynth->new( Config => $Config );
 
 ###################################################### PLUGIN INSTALL, REMOVE, UPDATE
 my $install_plugin, $remove_plugin, $update_plugin;
