@@ -15,6 +15,8 @@ sub install { #Called on install
 sub update { #Called on update
 	my $self=shift;
 	$self->Parser->Output->debug("(Leaved as default) Updating ".__PACKAGE__);
+	$self->remove();
+	$self->install();
 }
 
 sub remove { #Called on remove
