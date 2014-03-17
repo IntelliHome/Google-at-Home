@@ -3,7 +3,6 @@ requires 'AnyEvent::Filesys::Notify';
 requires 'Encode';
 requires 'File::Find::Object';
 requires 'Getopt::Long';
-requires 'IH::IntelliHomeAgent';
 requires 'LWP::UserAgent';
 requires 'Log::Any';
 requires 'Log::Any::Adapter';
