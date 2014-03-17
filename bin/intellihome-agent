@@ -6,11 +6,10 @@ use IH::IntelliHomeAgent;
  
 $IHOutput->info("IntelliHome : Node agent started");
 $IHOutput->info("Bringing up sockets (non secured, i assume you have vpn on your network)");
-my $Delegate=new IH::Workers::ListenAgent;
-my $Connector= new IH::Connector;
-$Connector->Worker($Delegate);
+my $Connector= IH::Connector->new();
+$Connector->Worker(IH::Workers::Agent::CommandProcess->new());
 $Connector->listen();
-
+__END__
 #Proc::Daemon::Init();
 
 #use App::Daemon qw( daemonize );
