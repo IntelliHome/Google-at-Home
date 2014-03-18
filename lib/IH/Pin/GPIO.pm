@@ -11,30 +11,26 @@ has 'Output' =>
     ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );
 has 'Connector' => ( is => "rw" );
 
+sub BUILD { shift->Sync; }
+
 sub on {
     my $self = shift;
     if ( $self->Connector ) {
-
         $self->Connector->send_command(
             $self->Pin . ":1:" . $self->Direction );
-
     }
     else {
-
         $self->setValue(1);    #Led Off
         $self->Status(1);
         $self->Output->info( $self->Pin . " -> " . $self->Status );
-
     }
 }
 
 sub off {
     my $self = shift;
     if ( $self->Connector ) {
-
         $self->Connector->send_command(
             $self->Pin . ":0:" . $self->Direction );
-
     }
     else {
         $self->setValue(0);    #Led On
@@ -58,7 +54,6 @@ sub toggle {
 
 sub status {
     my $self = shift;
-
     open my $PIN, "<", $self->GpioDir . $self->Pin . "/value";
     my @currentValue = <$PIN>;
     chomp(@currentValue);
@@ -80,7 +75,6 @@ sub setValue {
 
 sub Sync {
     my $self = shift;
-
     $self->Output->info( "Synchronizing " . $self->Pin );
     if ( !-d $self->GpioDir . $self->Pin ) {
         $self->Output->info("Pin not initialized yet");
@@ -97,7 +91,7 @@ sub Sync {
         close($PIN);
     }
     else {
-        $self->Output->error("No Handle to setup direction");
+        $self->Output->error("No Handle to setup direction") and2 return undef;
     }
     return $self;
 }
