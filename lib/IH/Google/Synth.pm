@@ -1,4 +1,31 @@
 package IH::Google::Synth;
+
+=head1 NAME
+
+IH::Google::Synth - Synthetizes flac files and returns google synth's hypothesis
+
+=head1 DESCRIPTION
+
+This Object synthetizes the file supplied via C<File> argument and returns a list of hypotesis using Google Services
+
+
+=head1 ARGUMENTS 
+
+=over 4
+=item File() 
+Get/Set the file to synthetize
+=item Language() 
+Get/Set the language
+=back
+
+=head1 FUNCTIONS
+=over 4
+=item synth()
+send to google services the files and return a list of hypothesis
+=back
+
+=cut
+
 use Moose;
 use Try::Tiny;
 use Time::HiRes qw(usleep ualarm gettimeofday tv_interval);
@@ -7,11 +34,11 @@ require LWP::UserAgent;
 
 has 'File' => ( is => "rw" );
 has 'Output' =>
-    ( is => "rw", default => sub { return new IH::Interfaces::Terminal } );
+    ( is => "rw", default => sub { return IH::Interfaces::Terminal->new } );
 has 'GoogleURL' => (
     is => "rw",
     default =>
-        "https://www.google.com/speech-api/v1/recognize?xjerr=1&maxresults=10&client=speech2text&lang="
+        "https://www.google.com/speech-api/v1/recognize?xjerr=1&maxresults=10&client=speech2text&lang=" #huh
 );
 has 'Language' => ( is => "rw", default => "it" );
 has 'hypotheses' => ( is => "rw" );
@@ -21,15 +48,18 @@ sub synth {
     my $self = shift;
     return 0 if ( $self->File =~ /^0$/ );
 
+    my $File = @_ ? shift : $self->File;
+    return if !$File;
+
     my $audio;
 
     $self->Output()
         ->info( "Synthesys of "
-            . $self->File
+            . $File
             . " delegated to google (do you know a better machine learning as googlebrain?)"
         );
-    open( FILE, "<" . $self->File )
-        or $self->Output->error( "Cannot open " . $self->File );
+    open( FILE, "<" . $File )
+        or $self->Output->error( "Cannot open " . $File );
     while (<FILE>) {
         $audio .= $_;
     }
@@ -37,7 +67,7 @@ sub synth {
 
     $self->audiosynth($audio);
     my @hypotheses = $self->hypotheses;
-    unlink( $self->File );
+    unlink( $File );
 
     return 0 if @hypotheses <= 0;
     return @hypotheses;
