@@ -1,9 +1,25 @@
 package IH::Workers::Node::Event;
+
+
+=head1 NAME
+
+IH::Workers::Node::Event - Process the event for the sox created files
+
+=head1 DESCRIPTION
+
+This Object process an action for modify/creation/deletion events of file 
+
+=head1 USAGE 
+
+This object is used internally by G@H and takes care of dispatching the event to be processed
+
+=cut
+
+use Moo;
 use IH::Interfaces::Terminal;
 use IH::Google::Synth;
 use IH::Connector;
-use Data::Dumper;
-use Moo;
+
 has 'LastModified' => ( is => "rw" );
 has 'Output' =>
     ( is => "rw", default => sub { return  IH::Interfaces::Terminal->new } );

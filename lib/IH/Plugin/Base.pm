@@ -1,4 +1,35 @@
 package IH::Plugin::Base;
+
+
+=head1 NAME
+
+IH::Plugin::Base - Base class for parser plugins
+
+=head1 DESCRIPTION
+
+This object is the base class for the parser's plugins
+
+=head1 ARGUMENTS 
+
+RemoteSynth implements the IH::Workers::Base arguments and implement the follow one
+
+=over
+=item Parser() 
+Get/Set the used Parser (defaults to autoload the specified in the ocnfig file)
+=back
+=item Config()
+Get/Set the L<IH::Config> object
+=back
+
+=head1 FUNCTIONS
+=over
+=item process()
+Process the request with the parser specified in the config file
+=back
+
+
+=cut
+
 use Moose;
 has 'Config' => ( is => "rw" );
 has 'Parser' => ( is => "rw" );

@@ -1,5 +1,29 @@
 package IH::Workers::Thread;
-use Moose::Role;
+
+=head1 NAME
+
+IH::Workers::Thread - Base class for workers that are threads
+
+=head1 DESCRIPTION
+
+This Object is a wrapper for threads 
+
+=head1 METHODS
+
+=over 4
+=item stop()
+Stops the thread
+=item start()
+Start the thread
+=item is_running()
+return L<threads> C<is_running()> on the thread
+=item is_detached()
+return L<threads> C<is_detached()> on the thread
+=back
+
+=cut
+
+use Moo::Role;
 use threads (
     'yield',
     'stack_size' => 64 * 4096,

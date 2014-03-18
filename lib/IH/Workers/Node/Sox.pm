@@ -1,4 +1,19 @@
 package IH::Workers::Node::Sox;
+
+=head1 NAME
+
+IH::Workers::Node::Sox - This Process represent the Sox recording instance and generate the command to be executed
+
+=head1 DESCRIPTION
+
+This Object generate the configured command for sox and launch it
+
+=head1 USAGE 
+
+This object is used internally by G@H
+
+=cut
+
 use Moose;
 use Fcntl qw(:DEFAULT :flock);
 

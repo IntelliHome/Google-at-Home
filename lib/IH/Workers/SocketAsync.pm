@@ -1,5 +1,29 @@
 package IH::Workers::SocketAsync;
-use Moose;
+
+=head1 NAME
+
+IH::Workers::SocketAsync - it represent a non blocking socket
+
+=head1 DESCRIPTION
+
+This Object represent a listening socket with a defined Worker to pass the socket response to be processed
+
+=head1 METHODS
+
+=over 4
+=item launch()
+Start listening
+=back
+
+=head1 ARGUMENTS
+=over 4
+=item Worker()
+The defined worker that will be called on receiving a connection, C<process()> would be called on that object with the socket as argument
+=back
+
+=cut
+
+use Moo;
 has 'Socket' => ( is => "rw" );
 has 'Worker' => ( is => "rw" );
 

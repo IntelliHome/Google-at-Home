@@ -1,10 +1,5 @@
 package IH::Workers::Master::RemoteSynth;
-use Moo;
-extends 'IH::Workers::Base';
-use IH::Google::Synth;
-use IH::Interfaces::Voice;
-use Data::Dumper;
-use Module::Load;
+
 
 =head1 NAME
 
@@ -17,7 +12,7 @@ This Object implement process() that is called by the master node to parse and p
 
 =head1 ARGUMENTS 
 
-RemoteSynth implements the IH::Workers::Master::Base arguments and implement the follow one
+RemoteSynth implements the IH::Workers::Base arguments and implement the follow one
 
 =over
 =item GSynth() 
@@ -35,6 +30,12 @@ Process the request with the parser specified in the config file
 
 
 =cut
+
+use Moo;
+extends 'IH::Workers::Base';
+use IH::Google::Synth;
+use IH::Interfaces::Voice;
+use Module::Load;
 
 has 'GSynth' => (
     is      => "rw",

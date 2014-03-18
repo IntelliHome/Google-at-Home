@@ -1,8 +1,4 @@
 package IH::Workers::Master::StatusListener;
-use Moo;
-extends 'IH::Workers::Base';
-
-has 'Output' => ( is => "rw", default => IH::Interfaces::Terminal->new );
 
 =head1 NAME
 
@@ -15,7 +11,7 @@ This Object implement process() that is called by the master node to parse and p
 
 =head1 ARGUMENTS 
 
-StatusListener implements the IH::Workers::Master::Base arguments and implement the new one
+StatusListener implements the IH::Workers::Base arguments and implement the new one
 
 =over
 =item Output
@@ -29,6 +25,11 @@ Process the request
 =back
 
 =cut
+
+use Moo;
+extends 'IH::Workers::Base';
+
+has 'Output' => ( is => "rw", default => IH::Interfaces::Terminal->new );
 
 sub process {
     my $self = shift;

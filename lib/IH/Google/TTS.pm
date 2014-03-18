@@ -1,4 +1,31 @@
 package IH::Google::TTS;
+
+=head1 NAME
+
+IH::Google::TTS - Generate audio files from the given text using Google services
+
+=head1 DESCRIPTION
+
+This Object synthetizes the file supplied via C<File> argument and returns a list of hypotesis using Google Services
+
+
+=head1 ARGUMENTS 
+
+=over 4
+=item File() 
+Get/Set the file to synthetize
+=item Language() 
+Get/Set the language
+=back
+
+=head1 FUNCTIONS
+=over 4
+=item synth()
+send to google services the files and return a list of hypothesis
+=back
+
+=cut
+
 use Moose;
 require LWP::UserAgent;
 use URI;

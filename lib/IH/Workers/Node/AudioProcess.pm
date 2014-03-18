@@ -1,4 +1,26 @@
 package IH::Workers::Node::AudioProcess;
+
+=head1 NAME
+
+IH::Workers::Node::AudioProcess - Receive the answer from the master and play it
+
+=head1 DESCRIPTION
+
+This Object implement process() that is called by the node to retrieve the audio to be played back as an answer
+
+
+=head1 ARGUMENTS 
+
+=head1 FUNCTIONS
+=over
+=item process()
+Process the request and plays the mp3 answer
+=back
+
+
+=cut
+
+
 use Moo;
 has 'Output' =>
     ( is => "rw", default => sub { return IH::Interfaces::Terminal->new } );

@@ -1,4 +1,19 @@
 package IH::Workers::Node::Monitor;
+
+=head1 NAME
+
+IH::Workers::Node::Monitor - This thread is listening for file changes 
+
+=head1 DESCRIPTION
+
+This Object listens for changes in the folder where sox is recording, processing the changes thru L<IH::Node::Event>
+
+=head1 USAGE 
+
+This object is used internally by G@H
+
+=cut
+
 use Moo;
 use AnyEvent;
 use AnyEvent::Filesys::Notify;

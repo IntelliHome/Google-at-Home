@@ -3,7 +3,7 @@ use Moo;
 
 =head1 NAME
 
-IH::Workers::Base - Processes the voice hypothesis thru a defined parser
+IH::Workers::Base - Base class for workers, Processes the voice hypothesis thru a defined parser
 
 =head1 DESCRIPTION
 
