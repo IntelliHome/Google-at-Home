@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 use lib './lib';
 use IntelliHome::IntelliHomeNode;    #Load node library set
-use Data::Dumper;
 
 cleanup;
 my $IHOutput =  IntelliHome::Interfaces::Terminal->new;    #set up output (debug)
