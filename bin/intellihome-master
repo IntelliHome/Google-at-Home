@@ -27,12 +27,12 @@ if ($install_plugin) {
 }
 elsif ($remove_plugin) {
     $IHOutput->info("IntelliHome : removing plugin $remove_plugin");
-    exit $remote->Parser->run_plugin( $install_plugin, "remove" );
+    exit $remote->Parser->run_plugin( $remove_plugin, "remove" );
 
 }
 elsif ($update_plugin) {
     $IHOutput->info("IntelliHome : updating plugin $update_plugin");
-    exit $remote->Parser->run_plugin( $install_plugin, "update" );
+    exit $remote->Parser->run_plugin( $update_plugin, "update" );
 }
 ######################################################
 
