@@ -26,7 +26,7 @@ sub removePlugin {
     my $self    = shift;
     my $Options = shift;
     my $Trigger = IntelliHome::Schema::Mongo::Trigger->find_one($Options);
-    return $Trigger->remove();
+    return $Trigger->delete();
 }
 
 sub updatePlugin {
