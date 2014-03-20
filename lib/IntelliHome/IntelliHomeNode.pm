@@ -1,4 +1,4 @@
-package IntelliHomeNode;
+package IntelliHome::IntelliHomeNode;
 require IntelliHome::Interfaces::Terminal;
 require IntelliHome::Config;
 require IntelliHome::Workers::Node::Monitor;
@@ -14,8 +14,7 @@ use strict;
 our @EXPORT = qw(cleanup);
 
 sub cleanup {
-    unlink($_) for ( glob "/var/tmp/sox/*" );
-    unlink($_) for ( glob "/var/tmp/ih/*" );
+    unlink($_) for ( (glob "/var/tmp/sox/*"),( glob "/var/tmp/ih/*" ));
 }
 
 !!42;
