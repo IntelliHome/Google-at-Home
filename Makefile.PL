@@ -3,6 +3,6 @@
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME         => 'IH',
-    VERSION_FROM => 'lib/IH.pm'
+    NAME         => 'IntelliHome',
+    VERSION_FROM => 'lib/IntelliHome.pm'
 );

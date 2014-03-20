@@ -1,16 +1,16 @@
 #!/usr/bin/perl
 use lib './lib';
-use IH::IntelliHomeNodeMaster;
+use IntelliHome::IntelliHomeNodeMaster;
 use Mongoose;
 use Cwd;
 use Getopt::Long;
 
-my $IHOutput = new IH::Interfaces::Terminal;
+my $IHOutput = new IntelliHome::Interfaces::Terminal;
 my $Config
-    = new IH::Config( Dirs => ['./config'] );    #specify where yaml file are
+    = new IntelliHome::Config( Dirs => ['./config'] );    #specify where yaml file are
 $Config->read();    # Read and load yaml configuration
 
-my $remote = IH::Workers::Master::RemoteSynth->new( Config => $Config );
+my $remote = IntelliHome::Workers::Master::RemoteSynth->new( Config => $Config );
 
 ###################################################### PLUGIN INSTALL, REMOVE, UPDATE
 my $install_plugin, $remove_plugin, $update_plugin;
@@ -41,8 +41,8 @@ $IHOutput->info(
     "Bringing up sockets (not secured, i assume you have properly secured your network)"
 );
 
-my $me = IH::Node->new( Config => $Config )->selectFromType("master");
-my $Connector = new IH::Connector( Config => $Config, Node => $me )
+my $me = IntelliHome::Node->new( Config => $Config )->selectFromType("master");
+my $Connector = new IntelliHome::Connector( Config => $Config, Node => $me )
     ; #Config parameter is optional, only needed if you wanna send broadcast messages
 $Connector->Worker($remote);
 $Connector->blocking(1);
@@ -50,7 +50,7 @@ $Connector->listen();
 
 #blocking so down can't be executed (was used just for test)
 # my $NodeToDeploy
-#     = IH::Node->new( Config => $Config )->selectFromDescription("ih0");
+#     = IntelliHome::Node->new( Config => $Config )->selectFromDescription("ih0");
 # $NodeToDeploy->deploy();
 
 #$Connector->broadcastMessage("node","test");

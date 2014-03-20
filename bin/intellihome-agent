@@ -1,13 +1,13 @@
 #!/usr/bin/perl
 use lib './lib';
-use IH::IntelliHomeAgent;
- my $IHOutput = new IH::Interfaces::Terminal;
+use IntelliHome::IntelliHomeAgent;
+ my $IHOutput = new IntelliHome::Interfaces::Terminal;
 
  
 $IHOutput->info("IntelliHome : Node agent started");
 $IHOutput->info("Bringing up sockets (non secured, i assume you have vpn on your network)");
-my $Connector= IH::Connector->new();
-$Connector->Worker(IH::Workers::Agent::CommandProcess->new());
+my $Connector= IntelliHome::Connector->new();
+$Connector->Worker(IntelliHome::Workers::Agent::CommandProcess->new());
 $Connector->listen();
 __END__
 #Proc::Daemon::Init();
@@ -18,7 +18,7 @@ __END__
 
 #foreach my $pin (@TEST_PINS){
 
-#my $test= IH::Pin::GPIO->new(Pin=> $pin,Direction=>"out");
+#my $test= IntelliHome::Pin::GPIO->new(Pin=> $pin,Direction=>"out");
 
 #$test->Sync();
 #sleep int(rand(20));
@@ -28,7 +28,7 @@ __END__
 #$test->off();
 
 #}
-# my $Lampada = IH::Pin::GPIO->new( Pin => 67, Direction => "out" );
+# my $Lampada = IntelliHome::Pin::GPIO->new( Pin => 67, Direction => "out" );
 # $Lampada->Sync();
 # $Lampada->Status(0);
 

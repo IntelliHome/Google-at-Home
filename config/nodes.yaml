@@ -23,7 +23,7 @@ password: test
 #description: "ih0"
 #username: root
 #password: password
-#deployer: 'IH::Deployer::Debian' #If it's debian, i'll use a debian deployer :)
+#deployer: 'IntelliHome::Deployer::Debian' #If it's debian, i'll use a debian deployer :)
 
 
 #BootStrap configuration file
