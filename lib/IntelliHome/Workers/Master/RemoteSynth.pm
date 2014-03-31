@@ -1,6 +1,5 @@
 package IntelliHome::Workers::Master::RemoteSynth;
 
-
 =head1 NAME
 
 IntelliHome::Workers::Master::RemoteSynth - Processes the voice hypothesis thru a defined parser
@@ -53,7 +52,6 @@ sub BUILD {
     load $Parser;
     $Parser
         = $Parser->new( Config => $self->Config, Output => $self->Output );
-    $Parser->prepare;
     $self->Parser($Parser);
     ##
     $self->GSynth->Language( $self->Config->DBConfiguration->{'language'} );
@@ -64,16 +62,26 @@ sub process {
     my $fh   = shift;    ## IO::Socket
     my $audio;
     my $host = $fh->peerhost();
+    my $node
+        = "IntelliHome::Schema::"
+       # . $self->Config->DBConfiguration->{'database_backend'}
+           . "YAML" #XXX: we force to yaml for now, but the backend will be switchable when autoconfiguration would be ready
 
-    my $Client = IntelliHome::Node->new( Config => $self->Config );
-    $Client->selectFromHost($host);
+        . "::Node";
+    load $node;
+    my $Client = $node->new( Config => $self->Config );
+    $Client->selectFromHost( $host, "node" );
     $self->Output->Node($Client);
+
     while (<$fh>) {
         $audio .= $_;
     }
 
     $self->GSynth->audiosynth($audio);
     my @hypotheses = @{ $self->GSynth->hypotheses() };
+        $self->Output->debug("audio received from $host");
+    $self->Output->debug("Hypothesis: ".join("\t",@hypotheses));
+
     if ( @hypotheses > 0 ) {
 
         $self->Parser->Node($Client);
