@@ -5,7 +5,7 @@ has 'Config'  => ( is => "rw" );
 has 'Plugins' => ( is => "rw", default => sub { {} } );
 has 'Output'  => ( is => "rw" );
 has 'Backend' => ( is => "rw" );
-has 'Node' => ( is => "rw" );
+has 'Node'    => ( is => "rw" );
 
 sub detectTasks() {
 
@@ -23,7 +23,7 @@ sub prepare() {
 
 }
 
-sub run_plugin() {
+sub run_plugin {
     my $self   = shift;
     my $name   = shift;
     my $method = shift;
@@ -47,7 +47,7 @@ sub run_plugin() {
             $Plugin = $self->Plugins->{$name};
         }
     }
-    return $Plugin->$method(@args) if ( $Plugin->can($method) );
+    return $Plugin->can($method) ? $Plugin->$method(@args) : undef;
 }
 
 1;
