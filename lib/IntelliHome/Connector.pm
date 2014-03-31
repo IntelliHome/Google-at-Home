@@ -112,7 +112,7 @@ sub send_file {
             }
             close FILE;
             $server->close();
-            $self->Output->info( "recording sent to " . $self->Node->Host );
+            $self->Output->info( "recording sent to " . $self->Node->Host . " type: ".$self->Node->type );
             return 1;
         }
         else {
