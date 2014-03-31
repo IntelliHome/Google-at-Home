@@ -11,7 +11,7 @@ use Mongoose;
 has 'Backend' =>
     ( is => "rw", default => sub { return IntelliHome::Parser::DB::Mongo->new } );
 
-sub prepare {
+sub BUILD {
 
     my $self = shift;
     Mongoose->db(
@@ -58,8 +58,8 @@ sub detectTriggers {
         #Every Trigger cycled here.
         #
         if ( $item->compile($hypo) and $item->satisfy ) {
-            $self->run_plugin( $item->plugin, $item->plugin_method, $item );
-            $Satisfied++;
+            
+            $Satisfied++ if $self->run_plugin( $item->plugin, $item->plugin_method, $item );
 
             # my $r = $item->regex;
             #  $hypo =~ s/$r//g;    #removes the trigger
@@ -100,9 +100,6 @@ sub parse {
     return 0 if scalar @hypotheses < 0;
 
     foreach my $hypo (@hypotheses) {
-
-      # my $hypo
-      #     = $hypotheses[0];  #The first google give us is the more confident
 
         my $Hypothesis = $self->Backend->newHypo( { hypo => $hypo } );
 
