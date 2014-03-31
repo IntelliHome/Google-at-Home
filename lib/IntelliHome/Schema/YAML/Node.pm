@@ -1,4 +1,4 @@
-package IntelliHome::Node;
+package IntelliHome::Schema::YAML::Node;
 use Moo;
 use Module::Load;
 has 'Deployer' => ( is => "rw" );
@@ -7,11 +7,14 @@ has 'Password' => ( is => "rw" );
 has 'Host'     => ( is => "rw", default => 'localhost' );
 has 'Port'     => ( is => "rw", default => '23456' );
 has 'HW'       => ( is => "rw" );
+has 'type' => (is=>"rw");
 has 'Config'   => ( is => "rw" )
     ;    #if has config can auto select where things must be done
 has 'Description' => ( is => "rw" );
-has 'Output' =>
-    ( is => "rw", default => sub { return IntelliHome::Interfaces::Terminal->new } );
+has 'Output' => (
+    is      => "rw",
+    default => sub { return IntelliHome::Interfaces::Terminal->new }
+);
 
 sub select {
     my $self  = shift;
@@ -22,18 +25,21 @@ sub select {
     $self->Username( $Nodes->{$Node}->{username} );
     $self->Password( $Nodes->{$Node}->{password} );
     $self->Description( $Nodes->{$Node}->{description} );
-    $self->HW( $Nodes->{$Node}->{HW} ) if ($Nodes->{$Node}->{HW} );
+    $self->type($Nodes->{$Node}->{type});
+    $self->HW( $Nodes->{$Node}->{HW} ) if ( $Nodes->{$Node}->{HW} );
 
     if ( exists( $Nodes->{$Node}->{deployer} ) ) {
         my $Deployer = $Nodes->{$Node}->{deployer};
-      #  $self->Output->info( "Deployer present: " . $Deployer );
+
+        #  $self->Output->info( "Deployer present: " . $Deployer );
         load $Deployer;
         $self->Deployer( $Deployer->new( Node => $self ) );
     }
     else {
-       # $self->Output->info("Deployer not present :(");
+        # $self->Output->info("Deployer not present :(");
     }
-   # $self->Output->debug( "Selected node: " . $self->Host );
+
+    # $self->Output->debug( "Selected node: " . $self->Host );
 
     return $self;
 }
@@ -67,9 +73,10 @@ sub selectFromType {
 sub selectFromHost {
     my $self  = shift;
     my $H     = shift;
+    my $type  = shift || "node";
     my $Nodes = $self->Config->Nodes;
     foreach my $Node ( keys( %{$Nodes} ) ) {
-        if ( $Node eq $H ) {
+        if ( $Node eq $H and $Nodes->{$Node}->{type} eq $type ) {
             $self->select( $Nodes, $Node );
 
         }
