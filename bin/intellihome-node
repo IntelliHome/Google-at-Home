@@ -3,19 +3,21 @@ use lib './lib';
 use IntelliHome::IntelliHomeNode;    #Load node library set
 
 cleanup;
-my $IHOutput =  IntelliHome::Interfaces::Terminal->new;    #set up output (debug)
+my $IHOutput = IntelliHome::Interfaces::Terminal->new;  #set up output (debug)
 
 ## XXX: For prototyping purposes we load a YAML file for now, but we should auto-configure stuff
 ##      probing the network or the master
 
 my $Config
-    = new IntelliHome::Config( Dirs => ['./config'] );    #specify where yaml file are
+    = new IntelliHome::Config( Dirs => ['./config'] )
+    ;               #specify where yaml file are
 $Config->read();    # Read and load yaml configuration
 
-my $MasterNode = IntelliHome::Node->new( Config => $Config )->selectFromType("master");
-my $me         = IntelliHome::Node->new( Config => $Config )->selectFromType("node");
+# in the local YAML it's specified the master node and my address 
+my $MasterNode = IntelliHome::Schema::YAML::Node->new( Config => $Config )->selectFromType("master");
+my $me         = IntelliHome::Schema::YAML::Node->new( Config => $Config )->selectFromType("node");
 
-my $Connector = new IntelliHome::Connector( Node => $MasterNode )
+my $Connector = IntelliHome::Connector->new( Node => $MasterNode )
     ; #set up a connector and supply the config file (For auto select of nodes)
 
 $IHOutput->info("IntelliHome : Node started");
@@ -23,18 +25,23 @@ $IHOutput->info( "Bringing up sox and sending recordings to "
         . $MasterNode->Host . " HW:"
         . $me->HW );
 
-my $Sox = new IntelliHome::Workers::Node::Sox( HW => $me->HW );   #set up a sox process
+my $Sox = new IntelliHome::Workers::Node::Sox( HW => $me->HW )
+    ;    #set up a sox process
 my $Monitor = new IntelliHome::Workers::Node::Monitor( Process => $Sox )
     ;    # an anyevent monitor for file changes
 $Sox->start();
 
 #Set the event listener on the monitor process
-$Monitor->worker( IntelliHome::Workers::Node::Event->new( Connector => $Connector ) );
+$Monitor->worker(
+    IntelliHome::Workers::Node::Event->new( Connector => $Connector ) );
 $Monitor->launch();    #Launches the monitor
 
 #Config parameter is optional, only needed if you wanna send broadcast messages
-my $Connector = new IntelliHome::Connector( Config => $Config, Node => $me );
-$Connector->Worker( IntelliHome::Workers::Node::AudioProcess->new );
+$Connector = IntelliHome::Connector->new(
+    Config => $Config,
+    Node   => $me,
+    Worker => IntelliHome::Workers::Node::AudioProcess->new
+);
 
 #Closing all in case of sig int
 $SIG{'INT'}

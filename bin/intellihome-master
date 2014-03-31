@@ -1,16 +1,18 @@
 #!/usr/bin/perl
 use lib './lib';
 use IntelliHome::IntelliHomeNodeMaster;
-use Mongoose;
 use Cwd;
 use Getopt::Long;
+use Module::Load;
 
 my $IHOutput = new IntelliHome::Interfaces::Terminal;
 my $Config
-    = new IntelliHome::Config( Dirs => ['./config'] );    #specify where yaml file are
+    = new IntelliHome::Config( Dirs => ['./config'] )
+    ;               #specify where yaml file are
 $Config->read();    # Read and load yaml configuration
 
-my $remote = IntelliHome::Workers::Master::RemoteSynth->new( Config => $Config );
+my $remote
+    = IntelliHome::Workers::Master::RemoteSynth->new( Config => $Config );
 
 ###################################################### PLUGIN INSTALL, REMOVE, UPDATE
 my $install_plugin, $remove_plugin, $update_plugin;
@@ -41,7 +43,15 @@ $IHOutput->info(
     "Bringing up sockets (not secured, i assume you have properly secured your network)"
 );
 
-my $me = IntelliHome::Node->new( Config => $Config )->selectFromType("master");
+my $node
+    = "IntelliHome::Schema::"
+    #. $Config->DBConfiguration->{'database_backend'}
+    . "YAML" #XXX: we force to yaml for now, but the backend will be switchable when autoconfiguration would be ready
+    . "::Node";
+load $node;
+
+my $me = $node->new( Config => $Config )->selectFromType("master")
+    ; # this for now forces the network to have one master, we can easily rid about that in the future
 my $Connector = new IntelliHome::Connector( Config => $Config, Node => $me )
     ; #Config parameter is optional, only needed if you wanna send broadcast messages
 $Connector->Worker($remote);
