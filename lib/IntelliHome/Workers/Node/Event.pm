@@ -17,14 +17,12 @@ This object is used internally by G@H and takes care of dispatching the event to
 
 use Moo;
 use IntelliHome::Interfaces::Terminal;
-use IntelliHome::Google::Synth;
 use IntelliHome::Connector;
 
 has 'LastModified' => ( is => "rw" );
 has 'Output' =>
     ( is => "rw", default => sub { return  IntelliHome::Interfaces::Terminal->new } );
 
-#has 'GSynth'       =>(is=>"rw",default=>sub{return new IntelliHome::GSynth});
 has 'Connector' =>
     ( is => "rw", default => sub { return IntelliHome::Connector->new } );
 

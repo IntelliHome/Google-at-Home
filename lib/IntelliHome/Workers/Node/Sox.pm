@@ -25,14 +25,15 @@ has 'HW'                  => ( is => "rw", default => "1,0" );
 has 'Output'              => ( is => "rw", default => "ih.flac" );
 has 'beginEnable'         => ( is => "rw", default => "1" );
 has 'beginSoundDuration'  => ( is => "rw", default => "1.0" );
-has 'beginThreshold'      => ( is => "rw", default => '2%' );
+has 'beginThreshold'      => ( is => "rw", default => '1%' );
 has 'finishEnable'        => ( is => "rw", default => "1" );
 has 'finishSoundDuration' => ( is => "rw", default => "1.5" );
 has 'finishThreshold'     => ( is => "rw", default => '2%' );
 has 'Directory'           => ( is => "rw", default => "/var/tmp/sox/" );
 has 'Filters' => (
     is      => "rw",
-    default => "trim 0 12 compand 0.3,1 6:-70,-60,-20 -5 -90 0.2"
+    default => "trim 0 12"
+    #compand 0.3,1 6:-70,-60,-20 -5 -90 0.2
 );
 
 #XXX:  highpass 100  "treble 10 3.5k" or "bass -10 300"  http://sox.10957.n7.nabble.com/band-pass-filter-for-voices-td3607.html

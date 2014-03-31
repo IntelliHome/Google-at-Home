@@ -41,11 +41,10 @@ sub process {
     close $FILE;
 
     #$self->Process->stop() if $self->Process;
-    print "Arrivato\n";
     $self->Output->debug("Error launching mplayer")
         if ( !system( 'mplayer', $out ) );
 
-# If we don't play it it's gone forever. think about a message response delayed: that's not what we want
+# If we don't play it's gone forever. think about a message response delayed: that's not what we want
     unlink($out);
 }
 
