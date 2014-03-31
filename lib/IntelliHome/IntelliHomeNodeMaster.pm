@@ -4,6 +4,7 @@ require IntelliHome::Connector;
 require IntelliHome::Config;
 require IntelliHome::Workers::Master::RemoteSynth;
 require IntelliHome::Parser::Base;
-require IntelliHome::Node;
+require Module::Load;
+
 
 !!42;
