@@ -42,6 +42,8 @@ sub listen {
 
     return 0 if ( !$self->Worker );
 
+    $self->Output->error("Cannot found node!") and return if (!defined $self->Node);
+
     my ( $filename, $new, $fh, @ready );
 
     my $lsn = IO::Socket::INET->new(
