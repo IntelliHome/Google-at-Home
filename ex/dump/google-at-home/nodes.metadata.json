@@ -1,0 +1,1 @@
+{ "options" : { "create" : "nodes" }, "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "google-at-home.nodes", "name" : "_id_" } ] }
