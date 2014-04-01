@@ -1,7 +1,9 @@
-package IntelliHome::Schema::Node;
+package IntelliHome::Schema::Mongo::Node;
 use Moose;
 use namespace::autoclean;
 use Mongoose::Class;
+use IntelliHome::Schema::Mongo::GPIO;
+
 with 'Mongoose::Document' => {
     -collection_name => 'nodes',
     -pk              => [qw/ Host /]
@@ -28,6 +30,12 @@ sub selectFromHost() {
     my $host = shift;
     my $type = shift || "node";
     return $self->find_one( { Host => $self->Host, type => $type } );
+}
+
+sub selectFromType {
+    my $self = shift;
+    my $type = shift;
+    return $self->find_one( { type => $type } );
 }
 
 1;
