@@ -45,8 +45,8 @@ $IHOutput->info(
 
 my $node
     = "IntelliHome::Schema::"
-    #. $Config->DBConfiguration->{'database_backend'}
-    . "YAML" #XXX: we force to yaml for now, but the backend will be switchable when autoconfiguration would be ready
+    . $Config->DBConfiguration->{'database_backend'}
+   # . "YAML" #XXX: we force to yaml for now, but the backend will be switchable when autoconfiguration would be ready
     . "::Node";
 load $node;
 
