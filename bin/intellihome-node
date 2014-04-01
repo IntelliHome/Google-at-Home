@@ -47,7 +47,7 @@ $Connector = IntelliHome::Connector->new(
 $SIG{'INT'}
     = sub { $Connector->stop(); $Sox->stop(); $Monitor->stop(); exit; };
 
-#$Connector->blocking(1); #that makes the socket blocking
+$Connector->blocking(1); #that makes the socket blocking
 $Connector->listen();
 
 ##XXX: This below is ugly, need a proper solution

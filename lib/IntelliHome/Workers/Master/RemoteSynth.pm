@@ -64,8 +64,8 @@ sub process {
     my $host = $fh->peerhost();
     my $node
         = "IntelliHome::Schema::"
-       # . $self->Config->DBConfiguration->{'database_backend'}
-           . "YAML" #XXX: we force to yaml for now, but the backend will be switchable when autoconfiguration would be ready
+        . $self->Config->DBConfiguration->{'database_backend'}
+       #    . "YAML" #XXX: we force to yaml for now, but the backend will be switchable when autoconfiguration would be ready
 
         . "::Node";
     load $node;
