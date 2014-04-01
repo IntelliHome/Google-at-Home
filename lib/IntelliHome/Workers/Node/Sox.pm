@@ -44,7 +44,7 @@ sub _generateOutputCommand {
 
     $self->command(
         defined $self->HW
-        ? "sox -b 32 -t alsa hw:"
+        ? "sox -q -t alsa hw:"
             . $self->HW() . " -r "
             . $self->Rate() . " "
             . $self->Directory()
@@ -58,7 +58,7 @@ sub _generateOutputCommand {
             . $self->finishSoundDuration . " "
             . $self->finishThreshold()
             . " : newfile : restart"
-        : "rec -b 32 -r "
+        : "rec -q -r "
             . $self->Rate() . " "
             . $self->Directory()
             . $self->Output() . " "

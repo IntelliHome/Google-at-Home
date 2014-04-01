@@ -22,7 +22,8 @@ return L<Unix::PID> C<is_running()> on the pid
 =cut
 
 use Moose::Role;
-use IPC::Open3;
+
+#use IPC::Open3;
 use Cwd;
 use Unix::PID;
 has 'Pid' => ( is => "rw" );
@@ -38,6 +39,7 @@ sub start {
     my $self = shift;
 
     $SIG{'KILL'} = $SIG{'INT'} = sub { $self->stop(); };
+    $SIG{'CHLD'} = 'IGNORE';
 
     $self->_generateOutputCommand();
     my $CWD = cwd();
@@ -48,12 +50,23 @@ sub start {
     if ( eval { $self->can("clean") } ) {
         $self->clean;
     }
-    my $pid = open3( $wtr, $rdr, $err, $self->command() );
+
+    #my $pid = open3( $wtr, $rdr, $err, $self->command() );
+    my $pid = fork();
+    if ( !$pid ) {
+        open( STDIN,  "< /dev/null" ) || die "can't read /dev/null: $!";
+        open( STDERR, ">&STDOUT" )    || die "can't dup stdout: $!";
+        open( STDOUT, "> /dev/null" ) || die "can't write to /dev/null: $!";
+        exec( $self->command );
+    }
+    else {
+        $self->Pid($pid);
+    }
     chdir($CWD);
-    $self->Pid($pid);
-    $self->Writer($wtr);
-    $self->Reader($rdr);
-    $self->Error($err);
+
+    #  $self->Writer($wtr);
+    #  $self->Reader($rdr);
+    #  $self->Error($err);
 }
 
 sub stop {
