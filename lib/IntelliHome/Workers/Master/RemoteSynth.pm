@@ -35,27 +35,14 @@ extends 'IntelliHome::Workers::Base';
 use IntelliHome::Google::Synth;
 use IntelliHome::Interfaces::Voice;
 use Module::Load;
-
+with("IntelliHome::Workers::Role::Parser");
 has 'GSynth' => (
     is      => "rw",
     default => sub {
         return IntelliHome::Google::Synth->new;
     }
 );
-has 'Parser' => ( is => "rw", );
 
-sub BUILD {
-    my $self = shift;
-    my $Parser
-        = 'IntelliHome::Parser::'
-        . $self->Config->DBConfiguration->{'database_backend'};
-    load $Parser;
-    $Parser
-        = $Parser->new( Config => $self->Config, Output => $self->Output );
-    $self->Parser($Parser);
-    ##
-    $self->GSynth->Language( $self->Config->DBConfiguration->{'language'} );
-}
 
 sub process {
     my $self = shift;

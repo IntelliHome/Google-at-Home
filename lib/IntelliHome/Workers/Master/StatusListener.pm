@@ -27,7 +27,9 @@ Process the request
 =cut
 
 use Moo;
+use IntelliHome::Utils qw(message_expand SEPARATOR);
 extends 'IntelliHome::Workers::Base';
+with("IntelliHome::Workers::Role::Parser");
 
 has 'Output' => ( is => "rw", default => IntelliHome::Interfaces::Terminal->new );
 
@@ -37,7 +39,7 @@ sub process {
     my $host = $fh->peerhost();
     my $command;
     $command .= $_ while (<$fh>);
-    my @Received = split( /\:/, $command );
+    my @Received = message_expand($command );
     my $status = shift @Received;
 
     if ( $status eq "STATUS" ) {
