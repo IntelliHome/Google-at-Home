@@ -2,40 +2,47 @@ package IntelliHome::Pin::GPIO;
 
 use Moo;
 use IntelliHome::Interfaces::Terminal;
+use IntelliHome::Utils qw(message_compact SEPARATOR);
+
 has 'GpioDir'  => ( is => "rw", default => "/sys/class/gpio/gpio" );
 has 'Exporter' => ( is => "rw", default => "/sys/class/gpio/export" );
 has 'Pin'      => ( is => "rw" );
 has 'Direction' => ( is => "rw" );
 has 'Status'    => ( is => "rw" );
-has 'Output' =>
-    ( is => "rw", default => sub { return new IntelliHome::Interfaces::Terminal } );
+has 'Output'    => (
+    is      => "rw",
+    default => sub { return new IntelliHome::Interfaces::Terminal }
+);
 has 'Connector' => ( is => "rw" );
 
 sub BUILD { shift->Sync; }
 
 sub on {
     my $self = shift;
-    if ( $self->Connector ) {
-        $self->Connector->send_command(
-            $self->Pin . ":1:" . $self->Direction );
+    if ( $self->Connector )
+    {    # if it's defined a connector, the command will be sent to a node
+        return $self->Connector->send_command(
+            message_compact( $self->Pin, 1, $self->Direction ) );
     }
     else {
         $self->setValue(1);    #Led Off
         $self->Status(1);
         $self->Output->info( $self->Pin . " -> " . $self->Status );
+        return $self->Status;
     }
 }
 
 sub off {
     my $self = shift;
     if ( $self->Connector ) {
-        $self->Connector->send_command(
-            $self->Pin . ":0:" . $self->Direction );
+        return $self->Connector->send_command(
+          message_compact( $self->Pin, 0, $self->Direction )  );
     }
     else {
         $self->setValue(0);    #Led On
         $self->Status(0);
         $self->Output->info( $self->Pin . " -> " . $self->Status );
+        return $self->Status;
     }
 }
 
@@ -43,13 +50,14 @@ sub toggle {
     my $self = shift;
 
     my $Status = $self->Status();
+    $self->Output->info( $self->Pin . " -> " . $self->Status );
+
     if ( $Status == 1 ) {
         $self->off();
     }
     else {
         $self->on();
     }
-    $self->Output->info( $self->Pin . " -> " . $self->Status );
 }
 
 sub status {
@@ -71,6 +79,7 @@ sub setValue {
     open my $PIN, ">", $self->GpioDir . $self->Pin . "/value";
     print $PIN $value;
     close($PIN);
+    return $value;
 }
 
 sub Sync {
@@ -91,7 +100,7 @@ sub Sync {
         close($PIN);
     }
     else {
-        $self->Output->error("No Handle to setup direction") and2 return undef;
+        $self->Output->error("No Handle to setup direction") and return undef;
     }
     return $self;
 }
