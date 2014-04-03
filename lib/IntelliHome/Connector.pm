@@ -8,8 +8,7 @@ use Fcntl qw(:DEFAULT :flock);
 use IO::Socket;
 
 has 'Output' =>
-    ( is => "rw", default => sub { IntelliHome::Interfaces::Terminal->new } )
-    ; 
+    ( is => "rw", default => sub { IntelliHome::Interfaces::Terminal->new } );
 has 'Worker' => ( is => "rw" );
 has 'Config' => ( is => "rw" )
     ;    #if has config can auto select where things must be done
@@ -42,7 +41,8 @@ sub listen {
 
     return 0 if ( !$self->Worker );
 
-    $self->Output->error("Cannot found node!") and return if (!defined $self->Node);
+    $self->Output->error("Cannot found node!") and return
+        if ( !defined $self->Node );
 
     my ( $filename, $new, $fh, @ready );
 
@@ -52,15 +52,13 @@ sub listen {
         LocalPort => $self->Node->Port,
     ) or ( $self->Output->error("$!") && exit 1 );
 
-    if ( $self->blocking ) {
+    if ( $self->blocking == 1 ) {
 
         #oldaway
         while ( my $client = $lsn->accept() ) {
-            my $Thread = IntelliHome::Workers::SocketListener->new(
-                Worker => $self->Worker,
-                Socket => $client
-            );
-            $Thread->launch();
+
+            $self->Worker->process($client);
+
         }
     }
     else {
@@ -86,8 +84,14 @@ sub connect {
         PeerAddr => $self->Node->Host,
         Timeout  => 2000
         )
-        || ( $self->Output->error("failed to connect to ".$self->Node->Host.":".$self->Node->Port." $!")
-        && return 0 );
+        || (
+        $self->Output->error(
+                  "failed to connect to "
+                . $self->Node->Host . ":"
+                . $self->Node->Port . " $!"
+        )
+        && return 0
+        );
 
     $self->Socket($server);
     return $self;
@@ -102,8 +106,14 @@ sub send_file {
         PeerAddr => $self->Node->Host,
         Timeout  => 2000
         )
-        || ( $self->Output->error("failed to connect to ".$self->Node->Host.":".$self->Node->Port." $!")
-        && return 0 );
+        || (
+        $self->Output->error(
+                  "failed to connect to "
+                . $self->Node->Host . ":"
+                . $self->Node->Port . " $!"
+        )
+        && return 0
+        );
     if ($server) {
         open FILE, "<" . $File
             or ( $self->Output->error("Error $File: $!") and return 0 );
@@ -114,7 +124,10 @@ sub send_file {
             }
             close FILE;
             $server->close();
-            $self->Output->info( "recording sent to " . $self->Node->Host . " type: ".$self->Node->type );
+            $self->Output->info( "recording sent to "
+                    . $self->Node->Host
+                    . " type: "
+                    . $self->Node->type );
             return 1;
         }
         else {
@@ -133,8 +146,8 @@ sub send_command {
         my $Sock = $self->Socket();
         print $Sock $Command;
         my $buf;
-        while(<$Sock>){
-            $buf.=$_;
+        while (<$Sock>) {
+            $buf .= $_;
         }
         $self->Socket->close();
         return $buf;
