@@ -25,8 +25,12 @@ sub installPlugin {
 sub removePlugin {
     my $self    = shift;
     my $Options = shift;
-    my $Trigger = IntelliHome::Schema::Mongo::Trigger->find_one($Options);
-    return $Trigger->delete();
+    IntelliHome::Schema::Mongo::Trigger->find($Options)->each(
+        sub {
+            my $obj = shift;
+            $obj->delete();
+        }
+    );
 }
 
 sub updatePlugin {
@@ -71,7 +75,8 @@ sub updateNode {
     my $self          = shift;
     my $Options       = shift;
     my $UpdateOptions = shift;
-    return IntelliHome::Schema::Mongo::Node->update( %{$Options}, %{$UpdateOptions} );
+    return IntelliHome::Schema::Mongo::Node->update( %{$Options},
+        %{$UpdateOptions} );
 }
 
 sub getActiveTasks {
