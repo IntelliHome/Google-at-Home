@@ -86,7 +86,7 @@ sub connect {
         PeerAddr => $self->Node->Host,
         Timeout  => 2000
         )
-        || ( $self->Output->error("failed to connect to the server")
+        || ( $self->Output->error("failed to connect to ".$self->Node->Host.":".$self->Node->Port." $!")
         && return 0 );
 
     $self->Socket($server);
@@ -102,7 +102,7 @@ sub send_file {
         PeerAddr => $self->Node->Host,
         Timeout  => 2000
         )
-        || ( $self->Output->error("failed to connect to the server")
+        || ( $self->Output->error("failed to connect to ".$self->Node->Host.":".$self->Node->Port." $!")
         && return 0 );
     if ($server) {
         open FILE, "<" . $File
@@ -132,7 +132,12 @@ sub send_command {
     if ( $self->Socket ) {
         my $Sock = $self->Socket();
         print $Sock $Command;
+        my $buf;
+        while(<$Sock>){
+            $buf.=$_;
+        }
         $self->Socket->close();
+        return $buf;
     }
     else {
         $self->connect();
