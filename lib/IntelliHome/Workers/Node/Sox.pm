@@ -24,7 +24,7 @@ has 'Rate'                => ( is => "rw", default => "16000" );
 has 'HW'                  => ( is => "rw", default => "1,0" );
 has 'Output'              => ( is => "rw", default => "ih.flac" );
 has 'beginEnable'         => ( is => "rw", default => "1" );
-has 'beginSoundDuration'  => ( is => "rw", default => "1.0" );
+has 'beginSoundDuration'  => ( is => "rw", default => "0.5" );
 has 'beginThreshold'      => ( is => "rw", default => '1%' );
 has 'finishEnable'        => ( is => "rw", default => "1" );
 has 'finishSoundDuration' => ( is => "rw", default => "1.5" );
