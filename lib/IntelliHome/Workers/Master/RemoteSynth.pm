@@ -56,8 +56,7 @@ sub process {
 
         . "::Node";
     load $node;
-    my $Client = $node->new( Config => $self->Config );
-    $Client->selectFromHost( $host, "node" );
+    my $Client = $node->new( Config => $self->Config )->selectFromHost( $host, "node" );
     $self->Output->Node($Client);
 
     while (<$fh>) {
