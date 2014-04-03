@@ -1,5 +1,6 @@
 package IntelliHome::Workers::Role::Parser;
 use Moo::Role;
+use Module::Load;
 has 'Parser' => ( is => "rw", );
 
 sub BUILD {
