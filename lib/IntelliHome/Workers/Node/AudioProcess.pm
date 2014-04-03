@@ -39,7 +39,7 @@ sub process {
     open my $FILE, ">" . $out;
     print $FILE $audio;
     close $FILE;
-
+    $self->Output->debug("Received audio, saved to $out");
     #$self->Process->stop() if $self->Process;
     $self->Output->debug("Error launching mplayer")
         if ( !system( 'mplayer', $out ) );
