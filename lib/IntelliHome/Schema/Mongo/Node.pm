@@ -29,7 +29,7 @@ sub selectFromHost() {
     my $self = shift;
     my $host = shift;
     my $type = shift || "node";
-    return $self->find_one( { Host => $self->Host, type => $type } );
+    return $self->find_one( { Host => $host, type => $type } );
 }
 
 sub selectFromType {
