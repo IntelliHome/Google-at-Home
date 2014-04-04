@@ -12,17 +12,9 @@ Would be great to fuse the Google Now functions in your domotic control of the h
 
 Picture that:
 
+*Let's suppose that we are an electronic/computer enthusiast that want to enhance our home with some domotics control, but in non-expansive way. Then probably our choise would be to take some RaspberryPi and relay boards, then link the relayboards to the interested points (shutters, lights, dim lights, etc...) we plan to control: maybe a raspberry for floor it's enough, maybe not, but that doesn't matter. Then we install G@H and we can control those points using the voice, web interface, or even mobile device.*
 
-Google@Home - Remote Control of your home
-By mudler on Marzo 29, 2014 5:56 PM under Domotic, Embedded, Perl
-
-Google@Home aim is to let control your home in your own way: could be with android device or for example your voice, with the feature of an easy installation on every kind of device that have GPIO inteface and could run Linux.
-
-This is an example of environment setup:
-
-Let's suppose that we are an electronic/computer enthusiast that want to enhance our home with some domotics control, but in non-expansive way. Then probably our choise would be to take some RaspberryPi and relay boards, then link the relayboards to the interested points (shutters, lights, dim lights, etc...) we plan to control: maybe a raspberry for floor it's enough, maybe not, but that doesn't matter. Then we install G@H and we can control those points using the voice, web interface, or even mobile device.
-
-It's just easy as to say "open shutter" or a touch on your mobile phone.
+It's just easy as to say *"open shutter"* or a *touch* on your mobile phone.
 
 ##Development status
 
@@ -37,8 +29,6 @@ and obscure in some parts.
 
 Some things must be properly redesigned yet.
 
-
-
 ##Structure
 There are 2 kind of nodes: 
 
@@ -47,10 +37,8 @@ There are 2 kind of nodes:
 
 A basic node can either be an agent or a master. 
 
-The master takes the requests of agent's nodes, process them in a unique interface and send a reply back, so you will talk to the same Entity 
-but you can ask things in parallel in different places on the house/infrastructure.
+The master takes the requests of agent's nodes, process them in a unique interface and send a reply back, so you will talk to the same Entity but you can ask things in parallel in different places on the house/infrastructure.
 The Agents can be a PC or an embedded device and we plan to give also a display interface.
-
 
 ##Install
 
@@ -96,7 +84,8 @@ sudo make install     # only if you want main modules installed in your libpath
 
 ####Database
 
-In the ```ex/``` directory there is a backup of a pre-configured database, if you have a clean install just do 
+In the ```ex/``` directory there is a backup of a pre-configured database, if you have a clean install just do:
+ 
 ```mongorestore ex/dump```.
 
 ###Quick Start
