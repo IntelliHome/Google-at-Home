@@ -39,9 +39,9 @@ sub broadcastMessage {
 sub listen {
     my $self = shift;
 
-    return 0 if ( !$self->Worker );
+    return undef if ( !$self->Worker );
 
-    $self->Output->error("Cannot found node!") and return
+    $self->Output->error("Cannot found node!") and return undef
         if ( !defined $self->Node );
 
     my ( $filename, $new, $fh, @ready );
@@ -90,9 +90,8 @@ sub connect {
                 . $self->Node->Host . ":"
                 . $self->Node->Port . " $!"
         )
-        && return 0
+        && return undef
         );
-
     $self->Socket($server);
     return $self;
 }
@@ -112,16 +111,13 @@ sub send_file {
                 . $self->Node->Host . ":"
                 . $self->Node->Port . " $!"
         )
-        && return 0
+        && return undef
         );
     if ($server) {
         open FILE, "<" . $File
             or ( $self->Output->error("Error $File: $!") and return 0 );
         if ( flock( FILE, 1 ) ) {
-
-            while (<FILE>) {
-                print $server $_;
-            }
+            print $server $_ while (<FILE>) ;
             close FILE;
             $server->close();
             $self->Output->info( "recording sent to "
@@ -134,7 +130,6 @@ sub send_file {
             $server->close();
             $self->Output->error("Cannot send file, it's LOCKED!");
             return 0;
-
         }
     }
 }
@@ -144,12 +139,10 @@ sub send_command {
     my $Command = shift;
     if ( $self->Socket ) {
         my $Sock = $self->Socket();
-        print $Sock $Command;
         my $buf;
-        while (<$Sock>) {
-            $buf .= $_;
-        }
-        $self->Socket->close();
+        print $Sock $Command;
+        $buf .= $_ while (<$Sock>);
+        $Sock->close();
         return $buf;
     }
     else {
