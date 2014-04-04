@@ -11,14 +11,23 @@ This Object is a wrapper for threads
 =head1 METHODS
 
 =over 4
+
 =item stop()
+
 Stops the thread
+
 =item start()
+
 Start the thread
+
 =item is_running()
+
 return L<threads> C<is_running()> on the thread
+
 =item is_detached()
+
 return L<threads> C<is_detached()> on the thread
+
 =back
 
 =cut

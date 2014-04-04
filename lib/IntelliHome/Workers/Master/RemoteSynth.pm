@@ -9,24 +9,31 @@ IntelliHome::Workers::Master::RemoteSynth - Processes the voice hypothesis thru 
 This Object implement process() that is called by the master node to parse and process the given command
 
 
-=head1 ARGUMENTS 
+=head1 ATTRIBUTES 
 
-RemoteSynth implements the IntelliHome::Workers::Base arguments and implement the follow one
+RemoteSynth implements the IntelliHome::Workers::Base attributes and implement the follow one
 
 =over
+
 =item GSynth() 
+
 Get/Set the used Synthetizer (defaults to IntelliHome::Google::Synth)
-=back
+
 =item Parser()
+
 Get/Set the parser used to process the command (default loaded from Config)
+
 =back
 
 =head1 FUNCTIONS
-=over
-=item process()
-Process the request with the parser specified in the config file
-=back
 
+=over
+
+=item process()
+
+Process the request with the parser specified in the config file
+
+=back
 
 =cut
 

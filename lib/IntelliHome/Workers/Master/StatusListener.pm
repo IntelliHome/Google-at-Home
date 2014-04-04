@@ -9,19 +9,26 @@ IntelliHome::Workers::Master::StatusListener - Process the incoming connection
 This Object implement process() that is called by the master node to parse and process the given command
 
 
-=head1 ARGUMENTS 
+=head1 ATTRIBUTES 
 
-StatusListener implements the IntelliHome::Workers::Base arguments and implement the new one
+StatusListener implements the IntelliHome::Workers::Base attributes and implement the new one
 
 =over
+
 =item Output
+
 Override Output and defaults to L<IntelliHome::Interfaces::Terminal> interface
+
 =back
 
 =head1 FUNCTIONS
+
 =over
+
 =item process()
+
 Process the request
+
 =back
 
 =cut

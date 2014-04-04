@@ -11,12 +11,19 @@ This Object is a wrapper for processes
 =head1 METHODS
 
 =over 4
+
 =item stop()
+
 Stops the process
+
 =item start()
+
 Start the process
+
 =item is_running()
+
 return L<Unix::PID> C<is_running()> on the pid
+
 =back
 
 =cut

@@ -11,14 +11,21 @@ This Object represent a listening socket with a defined Worker to pass the socke
 =head1 METHODS
 
 =over 4
+
 =item launch()
+
 Start listening
+
 =back
 
-=head1 ARGUMENTS
+=head1 ATTRIBUTES
+
 =over 4
+
 =item Worker()
+
 The defined worker that will be called on receiving a connection, C<process()> would be called on that object with the socket as argument
+
 =back
 
 =cut

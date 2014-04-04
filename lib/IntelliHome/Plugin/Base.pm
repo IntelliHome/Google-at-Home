@@ -9,24 +9,31 @@ IntelliHome::Plugin::Base - Base class for parser plugins
 
 This object is the base class for the parser's plugins
 
-=head1 ARGUMENTS 
+=head1 ATTRIBUTES 
 
-RemoteSynth implements the IntelliHome::Workers::Base arguments and implement the follow one
+RemoteSynth implements the IntelliHome::Workers::Base attributes and implement the follow one
 
 =over
+
 =item Parser() 
-Get/Set the used Parser (defaults to autoload the specified in the ocnfig file)
-=back
+
+Get/Set the used Parser (defaults to autoload the specified in the config file)
+
 =item Config()
+
 Get/Set the L<IntelliHome::Config> object
+
 =back
 
 =head1 FUNCTIONS
-=over
-=item process()
-Process the request with the parser specified in the config file
-=back
 
+=over
+
+=item process()
+
+Process the request with the parser specified in the config file
+
+=back
 
 =cut
 

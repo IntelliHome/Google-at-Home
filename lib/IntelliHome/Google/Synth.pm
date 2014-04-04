@@ -9,19 +9,28 @@ IntelliHome::Google::Synth - Synthetizes flac files and returns google synth's h
 This Object synthetizes the file supplied via C<File> argument and returns a list of hypotesis using Google Services
 
 
-=head1 ARGUMENTS 
+=head1 ATTRIBUTES 
 
 =over 4
+
 =item File() 
+
 Get/Set the file to synthetize
+
 =item Language() 
+
 Get/Set the language
+
 =back
 
 =head1 FUNCTIONS
+
 =over 4
+
 =item synth()
+
 send to google services the files and return a list of hypothesis
+
 =back
 
 =cut
