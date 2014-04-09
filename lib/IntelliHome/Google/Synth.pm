@@ -49,7 +49,7 @@ has 'GoogleURL' => (
     default =>
         "https://www.google.com/speech-api/v1/recognize?xjerr=1&maxresults=10&client=speech2text&lang=" #huh
 );
-has 'Language' => ( is => "rw", default => "it" );
+has 'Language' => ( is => "rw", default => "en" );
 has 'hypotheses' => ( is => "rw" );
 has 'Time'       => ( is => "rw" );
 

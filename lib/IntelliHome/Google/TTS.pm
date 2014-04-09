@@ -40,7 +40,7 @@ require LWP::UserAgent;
 use URI;
 use Encode;
 
-has 'Language' => ( default => "it", is => "rw" );
+has 'Language' => ( default => "en", is => "rw" );
 has 'text' => ( is => "rw" );
 has 'base_url' =>
     ( default => "http://translate.google.com/translate_tts", is => "rw" );
