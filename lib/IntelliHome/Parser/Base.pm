@@ -44,6 +44,7 @@ sub run_plugin {
                 = $Plugin->new( Config => $self->Config, Parser => $self );
             $self->Plugins->{$name}->prepare()
                 if $self->Plugins->{$name}->can("prepare");
+                $self->Plugins->{$name}->language($self->Config->DBConfiguration->{'language'}) if $self->Plugins->{$name}->can("language");
             $Plugin = $self->Plugins->{$name};
         }
     }
