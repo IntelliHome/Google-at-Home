@@ -50,7 +50,11 @@ has 'GSynth' => (
     }
 );
 
-
+sub BUILD {
+    my $self = shift;
+    $self->GSynth->Language( $self->Config->DBConfiguration->{'language'} )
+        if ( defined $self->Config );
+}
 sub process {
     my $self = shift;
     my $fh   = shift;    ## IO::Socket
