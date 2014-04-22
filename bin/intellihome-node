@@ -13,7 +13,7 @@ my $Config
     ;               #specify where yaml file are
 $Config->read();    # Read and load yaml configuration
 
-# in the local YAML it's specified the master node and my address 
+# in the local YAML it's specified the master node and my address
 my $MasterNode = IntelliHome::Schema::YAML::Node->new( Config => $Config )->selectFromType("master");
 my $me         = IntelliHome::Schema::YAML::Node->new( Config => $Config )->selectFromType("node");
 
@@ -49,13 +49,3 @@ $SIG{'INT'}
 
 $Connector->blocking(1); #that makes the socket blocking
 $Connector->listen();
-
-##XXX: This below is ugly, need a proper solution
-while ( sleep 60 ) {
-    $Monitor->process();    #Process last file
-    $Sox->stop;
-    while ( $Sox->is_running ) {
-        $Sox->stop;
-    }
-    $Sox->start;
-}
