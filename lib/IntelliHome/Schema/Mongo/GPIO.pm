@@ -4,11 +4,10 @@ use namespace::autoclean;
 use Mongoose::Class;
 with 'Mongoose::Document' => {
     -collection_name => 'gpio',
-
-    -pk => [qw/ id /]
+    -pk => [qw/ pin_id /]
 };
 
-has 'id' => ( is => "rw" );
+has 'pin_id' => ( is => "rw" );
 has 'tags' => (
     is  => 'rw',
     isa => 'ArrayRef'
