@@ -9,13 +9,13 @@ IntelliHome::Workers::Master::RemoteSynth - Processes the voice hypothesis thru 
 This Object implement process() that is called by the master node to parse and process the given command
 
 
-=head1 ATTRIBUTES 
+=head1 ATTRIBUTES
 
 RemoteSynth implements the IntelliHome::Workers::Base attributes and implement the follow one
 
 =over
 
-=item GSynth() 
+=item GSynth()
 
 Get/Set the used Synthetizer (defaults to IntelliHome::Google::Synth)
 
@@ -50,11 +50,6 @@ has 'GSynth' => (
     }
 );
 
-sub BUILD {
-    my $self = shift;
-    $self->GSynth->Language( $self->Config->DBConfiguration->{'language'} )
-        if ( defined $self->Config );
-}
 sub process {
     my $self = shift;
     my $fh   = shift;    ## IO::Socket
