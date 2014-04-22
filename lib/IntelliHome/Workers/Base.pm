@@ -39,7 +39,8 @@ has 'Config' => ( is => "rw" );
 has 'Output' => (
     is      => "rw",
     default => sub {
-        return IntelliHome::Interfaces::Voice->new;
+        my $self=shift;
+        return IntelliHome::Interfaces::Voice->new(Config=> $self->Config);
     }
 );
 
