@@ -59,7 +59,6 @@ sub detectTriggers {
         if ( $item->compile($hypo) and $item->satisfy ) {
 
             $Satisfied++ if $self->run_plugin( $item->plugin, $item->plugin_method, $item );
-
             # my $r = $item->regex;
             #  $hypo =~ s/$r//g;    #removes the trigger
             #Checking the trigger needs.
@@ -88,6 +87,7 @@ sub detectTriggers {
         }
 
     }
+    $self->Output->debug("A total of $Satisfied plugins satisfied the request")
     return $Satisfied;
 }
 
