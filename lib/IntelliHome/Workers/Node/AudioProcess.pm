@@ -9,7 +9,7 @@ IntelliHome::Workers::Node::AudioProcess - Receive the answer from the master an
 This Object implement process() that is called by the node to retrieve the audio to be played back as an answer
 
 
-=head1 ARGUMENTS 
+=head1 ARGUMENTS
 
 =head1 FUNCTIONS
 =over
@@ -42,7 +42,7 @@ sub process {
     $self->Output->debug("Received audio, saved to $out");
     #$self->Process->stop() if $self->Process;
     $self->Output->debug("Error launching mplayer")
-        if ( !system( 'mplayer', $out ) );
+        if ( !system( 'play', $out ) );
 
 # If we don't play it's gone forever. think about a message response delayed: that's not what we want
     unlink($out);
