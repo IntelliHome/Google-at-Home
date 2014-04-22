@@ -4,6 +4,7 @@ use IntelliHome::IntelliHomeNodeMaster;
 use Cwd;
 use Getopt::Long;
 use Module::Load;
+use Carp::Always;
 
 my $IHOutput = new IntelliHome::Interfaces::Terminal;
 my $Config
@@ -15,7 +16,7 @@ my $remote
     = IntelliHome::Workers::Master::RemoteSynth->new( Config => $Config );
 
 ###################################################### PLUGIN INSTALL, REMOVE, UPDATE
-my $install_plugin, $remove_plugin, $update_plugin;
+my ($install_plugin, $remove_plugin, $update_plugin);
 GetOptions(
     "i|installplugin=s" => \$install_plugin,
     "r|removeplugin=s"  => \$remove_plugin,
