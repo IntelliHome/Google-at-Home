@@ -87,7 +87,7 @@ sub detectTriggers {
         }
 
     }
-    $self->Output->debug("A total of $Satisfied plugins satisfied the request")
+    $self->Output->debug("A total of $Satisfied plugins satisfied the request");
     return $Satisfied;
 }
 
