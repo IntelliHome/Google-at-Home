@@ -10,3 +10,4 @@ MANIFEST.bak
 !META.json
 blib/
 cover_db/
+googleathome.db
