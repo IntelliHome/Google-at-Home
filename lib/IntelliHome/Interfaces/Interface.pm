@@ -6,6 +6,7 @@ with 'MooX::Singleton';
 has 'Today' => ( is => "rw" );
 has 'Year'  => ( is => "rw" );
 has 'Month' => ( is => "rw" );
+has 'Config' => (is=>"rw");
 
 sub setLogFile {
     my $self  = shift;
