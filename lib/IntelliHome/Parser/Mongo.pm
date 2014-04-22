@@ -1,8 +1,7 @@
 package IntelliHome::Parser::Mongo;
 
-use Moose;
+use Moo;
 extends 'IntelliHome::Parser::Base';
-
 use IntelliHome::Schema::Mongo::Trigger;
 use IntelliHome::Schema::Mongo::Task;
 use IntelliHome::Parser::DB::Mongo;
@@ -58,7 +57,7 @@ sub detectTriggers {
         #Every Trigger cycled here.
         #
         if ( $item->compile($hypo) and $item->satisfy ) {
-            
+
             $Satisfied++ if $self->run_plugin( $item->plugin, $item->plugin_method, $item );
 
             # my $r = $item->regex;
