@@ -22,7 +22,7 @@ For now you can setup some agents and a master: you speak at the microphone at a
 
 Really, really prototype.
 
-Some things works, others don't, that's because it's currently in development so doesn't expect to run something successfully every time now, code is also ugly 
+Some things works, others don't, that's because it's currently in development so doesn't expect to run something successfully every time now, code is also ugly
 and obscure in some parts.
 
 **Until we reach a proper state of functionalities, won't be released a major release.**
@@ -30,12 +30,12 @@ and obscure in some parts.
 Some things must be properly redesigned yet.
 
 ##Structure
-There are 2 kind of nodes: 
+There are 2 kind of nodes:
 
-* masters, 
-* agents or basics nodes. 
+* masters,
+* agents or basics nodes.
 
-A basic node can either be an agent or a master. 
+A basic node can either be an agent or a master.
 
 The master takes the requests of agent's nodes, process them in a unique interface and send a reply back, so you will talk to the same Entity but you can ask things in parallel in different places on the house/infrastructure.
 The Agents can be a PC or an embedded device and we plan to give also a display interface.
@@ -62,16 +62,16 @@ If you want to have the dependencies avaible system wide run the command as root
 
 ### Software Dependencies
 
-The nodes needs ```mplayer``` and ```sox``` installed in the box.
+The nodes needs only ```sox``` installed in the box as external dependency.
 The master needs the proper database installed and configured:
 
-For now it's implemented the Mongo Backend, this requires mongodb installed *only in the box of the master node*.
+For now it's implemented the MongoDB Backend, this requires mongodb installed *only in the box of the master node*.
 
 **This repository ships out a default configuration of master and node on the same pc.**
 
 ###Full Setup
 
-You don't need to install the software, you can just clone this repository and launch 
+You don't need to install the software, you can just clone this repository and launch
 ```intellihome-master``` or ```intellihome-node```.
 If you wish to install:
 
@@ -85,7 +85,7 @@ sudo make install     # only if you want main modules installed in your libpath
 ####Database
 
 In the ```ex/``` directory there is a backup of a pre-configured database, if you have a clean install just do:
- 
+
 ```mongorestore ex/dump```.
 
 ###Quick Start
@@ -109,7 +109,7 @@ Now your PC will work both as master and node(default configuration). The plugin
 
 ####Database
 
-In the ```ex/``` directory there is a backup of a pre-configured database, if you have a clean install just do 
+In the ```ex/``` directory there is a backup of a pre-configured database, if you have a clean install just do
 ```mongorestore ex/dump```.
 
 ##Plugin
@@ -129,11 +129,10 @@ Currently plugins are WiP so api can change and most of them are drafts:
 * ~~Master node accept and respond to requests~~
 * ~~Speech interface thru google~~
 * ~~SpeechToText thru google~~
+* ~~Ideas for a better database schema to collect and display informations~~
 * Auto-Calibration of mic, or an aided one
 * *Google Now* functionality interface
-* Ideas for a better database schema to collect and display informations
 * Write Display interface
-* Really, really clean the code
 * Agents offline routines
 * Video surveillance and alarm
 * Simple majordomo interface with a personality (did you remember Jarvis?:P)
@@ -148,9 +147,9 @@ Have a look at [GSoC](GSoC.md) to see what are the proposed tasks
 ***
 ##Notes
 
-We need to buy a raspberryPi but we are testing our work on a FOXG20 board. But the code is written to be portable so we don't think things 
+We need to buy a raspberryPi but we are testing our work on a FOXG20 board. But the code is written to be portable so we don't think things
 works really different.
-Another thing, this project is strictly correlated with our lifes, that's because we are making our home with that: let's consider us first 
+Another thing, this project is strictly correlated with our lifes, that's because we are making our home with that: let's consider us first
 alfa-proto-beta-testers :)
 
 ***
@@ -163,4 +162,4 @@ IRC: irc.perl.org , #Google-at-Home
 
 ***
 
-Everything is released under GPLv3 
+Everything is released under GPLv3
