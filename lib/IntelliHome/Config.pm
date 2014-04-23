@@ -11,8 +11,10 @@ has 'Nodes' => ( is => "rw" );
 has 'DBConfiguration' => ( is => "rw", default => sub { {} } );
 
 has 'Dirs' => ( is => "rw" );
-has 'Output' =>
-    ( is => "rw", default => sub { return new IntelliHome::Interfaces::Terminal } );
+has 'Output' => (
+    is      => "rw",
+    default => sub { return new IntelliHome::Interfaces::Terminal }
+);
 
 sub read {
     my $self   = shift;
@@ -102,7 +104,21 @@ sub read {
                         $Nodes->{ $Key->{host} }->{type} = $Key->{type};
                         $Nodes->{ $Key->{host} }->{HW}   = $Key->{HW}
                             if ( exists( $Key->{HW} ) );
-
+                        $Nodes->{ $Key->{host} }->{mic_lower_threshold}
+                            = $Key->{mic_lower_threshold}
+                            if ( exists( $Key->{mic_lower_threshold} ) );
+                        $Nodes->{ $Key->{host} }->{mic_upper_threshold}
+                            = $Key->{mic_upper_threshold}
+                            if ( exists( $Key->{mic_upper_threshold} ) );
+                        $Nodes->{ $Key->{host} }->{mic_capture_level}
+                            = $Key->{mic_capture_level}
+                            if ( exists( $Key->{mic_capture_level} ) );
+                        $Nodes->{ $Key->{host} }->{mic_boost_level}
+                            = $Key->{mic_boost_level}
+                            if ( exists( $Key->{mic_boost_level} ) );
+                        $Nodes->{ $Key->{host} }->{mic_step}
+                            = $Key->{mic_step}
+                            if ( exists( $Key->{mic_step} ) );
                     }
                 }
 
