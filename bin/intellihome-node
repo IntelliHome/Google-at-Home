@@ -14,8 +14,10 @@ my $Config
 $Config->read();    # Read and load yaml configuration
 
 # in the local YAML it's specified the master node and my address
-my $MasterNode = IntelliHome::Schema::YAML::Node->new( Config => $Config )->selectFromType("master");
-my $me         = IntelliHome::Schema::YAML::Node->new( Config => $Config )->selectFromType("node");
+my $MasterNode = IntelliHome::Schema::YAML::Node->new( Config => $Config )
+    ->selectFromType("master");
+my $me = IntelliHome::Schema::YAML::Node->new( Config => $Config )
+    ->selectFromType("node");
 
 my $Connector = IntelliHome::Connector->new( Node => $MasterNode )
     ; #set up a connector and supply the config file (For auto select of nodes)
@@ -25,11 +27,29 @@ $IHOutput->info( "Bringing up sox and sending recordings to "
         . $MasterNode->Host . " HW:"
         . $me->HW );
 
-my $Sox = new IntelliHome::Workers::Node::Sox( HW => $me->HW )
+my $Sox = IntelliHome::Workers::Node::Sox->new( HW => $me->HW )
     ;    #set up a sox process
-my $Monitor = new IntelliHome::Workers::Node::Monitor( Process => $Sox )
+my $Monitor = IntelliHome::Workers::Node::Monitor->new( Process => $Sox )
     ;    # an anyevent monitor for file changes
-$Sox->start();
+$Sox->launch();
+
+### Automatic Mic Adjustment
+my $MicAdjust
+    = IntelliHome::Workers::Node::MicAdjust
+    ->new;    # a loop for continously setting mic
+if ( defined $me->mic_upper_threshold and defined $me->mic_lower_threshold ) {
+    $MicAdjust->upper_threshold( $me->mic_upper_threshold );
+    $MicAdjust->lower_threshold( $me->mic_lower_threshold );
+    $MicAdjust->boost( $me->mic_boost_level )
+        if ( defined $me->mic_boost_level );
+    $MicAdjust->step( $me->mic_step )
+        if ( defined $me->mic_step );
+    $MicAdjust->launch();
+}
+elsif ( defined $me->mic_capture_level ) {
+    $MicAdjust->set( "Capture",            $me->mic_capture_level );
+    $MicAdjust->set( "Internal Mic Boost", $me->mic_boost_level );
+}
 
 #Set the event listener on the monitor process
 $Monitor->worker(
@@ -44,8 +64,13 @@ $Connector = IntelliHome::Connector->new(
 );
 
 #Closing all in case of sig int
-$SIG{'INT'}
-    = sub { $Connector->stop(); $Sox->stop(); $Monitor->stop(); exit; };
+$SIG{'INT'} = sub {
+    $Connector->stop();
+    $MicAdjust->stop();
+    $Sox->stop();
+    $Monitor->stop();
+    exit;
+};
 
-$Connector->blocking(1); #that makes the socket blocking
+$Connector->blocking(1);    #that makes the socket blocking
 $Connector->listen();
