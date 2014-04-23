@@ -79,7 +79,6 @@ sub process {
         $self->Parser->Node($Client);
         $self->Parser->Output( $self->Output );
         $self->Parser->parse(@hypotheses);
-
         #$self->Output->info( $hypotheses[0] );
 
         # $self->Output->info( "Google result for "

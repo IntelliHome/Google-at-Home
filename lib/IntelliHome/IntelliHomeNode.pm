@@ -6,6 +6,7 @@ require IntelliHome::Workers::Node::Sox;
 require IntelliHome::Workers::Node::Event;
 require IntelliHome::Workers::Node::AudioProcess;
 require IntelliHome::Schema::YAML::Node;
+require IntelliHome::Workers::Node::MicAdjust;
 require Proc::Daemon;
 require AnyEvent;
 use base qw(Exporter);

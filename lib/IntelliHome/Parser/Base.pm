@@ -1,5 +1,5 @@
 package IntelliHome::Parser::Base;
-use Moose;
+use Moo;
 use Module::Load;
 has 'Config'  => ( is => "rw" );
 has 'Plugins' => ( is => "rw", default => sub { {} } );

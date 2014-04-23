@@ -8,7 +8,7 @@ IntelliHome::Workers::Node::Sox - This Process represent the Sox recording insta
 
 This Object generate the configured command for sox and launch it
 
-=head1 USAGE 
+=head1 USAGE
 
 This object is used internally by G@H
 
@@ -35,6 +35,7 @@ has 'Filters' => (
     default => "trim 0 12"
     #compand 0.3,1 6:-70,-60,-20 -5 -90 0.2
 );
+
 
 #XXX:  highpass 100  "treble 10 3.5k" or "bass -10 300"  http://sox.10957.n7.nabble.com/band-pass-filter-for-voices-td3607.html
 #XXX: http://sox.cvs.sourceforge.net/viewvc/sox/sox/scripts/voice-cleanup.sh?revision=1.1&content-type=text%2Fplain
@@ -86,7 +87,7 @@ sub clean {
    #       if ( flock( FILE, 1 ) ) {
    #        close FILE;
    #           unlink $file;
-   #       } 
+   #       }
    #  }
 
 }
