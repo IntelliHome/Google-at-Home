@@ -1,6 +1,11 @@
 #!/usr/bin/perl
 use lib './lib';
 use IntelliHome::IntelliHomeNode;    #Load node library set
+use IntelliHome::Utils qw(daemonize);
+use Getopt::Long;
+my ($foreground);
+GetOptions( "f|foreground" => \$foreground )
+    or die("Error in command line arguments\n");
 
 cleanup;
 my $IHOutput = IntelliHome::Interfaces::Terminal->new;  #set up output (debug)
@@ -26,6 +31,7 @@ $IHOutput->info("IntelliHome : Node started");
 $IHOutput->info( "Bringing up sox and sending recordings to "
         . $MasterNode->Host . " HW:"
         . $me->HW );
+&daemonize unless ($foreground);
 
 my $Sox = IntelliHome::Workers::Node::Sox->new( HW => $me->HW )
     ;    #set up a sox process
@@ -64,7 +70,7 @@ $Connector = IntelliHome::Connector->new(
 );
 
 #Closing all in case of sig int
-$SIG{'INT'} = sub {
+$SIG{'KILL'} = $SIG{'INT'} = sub {
     $Connector->stop();
     $MicAdjust->stop();
     $Sox->stop();

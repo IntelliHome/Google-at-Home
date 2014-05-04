@@ -5,6 +5,7 @@ use Cwd;
 use Getopt::Long;
 use Module::Load;
 use Carp::Always;
+use IntelliHome::Utils qw(daemonize);
 
 my $IHOutput = new IntelliHome::Interfaces::Terminal;
 my $Config
@@ -15,12 +16,13 @@ $Config->read();    # Read and load yaml configuration
 my $remote
     = IntelliHome::Workers::Master::RemoteSynth->new( Config => $Config );
 
-###################################################### PLUGIN INSTALL, REMOVE, UPDATE
-my ($install_plugin, $remove_plugin, $update_plugin);
+###################################################### GetOptions
+my ( $install_plugin, $remove_plugin, $update_plugin, $foreground );
 GetOptions(
     "i|installplugin=s" => \$install_plugin,
     "r|removeplugin=s"  => \$remove_plugin,
-    "u|updateplugin=s"  => \$update_plugin
+    "u|updateplugin=s"  => \$update_plugin,
+    "f|foreground"      => \$foreground
 ) or die("Error in command line arguments\n");
 
 if ($install_plugin) {
@@ -44,10 +46,12 @@ $IHOutput->info(
     "Bringing up sockets (not secured, i assume you have properly secured your network)"
 );
 
+&daemonize unless ($foreground);
+
 my $node
-    = "IntelliHome::Schema::"
-    . $Config->DBConfiguration->{'database_backend'}
-   # . "YAML" #XXX: we force to yaml for now, but the backend will be switchable when autoconfiguration would be ready
+    = "IntelliHome::Schema::" . $Config->DBConfiguration->{'database_backend'}
+
+# . "YAML" #XXX: we force to yaml for now, but the backend will be switchable when autoconfiguration would be ready
     . "::Node";
 load $node;
 
