@@ -41,7 +41,7 @@ sub run_plugin {
         }
         else {
             $self->Plugins->{$name}
-                = $Plugin->new( Config => $self->Config, Parser => $self );
+                = $Plugin->new( Config => $self->Config, Parser => $self, IntelliHome=>$self );
             $self->Plugins->{$name}->prepare()
                 if $self->Plugins->{$name}->can("prepare");
                 $self->Plugins->{$name}->language($self->Config->DBConfiguration->{'language'}) if $self->Plugins->{$name}->can("language");
