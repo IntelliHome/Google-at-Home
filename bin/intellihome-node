@@ -31,6 +31,15 @@ $IHOutput->info("IntelliHome : Node started");
 $IHOutput->info( "Bringing up sox and sending recordings to "
         . $MasterNode->Host . " HW:"
         . $me->HW );
+#Closing all in case of sig int
+$SIG{'KILL'} = $SIG{'INT'} = sub {
+    $Connector->stop();
+    $MicAdjust->stop();
+    $Sox->stop();
+    $Monitor->stop();
+    exit;
+};
+
 &daemonize unless ($foreground);
 
 my $Sox = IntelliHome::Workers::Node::Sox->new( HW => $me->HW )
@@ -69,14 +78,7 @@ $Connector = IntelliHome::Connector->new(
     Worker => IntelliHome::Workers::Node::AudioProcess->new
 );
 
-#Closing all in case of sig int
-$SIG{'KILL'} = $SIG{'INT'} = sub {
-    $Connector->stop();
-    $MicAdjust->stop();
-    $Sox->stop();
-    $Monitor->stop();
-    exit;
-};
+
 
 $Connector->blocking(1);    #that makes the socket blocking
 $Connector->listen();
