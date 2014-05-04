@@ -41,7 +41,7 @@ sub run {
     my $self            = shift;
     my $lower_threshold = $self->lower_threshold;
     my $upper_threshold = $self->upper_threshold;
-    while ( sleep 1 ) {
+    while ( 1 ) {
         my $amplitude = $self->get_max_amplitude;
         if ( $amplitude > $upper_threshold ) {
             say "Threshold decreased of "

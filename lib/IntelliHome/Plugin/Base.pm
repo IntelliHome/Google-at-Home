@@ -9,13 +9,13 @@ IntelliHome::Plugin::Base - Base class for parser plugins
 
 This object is the base class for the parser's plugins
 
-=head1 ATTRIBUTES 
+=head1 ATTRIBUTES
 
 RemoteSynth implements the IntelliHome::Workers::Base attributes and implement the follow one
 
 =over
 
-=item Parser() 
+=item Parser()
 
 Get/Set the used Parser (defaults to autoload the specified in the config file)
 
@@ -40,6 +40,7 @@ Process the request with the parser specified in the config file
 use Moose;
 has 'Config' => ( is => "rw" );
 has 'Parser' => ( is => "rw" );
+has 'IntelliHome' => (is=>"rw");
 
 sub prepare {  # this is called on first load in the thread session if defined
     my $self = shift;
