@@ -46,7 +46,6 @@ has 'Directory' => ( is => "rw", default => "/var/tmp" );
 sub launch {
     my $self = shift;
 
-    $SIG{'CHLD'} = 'IGNORE';
     $self->_generateOutputCommand();
     my $CWD = cwd();
     chdir( $self->Directory );
@@ -77,7 +76,6 @@ sub launch {
 sub stop {
     my $self = shift;
     $self->UnixPid->kill( $self->Pid() );
-    kill -9 => $self->Pid();
     waitpid( $self->Pid(), 0 );
 }
 
