@@ -1,84 +1,19 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 use lib './lib';
 use IntelliHome::IntelliHomeNode;    #Load node library set
-use IntelliHome::Utils qw(daemonize);
 use Getopt::Long;
-my ($foreground);
-GetOptions( "f|foreground" => \$foreground )
+
+
+
+
+my ($foreground, $stop);
+GetOptions( "f|foreground" => \$foreground ,
+    "s|stop"=> \$stop)
     or die("Error in command line arguments\n");
 
-cleanup;
-my $IHOutput = IntelliHome::Interfaces::Terminal->new;  #set up output (debug)
 
-## XXX: For prototyping purposes we load a YAML file for now, but we should auto-configure stuff
-##      probing the network or the master
-
-my $Config
-    = new IntelliHome::Config( Dirs => ['./config'] )
-    ;               #specify where yaml file are
-$Config->read();    # Read and load yaml configuration
-
-# in the local YAML it's specified the master node and my address
-my $MasterNode = IntelliHome::Schema::YAML::Node->new( Config => $Config )
-    ->selectFromType("master");
-my $me = IntelliHome::Schema::YAML::Node->new( Config => $Config )
-    ->selectFromType("node");
-
-my $Connector = IntelliHome::Connector->new( Node => $MasterNode )
-    ; #set up a connector and supply the config file (For auto select of nodes)
-
-$IHOutput->info("IntelliHome : Node started");
-$IHOutput->info( "Bringing up sox and sending recordings to "
-        . $MasterNode->Host . " HW:"
-        . $me->HW );
-#Closing all in case of sig int
-$SIG{'KILL'} = $SIG{'INT'} = sub {
-    $Connector->stop();
-    $MicAdjust->stop();
-    $Sox->stop();
-    $Monitor->stop();
-    exit;
-};
-
-&daemonize unless ($foreground);
-
-my $Sox = IntelliHome::Workers::Node::Sox->new( HW => $me->HW )
-    ;    #set up a sox process
-my $Monitor = IntelliHome::Workers::Node::Monitor->new( Process => $Sox )
-    ;    # an anyevent monitor for file changes
-$Sox->launch();
-
-### Automatic Mic Adjustment
-my $MicAdjust
-    = IntelliHome::Workers::Node::MicAdjust
-    ->new;    # a loop for continously setting mic
-if ( defined $me->mic_upper_threshold and defined $me->mic_lower_threshold ) {
-    $MicAdjust->upper_threshold( $me->mic_upper_threshold );
-    $MicAdjust->lower_threshold( $me->mic_lower_threshold );
-    $MicAdjust->boost( $me->mic_boost_level )
-        if ( defined $me->mic_boost_level );
-    $MicAdjust->step( $me->mic_step )
-        if ( defined $me->mic_step );
-    $MicAdjust->launch();
-}
-elsif ( defined $me->mic_capture_level ) {
-    $MicAdjust->set( "Capture",            $me->mic_capture_level );
-    $MicAdjust->set( "Internal Mic Boost", $me->mic_boost_level );
+if(defined $stop){
+    IntelliHome::IntelliHomeNode->stop;
 }
 
-#Set the event listener on the monitor process
-$Monitor->worker(
-    IntelliHome::Workers::Node::Event->new( Connector => $Connector ) );
-$Monitor->launch();    #Launches the monitor
-
-#Config parameter is optional, only needed if you wanna send broadcast messages
-$Connector = IntelliHome::Connector->new(
-    Config => $Config,
-    Node   => $me,
-    Worker => IntelliHome::Workers::Node::AudioProcess->new
-);
-
-
-
-$Connector->blocking(1);    #that makes the socket blocking
-$Connector->listen();
+IntelliHome::IntelliHomeNode->start($foreground);
