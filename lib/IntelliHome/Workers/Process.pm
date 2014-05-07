@@ -29,6 +29,7 @@ return L<Unix::PID> C<is_running()> on the pid
 =cut
 
 use Moose::Role;
+use feature 'say';
 
 #use IPC::Open3;
 use Cwd;
@@ -45,9 +46,7 @@ has 'Directory' => ( is => "rw", default => "/var/tmp" );
 sub launch {
     my $self = shift;
 
-    $SIG{'KILL'} = $SIG{'INT'} = sub { $self->stop(); };
     $SIG{'CHLD'} = 'IGNORE';
-
     $self->_generateOutputCommand();
     my $CWD = cwd();
     chdir( $self->Directory );
@@ -57,7 +56,6 @@ sub launch {
     if ( eval { $self->can("clean") } ) {
         $self->clean;
     }
-
     #my $pid = open3( $wtr, $rdr, $err, $self->command() );
     my $pid = fork();
     if ( !$pid ) {
@@ -79,6 +77,7 @@ sub launch {
 sub stop {
     my $self = shift;
     $self->UnixPid->kill( $self->Pid() );
+    kill -9 => $self->Pid();
     waitpid( $self->Pid(), 0 );
 }
 

@@ -2,13 +2,13 @@ package IntelliHome::Workers::Node::Monitor;
 
 =head1 NAME
 
-IntelliHome::Workers::Node::Monitor - This thread is listening for file changes 
+IntelliHome::Workers::Node::Monitor - This thread is listening for file changes
 
 =head1 DESCRIPTION
 
 This Object listens for changes in the folder where sox is recording, processing the changes thru L<IntelliHome::Node::Event>
 
-=head1 USAGE 
+=head1 USAGE
 
 This object is used internally by G@H
 
@@ -28,8 +28,8 @@ sub run {
     my $self = shift;
     my $cv   = AnyEvent->condvar;
 
-    $SIG{'KILL'} = $SIG{'INT'} = sub { threads->exit(); };
-    $SIG{'USR1'} = sub { $self->worker->process };
+ local $SIG{'KILL'} = $SIG{'INT'} = sub { threads->exit(); };
+ local $SIG{'USR1'} = sub { $self->worker->process };
 
     my $notifier = AnyEvent::Filesys::Notify->new(
         dirs => [@_],
@@ -44,8 +44,6 @@ sub run {
             else {
                 croak "No worker found\n";
                 threads->exit();
-
-                #  print Dumper(@events);
             }
         },
     );

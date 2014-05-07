@@ -32,7 +32,10 @@ sub set {
 
 sub get_max_amplitude {
     my $self   = shift;
-    my $status = qx/rec -n stat trim 0 .5 2>&1/;
+    #my $status = qx/rec -n stat trim 0 .5 2>&1/;
+    #parec --record | sox -t raw -r 44100 -sLb 16 -c 2 - -n stat trim 0 .5 2>&1
+    my $status = qx/parec --record | sox -t raw -r 44100 -sLb 16 -c 2 - -n stat trim 0 .5 2>&1/;
+
     $status =~ /^Maximum amplitude:\s*(.*?)$/mgi;
     return $1;
 }

@@ -47,7 +47,6 @@ has 'callback'  => ( is => "rw" );
 has 'args'      => ( is => "rw" );
 has 'thread'    => ( is => "rw" );
 
-
 sub start {
     my $self = shift;
     if ( !defined $self->callback ) {
@@ -61,6 +60,13 @@ sub start {
     );
     $self->thread($thr);
 
+}
+
+sub join {
+    my $self = shift;
+    if ( defined $self->thread ) {
+        $self->thread->join;
+    }
 }
 
 sub stop {
