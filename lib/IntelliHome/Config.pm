@@ -2,10 +2,11 @@ package IntelliHome::Config;
 
 #Handles configuration import
 use YAML::Tiny;
-use MooseX::Singleton;
 use IntelliHome::Interfaces::Terminal;
 use Data::Dumper;
 use File::Find::Object;
+use Moo;
+with 'MooX::Singleton';
 
 has 'Nodes' => ( is => "rw" );
 has 'DBConfiguration' => ( is => "rw", default => sub { {} } );
@@ -13,9 +14,12 @@ has 'DBConfiguration' => ( is => "rw", default => sub { {} } );
 has 'Dirs' => ( is => "rw" );
 has 'Output' => (
     is      => "rw",
-    default => sub { return new IntelliHome::Interfaces::Terminal }
+    default => sub { return IntelliHome::Interfaces::Terminal->instance}
 );
-
+sub BUILD{
+    my $self=shift;
+    $self->read;
+}
 sub read {
     my $self   = shift;
     my $output = $self->Output;
@@ -132,6 +136,5 @@ sub read {
         $output->ERROR("Config dirs not defined");
         exit 1;
     }
-
 }
 1;
