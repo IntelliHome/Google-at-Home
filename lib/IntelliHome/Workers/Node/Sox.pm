@@ -8,7 +8,7 @@ IntelliHome::Workers::Node::Sox - This Process represent the Sox recording insta
 
 This Object generate the configured command for sox and launch it
 
-=head1 USAGE 
+=head1 USAGE
 
 This object is used internally by G@H
 
@@ -36,6 +36,9 @@ has 'Filters' => (
     #compand 0.3,1 6:-70,-60,-20 -5 -90 0.2
 );
 
+#parec --record | sox -t raw -r 44100 -sLb 16 -c 2 - -r 16000 -b 32 /var/tmp/sox/ih.flac trim 0 12 silence 1 0.5 1% 1 1.5 2% : newfile : restart
+
+
 #XXX:  highpass 100  "treble 10 3.5k" or "bass -10 300"  http://sox.10957.n7.nabble.com/band-pass-filter-for-voices-td3607.html
 #XXX: http://sox.cvs.sourceforge.net/viewvc/sox/sox/scripts/voice-cleanup.sh?revision=1.1&content-type=text%2Fplain
 sub _generateOutputCommand {
@@ -58,7 +61,7 @@ sub _generateOutputCommand {
             . $self->finishSoundDuration . " "
             . $self->finishThreshold()
             . " : newfile : restart"
-        : "rec -q -r "
+        : "parec --record | sox -t raw -r 44100 -sLb 16 -c 2 - -b 32 -q -r "
             . $self->Rate() . " "
             . $self->Directory()
             . $self->Output() . " "
@@ -86,7 +89,7 @@ sub clean {
    #       if ( flock( FILE, 1 ) ) {
    #        close FILE;
    #           unlink $file;
-   #       } 
+   #       }
    #  }
 
 }

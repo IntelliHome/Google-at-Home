@@ -6,7 +6,7 @@ IntelliHome::Workers::Process - Base class for workers that are processes
 
 =head1 DESCRIPTION
 
-This Object is a wrapper for processes 
+This Object is a wrapper for processes
 
 =head1 METHODS
 
@@ -16,7 +16,7 @@ This Object is a wrapper for processes
 
 Stops the process
 
-=item start()
+=item launch()
 
 Start the process
 
@@ -29,6 +29,7 @@ return L<Unix::PID> C<is_running()> on the pid
 =cut
 
 use Moose::Role;
+use feature 'say';
 
 #use IPC::Open3;
 use Cwd;
@@ -42,11 +43,8 @@ has 'Error'  => ( is => "rw" );
 has 'UnixPid' => ( is => "rw", default => sub { return new Unix::PID; } );
 has 'Directory' => ( is => "rw", default => "/var/tmp" );
 
-sub start {
+sub launch {
     my $self = shift;
-
-    $SIG{'KILL'} = $SIG{'INT'} = sub { $self->stop(); };
-    $SIG{'CHLD'} = 'IGNORE';
 
     $self->_generateOutputCommand();
     my $CWD = cwd();
@@ -57,7 +55,6 @@ sub start {
     if ( eval { $self->can("clean") } ) {
         $self->clean;
     }
-
     #my $pid = open3( $wtr, $rdr, $err, $self->command() );
     my $pid = fork();
     if ( !$pid ) {

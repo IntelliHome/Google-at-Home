@@ -7,7 +7,7 @@ has 'Password' => ( is => "rw" );
 has 'Host'     => ( is => "rw", default => 'localhost' );
 has 'Port'     => ( is => "rw", default => '23456' );
 has 'HW'       => ( is => "rw" );
-has 'type' => (is=>"rw");
+has 'type'     => ( is => "rw" );
 has 'Config'   => ( is => "rw" )
     ;    #if has config can auto select where things must be done
 has 'Description' => ( is => "rw" );
@@ -15,6 +15,12 @@ has 'Output' => (
     is      => "rw",
     default => sub { return IntelliHome::Interfaces::Terminal->new }
 );
+
+has 'mic_lower_threshold' => ( is => "rw" );
+has 'mic_upper_threshold' => ( is => "rw" );
+has 'mic_capture_level'   => ( is => "rw" );
+has 'mic_boost_level'     => ( is => "rw" );
+has 'mic_step'     => ( is => "rw" );
 
 sub select {
     my $self  = shift;
@@ -25,8 +31,18 @@ sub select {
     $self->Username( $Nodes->{$Node}->{username} );
     $self->Password( $Nodes->{$Node}->{password} );
     $self->Description( $Nodes->{$Node}->{description} );
-    $self->type($Nodes->{$Node}->{type});
+    $self->type( $Nodes->{$Node}->{type} );
     $self->HW( $Nodes->{$Node}->{HW} ) if ( $Nodes->{$Node}->{HW} );
+    $self->mic_boost_level( $Nodes->{$Node}->{mic_boost_level} )
+        if ( $Nodes->{$Node}->{mic_boost_level} );
+    $self->mic_capture_level( $Nodes->{$Node}->{mic_capture_level} )
+        if ( $Nodes->{$Node}->{mic_capture_level} );
+    $self->mic_upper_threshold( $Nodes->{$Node}->{mic_upper_threshold} )
+        if ( $Nodes->{$Node}->{mic_upper_threshold} );
+    $self->mic_lower_threshold( $Nodes->{$Node}->{mic_lower_threshold} )
+        if ( $Nodes->{$Node}->{mic_lower_threshold} );
+    $self->mic_step( $Nodes->{$Node}->{mic_step} )
+        if ( $Nodes->{$Node}->{mic_step} );
 
     if ( exists( $Nodes->{$Node}->{deployer} ) ) {
         my $Deployer = $Nodes->{$Node}->{deployer};

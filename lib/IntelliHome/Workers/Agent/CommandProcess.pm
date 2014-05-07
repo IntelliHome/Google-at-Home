@@ -23,7 +23,15 @@ sub process {
         Pin       => shift @args,
         Direction => shift @args
     );
-    my $return = $Port->setValue( shift @args );
+    my $method = shift @args;
+    my $return;
+
+    if ( $Port->can($method) ) {
+        $return = $Port->$method(@args);
+    }
+    else {
+        $return = -1;
+    }
     print $command $return;
     return $return;
 }

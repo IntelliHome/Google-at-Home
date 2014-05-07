@@ -2,18 +2,24 @@ package IntelliHome::Config;
 
 #Handles configuration import
 use YAML::Tiny;
-use MooseX::Singleton;
 use IntelliHome::Interfaces::Terminal;
 use Data::Dumper;
 use File::Find::Object;
+use Moo;
+with 'MooX::Singleton';
 
 has 'Nodes' => ( is => "rw" );
 has 'DBConfiguration' => ( is => "rw", default => sub { {} } );
 
 has 'Dirs' => ( is => "rw" );
-has 'Output' =>
-    ( is => "rw", default => sub { return new IntelliHome::Interfaces::Terminal } );
-
+has 'Output' => (
+    is      => "rw",
+    default => sub { return IntelliHome::Interfaces::Terminal->instance}
+);
+sub BUILD{
+    my $self=shift;
+    $self->read;
+}
 sub read {
     my $self   = shift;
     my $output = $self->Output;
@@ -102,7 +108,21 @@ sub read {
                         $Nodes->{ $Key->{host} }->{type} = $Key->{type};
                         $Nodes->{ $Key->{host} }->{HW}   = $Key->{HW}
                             if ( exists( $Key->{HW} ) );
-
+                        $Nodes->{ $Key->{host} }->{mic_lower_threshold}
+                            = $Key->{mic_lower_threshold}
+                            if ( exists( $Key->{mic_lower_threshold} ) );
+                        $Nodes->{ $Key->{host} }->{mic_upper_threshold}
+                            = $Key->{mic_upper_threshold}
+                            if ( exists( $Key->{mic_upper_threshold} ) );
+                        $Nodes->{ $Key->{host} }->{mic_capture_level}
+                            = $Key->{mic_capture_level}
+                            if ( exists( $Key->{mic_capture_level} ) );
+                        $Nodes->{ $Key->{host} }->{mic_boost_level}
+                            = $Key->{mic_boost_level}
+                            if ( exists( $Key->{mic_boost_level} ) );
+                        $Nodes->{ $Key->{host} }->{mic_step}
+                            = $Key->{mic_step}
+                            if ( exists( $Key->{mic_step} ) );
                     }
                 }
 
@@ -116,6 +136,5 @@ sub read {
         $output->ERROR("Config dirs not defined");
         exit 1;
     }
-
 }
 1;
