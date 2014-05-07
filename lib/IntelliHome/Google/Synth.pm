@@ -9,15 +9,15 @@ IntelliHome::Google::Synth - Synthetizes flac files and returns google synth's h
 This Object synthetizes the file supplied via C<File> argument and returns a list of hypotesis using Google Services
 
 
-=head1 ATTRIBUTES 
+=head1 ATTRIBUTES
 
 =over 4
 
-=item File() 
+=item File()
 
 Get/Set the file to synthetize
 
-=item Language() 
+=item Language()
 
 Get/Set the language
 
@@ -35,7 +35,7 @@ send to google services the files and return a list of hypothesis
 
 =cut
 
-use Moose;
+use Moo;
 use Try::Tiny;
 use Time::HiRes qw(usleep ualarm gettimeofday tv_interval);
 require IntelliHome::Interfaces::Terminal;
@@ -43,12 +43,13 @@ require LWP::UserAgent;
 
 has 'File' => ( is => "rw" );
 has 'Output' =>
-    ( is => "rw", default => sub { return IntelliHome::Interfaces::Terminal->new } );
+    ( is => "rw", default => sub { return IntelliHome::Interfaces::Terminal->instance } );
 has 'GoogleURL' => (
     is => "rw",
     default =>
-        "https://www.google.com/speech-api/v1/recognize?xjerr=1&maxresults=10&client=speech2text&lang=" #huh
+        "https://www.google.com/speech-api/v2/recognize?xjerr=1&maxresults=10&client=chromium&lang=" #huh
 );
+has 'Key'=> (is=>"rw",default=>"AIzaSyCnl6MRydhw_5fLXIdASxkLJzcJh5iX0M4");
 has 'Language' => ( is => "rw", default => "en" );
 has 'hypotheses' => ( is => "rw" );
 has 'Time'       => ( is => "rw" );
@@ -67,12 +68,13 @@ sub synth {
             . $File
             . " delegated to google (do you know a better machine learning as googlebrain?)"
         );
-    open( FILE, "<" . $File )
+    open(my  $FILE, "<" . $File )
         or $self->Output->error( "Cannot open " . $File );
-    while (<FILE>) {
+    while (<$FILE>) {
         $audio .= $_;
     }
-    close(FILE);
+    close($FILE);
+    print $audio;
 
     $self->audiosynth($audio);
     my @hypotheses = $self->hypotheses;
@@ -85,7 +87,7 @@ sub synth {
 sub audiosynth {
     my $self                 = shift;
     my $audio                = shift;
-    my $url                  = $self->GoogleURL . $self->Language;
+    my $url                  = $self->GoogleURL . $self->Language."&key=".$self->Key;
     my $request_arrival_time = [gettimeofday];
     my $result;
     my $response;
@@ -106,9 +108,11 @@ sub audiosynth {
         $result = $response->content;
         $self->Output->debug("Google answered, good.");
         $self->Output->debug($result) if $result;
-    }
+    }else {
+      $self->Output->debug( $response->status_line);
+ }
     if ( defined $result ) {
-        while ( $result =~ m/\"utterance\"\:\"(.*?)\"/g ) {
+        while ( $result =~ m/\"transcript\"\:\"(.*?)\"/g ) {
             push( @hypotheses, $1 );
         }
     }
