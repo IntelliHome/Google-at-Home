@@ -50,6 +50,8 @@ sub run {
             say "Threshold decreased of "
                 . $self->step
                 . " %, amplitude is : $amplitude";
+                        $self->set( "Internal Mic Boost", $self->boost );
+
             $self->set( "Capture", $self->step . '%-' );
 
         }
@@ -57,6 +59,8 @@ sub run {
             say "Threshold decreased of "
                 . $self->step
                 . " %, amplitude is : $amplitude";
+                        $self->set( "Internal Mic Boost", $self->boost );
+
             $self->set( "Capture", $self->step . '%+' );
 
         }
