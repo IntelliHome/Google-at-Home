@@ -130,13 +130,14 @@ Currently plugins are WiP so api can change and most of them are drafts:
 * ~~Speech interface thru google~~
 * ~~SpeechToText thru google~~
 * ~~Ideas for a better database schema to collect and display informations~~
-* Auto-Calibration of mic, or an aided one
+* ~~Auto-Calibration of mic, or an aided one~~
+* Write an api so to open the possibility to build an Android app or a web interface
+* Relay control plugin
 * *Google Now* functionality interface
 * Write Display interface
 * Agents offline routines
 * Video surveillance and alarm
 * Simple majordomo interface with a personality (did you remember Jarvis?:P)
-* Write an api so to open the possibility to build an Android app or a web interface
 
 ***
 
