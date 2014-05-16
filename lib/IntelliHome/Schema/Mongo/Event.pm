@@ -2,9 +2,9 @@ package IntelliHome::Schema::Mongo::Event;
 use Moose;
 use namespace::autoclean;
 use Mongoose::Class;
-extends 'IntelliHome::Schema::Mongo::Trigger';
-
-has 'node_id' => (
+has 'plugin' => ( is => "rw" );
+has 'plugin_method' => (is=>"rw");
+has 'node' => (
     is      => 'rw',
     isa     => 'Mongoose::Join[IntelliHome::Schema::Mongo::Node]',
     default => sub {
