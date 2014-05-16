@@ -47,7 +47,7 @@ sub listen {
         LocalPort => $self->Node->Port,
     ) or ( $self->Output->error("$!") && exit 1 );
     if ( $self->blocking == 1 ) {
-       $self->Worker->process($client)   while ( my $client = $lsn->accept() ) ;
+       $self->Worker->process($_)   while ($lsn->accept() ) ;
     }
     else {
         my $Thread = IntelliHome::Workers::SocketAsync->new(
