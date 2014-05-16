@@ -8,7 +8,7 @@ with 'Mongoose::Document' => {
 };
 
 has 'pin_id' => ( is => "rw" );
-has 'node_id' => (
+has 'node' => (
     is      => 'rw',
     isa     => 'Mongoose::Join[IntelliHome::Schema::Mongo::Node]',
     default => sub {
