@@ -61,7 +61,7 @@ sub _generateOutputCommand {
             . $self->finishSoundDuration . " "
             . $self->finishThreshold()
             . " : newfile : restart"
-        : "parec --record | sox -t raw -r 44100 -sLb 16 -c 2 - -b 32 -q -r "
+        : "parec --record | sox -t raw -r 44100 -sLb 16 -c 2 - -q -r "
             . $self->Rate() . " "
             . $self->Directory()
             . $self->Output() . " "
