@@ -4,11 +4,10 @@ use Moose;
 use IntelliHome::Workers::SocketListener;
 use IntelliHome::Workers::SocketAsync;
 use Fcntl qw(:DEFAULT :flock);
-
 use IO::Socket;
 
 has 'Output' =>
-    ( is => "rw", default => sub { IntelliHome::Interfaces::Terminal->new } );
+    ( is => "rw", default => sub { IntelliHome::Interfaces::Terminal->instance } );
 has 'Worker' => ( is => "rw" );
 has 'Config' => ( is => "rw" )
     ;    #if has config can auto select where things must be done
@@ -38,42 +37,27 @@ sub broadcastMessage {
 
 sub listen {
     my $self = shift;
-
     return undef if ( !$self->Worker );
-
     $self->Output->error("Cannot found node!") and return undef
         if ( !defined $self->Node );
-
     my ( $filename, $new, $fh, @ready );
-
     my $lsn = IO::Socket::INET->new(
         Listen    => 1,
         LocalAddr => $self->Node->Host,
         LocalPort => $self->Node->Port,
     ) or ( $self->Output->error("$!") && exit 1 );
-
     if ( $self->blocking == 1 ) {
-
-        #oldaway
-        while ( my $client = $lsn->accept() ) {
-
-            $self->Worker->process($client);
-
-        }
+       $self->Worker->process($_)   while ($lsn->accept() ) ;
     }
     else {
-
         my $Thread = IntelliHome::Workers::SocketAsync->new(
             Worker => $self->Worker,
             Socket => $lsn
         );
         $Thread->launch();
         $self->Thread($Thread);
-
     }
-
     return $self->Thread->is_running ? 1 : 0;
-
 }
 
 sub connect {
@@ -128,7 +112,7 @@ sub send_file {
         }
         else {
             $server->close();
-            $self->Output->error("Cannot send file, it's LOCKED!");
+            $self->Output->error("Cannot send file, it's LOCKED!"); # avoids file that are currently being writed
             return 0;
         }
     }

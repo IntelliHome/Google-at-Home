@@ -11,7 +11,7 @@ has 'Direction' => ( is => "rw" );
 has 'Status'    => ( is => "rw" );
 has 'Output'    => (
     is      => "rw",
-    default => sub { return new IntelliHome::Interfaces::Terminal }
+    default => sub { return  IntelliHome::Interfaces::Terminal->instance }
 );
 has 'Connector' => ( is => "rw" );
 

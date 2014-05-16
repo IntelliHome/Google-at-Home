@@ -5,7 +5,7 @@ use Module::Load;
 
 has 'Output' => (
     is      => "rw",
-    default => sub { return new IntelliHome::Interfaces::Terminal }
+    default => sub { return IntelliHome::Interfaces::Terminal->instance }
 );
 
 sub process {
