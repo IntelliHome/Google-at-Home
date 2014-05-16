@@ -40,6 +40,7 @@ sub start {
     }
     my $Connector = IntelliHome::Connector->new(Node=> $me);
     $Connector->Worker( IntelliHome::Workers::Agent::CommandProcess->new() );
+    $Connector->blocking(1);
     $Connector->listen();
 }
 
