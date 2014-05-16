@@ -4,7 +4,7 @@ port: 23456
 type: node #This indicate that i'm the node
 username: root
 password: test
-mic_upper_threshold: 0.28
+mic_upper_threshold: 0.28 #in Pa, 0.10-> 0.22 it's still audible, words can be still understood by humans
 mic_lower_threshold: 0.10
 mic_boost_level: 1.5
 mic_capture_level: 52
