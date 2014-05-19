@@ -58,36 +58,20 @@ sub process {
     my $node
         = "IntelliHome::Schema::"
         . $self->Config->DBConfiguration->{'database_backend'}
-       #    . "YAML" #XXX: we force to yaml for now, but the backend will be switchable when autoconfiguration would be ready
-
         . "::Node";
     load $node;
-    my $Client = $node->new( Config => $self->Config )->selectFromHost( $host, "node" );
+    my $Client = $node->new( Config => $self->Config )
+        ->selectFromHost( $host, "node" );
     $self->Output->Node($Client);
-
-    while (<$fh>) {
-        $audio .= $_;
-    }
-
+    $audio .= $_ while (<$fh>);
     $self->GSynth->audiosynth($audio);
     my @hypotheses = @{ $self->GSynth->hypotheses() };
-        $self->Output->debug("audio received from $host");
-    $self->Output->debug("Hypothesis: ".join("\t",@hypotheses));
-
+    $self->Output->debug("audio received from $host");
+    $self->Output->debug( "Hypothesis: " . join( "\t", @hypotheses ) );
     if ( @hypotheses > 0 ) {
-
         $self->Parser->Node($Client);
         $self->Parser->Output( $self->Output );
         $self->Parser->parse(@hypotheses);
-        #$self->Output->info( $hypotheses[0] );
-
-        # $self->Output->info( "Google result for "
-        #         . $host . ": "
-        #         . join( "\t", @hypotheses ) . " "
-        #         . $self->GSynth->Time
-        #         . "s" );
-
-        #Let's visualize the hypotesis for now
     }
 }
 
