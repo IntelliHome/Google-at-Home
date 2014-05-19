@@ -6,8 +6,10 @@ use IntelliHome::Workers::SocketAsync;
 use Fcntl qw(:DEFAULT :flock);
 use IO::Socket;
 
-has 'Output' =>
-    ( is => "rw", default => sub { IntelliHome::Interfaces::Terminal->instance } );
+has 'Output' => (
+    is      => "rw",
+    default => sub { IntelliHome::Interfaces::Terminal->instance }
+);
 has 'Worker' => ( is => "rw" );
 has 'Config' => ( is => "rw" )
     ;    #if has config can auto select where things must be done
@@ -47,7 +49,9 @@ sub listen {
         LocalPort => $self->Node->Port,
     ) or ( $self->Output->error("$!") && exit 1 );
     if ( $self->blocking == 1 ) {
-       $self->Worker->process($_)   while ($lsn->accept() ) ;
+        while ( my $client = $lsn->accept() ) {
+            $self->Worker->process($client);
+        }
     }
     else {
         my $Thread = IntelliHome::Workers::SocketAsync->new(
@@ -101,7 +105,7 @@ sub send_file {
         open FILE, "<" . $File
             or ( $self->Output->error("Error $File: $!") and return 0 );
         if ( flock( FILE, 1 ) ) {
-            print $server $_ while (<FILE>) ;
+            print $server $_ while (<FILE>);
             close FILE;
             $server->close();
             $self->Output->info( "recording sent to "
@@ -112,7 +116,8 @@ sub send_file {
         }
         else {
             $server->close();
-            $self->Output->error("Cannot send file, it's LOCKED!"); # avoids file that are currently being writed
+            $self->Output->error("Cannot send file, it's LOCKED!")
+                ;    # avoids file that are currently being writed
             return 0;
         }
     }
