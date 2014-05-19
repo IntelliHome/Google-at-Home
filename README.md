@@ -123,21 +123,21 @@ Currently plugins are WiP so api can change and most of them are drafts:
 
 ##Todo
 
-* ~~Making a wrapper to linux gpio functionality~~
-* ~~Make the node communicate~~
-* ~~Delivering functions on a master node~~
-* ~~Master node accept and respond to requests~~
-* ~~Speech interface thru google~~
-* ~~SpeechToText thru google~~
-* ~~Ideas for a better database schema to collect and display informations~~
-* ~~Auto-Calibration of mic, or an aided one~~
-* Write an api so to open the possibility to build an Android app or a web interface
-* Relay control plugin
-* *Google Now* functionality interface
-* Write Display interface
-* Agents offline routines
-* Video surveillance and alarm
-* Simple majordomo interface with a personality (did you remember Jarvis?:P)
+- [x] Making a wrapper to linux gpio functionality
+- [x] Make the node communicate
+- [x] Delivering functions on a master node
+- [x] Master node accept and respond to requests
+- [x] Speech interface thru google
+- [x] SpeechToText thru google
+- [x] Ideas for a better database schema to collect and display informations
+- [x] Auto-Calibration of mic ~~or an aided one~~
+- [ ] Write an api so to open the possibility to build an Android app or a web interface
+- [ ] Relay control plugin
+- [ ] *Google Now* functionality interface
+- [ ] Write Display interface
+- [ ] Agents offline routines
+- [ ] Video surveillance and alarm
+- [ ] Simple majordomo interface with a personality (did you remember Jarvis?:P)
 
 ***
 
