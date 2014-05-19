@@ -16,6 +16,12 @@ Picture that:
 
 It's just easy as to say *"open shutter"* or a *touch* on your mobile phone.
 
+## IntelliHome library
+
+![IntelliHome Logo](http://www.mudler.pm/img/intellihome_logo.png "IntelliHome Logo")
+
+IntelliHome is a set of Perl libraries to handle all the domotic needs, like dispatching information on nodes, saving configurations, plugin handling and much more that bound together with google services form Google-at-Home, a complete, easy and affordable solution for your home control.
+
 ##Development status
 
 For now you can setup some agents and a master: you speak at the microphone at an agent and the master compute the answer.
