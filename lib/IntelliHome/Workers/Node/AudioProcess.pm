@@ -41,7 +41,7 @@ sub process {
     close $FILE;
     $self->Output->debug("Received audio, saved to $out");
     #$self->Process->stop() if $self->Process;
-    $self->Output->debug("Error launching mplayer")
+    $self->Output->debug("Error launching SoX play")
         if ( !system( 'play', $out ) );
 
 # If we don't play it's gone forever. think about a message response delayed: that's not what we want
