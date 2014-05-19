@@ -2,8 +2,7 @@ package IntelliHome::Schema::Mongo::Event;
 use Moose;
 use namespace::autoclean;
 use Mongoose::Class;
-has 'plugin' => ( is => "rw" );
-has 'plugin_method' => (is=>"rw");
+with('IntelliHome::Schema::Mongo::Role::Plugin');
 has 'node' => (
     is      => 'rw',
     isa     => 'Mongoose::Join[IntelliHome::Schema::Mongo::Node]',

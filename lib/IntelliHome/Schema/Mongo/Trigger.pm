@@ -6,10 +6,10 @@ with 'Mongoose::Document' => {
     -collection_name => 'triggers',
    # -pk              => [qw/ title /]
 };
+with('IntelliHome::Schema::Mongo::Role::Plugin');
 extends 'IntelliHome::Schema::Mongo::Token';
 
-has 'plugin' => ( is => "rw" );
-has 'plugin_method' => (is=>"rw");
+
 has 'needed' => (
     is      => 'rw',
     isa     => 'Mongoose::Join[IntelliHome::Schema::Mongo::Need]',
