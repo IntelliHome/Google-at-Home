@@ -11,3 +11,4 @@ MANIFEST.bak
 blib/
 cover_db/
 googleathome.db
+config/nodes.yaml
