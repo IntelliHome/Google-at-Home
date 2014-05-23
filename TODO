@@ -1,5 +1,6 @@
 * Add the event collection where the master node polls information status and triggers a specified method of a plugin
 * Plugins that handles physical situations must insert events in the collections to be called when necessary
 * Split parsing modules (Parser::*) because events would require a different Parser (Unique, just changes the DB Backend)
+* With the avaibility of time, integrating Bread::Board
 
 XXX: RPC api note:  the RPC api requires to instantiate a parsing (Parser::*) instance, would be nice to be the same for the events so run_plugin can be called safetly
