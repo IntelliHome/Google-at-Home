@@ -8,6 +8,12 @@ use IntelliHome::Schema::Mongo::Token;
 use IntelliHome::Schema::Mongo::Trigger;
 use IntelliHome::Schema::Mongo::Hypo;
 
+sub search_gpio {
+    my $self = shift;
+    my $tag  = shift;
+    return IntelliHome::Schema::Mongo::GPIO->find_one( { tags => $tag } );
+}
+
 sub getTriggers {
     my $self = shift;
     return IntelliHome::Schema::Mongo::Trigger->query( {} )->all();

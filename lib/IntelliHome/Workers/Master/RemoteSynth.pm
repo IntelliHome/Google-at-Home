@@ -55,6 +55,7 @@ sub process {
     my $fh   = shift;    ## IO::Socket
     my $audio;
     my $host = $fh->peerhost();
+    $self->Output->debug("audio received from $host");
     my $node
         = "IntelliHome::Schema::"
         . $self->Config->DBConfiguration->{'database_backend'}
@@ -66,8 +67,8 @@ sub process {
     $audio .= $_ while (<$fh>);
     $self->GSynth->audiosynth($audio);
     my @hypotheses = @{ $self->GSynth->hypotheses() };
-    $self->Output->debug("audio received from $host");
     $self->Output->debug( "Hypothesis: " . join( "\t", @hypotheses ) );
+
     if ( @hypotheses > 0 ) {
         $self->Parser->Node($Client);
         $self->Parser->Output( $self->Output );

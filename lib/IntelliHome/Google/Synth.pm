@@ -36,20 +36,22 @@ send to google services the files and return a list of hypothesis
 =cut
 
 use Moo;
-use Try::Tiny;
 use Time::HiRes qw(usleep ualarm gettimeofday tv_interval);
 require IntelliHome::Interfaces::Terminal;
 require LWP::UserAgent;
 
 has 'File' => ( is => "rw" );
-has 'Output' =>
-    ( is => "rw", default => sub { return IntelliHome::Interfaces::Terminal->instance } );
+has 'Output' => (
+    is      => "rw",
+    default => sub { return IntelliHome::Interfaces::Terminal->instance }
+);
 has 'GoogleURL' => (
     is => "rw",
     default =>
-        "https://www.google.com/speech-api/v2/recognize?xjerr=1&maxresults=10&client=chromium&lang=" #huh
+        "https://www.google.com/speech-api/v2/recognize?output=json&lang=" #huh
 );
-has 'Key'=> (is=>"rw",default=>"AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw");
+has 'Key' =>
+    ( is => "rw", default => "AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw" );
 has 'Language' => ( is => "rw", default => "en" );
 has 'hypotheses' => ( is => "rw" );
 has 'Time'       => ( is => "rw" );
@@ -68,7 +70,7 @@ sub synth {
             . $File
             . " delegated to google (do you know a better machine learning as googlebrain?)"
         );
-    open(my  $FILE, "<" . $File )
+    open( my $FILE, "<" . $File )
         or $self->Output->error( "Cannot open " . $File );
     while (<$FILE>) {
         $audio .= $_;
@@ -78,39 +80,40 @@ sub synth {
 
     $self->audiosynth($audio);
     my @hypotheses = $self->hypotheses;
-    unlink( $File );
+    unlink($File);
 
     return 0 if @hypotheses <= 0;
     return @hypotheses;
 }
 
 sub audiosynth {
-    my $self                 = shift;
-    my $audio                = shift;
-    my $url                  = $self->GoogleURL . $self->Language."&key=".$self->Key;
+    my $self  = shift;
+    my $audio = shift;
+    my $url   = $self->GoogleURL . $self->Language . "&key=" . $self->Key."&client=chromium&maxresults=6&pfilter=2";
     my $request_arrival_time = [gettimeofday];
     my $result;
     my $response;
     my @hypotheses = ();
-    try {
+    eval {
         my $ua = LWP::UserAgent->new;
+        $ua->timeout(10);
         $response = $ua->post(
             $url,
             Content_Type => "audio/x-flac; rate=16000",
             Content      => $audio
         );
-        $ua->timeout(10);
-    }
-    catch {
-        $self->Output->error("Error processing to google: $_");
     };
+    if ($@) {
+        $self->Output->error("Error processing to google: $@");
+    }
     if ( defined $response and $response->is_success ) {
         $result = $response->content;
         $self->Output->debug("Google answered, good.");
         $self->Output->debug($result) if $result;
-    }else {
-      $self->Output->debug( $response->status_line);
- }
+    }
+    else {
+        $self->Output->debug( $response->status_line );
+    }
     if ( defined $result ) {
         while ( $result =~ m/\"transcript\"\:\"(.*?)\"/g ) {
             push( @hypotheses, $1 );
