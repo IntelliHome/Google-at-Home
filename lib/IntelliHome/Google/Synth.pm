@@ -48,7 +48,7 @@ has 'Output' => (
 has 'GoogleURL' => (
     is => "rw",
     default =>
-        "https://www.google.com/speech-api/v2/recognize?xjerr=1&maxresults=10&client=chromium&lang=" #huh
+        "https://www.google.com/speech-api/v2/recognize?output=json&lang=" #huh
 );
 has 'Key' =>
     ( is => "rw", default => "AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw" );
@@ -89,7 +89,7 @@ sub synth {
 sub audiosynth {
     my $self  = shift;
     my $audio = shift;
-    my $url   = $self->GoogleURL . $self->Language . "&client=chromium&key=" . $self->Key;
+    my $url   = $self->GoogleURL . $self->Language . "&key=" . $self->Key."&client=chromium&maxresults=6&pfilter=2";
     my $request_arrival_time = [gettimeofday];
     my $result;
     my $response;
