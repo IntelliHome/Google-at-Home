@@ -85,6 +85,20 @@ sub start {
 # . "YAML" #XXX: we force to yaml for now, but the backend will be switchable when autoconfiguration would be ready
         . "::Node";
     load $node;
+
+
+	my $RPC=IntelliHome::Workers::Thread->new(
+		callback=> sub{
+				use Mojolicious::Commands;
+    				# Application
+				$ENV{MOJO_APP} = 'IntelliHome::IntelliHomeRPC'';
+
+				# Start commands
+				Mojolicious::Commands->start_app('IntelliHome::IntelliHomeRPC');
+	});
+	$RPC->start;
+
+
     my $me = $node->new( Config => $Config )->selectFromType("master")
         ; # this for now forces the network to have one master, we can easily rid about that in the future
     my $Connector
