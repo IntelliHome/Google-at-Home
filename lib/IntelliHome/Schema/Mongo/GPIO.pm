@@ -22,4 +22,6 @@ has 'tags' => (
 );
 has 'timing' => ( is => "rw", default => 0 );
 
+has 'driver' => (is=>"rw");
+
 1;
