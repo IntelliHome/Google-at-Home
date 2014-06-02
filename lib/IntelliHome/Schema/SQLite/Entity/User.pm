@@ -1,14 +1,17 @@
 package IntelliHome::Schema::SQLite::Entity::User;
 use base qw/DBIx::Class::Core/;
- 
+
 __PACKAGE__->table('user');
-__PACKAGE__->add_columns('userid','username' => { accessor => '_check-username', size => 24 }, 'password' => { accessor => '_check-password' size => 24 }, 'name' { is_nullable => 1} , 'admin' => { data_type => 'boolean' }, 'roomid', 'pluginid');
+__PACKAGE__->add_columns(
+	'userid' => { data_type=>'int', is_auto_increment=>1 },
+	'username' => { accessor => '_check-username' }, 
+	'password' => { accessor => '_check-password' size => 24 }, 
+	'name' => { is_nullable => 1} , 
+	'admin' => { data_type => 'boolean' });
 __PACKAGE__->set_primary_key('userid');
-__PACKAGE__->has_many(remotecontrollayout => 'IntelliHome::Schema::SQLite::Entity::RemoteControlLayout', 'userid');
-__PACKAGE__->has_many(userroom => 'IntelliHome::Schema::SQLite::Entity::UserRoom', 'userid');
-__PACKAGE__->has_many(userplugin => 'IntelliHome::Schema::SQLite::Entity::UserPlugin', 'userid');
-__PACKAGE__->many_to_many('rooms' => 'userroom', 'roomid');
-__PACKAGE__->many_to_many('plugins' => 'userplugin', 'pluginid');
+__PACKAGE__->has_many(remotecontrollayouts => 'IntelliHome::Schema::SQLite::Entity::RemoteControlLayout');
+__PACKAGE__->has_many(usergpio => 'IntelliHome::Schema::SQLite::Entity::UserGPIO', 'userid');
+__PACKAGE__->many_to_many('gpios' => 'usergpio', 'gpioid');
 
 sub check-username (@) {
     my ($self, $value) = @_;
@@ -29,5 +32,7 @@ sub check-password (@) {
  
     return $self->_check-password();
 }
- 
+
+
+
 1;
