@@ -11,7 +11,7 @@ use IntelliHome::Schema::Mongo::Hypo;
 sub search_gpio {
     my $self = shift;
     my $tag  = shift;
-    return IntelliHome::Schema::Mongo::GPIO->find_one( { tags => $tag } );
+    return IntelliHome::Schema::Mongo::GPIO->find_one( { tags => qr/$tag/ } );
 }
 
 sub getTriggers {
