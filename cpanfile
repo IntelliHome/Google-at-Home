@@ -7,7 +7,6 @@ requires 'Getopt::Long';
 requires 'LWP::UserAgent';
 requires 'Log::Any';
 requires 'Log::Any::Adapter';
-requires 'Module::Load';
 requires 'Mojo::Base';
 requires 'Mojo::Loader';
 requires 'MojoX::JSON::RPC::Service';

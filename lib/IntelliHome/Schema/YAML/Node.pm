@@ -1,6 +1,6 @@
 package IntelliHome::Schema::YAML::Node;
 use Moo;
-use Module::Load;
+use IntelliHome::Utils qw(load_module);
 has 'Deployer' => ( is => "rw" );
 has 'Username' => ( is => "rw" );
 has 'Password' => ( is => "rw" );
@@ -20,7 +20,7 @@ has 'mic_lower_threshold' => ( is => "rw" );
 has 'mic_upper_threshold' => ( is => "rw" );
 has 'mic_capture_level'   => ( is => "rw" );
 has 'mic_boost_level'     => ( is => "rw" );
-has 'mic_step'     => ( is => "rw" );
+has 'mic_step'            => ( is => "rw" );
 
 sub select {
     my $self  = shift;
@@ -48,8 +48,8 @@ sub select {
         my $Deployer = $Nodes->{$Node}->{deployer};
 
         #  $self->Output->info( "Deployer present: " . $Deployer );
-        load $Deployer;
-        $self->Deployer( $Deployer->new( Node => $self ) );
+        $self->Deployer( $Deployer->new( Node => $self ) )
+            if load_module($Deployer);
     }
     else {
         # $self->Output->info("Deployer not present :(");

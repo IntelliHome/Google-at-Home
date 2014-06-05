@@ -41,7 +41,7 @@ use Moo;
 extends 'IntelliHome::Workers::Base';
 use IntelliHome::Google::Synth;
 use IntelliHome::Interfaces::Voice;
-use Module::Load;
+use IntelliHome::Utils qw(load_module);
 with("IntelliHome::Workers::Role::Parser");
 has 'GSynth' => (
     is      => "rw",
@@ -51,8 +51,8 @@ has 'GSynth' => (
 );
 
 sub process {
-    my $self = shift;
-    my $fh   = shift;    ## IO::Socket
+    my $self   = shift;
+    my $fh     = shift;               ## IO::Socket
     my $audio;
     my $host = $fh->peerhost();
     $self->Output->debug("audio received from $host");
@@ -60,7 +60,7 @@ sub process {
         = "IntelliHome::Schema::"
         . $self->Config->DBConfiguration->{'database_backend'}
         . "::Node";
-    load $node;
+    load_module($node);
     my $Client = $node->new( Config => $self->Config )
         ->selectFromHost( $host, "node" );
     $self->Output->Node($Client);
