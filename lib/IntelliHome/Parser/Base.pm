@@ -1,6 +1,6 @@
 package IntelliHome::Parser::Base;
 use Moo;
-use Module::Load;
+use IntelliHome::Utils qw(load_module);
 has 'Config'  => ( is => "rw" );
 has 'Plugins' => ( is => "rw", default => sub { {} } );
 has 'Output'  => ( is => "rw" );
@@ -34,17 +34,21 @@ sub run_plugin {
     }
     else {
         $Plugin = 'IntelliHome::Plugin::' . $name;
-        eval { load $Plugin; };
-        if ($@) {
-            $self->Output->error("Error loading plugin '$name' $@");
+        if ( load_module($Plugin) == 0 ) {
+            $self->Output->error("Error loading plugin '$name'");
             return 0;
         }
         else {
-            $self->Plugins->{$name}
-                = $Plugin->new( Config => $self->Config, Parser => $self, IntelliHome=>$self );
+            $self->Plugins->{$name} = $Plugin->new(
+                Config      => $self->Config,
+                Parser      => $self,
+                IntelliHome => $self
+            );
             $self->Plugins->{$name}->prepare()
                 if $self->Plugins->{$name}->can("prepare");
-                $self->Plugins->{$name}->language($self->Config->DBConfiguration->{'language'}) if $self->Plugins->{$name}->can("language");
+            $self->Plugins->{$name}
+                ->language( $self->Config->DBConfiguration->{'language'} )
+                if $self->Plugins->{$name}->can("language");
             $Plugin = $self->Plugins->{$name};
         }
     }
