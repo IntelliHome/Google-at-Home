@@ -7,7 +7,7 @@ require IntelliHome::Workers::Master::RPC;
 require IntelliHome::Parser::Base;
 require AnyEvent;
 use base qw(Exporter);
-use IntelliHome::Utils qw(daemonize cleanup stop_process load_module);
+use IntelliHome::Utils qw(daemonize cleanup stop_process);
 use Moo;
 with 'MooX::Singleton';
 use warnings;

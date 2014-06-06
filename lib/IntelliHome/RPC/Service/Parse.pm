@@ -16,6 +16,7 @@ sub new {
 sub parse {
     my ( $self, $tx, @params ) = @_;
     my $Client = $self->IntelliHome->Parser->node->selectFromHost( $tx->remote_address, "node" );
+    $Client = $self->IntelliHome->Parser->node->selectFromType("master") if !$Client;
     $self->IntelliHome->Parser->Node($Client);
     $self->IntelliHome->Parser->Output->Node($Client);
     $self->IntelliHome->Parser->parse(@params);
