@@ -78,16 +78,11 @@ sub start {
             exit 0;
         }
     }
-    my $node = "IntelliHome::Schema::"
-        . $self->Config->DBConfiguration->{'database_backend'}
 
-# . "YAML" #XXX: we force to yaml for now, but the backend will be switchable when autoconfiguration would be ready
-        . "::Node";
-    load_module($node);
     my $RPC = IntelliHome::Workers::Master::RPC->new();
     $RPC->launch;
 
-    my $me = $node->new( Config => $Config )->selectFromType("master")
+    my $me = $self->Remote->Parser->node->selectFromType("master")
         ; # this for now forces the network to have one master, we can easily rid about that in the future
     my $Connector
         = IntelliHome::Connector->new( Config => $Config, Node => $me )

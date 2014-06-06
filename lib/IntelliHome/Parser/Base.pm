@@ -55,4 +55,13 @@ sub run_plugin {
     return $Plugin->can($method) ? $Plugin->$method(@args) : undef;
 }
 
+sub node {
+    my $self = shift;
+    my $node
+        = "IntelliHome::Schema::"
+        . $self->Config->DBConfiguration->{'database_backend'}
+        . "::Node";
+    return $node->new( Config => $self->Config ) if ( load_module($node) );
+}
+
 1;
