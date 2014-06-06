@@ -1,4 +1,4 @@
-#Google@Home [![Build Status](https://travis-ci.org/mudler/Google-at-Home.png?branch=master)](https://travis-ci.org/mudler/Google-at-Home)
+#Google@Home [![Build Status](https://travis-ci.org/IntelliHome/Google-at-Home.png?branch=master)](https://travis-ci.org/IntelliHome/Google-at-Home)
 
 ***##########################################################***
 
@@ -113,11 +113,6 @@ and in another terminal:
 
 Now your PC will work both as master and node(default configuration). The plugin system is working, and the database setup it's WiP.
 
-####Database
-
-In the ```ex/``` directory there is a backup of a pre-configured database, if you have a clean install just do
-```mongorestore ex/dump```.
-
 ##Plugin
 
 The plugin systems allow to extend the system by triggers that can be invoked by voice.
@@ -125,7 +120,12 @@ Currently plugins are WiP so api can change and most of them are drafts:
 
 * [IntelliHome::Plugin::Wikipedia](https://github.com/mudler/IntelliHome-Plugin-Wikipedia) - Allow to search in wikipedia with the *"wikipedia <term>"* trigger
 * [IntelliHome::Plugin::Hailo](https://github.com/mudler/IntelliHome-Plugin-Hailo) - Makes your computer speak with MegaHAL! - just for fun :)
+* [IntelliHome::Plugin::Relay](https://github.com/IntelliHome/IntelliHome-Plugin-Relay) - Allow to command the agents relays 
 * ...
+
+##Android application
+
+The android application its in WiP, if you are interested contributing, [here it is the repository](https://github.com/IntelliHome/Google-at-Home-Remote-Controller)
 
 ##Todo
 
@@ -165,7 +165,7 @@ alfa-proto-beta-testers :)
 Suggestions, pull request or contributors, Bugs report, everything is well accepted.
 E-Mail: mudler@dark-lab.net, skullbocks@dark-lab.net
 
-IRC: irc.perl.org , #Google-at-Home
+IRC: irc.perl.org , #google-at-home
 
 ***
 
