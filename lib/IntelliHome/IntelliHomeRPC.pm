@@ -58,7 +58,23 @@ sub build {
 sub startup {
     my $self = shift;
     $self->build;
-    $self->plugin( 'json_rpc_dispatcher', services => $self->Services );
+    $self->plugin(
+        'json_rpc_dispatcher',
+        services          => $self->Services,
+        exception_handler => sub {
+            my ( $dispatcher, $err, $m ) = @_;
+
+         # $dispatcher is the dispatcher Mojolicious::Controller object
+         # $err is $@ received from the exception
+         # $m is the MojoX::JSON::RPC::Dispatcher::Method object to be returned.
+
+            $dispatcher->app->log->error(qq{Internal error: $err});
+
+            # Fake invalid request
+            $m->invalid_request('Faking invalid request');
+            return;
+        }
+    );
 }
 
 1;
