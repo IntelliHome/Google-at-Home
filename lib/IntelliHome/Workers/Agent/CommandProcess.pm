@@ -15,13 +15,24 @@ sub process {
         $command .= $_;
     }
     $self->Output->debug("I received - $command -");
-    my @args = message_expand($command);
-    my $Pin  = "IntelliHome::Pin::" . uc( shift @args );
+    my @args   = message_expand($command);
+    my $Type   = shift @args;
+    my $Driver = shift @args;
+    my $Pin    = "IntelliHome::Driver::" . $Type . "::" . $Driver;
     load_module($Pin);
-    my $Port = $Pin->new(
-        Pin       => shift @args,
-        Direction => shift @args
-    );
+    if ( $Driver eq "Dual" ) {
+        my $Port = $Pin->new(
+            onPin     => shift @args,
+            offPin    => shift @args,
+            Direction => shift @args
+        );
+    }
+    else {
+        my $Port = $Pin->new(
+            Pin       => shift @args,
+            Direction => shift @args
+        );
+    }
     my $method = shift @args;
     my $return;
 

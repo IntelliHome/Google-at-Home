@@ -1,4 +1,4 @@
-package IntelliHome::Pin::Analogic;
+package IntelliHome::Driver::Analogic;
 use Moo;
 ## XXX: not tested and not written yet, it's just sitting here for a mental bookmark
     has 'Pin' => ( is => "rw" );
