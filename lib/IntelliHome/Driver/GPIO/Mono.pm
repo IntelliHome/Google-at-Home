@@ -1,28 +1,17 @@
-package IntelliHome::Pin::GPIO;
+package IntelliHome::Driver::GPIO::Mono;
 
 use Moo;
-use IntelliHome::Interfaces::Terminal;
-use IntelliHome::Utils qw(message_compact SEPARATOR);
+use constant DRIVER => "Mono";
 
-has 'GpioDir'  => ( is => "rw", default => "/sys/class/gpio/gpio" );
-has 'Exporter' => ( is => "rw", default => "/sys/class/gpio/export" );
-has 'Pin'      => ( is => "rw" );
-has 'Direction' => ( is => "rw" );
-has 'Status'    => ( is => "rw" );
-has 'Output'    => (
-    is      => "rw",
-    default => sub { return  IntelliHome::Interfaces::Terminal->instance }
-);
-has 'Connector' => ( is => "rw" );
-
-sub BUILD { shift->Sync; }
+extends 'IntelliHome::Driver::GPIO::Base';
+has 'Pin' => ( is => "rw" );
 
 sub on {
     my $self = shift;
     if ( $self->Connector )
     {    # if it's defined a connector, the command will be sent to a node
         return $self->Connector->send_command(
-            message_compact( $self->Pin, 1, $self->Direction ) );
+            message_compact( DRIVER,$self->Pin, 1, $self->Direction ) );
     }
     else {
         $self->setValue(1);    #Led Off
@@ -36,7 +25,7 @@ sub off {
     my $self = shift;
     if ( $self->Connector ) {
         return $self->Connector->send_command(
-          message_compact( $self->Pin, 0, $self->Direction )  );
+            message_compact(DRIVER,$self->Pin, 0, $self->Direction ) );
     }
     else {
         $self->setValue(0);    #Led On
@@ -48,11 +37,8 @@ sub off {
 
 sub toggle {
     my $self = shift;
-
-    my $Status = $self->Status();
     $self->Output->info( $self->Pin . " -> " . $self->Status );
-
-    if ( $Status == 1 ) {
+    if ( $self->Status() == 1 ) {
         $self->off();
     }
     else {
@@ -85,22 +71,12 @@ sub setValue {
 sub Sync {
     my $self = shift;
     $self->Output->info( "Synchronizing " . $self->Pin );
-    if ( !-d $self->GpioDir . $self->Pin ) {
-        $self->Output->info("Pin not initialized yet");
-        if ( open my $EXPORTER, ">", $self->Exporter ) {
-            print $EXPORTER $self->Pin;
-            close($EXPORTER);
-        }
-        else {
-            $self->Output->error("No Handle to setup pin");
-        }
-    }
-    if ( open my $PIN, ">", $self->GpioDir . $self->Pin . "/direction" ) {
-        print $PIN $self->Direction;
-        close($PIN);
+    if ( $self->initialize( $self->Pin, $self->Direction ) ) {
+        $self->Output->info("Sync OK");
     }
     else {
-        $self->Output->error("No Handle to setup direction") and return undef;
+        $self->Output->info(
+            "Something went wrong with initialization of the Pin");
     }
     return $self;
 }

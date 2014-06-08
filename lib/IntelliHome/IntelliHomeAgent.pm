@@ -1,6 +1,7 @@
 package IntelliHome::IntelliHomeAgent;
-require IntelliHome::Pin::GPIO;
-require IntelliHome::Pin::Analogic;
+require IntelliHome::Driver::GPIO::Mono;
+require IntelliHome::Driver::GPIO::Dual;
+require IntelliHome::Driver::Analogic;
 require IntelliHome::Interfaces::Terminal;
 require IntelliHome::Config;
 require IntelliHome::Connector;
