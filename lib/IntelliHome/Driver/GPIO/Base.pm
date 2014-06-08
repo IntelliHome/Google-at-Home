@@ -3,6 +3,8 @@ package IntelliHome::Driver::GPIO::Base;
 use Moo;
 use IntelliHome::Interfaces::Terminal;
 use IntelliHome::Utils qw(message_compact SEPARATOR);
+use constant DRIVER => ( split( "::", __PACKAGE__ ) )[-1];
+use constant TYPE   => ( split( "::", __PACKAGE__ ) )[-2];
 
 has 'GpioDir'  => ( is => "rw", default => "/sys/class/gpio/gpio" );
 has 'Exporter' => ( is => "rw", default => "/sys/class/gpio/export" );

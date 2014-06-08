@@ -1,6 +1,5 @@
 package IntelliHome::Driver::GPIO::Dual;
 use Moo;
-use constant DRIVER => "Dual";
 
 extends 'IntelliHome::Driver::GPIO::Base';
 
@@ -13,9 +12,13 @@ sub on {
     {    # if it's defined a connector, the command will be sent to a node
         $self->Status(1);
         return $self->Connector->send_command(
-            message_compact( DRIVER, $self->onPin, 1, $self->Direction ) )
+            message_compact( TYPE, DRIVER, $self->onPin, 1, $self->Direction
+            )
+            )
             and $self->Connector->send_command(
-            message_compact( DRIVER, $self->offPin, 0, $self->Direction ) );
+            message_compact( TYPE, DRIVER, $self->offPin, 0, $self->Direction
+            )
+            );
     }
     else {
         $self->setValue( 0, $self->offPin );    #Led Off
@@ -32,9 +35,13 @@ sub off {
     {    # if it's defined a connector, the command will be sent to a node
         $self->Status(0);
         return $self->Connector->send_command(
-            message_compact( DRIVER, $self->onPin, 0, $self->Direction ) )
+            message_compact( TYPE, DRIVER, $self->onPin, 0, $self->Direction
+            )
+            )
             and $self->Connector->send_command(
-            message_compact( DRIVER, $self->offPin, 1, $self->Direction ) );
+            message_compact( TYPE, DRIVER, $self->offPin, 1, $self->Direction
+            )
+            );
     }
     else {
         $self->setValue( 1, $self->offPin );    #Led Off

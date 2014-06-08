@@ -1,7 +1,6 @@
 package IntelliHome::Driver::GPIO::Mono;
 
 use Moo;
-use constant DRIVER => "Mono";
 
 extends 'IntelliHome::Driver::GPIO::Base';
 has 'Pin' => ( is => "rw" );
@@ -11,7 +10,8 @@ sub on {
     if ( $self->Connector )
     {    # if it's defined a connector, the command will be sent to a node
         return $self->Connector->send_command(
-            message_compact( DRIVER,$self->Pin, 1, $self->Direction ) );
+            message_compact( TYPE, DRIVER, $self->Pin, 1, $self->Direction )
+        );
     }
     else {
         $self->setValue(1);    #Led Off
@@ -25,7 +25,8 @@ sub off {
     my $self = shift;
     if ( $self->Connector ) {
         return $self->Connector->send_command(
-            message_compact(DRIVER,$self->Pin, 0, $self->Direction ) );
+            message_compact( TYPE, DRIVER, $self->Pin, 0, $self->Direction )
+        );
     }
     else {
         $self->setValue(0);    #Led On
