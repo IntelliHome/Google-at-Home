@@ -16,7 +16,7 @@ sub process {
     }
     $self->Output->debug("I received - $command -");
     my @args = message_expand($command);
-    my $Pin  = "IntelliHome::Pin::" . uc( shift @args );
+    my $Pin  = "IntelliHome::Driver::GPIO::" . uc( shift @args );
     load_module($Pin);
     my $Port = $Pin->new(
         Pin       => shift @args,
