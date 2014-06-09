@@ -4,7 +4,7 @@ use base qw/DBIx::Class::Core/;
 __PACKAGE__->table('command');
 __PACKAGE__->add_columns(
 	'commandid' => { data_type=>'int', is_auto_increment=>1 }, 
-	'name' => { data_type=>'int'},
+	'name',
 	'plugin', 
 	'command');
 __PACKAGE__->set_primary_key('commandid');
