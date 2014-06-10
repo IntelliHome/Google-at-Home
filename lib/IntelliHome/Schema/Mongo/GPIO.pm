@@ -17,6 +17,7 @@ has 'node' => (
             with_class => 'IntelliHome::Schema::Mongo::Node' );
     }
 );
+has 'status' => (is=>"rw");
 has 'tags' => (
     is  => 'rw',
     isa => 'ArrayRef'

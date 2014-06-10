@@ -7,8 +7,10 @@ use IntelliHome::Schema::Mongo::Task;
 use IntelliHome::Parser::DB::Mongo;
 use Mongoose;
 
-has 'Backend' =>
-    ( is => "rw", default => sub { return IntelliHome::Parser::DB::Mongo->new } );
+has 'Backend' => (
+    is      => "rw",
+    default => sub { return IntelliHome::Parser::DB::Mongo->new }
+);
 
 sub BUILD {
 
@@ -50,7 +52,7 @@ sub detectTriggers {
     my $Hypothesis = shift;
     my $hypo       = $Hypothesis->hypo;
 
-    my @Triggers  = $self->Backend->getTriggers();
+    my @Triggers  = $self->Backend->getTriggers($self->Config->DBConfiguration->{'language'});
     my $Satisfied = 0;
     foreach my $item (@Triggers) {
 
@@ -58,7 +60,10 @@ sub detectTriggers {
         #
         if ( $item->compile($hypo) and $item->satisfy ) {
 
-            $Satisfied++ if $self->run_plugin( $item->plugin, $item->plugin_method, $item );
+            $Satisfied++
+                if $self->run_plugin( $item->plugin, $item->plugin_method,
+                $item );
+
             # my $r = $item->regex;
             #  $hypo =~ s/$r//g;    #removes the trigger
             #Checking the trigger needs.
@@ -87,7 +92,8 @@ sub detectTriggers {
         }
 
     }
-    $self->Output->debug("A total of $Satisfied plugins satisfied the request");
+    $self->Output->debug(
+        "A total of $Satisfied plugins satisfied the request");
     return $Satisfied;
 }
 
