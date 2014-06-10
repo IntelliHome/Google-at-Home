@@ -1,6 +1,5 @@
 package IntelliHome::Plugin::Base;
 
-
 =head1 NAME
 
 IntelliHome::Plugin::Base - Base class for parser plugins
@@ -38,9 +37,9 @@ Process the request with the parser specified in the config file
 =cut
 
 use Moose;
-has 'Config' => ( is => "rw" );
-has 'Parser' => ( is => "rw" );
-has 'IntelliHome' => (is=>"rw");
+has 'Config'      => ( is => "rw" );
+has 'Parser'      => ( is => "rw" );
+has 'IntelliHome' => ( is => "rw" );
 
 sub prepare {  # this is called on first load in the thread session if defined
     my $self = shift;
@@ -65,5 +64,7 @@ sub remove {     #Called on remove
     my $self = shift;
     $self->Parser->Output->debug(
         "(Leaved as default) Removing " . __PACKAGE__ );
+    return $self->IntelliHome->Backend->removePlugin(
+        { plugin => ( split( /::/, __PACKAGE__ ) )[-1] } );
 }
 1;
