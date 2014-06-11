@@ -7,19 +7,15 @@ use IntelliHome::Schema::Mongo::Task;
 use IntelliHome::Parser::DB::Mongo;
 use Mongoose;
 
-has 'Backend' => (
-    is      => "rw",
-    default => sub { return IntelliHome::Parser::DB::Mongo->new }
-);
+has 'Backend' => ( is => "rw", isa => "IntelliHome::Parser::DB::Mongo" );
 
 sub BUILD {
-
     my $self = shift;
     Mongoose->db(
         host    => $self->Config->DBConfiguration->{'db_dsn'},
         db_name => $self->Config->DBConfiguration->{'db_name'}
     );
-
+    $self->Backend( IntelliHome::Parser::DB::Mongo->new );
 }
 
 sub detectTasks {
@@ -52,7 +48,8 @@ sub detectTriggers {
     my $Hypothesis = shift;
     my $hypo       = $Hypothesis->hypo;
 
-    my @Triggers  = $self->Backend->getTriggers($self->Config->DBConfiguration->{'language'});
+    my @Triggers = $self->Backend->getTriggers(
+        $self->Config->DBConfiguration->{'language'} );
     my $Satisfied = 0;
     foreach my $item (@Triggers) {
 
@@ -101,18 +98,11 @@ sub parse {
     my $self       = shift;
     my $caller     = caller;
     my @hypotheses = @_;
-
     return 0 if scalar @hypotheses < 0;
-
     foreach my $hypo (@hypotheses) {
-
         my $Hypothesis = $self->Backend->newHypo( { hypo => $hypo } );
-
         $self->detectTasks($Hypothesis);
-
         last if $self->detectTriggers($Hypothesis) != 0;
-
     }
-
 }
 1;
