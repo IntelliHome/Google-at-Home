@@ -7,7 +7,7 @@ use IntelliHome::Schema::Mongo::Task;
 use IntelliHome::Parser::DB::Mongo;
 use Mongoose;
 
-has 'Backend' => ( is => "rw", isa => "IntelliHome::Parser::DB::Mongo" );
+has 'Backend' => ( is => "rw" );
 
 sub BUILD {
     my $self = shift;
