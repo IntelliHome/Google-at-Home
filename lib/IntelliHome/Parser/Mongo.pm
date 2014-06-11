@@ -7,17 +7,15 @@ use IntelliHome::Schema::Mongo::Task;
 use IntelliHome::Parser::DB::Mongo;
 use Mongoose;
 
-has 'Backend' =>
-    ( is => "rw", default => sub { return IntelliHome::Parser::DB::Mongo->new } );
+has 'Backend' => ( is => "rw" );
 
 sub BUILD {
-
     my $self = shift;
     Mongoose->db(
         host    => $self->Config->DBConfiguration->{'db_dsn'},
         db_name => $self->Config->DBConfiguration->{'db_name'}
     );
-
+    $self->Backend( IntelliHome::Parser::DB::Mongo->new );
 }
 
 sub detectTasks {
@@ -50,7 +48,8 @@ sub detectTriggers {
     my $Hypothesis = shift;
     my $hypo       = $Hypothesis->hypo;
 
-    my @Triggers  = $self->Backend->getTriggers();
+    my @Triggers = $self->Backend->getTriggers(
+        $self->Config->DBConfiguration->{'language'} );
     my $Satisfied = 0;
     foreach my $item (@Triggers) {
 
@@ -58,7 +57,10 @@ sub detectTriggers {
         #
         if ( $item->compile($hypo) and $item->satisfy ) {
 
-            $Satisfied++ if $self->run_plugin( $item->plugin, $item->plugin_method, $item );
+            $Satisfied++
+                if $self->run_plugin( $item->plugin, $item->plugin_method,
+                $item );
+
             # my $r = $item->regex;
             #  $hypo =~ s/$r//g;    #removes the trigger
             #Checking the trigger needs.
@@ -87,26 +89,19 @@ sub detectTriggers {
         }
 
     }
-    $self->Output->debug("A total of $Satisfied plugins satisfied the request");
+    $self->Output->debug(
+        "A total of $Satisfied plugins satisfied the request");
     return $Satisfied;
 }
 
 sub parse {
     my $self       = shift;
-    my $caller     = caller;
     my @hypotheses = @_;
-
     return 0 if scalar @hypotheses < 0;
-
-    foreach my $hypo (@hypotheses) {
-
-        my $Hypothesis = $self->Backend->newHypo( { hypo => $hypo } );
-
+    for (@hypotheses) {
+        my $Hypothesis = $self->Backend->newHypo( { hypo => $_ } );
         $self->detectTasks($Hypothesis);
-
         last if $self->detectTriggers($Hypothesis) != 0;
-
     }
-
 }
 1;

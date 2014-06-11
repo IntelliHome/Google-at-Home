@@ -16,7 +16,13 @@ sub search_gpio {
 
 sub getTriggers {
     my $self = shift;
-    return IntelliHome::Schema::Mongo::Trigger->query( {} )->all();
+    my $language;
+    $language = shift @_ if (@_);
+    return IntelliHome::Schema::Mongo::Trigger->query( {} )->all()
+        if ( !defined $language );
+    return IntelliHome::Schema::Mongo::Trigger->query(
+        { language => $language } )->all()
+        if ( defined $language );
 }
 
 sub installPlugin {
