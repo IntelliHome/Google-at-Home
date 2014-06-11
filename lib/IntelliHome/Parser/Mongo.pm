@@ -96,11 +96,10 @@ sub detectTriggers {
 
 sub parse {
     my $self       = shift;
-    my $caller     = caller;
     my @hypotheses = @_;
     return 0 if scalar @hypotheses < 0;
-    foreach my $hypo (@hypotheses) {
-        my $Hypothesis = $self->Backend->newHypo( { hypo => $hypo } );
+    for (@hypotheses) {
+        my $Hypothesis = $self->Backend->newHypo( { hypo => $_ } );
         $self->detectTasks($Hypothesis);
         last if $self->detectTriggers($Hypothesis) != 0;
     }
