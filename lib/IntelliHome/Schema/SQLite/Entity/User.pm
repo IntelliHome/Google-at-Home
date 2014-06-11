@@ -28,6 +28,7 @@ sub check-password (@) {
  	
     die "Invalid password format!" if($value =~ /^$/);
     #TODO insert md5 hash conversion or some other hashing method
+    
     $self->_check-password($value);
  
     return $self->_check-password();
