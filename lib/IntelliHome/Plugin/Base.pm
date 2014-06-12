@@ -36,7 +36,7 @@ Process the request with the parser specified in the config file
 
 =cut
 
-use Moose;
+use Moo;
 has 'Config'      => ( is => "rw" );
 has 'Parser'      => ( is => "rw" );
 has 'IntelliHome' => ( is => "rw" );
@@ -44,27 +44,29 @@ has 'IntelliHome' => ( is => "rw" );
 sub prepare {  # this is called on first load in the thread session if defined
     my $self = shift;
     $self->Parser->Output->debug(
-        "(Leaved as default) Preparing " . __PACKAGE__ );
+        "(Leaved as default) Preparing " . $self->_plugin );
 }
 
 sub install {    #Called on install
     my $self = shift;
     $self->Parser->Output->debug(
-        "(Leaved as default) Installing " . __PACKAGE__ );
+        "(Leaved as default) Installing " . $self->_plugin );
 }
 
 sub update {     #Called on update
     my $self = shift;
     $self->Parser->Output->debug(
-        "(Leaved as default) Updating " . __PACKAGE__ );
+        "(Leaved as default) Updating " . $self->_plugin );
     return $self->remove() and $self->install();
 }
 
 sub remove {     #Called on remove
     my $self = shift;
     $self->Parser->Output->debug(
-        "(Leaved as default) Removing " . __PACKAGE__ );
-    return $self->IntelliHome->Backend->removePlugin(
-        { plugin => ( split( /::/, __PACKAGE__ ) )[-1] } );
+        "(Leaved as default) Removing " . $self->_plugin );
+    $self->IntelliHome->Backend->removePlugin(
+        { plugin => ( split( /::/, $self->_plugin ) )[-1] } );
+    return 1;
 }
+sub _plugin { my $self = shift; $self =~ s/\=.*//; return $self }
 1;

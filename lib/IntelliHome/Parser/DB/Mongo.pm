@@ -11,7 +11,8 @@ use IntelliHome::Schema::Mongo::Hypo;
 sub search_gpio {
     my $self = shift;
     my $tag  = shift;
-    return IntelliHome::Schema::Mongo::GPIO->find_one( { tags => qr/$tag/ } );
+    return IntelliHome::Schema::Mongo::GPIO->query( { tags => qr/$tag/ } )
+        ->all();
 }
 
 sub getTriggers {
@@ -28,6 +29,8 @@ sub getTriggers {
 sub installPlugin {
     my $self    = shift;
     my $Options = shift;
+    $Options->{'plugin'} = ( split( /::/, caller ) )[-1]
+        if ( !exists $Options->{'plugin'} );
     my $Trigger = IntelliHome::Schema::Mongo::Trigger->find_one($Options);
     return $Trigger if ($Trigger);
     $Trigger = IntelliHome::Schema::Mongo::Trigger->new( %{$Options} );
