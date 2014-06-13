@@ -1,4 +1,4 @@
-package IntelliHome::Schema::SQLite::Entity::Trigger;
+package IntelliHome::Schema::SQLite::Schema::Result::Trigger;
 use base qw/DBIx::Class::Core/;
  
 __PACKAGE__->table('trigger');
@@ -9,6 +9,6 @@ __PACKAGE__->add_columns(
 	'language', 
 	'trigger_type' );
 __PACKAGE__->set_primary_key('triggerid');
-__PACKAGE__->belongs_to(command => 'IntelliHome::Schema::SQLite::Entity::Command', 'commandid');
+__PACKAGE__->belongs_to(command => 'IntelliHome::Schema::SQLite::Schema::Result::Command', 'commandid');
  
 1;

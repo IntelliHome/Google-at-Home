@@ -1,4 +1,4 @@
-package IntelliHome::Schema::SQLite::Entity::Tag;
+package IntelliHome::Schema::SQLite::Schema::Result::Tag;
 use base qw/DBIx::Class::Core/;
  
 __PACKAGE__->table('tag');
@@ -8,7 +8,7 @@ __PACKAGE__->add_columns(
 	'tag', 
 	'description' => { is_nullable => 1 } );
 __PACKAGE__->set_primary_key('tagid');
-__PACKAGE__->belongs_to(gpio => 'IntelliHome::Schema::SQLite::Entity::GPIO', 'gpioid');
+__PACKAGE__->belongs_to(gpio => 'IntelliHome::Schema::SQLite::Schema::Result::GPIO', 'gpioid');
 
  
 1;

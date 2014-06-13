@@ -1,4 +1,4 @@
-package IntelliHome::Schema::SQLite::Entity::Node;
+package IntelliHome::Schema::SQLite::Schema::Result::Node;
 use base qw/DBIx::Class::Core/;
  
 __PACKAGE__->table('node');
@@ -13,8 +13,8 @@ __PACKAGE__->add_columns(
 	'username', 
 	'password');
 __PACKAGE__->set_primary_key('nodeid');
-__PACKAGE__->has_many(gpios => 'IntelliHome::Schema::SQLite::Entity::GPIO');
-__PACKAGE__->belongs_to(room => 'IntelliHome::Schema::SQLite::Entity::Room', 'roomid');
+__PACKAGE__->has_many(gpios => 'IntelliHome::Schema::SQLite::Schema::Result::GPIO');
+__PACKAGE__->belongs_to(room => 'IntelliHome::Schema::SQLite::Schema::Result::Room', 'roomid');
 
  
 1;
