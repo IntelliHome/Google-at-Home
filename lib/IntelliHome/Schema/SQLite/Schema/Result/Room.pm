@@ -7,7 +7,7 @@ __PACKAGE__->add_columns(
 	'name', 
 	'location' => { is_nullable => 1} );
 __PACKAGE__->set_primary_key('roomid');
-__PACKAGE__->has_many(nodes => 'IntelliHome::Schema::SQLite::Schema::Result::Node');
+__PACKAGE__->has_many(nodes => 'IntelliHome::Schema::SQLite::Schema::Result::Node','roomid');
 
  
 1;

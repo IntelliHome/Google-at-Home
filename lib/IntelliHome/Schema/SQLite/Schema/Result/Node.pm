@@ -13,7 +13,7 @@ __PACKAGE__->add_columns(
 	'username', 
 	'password');
 __PACKAGE__->set_primary_key('nodeid');
-__PACKAGE__->has_many(gpios => 'IntelliHome::Schema::SQLite::Schema::Result::GPIO');
+__PACKAGE__->has_many(gpios => 'IntelliHome::Schema::SQLite::Schema::Result::GPIO', 'nodeid');
 __PACKAGE__->belongs_to(room => 'IntelliHome::Schema::SQLite::Schema::Result::Room', 'roomid');
 
  

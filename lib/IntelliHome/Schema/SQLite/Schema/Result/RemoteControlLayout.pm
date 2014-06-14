@@ -7,18 +7,17 @@ __PACKAGE__->add_columns(
 	'userid' => { data_type=>'int' }, 
 	'name' => { accessor => '_check_name' });
 __PACKAGE__->set_primary_key('rclid');
-__PACKAGE__->belongs_to(userid => 'IntelliHome::Schema::SQLite::Schema::Result::User');
+__PACKAGE__->belongs_to(user => 'IntelliHome::Schema::SQLite::Schema::Result::User', 'userid');
  
 
 sub check_name (@) {
     my ($self, $value) = @_;
  	
- 	#TODO create a regex to exclude symbols
-    die "Invalid name format!" if($value =~ /^$/);
+    die "Invalid name format!" if($value =~ /[$-\/:-?{-~!"^_`\[\]]|^$/);
     #TODO convert the string in a standard form
-    $self->check_name($value);
+    $self->_check_name($value);
  
-    return $self->check_name();
+    return $self->_check_name();
 }
 
 1;

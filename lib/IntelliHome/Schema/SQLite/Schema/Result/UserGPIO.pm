@@ -7,7 +7,7 @@ __PACKAGE__->add_columns(
 	'userid' => { data_type=>'int'}, 
 	'gpioid' => { data_type=>'int'} );
 __PACKAGE__->set_primary_key('id');
-__PACKAGE__->belongs_to(userid => 'IntelliHome::Schema::SQLite::Schema::Result::User');
-__PACKAGE__->belongs_to(gpioid => 'IntelliHome::Schema::SQLite::Schema::Result::GPIO');
+__PACKAGE__->belongs_to(user => 'IntelliHome::Schema::SQLite::Schema::Result::User','userid');
+__PACKAGE__->belongs_to(gpio => 'IntelliHome::Schema::SQLite::Schema::Result::GPIO','gpioid');
  
 1;
