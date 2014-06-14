@@ -1,6 +1,6 @@
 package IntelliHome::Schema::SQLite::Schema::Result::User;
 use base qw/DBIx::Class::Core/;
-use Digest::SHA1  qw(sha1_hex);
+use Digest::SHA1  qw(sha1);
 
 __PACKAGE__->table('user');
 __PACKAGE__->add_columns(
@@ -28,7 +28,7 @@ sub check_username (@) {
 sub check_password (@) {
     my ($self, $value) = @_;
  	
-    die "Invalid password format!" if($value =~ /^$|\s+/);
+    die "Invalid password format!" if($value =~ /^$|^\s+$/);
     $digest = sha1($value);
     $self->_check_password($digest);
  
