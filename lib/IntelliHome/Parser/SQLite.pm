@@ -40,18 +40,14 @@ sub BUILD {
 
 sub detectTriggers {
     my $self       = shift;
-    my $Hypothesis = shift;
-    my $hypo       = $Hypothesis->hypo;
+    my $hypo       = shift;
 
-    my @Triggers  = $self->Backend->getTriggers();
-    my $Satisfied = 0;
-    foreach my $item (@Triggers) {
-
-        #Every Trigger cycled here.
-        #
-        if ( $item->compile($hypo) and $item->satisfy ) {
-
-            $Satisfied++ if $self->run_plugin( $item->plugin, $item->plugin_method, $item );
+    my ($t,@args) = split(" ",$hypo);
+    my $rs  = $self->Backend->search_trigger($t);
+    my $satisfied = 0;
+    while (my $trigger = $rs->next) {
+        if(@{$trigger->{result}} = join (" ",@args) =~ /$trigger->arguments/i){
+            $Satisfied++ if $self->run_plugin( $trigger->command->plugin, $trigger->command->plugin_method, $trigger );
             # my $r = $item->regex;
             #  $hypo =~ s/$r//g;    #removes the trigger
             #Checking the trigger needs.
@@ -93,11 +89,7 @@ sub parse {
 
     foreach my $hypo (@hypotheses) {
 
-        my $Hypothesis = $self->Backend->newHypo( { hypo => $hypo } );
-
-        $self->detectTasks($Hypothesis);
-
-        last if $self->detectTriggers($Hypothesis) != 0;
+        last if $self->detectTriggers($hypo) != 0;
 
     }
 

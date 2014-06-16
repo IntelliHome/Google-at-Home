@@ -9,7 +9,7 @@ sub BUILD {
     my $self = shift;
     $self->Schema(
         IntelliHome::Schema::SQLite::Schema->connect(
-            'dbi:SQLite:db/intellihome.db')
+            'dbi:SQLite:intellihome.db')
     );
 }
 
@@ -22,6 +22,16 @@ sub search_gpio {
         },
         {
             join => [qw/ gpioid /]
+        }
+    );
+}
+
+sub search_trigger {
+    my $self = shift;
+    my $trigger  = shift;
+    return $self->Schema->resultset('Trigger')->search(
+        {
+            trigger => { 'like', '%'.$trigger.'%' },
         }
     );
 }
