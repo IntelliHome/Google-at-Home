@@ -3,11 +3,19 @@ package IntelliHome::Utils;
 use warnings;
 use strict;
 use base qw(Exporter);
-
+use Mojo::Loader;
 use constant SEPARATOR => ":";
 our @EXPORT_OK = qw(
-    message_expand SEPARATOR message_compact daemonize cleanup stop_process
+    message_expand SEPARATOR message_compact daemonize cleanup stop_process load_module
 );
+
+sub load_module($) {
+    my $module=shift;
+    my $loader=Mojo::Loader->new;
+    my $e = $loader->load($module);
+    warn qq{Loading "$module" failed: $e} and return 0 if ref $e;
+    return 1;
+}
 
 sub stop_process($) {
     my $runner = shift;

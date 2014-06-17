@@ -11,17 +11,26 @@ use IntelliHome::Schema::Mongo::Hypo;
 sub search_gpio {
     my $self = shift;
     my $tag  = shift;
-    return IntelliHome::Schema::Mongo::GPIO->find_one( { tags => qr/$tag/ } );
+    return IntelliHome::Schema::Mongo::GPIO->query( { tags => qr/$tag/ } )
+        ->all();
 }
 
 sub getTriggers {
     my $self = shift;
-    return IntelliHome::Schema::Mongo::Trigger->query( {} )->all();
+    my $language;
+    $language = shift @_ if (@_);
+    return IntelliHome::Schema::Mongo::Trigger->query( {} )->all()
+        if ( !defined $language );
+    return IntelliHome::Schema::Mongo::Trigger->query(
+        { language => $language } )->all()
+        if ( defined $language );
 }
 
 sub installPlugin {
     my $self    = shift;
     my $Options = shift;
+    $Options->{'plugin'} = ( split( /::/, caller ) )[-1]
+        if ( !exists $Options->{'plugin'} );
     my $Trigger = IntelliHome::Schema::Mongo::Trigger->find_one($Options);
     return $Trigger if ($Trigger);
     $Trigger = IntelliHome::Schema::Mongo::Trigger->new( %{$Options} );
