@@ -25,7 +25,7 @@ sub run {
     # Application
     $ENV{MOJO_APP} = 'IntelliHome::IntelliHomeRPC';
     # Start commands
-    Mojolicious::Commands->start_app('IntelliHome::IntelliHomeRPC',"prefork");
+    Mojolicious::Commands->start_app('IntelliHome::IntelliHomeRPC',"prefork", '-l', 'http://*:3000');
 }
 
 sub launch {

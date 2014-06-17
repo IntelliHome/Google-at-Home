@@ -1,7 +1,6 @@
 package IntelliHome::Workers::Agent::CommandProcess;
 use Moo;
-use IntelliHome::Utils qw(message_expand SEPARATOR);
-use Module::Load;
+use IntelliHome::Utils qw(message_expand SEPARATOR load_module);
 
 has 'Output' => (
     is      => "rw",
@@ -16,13 +15,24 @@ sub process {
         $command .= $_;
     }
     $self->Output->debug("I received - $command -");
-    my @args = message_expand($command);
-    my $Pin  = "IntelliHome::Pin::" . uc( shift @args );
-    load $Pin;
-    my $Port = $Pin->new(
-        Pin       => shift @args,
-        Direction => shift @args
-    );
+    my @args   = message_expand($command);
+    my $Type   = shift @args;
+    my $Driver = shift @args;
+    my $Pin    = "IntelliHome::Driver::" . $Type . "::" . $Driver;
+    load_module($Pin);
+    if ( $Driver eq "Dual" ) {
+        my $Port = $Pin->new(
+            onPin     => shift @args,
+            offPin    => shift @args,
+            Direction => shift @args
+        );
+    }
+    else {
+        my $Port = $Pin->new(
+            Pin       => shift @args,
+            Direction => shift @args
+        );
+    }
     my $method = shift @args;
     my $return;
 
