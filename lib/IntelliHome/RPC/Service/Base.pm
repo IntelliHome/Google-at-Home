@@ -7,7 +7,8 @@ has 'IntelliHome';
 sub new {
     my $self = shift;
     $self = $self->SUPER::new(@_);
-    $self->{'_rpcs'}->{ lc(( split( "::", ( $self =~ /(.*)\=/ )[0] ) )[-1]) }
+    $self->{'_rpcs'}
+        ->{ lc( ( split( "::", ( $self =~ /(.*)\=/ )[0] ) )[-1] ) }
         ->{'with_mojo_tx'} = 1;
     return $self;
 }
