@@ -65,8 +65,8 @@ sub remove {     #Called on remove
     $self->Parser->Output->debug(
         "(Leaved as default) Removing " . $self->_plugin );
     $self->IntelliHome->Backend->removePlugin(
-        { plugin => ( split( /::/, $self->_plugin ) )[-1] } );
+        { plugin => ( split( /::/, ( $self =~ /(.*)\=/ )[0] ) )[-1] } );
     return 1;
 }
-sub _plugin { my $self = shift; $self =~ s/\=.*//; return $self }
+
 1;
