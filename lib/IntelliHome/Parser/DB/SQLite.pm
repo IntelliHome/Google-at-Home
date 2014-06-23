@@ -2,6 +2,7 @@ package IntelliHome::Parser::DB::SQLite;
 use Moose;
 extends 'IntelliHome::Parser::DB::Base';
 use IntelliHome::Schema::SQLite::Schema;
+use IntelliHome::Utils qw(load_module);
 
 has 'Schema' => ( is => "rw" );
 
@@ -27,11 +28,11 @@ sub search_gpio {
 }
 
 sub search_trigger {
-    my $self = shift;
-    my $trigger  = shift;
+    my $self    = shift;
+    my $trigger = shift;
     return $self->Schema->resultset('Trigger')->search(
         {
-            trigger => { 'like', '%'.$trigger.'%' },
+            trigger => { 'like', '%' . $trigger . '%' },
         }
     );
 }
@@ -107,6 +108,22 @@ sub getActiveTasks {
     my $self = shift;
     return IntelliHome::Schema::Mongo::Task->query(
         { status => 1, node => shift->Host } )->all();
+}
+
+sub node {
+    return shift;
+}
+
+sub selectFromHost {
+    return
+      shift->Schema->resultset('Node')
+      ->search( { Host => shift, type => shift } )->single;
+}
+
+sub selectFromType {
+    return
+      shift->Schema->resultset('Node')->search( { type => shift } )->single;
+
 }
 
 1;

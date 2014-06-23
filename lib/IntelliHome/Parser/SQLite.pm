@@ -5,11 +5,12 @@ extends 'IntelliHome::Parser::Base';
 use IntelliHome::Parser::DB::SQLite;
 use IntelliHome::Schema::SQLite::Schema;
 
-has 'Backend' =>
-    ( is => "rw", default => sub { return IntelliHome::Parser::DB::SQLite->new } );
+has 'Backend' => ( is => "rw" );
 
 sub BUILD {
     my $self = shift;
+    $self->Backend(
+        IntelliHome::Parser::DB::SQLite->new( Config => $self->Config ) );
 }
 
 #TODO substitute Mongo task with another kind of object.
@@ -39,15 +40,20 @@ sub BUILD {
 # }
 
 sub detectTriggers {
-    my $self       = shift;
-    my $hypo       = shift;
+    my $self = shift;
+    my $hypo = shift;
 
-    my ($t,@args) = split(" ",$hypo);
-    my $rs  = $self->Backend->search_trigger($t);
-    my $Satisfied=0;
-    while (my $trigger = $rs->next) {
-        if(@{$trigger->{result}} = join (" ",@args) =~ /$trigger->arguments/i){
-            $Satisfied++ if $self->run_plugin( $trigger->command->plugin, $trigger->command->plugin_method, $trigger );
+    my ( $t, @args ) = split( " ", $hypo );
+    my $rs        = $self->Backend->search_trigger($t);
+    my $Satisfied = 0;
+    while ( my $trigger = $rs->next ) {
+        if ( @{ $trigger->{result} } =
+            join( " ", @args ) =~ /$trigger->arguments/i )
+        {
+            $Satisfied++
+              if $self->run_plugin( $trigger->command->plugin,
+                $trigger->command->plugin_method, $trigger );
+
             # my $r = $item->regex;
             #  $hypo =~ s/$r//g;    #removes the trigger
             #Checking the trigger needs.
