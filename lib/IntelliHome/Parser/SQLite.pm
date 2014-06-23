@@ -44,7 +44,7 @@ sub detectTriggers {
 
     my ($t,@args) = split(" ",$hypo);
     my $rs  = $self->Backend->search_trigger($t);
-    my $satisfied = 0;
+    my $Satisfied=0;
     while (my $trigger = $rs->next) {
         if(@{$trigger->{result}} = join (" ",@args) =~ /$trigger->arguments/i){
             $Satisfied++ if $self->run_plugin( $trigger->command->plugin, $trigger->command->plugin_method, $trigger );

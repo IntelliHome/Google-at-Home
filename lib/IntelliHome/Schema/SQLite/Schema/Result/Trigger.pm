@@ -1,5 +1,5 @@
 package IntelliHome::Schema::SQLite::Schema::Result::Trigger;
-use Carp::Always
+use Carp::Always;
 use base qw/DBIx::Class::Core/;
 
 
