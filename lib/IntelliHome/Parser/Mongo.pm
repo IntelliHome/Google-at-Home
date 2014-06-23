@@ -15,7 +15,7 @@ sub BUILD {
         host    => $self->Config->DBConfiguration->{'db_dsn'},
         db_name => $self->Config->DBConfiguration->{'db_name'}
     );
-    $self->Backend( IntelliHome::Parser::DB::Mongo->new );
+    $self->Backend( IntelliHome::Parser::DB::Mongo->new(Config=>$self->Config);
 }
 
 sub detectTasks {

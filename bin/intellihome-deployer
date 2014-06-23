@@ -25,7 +25,7 @@ my $Deployer = $Backend->new;
 eval {
     $Output->error("$Deployer hasn't $action") and die(EXIT_ERROR)
         unless ( $Deployer->can($action) );
-    $Deployer->$action;
+    $Deployer->$action(@ARGV);
 };
 if ($@) {
     $Output->error($@);

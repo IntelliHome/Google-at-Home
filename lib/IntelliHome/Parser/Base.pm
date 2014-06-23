@@ -1,5 +1,6 @@
 package IntelliHome::Parser::Base;
 use Moo;
+use Carp qw(croak);
 use IntelliHome::Utils qw(load_module);
 has 'Config'  => ( is => "rw" );
 has 'Plugins' => ( is => "rw", default => sub { {} } );
@@ -8,19 +9,19 @@ has 'Backend' => ( is => "rw" );
 has 'Node'    => ( is => "rw" );
 
 sub detectTasks() {
-
+    croak 'detectTasks() is not implemented by IntelliHome::Parser::Base';
 }
 
 sub detectTriggers() {
-
+    croak 'detectTriggers() is not implemented by IntelliHome::Parser::Base';
 }
 
 sub parse() {
-
+    croak 'parse() is not implemented by IntelliHome::Parser::Base';
 }
 
 sub prepare() {
-
+    croak 'prepare() is not implemented by IntelliHome::Parser::Base';
 }
 
 sub run_plugin {
@@ -55,13 +56,6 @@ sub run_plugin {
     return $Plugin->can($method) ? $Plugin->$method(@args) : undef;
 }
 
-sub node {
-    my $self = shift;
-    my $node
-        = "IntelliHome::Schema::"
-        . $self->Config->DBConfiguration->{'database_backend'}
-        . "::Node";
-    return $node->new( Config => $self->Config ) if ( load_module($node) );
-}
+sub node { shift->Backend->node; }
 
 1;
