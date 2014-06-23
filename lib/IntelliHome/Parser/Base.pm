@@ -9,10 +9,11 @@ has 'Backend' => ( is => "rw" );
 has 'Node'    => ( is => "rw" );
 
 sub BUILD {
-    my $self = shift;
-    my $Backend="IntelliHome::Parser::DB::"
+    my $self    = shift;
+    my $Backend = "IntelliHome::Parser::DB::"
         . $self->Config->DBConfiguration->{'database_backend'};
-    $self->Backend( $Backend->new(Config=>$self->Config) if (load_module($Backend));
+    $self->Backend( $Backend->new( Config => $self->Config ) )
+        if ( load_module($Backend) );
 }
 
 sub detectTasks() {
