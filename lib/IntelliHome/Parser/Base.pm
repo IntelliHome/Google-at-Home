@@ -8,6 +8,13 @@ has 'Output'  => ( is => "rw" );
 has 'Backend' => ( is => "rw" );
 has 'Node'    => ( is => "rw" );
 
+sub BUILD {
+    my $self = shift;
+    my $Backend="IntelliHome::Parser::DB::"
+        . $self->Config->DBConfiguration->{'database_backend'};
+    $self->Backend( $Backend->new(Config=>$self->Config) if (load_module($Backend));
+}
+
 sub detectTasks() {
     croak 'detectTasks() is not implemented by IntelliHome::Parser::Base';
 }
