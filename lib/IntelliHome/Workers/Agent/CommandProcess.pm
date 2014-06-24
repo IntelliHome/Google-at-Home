@@ -2,10 +2,8 @@ package IntelliHome::Workers::Agent::CommandProcess;
 use Moo;
 use IntelliHome::Utils qw(message_expand SEPARATOR load_module);
 
-has 'Output' => (
-    is      => "rw",
-    default => sub { return IntelliHome::Interfaces::Terminal->instance }
-);
+
+has 'app' => (is=>"rw");
 
 sub process {
     my $self = shift;
@@ -14,7 +12,7 @@ sub process {
     while (<$fh>) {
         $command .= $_;
     }
-    $self->Output->debug("I received - $command -");
+    $self->app->Output->debug("I received - $command -");
     my @args   = message_expand($command);
     my $Type   = shift @args;
     my $Driver = shift @args;
