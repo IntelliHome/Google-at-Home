@@ -7,6 +7,7 @@ has 'Plugins' => ( is => "rw", default => sub { {} } );
 has 'Output'  => ( is => "rw" );
 has 'Backend' => ( is => "rw" );
 has 'Node'    => ( is => "rw" );
+has 'event' => (is=>"rw");
 
 sub BUILD {
     my $self    = shift;

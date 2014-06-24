@@ -10,7 +10,7 @@ use Deeme;
 use Deeme::Backend::Mango;
 
 has 'Backend' => ( is => "rw" );
-has 'EventEmitter' => (
+has 'event' => (
     is      => "rw",
     default => sub {
         return Deeme->new(
