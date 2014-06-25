@@ -3,6 +3,8 @@ package IntelliHome::Driver::GPIO::Mono;
 use Moo;
 
 extends 'IntelliHome::Driver::GPIO::Base';
+use constant DRIVER => ( split( "::", __PACKAGE__ ) )[-1];
+use constant TYPE   => ( split( "::", __PACKAGE__ ) )[-2];
 has 'Pin' => ( is => "rw" );
 
 sub on {
@@ -76,7 +78,7 @@ sub Sync {
         $self->Output->info("Sync OK");
     }
     else {
-        $self->Output->info(
+        $self->Output->error(
             "Something went wrong with initialization of the Pin");
     }
     return $self;

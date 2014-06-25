@@ -1,0 +1,38 @@
+#!/usr/bin/perl
+use lib './lib';
+use Getopt::Long;
+use Carp::Always;
+use IntelliHome::Interfaces::Terminal;
+use IntelliHome::Utils qw(load_module);
+use constant EXIT_ERROR => 1;
+
+my ( $backend, $action );
+GetOptions(
+    "b|backend=s" => \$backend,
+    "c|cmd=s"     => \$action,
+) or die("Error in command line arguments\n");
+
+my $Output = IntelliHome::Interfaces::Terminal->new();
+$Output->error("At least you must specify a backend to deploy")
+    and die(EXIT_ERROR)
+    unless ($backend);
+my $Backend = "IntelliHome::Deployer::Schema::" . ucfirst($backend);
+$Output->error("No backend could be found with $Backend") and die(EXIT_ERROR)
+    unless ( load_module($Backend) );
+&help and die(EXIT_ERROR) unless ($action);
+
+my $Deployer = $Backend->new;
+eval {
+    $Output->error("$Deployer hasn't $action") and die(EXIT_ERROR)
+        unless ( $Deployer->can($action) );
+    $Deployer->$action(@ARGV);
+};
+if ($@) {
+    $Output->error($@);
+}
+
+sub help {
+    $Output->info(
+        "At least an argument to --cmd it's required : [install,upgrade,prepare] "
+    );
+}

@@ -3,6 +3,7 @@ package IntelliHome::Connector;
 use Moose;
 use IntelliHome::Workers::SocketListener;
 use IntelliHome::Workers::SocketAsync;
+use IntelliHome::Utils qw(message_compact SEPARATOR);
 use Fcntl qw(:DEFAULT :flock);
 use IO::Socket;
 
@@ -122,6 +123,8 @@ sub send_file {
         }
     }
 }
+
+sub send { shift->send_command( message_compact(@_) ); }
 
 sub send_command {
     my $self    = shift;

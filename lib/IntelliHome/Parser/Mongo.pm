@@ -6,8 +6,21 @@ use IntelliHome::Schema::Mongo::Trigger;
 use IntelliHome::Schema::Mongo::Task;
 use IntelliHome::Parser::DB::Mongo;
 use Mongoose;
+use Deeme;
+use Deeme::Backend::Mango;
 
 has 'Backend' => ( is => "rw" );
+has 'event' => (
+    is      => "rw",
+    default => sub {
+        return Deeme->new(
+            backend => Deeme::Backend::Mango->new(
+                host     => $self->Config->DBConfiguration->{'db_dsn'},
+                database => $self->Config->DBConfiguration->{'db_name'}
+            )
+        );
+    }
+);
 
 sub BUILD {
     my $self = shift;
@@ -15,7 +28,8 @@ sub BUILD {
         host    => $self->Config->DBConfiguration->{'db_dsn'},
         db_name => $self->Config->DBConfiguration->{'db_name'}
     );
-    $self->Backend( IntelliHome::Parser::DB::Mongo->new );
+    $self->Backend(
+        IntelliHome::Parser::DB::Mongo->new( Config => $self->Config ) );
 }
 
 sub detectTasks {

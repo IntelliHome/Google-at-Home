@@ -2,7 +2,8 @@ package IntelliHome::Driver::GPIO::Dual;
 use Moo;
 
 extends 'IntelliHome::Driver::GPIO::Base';
-
+use constant DRIVER => ( split( "::", __PACKAGE__ ) )[-1];
+use constant TYPE   => ( split( "::", __PACKAGE__ ) )[-2];
 has 'onPin'  => ( is => "rw" );
 has 'offPin' => ( is => "rw" );
 

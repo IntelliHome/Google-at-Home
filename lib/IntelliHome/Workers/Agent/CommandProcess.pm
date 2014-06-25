@@ -1,49 +1,30 @@
 package IntelliHome::Workers::Agent::CommandProcess;
 use Moo;
 use IntelliHome::Utils qw(message_expand SEPARATOR load_module);
-
-has 'Output' => (
-    is      => "rw",
-    default => sub { return IntelliHome::Interfaces::Terminal->instance }
-);
+use Carp::Always;
+has 'app' => ( is => "rw" );
 
 sub process {
     my $self = shift;
     my $fh   = shift;
     my $command;
+    my $return;
     while (<$fh>) {
         $command .= $_;
     }
-    $self->Output->debug("I received - $command -");
-    my @args   = message_expand($command);
-    my $Type   = shift @args;
-    my $Driver = shift @args;
-    my $Pin    = "IntelliHome::Driver::" . $Type . "::" . $Driver;
-    load_module($Pin);
-    if ( $Driver eq "Dual" ) {
-        my $Port = $Pin->new(
-            onPin     => shift @args,
-            offPin    => shift @args,
-            Direction => shift @args
-        );
-    }
-    else {
-        my $Port = $Pin->new(
-            Pin       => shift @args,
-            Direction => shift @args
-        );
-    }
-    my $method = shift @args;
-    my $return;
-
-    if ( $Port->can($method) ) {
-        $return = $Port->$method(@args);
-    }
-    else {
+    chomp($command);
+    $self->app->Output->debug("I received - $command -");
+    eval {
+        my @args = message_expand($command);
+        my $Cmd  = shift @args;
+        $self->app->event->emit( $Cmd,@args );
+    };
+    if ($@) {
+        $self->app->Output->error($@);
         $return = -1;
     }
-    print $command $return;
     return $return;
+
 }
 
 1;
