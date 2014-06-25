@@ -60,7 +60,7 @@ sub start {
     }
     my $Connector = IntelliHome::Connector->new( Node => $me );
     $Connector->Worker(
-        IntelliHome::Workers::Agent::CommandProcess->new( app => $self ) );
+        IntelliHome::Workers::Agent::CommandProcess->new( app => $self, IntelliHome=>$self ) );
     $Connector->blocking(1);
     $Connector->listen();
 }
