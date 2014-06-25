@@ -2,7 +2,7 @@ package IntelliHome::RPC::Service::Dummy;
 
 #this is a dummy rpc module only for testing
 use Carp::Always;
-use Mojo::Base 'MojoX::JSON::RPC::Service';
+use Mojo::Base 'IntelliHome::RPC::Service::Base';
 use Data::Dumper;
 
 has 'IntelliHome';

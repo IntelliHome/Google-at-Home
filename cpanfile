@@ -1,6 +1,8 @@
 requires 'AnyEvent';
 requires 'AnyEvent::Filesys::Notify';
 requires 'Carp::Always';
+requires 'Deeme';
+requires 'Deeme::Backend::Mango';
 requires 'Encode';
 requires 'File::Find::Object';
 requires 'Getopt::Long';

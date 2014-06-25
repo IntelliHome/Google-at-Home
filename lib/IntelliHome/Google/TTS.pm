@@ -9,15 +9,15 @@ IntelliHome::Google::TTS - Generate audio files from the given text using Google
 This Object synthetizes the file supplied via C<File> argument and returns a list of hypotesis using Google Services
 
 
-=head1 ATTRIBUTES 
+=head1 ATTRIBUTES
 
 =over 4
 
-=item File() 
+=item File()
 
 Get/Set the file to synthetize
 
-=item Language() 
+=item Language()
 
 Get/Set the language
 
@@ -35,7 +35,7 @@ send to google services the files and return a list of hypothesis
 
 =cut
 
-use Moose;
+use Moo;
 require LWP::UserAgent;
 use URI;
 use Encode;

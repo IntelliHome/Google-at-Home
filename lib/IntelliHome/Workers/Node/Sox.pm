@@ -14,7 +14,7 @@ This object is used internally by G@H
 
 =cut
 
-use Moose;
+use Moo;
 use Fcntl qw(:DEFAULT :flock);
 
 with("IntelliHome::Workers::Process");

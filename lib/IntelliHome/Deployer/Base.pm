@@ -1,5 +1,5 @@
 package IntelliHome::Deployer::Base;
-use Moose;
+use Moo;
 use IntelliHome::Interfaces::Terminal;
 
 has 'Node' => (is=>"rw");
