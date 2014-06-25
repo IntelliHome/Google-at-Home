@@ -13,7 +13,7 @@ sub BUILD {
     my $self    = shift;
     my $Backend = "IntelliHome::Parser::DB::"
         . $self->Config->DBConfiguration->{'database_backend'};
-    $self->Backend( $Backend->new( Config => $self->Config ) )
+    $self->Backend( $Backend->instance( Config => $self->Config ) )
         if ( load_module($Backend) );
 }
 

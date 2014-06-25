@@ -30,7 +30,7 @@ sub BUILD {
         db_name => $self->Config->DBConfiguration->{'db_name'}
     );
     $self->Backend(
-        IntelliHome::Parser::DB::Mongo->new( Config => $self->Config ) );
+        IntelliHome::Parser::DB::Mongo->instance( Config => $self->Config ) );
 }
 
 sub detectTasks {
