@@ -1,16 +1,30 @@
 package IntelliHome::Parser::DB::Base;
-use Moose;
-use MooseX::Singleton;
+use Moo;
+use Carp qw(croak);
+with("MooX::Singleton");
+use IntelliHome::Utils qw(load_module);
+
+has 'Config' => (is=>"rw");
 
 sub installPlugin {
-    my $self = shift;
+    croak 'installPlugin() is not implemented by IntelliHome::Parser::DB::Base';
 }
 
 sub removePlugin {
-    my $self = shift;
+    croak 'removePlugin() is not implemented by IntelliHome::Parser::DB::Base';
 }
 
 sub updatePlugin {
-    my $self = shift;
+    croak 'updatePlugin() is not implemented by IntelliHome::Parser::DB::Base';
 }
+
+sub node {
+    my $self = shift;
+    my $node
+        = "IntelliHome::Schema::"
+        . $self->Config->DBConfiguration->{'database_backend'}
+        . "::Node";
+    return $node->new( Config => $self->Config ) if ( load_module($node) );
+}
+
 1;

@@ -29,8 +29,9 @@ has 'Output' => (
 has 'Remote' => (
     is      => "rw",
     default => sub {
+        my $self=shift;
         IntelliHome::Workers::Master::RemoteSynth->new(
-            Config => shift->Config );
+            Config => $self->Config );
     }
 );
 
@@ -62,8 +63,8 @@ sub update_plugin {
 
 sub start {
     my $class      = shift;
+    my $self=__PACKAGE__->instance;
     my $foreground = shift;
-    my $self       = __PACKAGE__->instance;
     my $IHOutput   = $self->Output;
     my $Config     = $self->Config;           #specify where yaml file are
     my $remote     = $self->Remote;
