@@ -7,12 +7,13 @@ require IntelliHome::Config;
 require IntelliHome::Connector;
 require IntelliHome::Workers::Agent::CommandProcess;
 require IntelliHome::Schema::YAML::Node;
-use IntelliHome::Utils qw(daemonize cleanup stop_process search_modules);
+use IntelliHome::Utils qw(daemonize cleanup stop_process search_modules load_module);
 use Moo;
 with 'MooX::Singleton';
 use warnings;
 use strict;
 use Deeme;
+use Deeme::Backend::Memory;
 $SIG{INT} = $SIG{KILL} = $SIG{USR1}
     = sub { exit 0 };
 $SIG{CHLD} = 'IGNORE';
@@ -28,7 +29,7 @@ has 'Output' => (
 
 has 'event' => (
     is      => "rw",
-    default => sub { return Deeme->new }
+    default => sub { return Deeme->new(backend=> Deeme::Backend::Memory->new)}
 );
 sub stop { stop_process("agent"); }
 
@@ -52,6 +53,7 @@ sub start {
         }
     }
     foreach my $plugin ( search_modules("IntelliHome::Plugin::Agent") ) {
+        load_module($plugin);
         my $Plugin = $plugin->new( app => $self );
         $Plugin->install;
         push( @{ $self->{'loaded_plugins'} }, $Plugin );
