@@ -13,6 +13,7 @@ has 'Backend' => ( is => "rw" );
 has 'event' => (
     is      => "rw",
     default => sub {
+        my $self = shift;
         return Deeme->new(
             backend => Deeme::Backend::Mango->new(
                 host     => $self->Config->DBConfiguration->{'db_dsn'},
