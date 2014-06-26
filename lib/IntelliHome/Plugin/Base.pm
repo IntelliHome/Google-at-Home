@@ -44,29 +44,29 @@ has 'IntelliHome' => ( is => "rw" );
 sub prepare {  # this is called on first load in the thread session if defined
     my $self = shift;
     $self->Parser->Output->debug(
-        "(Leaved as default) Preparing " . $self->_plugin );
+        "(Leaved as default) Preparing " . ( $self =~ /(.*)\=/ )[0] );
 }
 
 sub install {    #Called on install
     my $self = shift;
     $self->Parser->Output->debug(
-        "(Leaved as default) Installing " . $self->_plugin );
+        "(Leaved as default) Installing " . ( $self =~ /(.*)\=/ )[0] );
 }
 
 sub update {     #Called on update
     my $self = shift;
     $self->Parser->Output->debug(
-        "(Leaved as default) Updating " . $self->_plugin );
+        "(Leaved as default) Updating " . ( $self =~ /(.*)\=/ )[0] );
     return $self->remove() and $self->install();
 }
 
 sub remove {     #Called on remove
     my $self = shift;
     $self->Parser->Output->debug(
-        "(Leaved as default) Removing " . $self->_plugin );
+        "(Leaved as default) Removing " . ( $self =~ /(.*)\=/ )[0] );
     $self->IntelliHome->Backend->removePlugin(
-        { plugin => ( split( /::/, $self->_plugin ) )[-1] } );
+        { plugin => ( split( /::/, ( $self =~ /(.*)\=/ )[0] ) )[-1] } );
     return 1;
 }
-sub _plugin { my $self = shift; $self =~ s/\=.*//; return $self }
+
 1;
