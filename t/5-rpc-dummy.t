@@ -35,7 +35,7 @@ $client->call(
                 = 'HTTP response ' . $tx_res->code . ' ' . $tx_res->message;
         }
         is( $output, "DUMMY-YUMMY!", "rpc-answer" );
-        $RPC->stop;
+        $RPC->signal("TERM")->detach;
         Mojo::IOLoop->stop;
     }
 );

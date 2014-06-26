@@ -76,6 +76,15 @@ sub stop {
     }
 }
 
+sub signal {
+    my $self = shift;
+    my $signal = shift;
+    if ( defined $self->thread and !$self->thread->is_detached ) {
+        $self->thread->kill($signal);
+    }
+    return $self->thread;
+}
+
 sub is_running { shift->thread->is_running(); }
 
 sub is_detached { shift->thread->is_detached(); }
