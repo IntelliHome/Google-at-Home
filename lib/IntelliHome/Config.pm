@@ -9,17 +9,20 @@ use Moo;
 with 'MooX::Singleton';
 
 has 'Nodes' => ( is => "rw" );
+has 'RPCConfiguration' => ( is => "rw", default => sub { {} } );
 has 'DBConfiguration' => ( is => "rw", default => sub { {} } );
 
-has 'Dirs' => ( is => "rw" );
+has 'Dirs' => ( is => "rw", default=>sub{['./config']});
 has 'Output' => (
     is      => "rw",
-    default => sub { return IntelliHome::Interfaces::Terminal->instance}
+    default => sub { return IntelliHome::Interfaces::Terminal->instance }
 );
-sub BUILD{
-    my $self=shift;
+
+sub BUILD {
+    my $self = shift;
     $self->read;
 }
+
 sub read {
     my $self   = shift;
     my $output = $self->Output;
@@ -123,6 +126,18 @@ sub read {
                         $Nodes->{ $Key->{host} }->{mic_step}
                             = $Key->{mic_step}
                             if ( exists( $Key->{mic_step} ) );
+                    }
+
+                    if (    exists( $Key->{rpc_host} )
+                        and exists( $Key->{rpc_port} )
+                        )
+                    {
+                        $self->RPCConfiguration->{'rpc_host'} = $Key->{'rpc_host'};
+                        $output->info( "RPC-Host: "
+                                . $self->RPCConfiguration->{'rpc_host'} );
+                        $self->RPCConfiguration->{'rpc_port'} = $Key->{'rpc_port'};
+                        $output->info( "RPC-Port: "
+                                . $self->RPCConfiguration->{'rpc_port'} );
                     }
                 }
 
