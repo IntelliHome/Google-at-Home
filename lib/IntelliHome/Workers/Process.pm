@@ -40,8 +40,8 @@ has 'Writer' => ( is => "rw" );
 has 'Reader' => ( is => "rw" );
 has 'Error'  => ( is => "rw" );
 
-has 'UnixPid' => ( is => "rw", default => sub { return new Unix::PID; } );
-has 'Directory' => ( is => "rw", default => "/var/tmp" );
+has 'UnixPid' => ( is => "rw", default => sub { return Unix::PID->new; } );
+has 'Directory' => ( is => "rw", default => "/var/tmp/intellihome/" );
 
 sub launch {
     my $self = shift;

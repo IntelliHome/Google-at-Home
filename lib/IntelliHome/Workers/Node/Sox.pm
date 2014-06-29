@@ -29,7 +29,6 @@ has 'beginThreshold'      => ( is => "rw", default => '1%' );
 has 'finishEnable'        => ( is => "rw", default => "1" );
 has 'finishSoundDuration' => ( is => "rw", default => "1.5" );
 has 'finishThreshold'     => ( is => "rw", default => '2%' );
-has 'Directory'           => ( is => "rw", default => "/var/tmp/sox/" );
 has 'Filters' => (
     is      => "rw",
     default => "trim 0 12"
