@@ -1,7 +1,7 @@
 package IntelliHome::Parser::DB::Base;
-use Moose;
+use Moo;
 use Carp qw(croak);
-use MooseX::Singleton;
+with("MooX::Singleton");
 use IntelliHome::Utils qw(load_module);
 
 has 'Config' => (is=>"rw");

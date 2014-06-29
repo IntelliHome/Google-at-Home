@@ -6,7 +6,7 @@ use base qw(Exporter);
 use Mojo::Loader;
 use constant SEPARATOR => ":";
 our @EXPORT_OK = qw(
-    message_expand SEPARATOR message_compact daemonize cleanup stop_process load_module
+    message_expand SEPARATOR message_compact daemonize cleanup stop_process load_module search_modules
 );
 
 sub load_module($) {
@@ -15,6 +15,10 @@ sub load_module($) {
     my $e = $loader->load($module);
     warn qq{Loading "$module" failed: $e} and return 0 if ref $e;
     return 1;
+}
+
+sub search_modules($){
+    return @{ Mojo::Loader->new->search(shift) };
 }
 
 sub stop_process($) {

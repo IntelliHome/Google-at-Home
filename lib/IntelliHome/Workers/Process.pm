@@ -28,7 +28,7 @@ return L<Unix::PID> C<is_running()> on the pid
 
 =cut
 
-use Moose::Role;
+use Moo::Role;
 use feature 'say';
 
 #use IPC::Open3;
