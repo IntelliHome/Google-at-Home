@@ -10,7 +10,7 @@ sub BUILD {
     my $self = shift;
     $self->Schema(
         IntelliHome::Schema::SQLite::Schema->connect(
-            'dbi:SQLite:intellihome.db')
+            'dbi:SQLite:/var/lib/intellihome/intellihome.db')
     );
 }
 

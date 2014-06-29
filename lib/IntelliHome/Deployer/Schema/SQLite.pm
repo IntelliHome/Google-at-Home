@@ -8,10 +8,10 @@ use DBIx::Class::DeploymentHandler;
 use lib '../../';
 use IntelliHome::Schema::SQLite::Schema;
 use File::Path qw(make_path);
-use costant DBDIR => "/var/lib/intellihome/";
+use constant DBDIR => "/var/lib/intellihome/";
 use Moo;
 
-has 'dee' => (
+has 'dh' => (
     is      => "rw",
     lazy    => 1,
     default => sub {
@@ -23,7 +23,7 @@ has 'dee' => (
                 script_directory => DBDIR . 'db_upgrades',
                 databases        => 'SQLite',
                 force_overwrite  => 1,
-                schema_version   => $version
+                schema_version   => 1 #TODO pass version 
             }
         );
     }
@@ -66,3 +66,5 @@ sub database_version {
 sub schema_version {
     return shift->schema_version;
 }
+
+1;
