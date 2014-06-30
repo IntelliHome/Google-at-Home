@@ -1,6 +1,6 @@
 package IntelliHome::Connector;
 
-use Moose;
+use Moo;
 use IntelliHome::Workers::SocketListener;
 use IntelliHome::Workers::SocketAsync;
 use IntelliHome::Utils qw(message_compact SEPARATOR);
@@ -103,11 +103,11 @@ sub send_file {
         && return undef
         );
     if ($server) {
-        open FILE, "<" . $File
+        open my $FILE, "<" . $File
             or ( $self->Output->error("Error $File: $!") and return 0 );
-        if ( flock( FILE, 1 ) ) {
-            print $server $_ while (<FILE>);
-            close FILE;
+        if ( flock( $FILE, 1 ) ) {
+            print $server $_ while (<$FILE>);
+            close $FILE;
             $server->close();
             $self->Output->info( "recording sent to "
                     . $self->Node->Host

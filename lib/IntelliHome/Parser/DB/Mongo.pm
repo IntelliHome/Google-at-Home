@@ -1,5 +1,5 @@
 package IntelliHome::Parser::DB::Mongo;
-use Moose;
+use Moo;
 extends 'IntelliHome::Parser::DB::Base';
 use IntelliHome::Schema::Mongo::Need;
 use IntelliHome::Schema::Mongo::Question;

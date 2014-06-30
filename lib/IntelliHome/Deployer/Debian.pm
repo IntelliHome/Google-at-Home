@@ -1,5 +1,5 @@
 package IntelliHome::Deployer::Debian;
-use Moose;
+use Moo;
 use Net::SSH::Any;
 
 extends 'IntelliHome::Deployer::Base';
