@@ -1,0 +1,99 @@
+% layout 'default' ;
+% title config('name'). ' - '.config('slogan').' ';
+% content_for head => begin
+<meta name="keywords" content="Index" />
+% end
+<div id="iso" class="content">
+
+    <div class="row">
+
+            <div class="alert col-xs-12 col-sm-6 col-md-3 col-lg-3">
+              <div class="alert_img"></div>
+              <div class="content">
+                <h2><a href="#">Item Title</a></h2>
+              </div>
+            </div>
+            <div class="alert col-xs-12 col-sm-6 col-md-3 col-lg-3">
+              <div class="alert_img"></div>
+              <div class="content">
+                <h2><a href="#">Item Title</a></h2>
+                <p>Some kind of speal might go here, just an example of text being included in a single block/alert.</p>
+                <p>Some kind of speal might go here, just an example of text being included in a single block/alert.</p>
+              </div>
+            </div>
+            <div class="alert col-xs-12 col-sm-6 col-md-3 col-lg-3">
+              <div class="alert_img"></div>
+              <div class="content">
+                <h2><a href="#">Item Title</a></h2>
+              </div>
+            </div>
+            <div class="alert col-xs-12 col-sm-6 col-md-3 col-lg-3">
+              <div class="alert_img"></div>
+              <div class="content">
+                <h2><a href="#">Item Title</a></h2>
+                <p>Some kind of speal might go here, just an example of text being included in a single block/alert.</p>
+                <p>Some kind of speal might go here, just an example of text being included in a single block/alert.</p>
+              </div>
+            </div>
+            <div class="alert col-xs-12 col-sm-6 col-md-3 col-lg-3">
+              <div class="alert_img"></div>
+              <div class="content">
+                <h2><a href="#">Item Title</a></h2>
+              </div>
+            </div>
+            <div class="alert col-xs-12 col-sm-6 col-md-3 col-lg-3">
+              <div class="alert_img"></div>
+              <div class="content">
+                <h2><a href="#">Item Title</a></h2>
+                <p>Some kind of speal might go here, just an example of text being included in a single block/alert.</p>
+                <p>Some kind of speal might go here, just an example of text being included in a single block/alert.</p>
+              </div>
+            </div>
+            <div class="alert col-xs-12 col-sm-6 col-md-3 col-lg-3">
+              <div class="alert_img"></div>
+              <div class="content">
+                <h2><a href="#">Item Title</a></h2>
+                <p>Some kind of speal might go here, just an example of text being included in a single block/alert.</p>
+                <p>Some kind of speal might go here, just an example of text being included in a single block/alert.</p>
+              </div>
+            </div>
+            <div class="alert col-xs-12 col-sm-6 col-md-3 col-lg-3">
+              <div class="alert_img"></div>
+              <div class="content">
+                <h2><a href="#">Item Title</a></h2>
+              </div>
+            </div>
+            <div class="alert col-xs-12 col-sm-6 col-md-3 col-lg-3">
+              <div class="alert_img"></div>
+              <div class="content">
+                <h2><a href="#">Item Title</a></h2>
+                <p>Some kind of speal might go here, just an example of text being included in a single block/alert.</p>
+                <p>Some kind of speal might go here, just an example of text being included in a single block/alert.</p>
+              </div>
+            </div>
+            <div class="alert col-xs-12 col-sm-6 col-md-3 col-lg-3">
+              <div class="alert_img"></div>
+              <div class="content">
+                <h2><a href="#">Item Title</a></h2>
+              </div>
+            </div>
+            <div class="alert col-xs-12 col-sm-6 col-md-3 col-lg-3">
+              <div class="alert_img"></div>
+              <div class="content">
+                <h2><a href="#">Item Title</a></h2>
+              </div>
+            </div>
+            <div class="alert col-xs-12 col-sm-6 col-md-3 col-lg-3">
+              <div class="alert_img"></div>
+              <div class="content">
+                <h2><a href="#">Item Title</a></h2>
+              </div>
+            </div>
+
+    </div>
+
+     <div class="pagination">
+        <a href="#/page/2/">Next</a>
+    </div>
+
+</div>
