@@ -29,6 +29,7 @@ sub read {
         my $tree = File::Find::Object->new( {}, @{ $self->Dirs } );
         my $Nodes;
         while ( my $r = $tree->next_obj() ) {
+            next if $r->path !~ /\.yml$/;
             $output->debug( "Reading " . $r->path );
             if ( $r->is_file ) {
                 my $yaml = $Tiny->read( $r->path )
