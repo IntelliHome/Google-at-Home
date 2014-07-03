@@ -3,6 +3,7 @@ require IntelliHome::Interfaces::Terminal;
 require IntelliHome::Connector;
 require IntelliHome::Config;
 require IntelliHome::Workers::Master::RemoteSynth;
+require IntelliHome::Workers::Master::WebUI;
 require IntelliHome::Workers::Master::RPC;
 require IntelliHome::Parser::Base;
 require AnyEvent;
@@ -29,7 +30,7 @@ has 'Output' => (
 has 'Remote' => (
     is      => "rw",
     default => sub {
-        my $self=shift;
+        my $self = shift;
         IntelliHome::Workers::Master::RemoteSynth->new(
             Config => $self->Config );
     }
@@ -63,7 +64,7 @@ sub update_plugin {
 
 sub start {
     my $class      = shift;
-    my $self=__PACKAGE__->instance;
+    my $self       = __PACKAGE__->instance;
     my $foreground = shift;
     my $IHOutput   = $self->Output;
     my $Config     = $self->Config;           #specify where yaml file are
@@ -80,8 +81,8 @@ sub start {
         }
     }
 
-    my $RPC = IntelliHome::Workers::Master::RPC->new();
-    $RPC->launch;
+    IntelliHome::Workers::Master::RPC->new->launch;
+    IntelliHome::Workers::Master::WebUI->new->launch;
 
     my $me = $self->Remote->Parser->node->selectFromType("master")
         ; # this for now forces the network to have one master, we can easily rid about that in the future
