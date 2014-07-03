@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  %= include 'components/head'
+  <body>
+    %= include 'components/menu'
+    <div class="jumbotron header-logo">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <%= link_to index => begin %>
+            <%= image '/img/bender.png' => (class => 'img-responsive col-md-4 pull-left') %>
+            <% end %>
+            <h3 class="col-md-8"> this is my best shot </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    %= content
+    %= include 'components/footer'
+    %= include 'components/scripts'
+  </body>
+</html>

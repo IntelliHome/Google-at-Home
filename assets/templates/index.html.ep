@@ -1,5 +1,5 @@
 % layout 'default' ;
-% title config('name'). ' - '.config('slogan').' ';
+% title config('name');
 % content_for head => begin
 <meta name="keywords" content="Index" />
 % end

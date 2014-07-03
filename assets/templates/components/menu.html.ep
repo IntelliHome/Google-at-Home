@@ -1,0 +1,57 @@
+<!-- Navbar
+  ================================================== -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <%= link_to config('name')  => 'index' => (class => 'navbar-brand')  %>
+        </div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse" id="navbar-main">
+          <ul class="nav navbar-nav">
+            <li><%= link_to Home  => 'index' %></li>
+
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
+                Submenu<span class="caret" />
+              </a>
+              <ul class="dropdown-menu categories-menu" role="menu" aria-labelledby="themes">
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes" >
+                Another Menu<span class="caret" />
+              </a>
+              <ul class="dropdown-menu categories-menu" role="menu" aria-labelledby="themes" style="    height: auto;
+    max-height: 200px;">
+                  <li>
+                       <a href='#' > Item 1</a>
+                  </li>
+                   <li>
+                       <a href='#' > Item 2</a>
+                  </li>
+          
+        <li>
+                       <a href='#' > Item 3</a>
+                  </li>
+                  <li>
+                       <a href='#' > Item 4</a>
+                  </li>
+              </ul>
+            </li>
+          </ul>
+
+          <form class="navbar-form navbar-right" action="/search/" method="GET">
+            <div class="form-group">
+              <input type="text" name="term" placeholder="Search" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
