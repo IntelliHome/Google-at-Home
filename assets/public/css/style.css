@@ -54,7 +54,15 @@ Works      3.2+      Works       9.5+     9+      Works      Works
 /*
   Custom login Style
 */
-
+.login-container{
+    position: relative;
+    width: 300px;
+    margin: 80px auto;
+    padding: 20px 40px 40px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #ccc;
+}
 
 #output{
     position: absolute;
@@ -175,4 +183,27 @@ Works      3.2+      Works       9.5+     9+      Works      Works
 .fadeInUp {
   -webkit-animation-name: fadeInUp;
   animation-name: fadeInUp;
+}
+
+/*
+  User Panel
+*/
+
+.navbar-login
+{
+    width: 305px;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+.navbar-login-session
+{
+    padding: 10px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+.icon-size
+{
+    font-size: 87px;
 }
