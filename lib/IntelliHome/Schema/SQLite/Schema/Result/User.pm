@@ -7,7 +7,8 @@ __PACKAGE__->add_columns(
 	'userid' => { data_type=>'int', is_auto_increment=>1 },
 	'username' => { accessor => '_check_username' }, 
 	'password' => { accessor => '_check_password', data_type=>'varchar', size => 40 }, 
-	'name' => { data_type=>'varchar'} , 
+	'name' => { data_type=>'varchar'} ,
+    'picture' => { is_nullable => 1}, 
 	'admin' => { data_type => 'int', size=>1 });
 __PACKAGE__->set_primary_key('userid');
 __PACKAGE__->has_many(remotecontrollayouts => 'IntelliHome::Schema::SQLite::Schema::Result::RemoteControlLayout', 'userid');
