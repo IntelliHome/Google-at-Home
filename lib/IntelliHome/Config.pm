@@ -43,9 +43,9 @@ sub read {
                 foreach my $Key ( @{$yaml} ) {
 
                     if (exists(
-                            $Key->{database_backend}
+                            $Key->{database_backend})
                                 and exists( $Key->{language} )
-                        )
+                      
 
                         #           and exists($Key->{username})
                         #               and exists ($Key->{password})
