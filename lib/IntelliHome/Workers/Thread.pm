@@ -34,14 +34,17 @@ return L<threads> C<is_detached()> on the thread
 
 use Moo::Role;
 
+ use Config; 
+     
+if ($Config{usethreads}) {
+
 eval {
-    require threads;
-    threads->import();
-    1;
-} or do {
+    use threads;
+};
+} else {
     require forks;
     forks->import();
-};
+}
 
 #Or you want to use forks?
 use Carp qw( croak );
