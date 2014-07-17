@@ -34,16 +34,13 @@ return L<threads> C<is_detached()> on the thread
 
 use Moo::Role;
 
- use Config; 
-     
-if ($Config{usethreads}) {
+use Config;
 
-#eval {
-#    use threads;
-#};
-	require threads;
-	import threads;
-} else {
+if ( $Config{usethreads} ) {
+    require threads;
+    import threads;
+}
+else {
     require forks;
     forks->import();
 }
