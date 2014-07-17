@@ -33,12 +33,18 @@ return L<threads> C<is_detached()> on the thread
 =cut
 
 use Moo::Role;
-use threads (
-    'yield',
-    'stack_size' => 64 * 4096,
-    'exit'       => 'threads_only',
-    'stringify'
-);
+
+eval{
+	use threads (
+    		'yield',
+	    	'stack_size' => 64 * 4096,
+    		'exit'       => 'threads_only',
+	    	'stringify'
+	);
+};
+if($@){
+	use forks;
+}
 
 #Or you want to use forks?
 use Carp qw( croak );
