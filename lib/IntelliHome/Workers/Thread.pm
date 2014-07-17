@@ -38,9 +38,11 @@ use Moo::Role;
      
 if ($Config{usethreads}) {
 
-eval {
-    use threads;
-};
+#eval {
+#    use threads;
+#};
+	require threads;
+	import threads;
 } else {
     require forks;
     forks->import();
