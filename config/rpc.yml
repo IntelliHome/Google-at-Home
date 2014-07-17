@@ -1,0 +1,4 @@
+---
+rpc_host: 'localhost'
+rpc_port: '3000'
+
