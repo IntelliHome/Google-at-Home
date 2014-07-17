@@ -25,12 +25,12 @@ my $Deployer = $Backend->new;
 eval {
     $Output->error("$Deployer hasn't $action") and die(EXIT_ERROR)
         unless ( $Deployer->can($action) );
-    $Deployer->$action(@ARGV);
 };
 if ($@) {
     $Output->error($@);
 }
 
+    $Deployer->$action(@ARGV); 
 sub help {
     $Output->info(
         "At least an argument to --cmd it's required : [install,upgrade,prepare] "
