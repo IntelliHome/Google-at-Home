@@ -1,10 +1,16 @@
 requires 'AnyEvent';
 requires 'AnyEvent::Filesys::Notify';
 requires 'Carp::Always';
+requires 'DBIx::Class::Core';
+requires 'DBIx::Class::DeploymentHandler';
+requires 'DBIx::Class::Schema';
 requires 'Deeme';
 requires 'Deeme::Backend::Mango';
+requires 'Deeme::Backend::Memory';
+requires 'Digest::SHA1';
 requires 'Encode';
 requires 'File::Find::Object';
+requires 'File::Path';
 requires 'Getopt::Long';
 requires 'LWP::UserAgent';
 requires 'Log::Any';
@@ -22,7 +28,6 @@ requires 'Moo::Role';
 requires 'MooX::Singleton';
 requires 'Moose';
 requires 'Moose::Role';
-requires 'MooseX::Singleton';
 requires 'Net::SSH::Any';
 requires 'Term::ANSIColor';
 requires 'Time::HiRes';
@@ -31,12 +36,15 @@ requires 'URI';
 requires 'Unix::PID';
 requires 'YAML::Tiny';
 requires 'feature';
+requires 'forks';
 requires 'namespace::autoclean';
+requires 'perl', '5.010';
 
 on configure => sub {
     requires 'ExtUtils::MakeMaker';
 };
 
 on test => sub {
+    requires 'MojoX::JSON::RPC::Client';
     requires 'Test::More';
 };
