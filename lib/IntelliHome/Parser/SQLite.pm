@@ -8,7 +8,7 @@ IntelliHome::Parser::SQLite - SQLite parser for IntelliHome
 
 This object implement a SQLite parser for IntelliHome, dispatching the text trigger to the appropriate plugin
 
-=head1 ATTRIBUTES
+=head1 METHODS
 
 IntelliHome::Parser::SQLite overrides the IntelliHome::Parser::Base detectTriggers() and parse() functions
 
