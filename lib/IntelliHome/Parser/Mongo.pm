@@ -1,5 +1,24 @@
 package IntelliHome::Parser::Mongo;
 
+=head1 NAME
+
+IntelliHome::Parser::Mongo - Mongo parser for IntelliHome
+
+=head1 DESCRIPTION
+
+This object implement a Mongo parser for IntelliHome, dispatching the text trigger to the appropriate plugin
+
+=head1 METHODS
+
+IntelliHome::Parser::Mongo overrides the IntelliHome::Parser::Base detectTriggers() and parse() functions
+
+=head1 SEE ALSO
+
+L<IntelliHome::Parser::SQLite>, L<IntelliHome::Parser::Base>
+
+=cut
+
+
 use Moo;
 extends 'IntelliHome::Parser::Base';
 use IntelliHome::Schema::Mongo::Trigger;
