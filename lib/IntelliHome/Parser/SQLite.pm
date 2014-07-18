@@ -4,8 +4,21 @@ use Moo;
 extends 'IntelliHome::Parser::Base';
 use IntelliHome::Parser::DB::SQLite;
 use IntelliHome::Schema::SQLite::Schema;
+use Deeme;
+use Deeme::Backend::SQLite;
 
 has 'Backend' => ( is => "rw" );
+has 'event' => (
+    is      => "rw",
+    default => sub {
+        my $self = shift;
+        return Deeme->new(
+            backend => Deeme::Backend::SQLite->new(
+                database => $self->Config->DBConfiguration->{'db_name'}
+            )
+        );
+    }
+);
 
 sub BUILD {
     my $self = shift;
