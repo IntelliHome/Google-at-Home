@@ -1,5 +1,24 @@
 package IntelliHome::Parser::SQLite;
 
+=head1 NAME
+
+IntelliHome::Parser::SQLite - SQLite parser for IntelliHome
+
+=head1 DESCRIPTION
+
+This object implement a SQLite parser for IntelliHome, dispatching the text trigger to the appropriate plugin
+
+=head1 ATTRIBUTES
+
+IntelliHome::Parser::SQLite overrides the IntelliHome::Parser::Base detectTriggers() and parse() functions
+
+=head1 SEE ALSO
+
+L<IntelliHome::Parser::Mongo>, L<IntelliHome::Parser::Base>
+
+=cut
+
+
 use Moo;
 extends 'IntelliHome::Parser::Base';
 use IntelliHome::Parser::DB::SQLite;
