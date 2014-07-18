@@ -1,5 +1,44 @@
 package IntelliHome::Schema::SQLite::Schema::Result::Trigger;
-use Carp::Always;
+=head1 NAME
+
+IntelliHome::Schema::SQLite::Schema::Result::Trigger - DBIx::Class model that represent a Trigger associated to a Plugin 
+
+=head1 DESCRIPTION
+
+This object is a model that represent a Trigger associated to a Plugin command
+
+=head1 ATTRIBUTES
+
+=over
+
+=item triggerid()
+
+trigger unique ID identifier
+
+=item commandid()
+
+the command id of the trigger
+
+=item trigger()
+
+the trigger name
+
+=item arguments()
+
+the trigger arguments that represent a regex to match options to the plugins
+
+=item language()
+
+the trigger language
+
+=back
+
+=head1 SEE ALSO
+
+L<IntelliHome::Schema::SQLite::Schema::Result::GPIO>, L<IntelliHome::Schema::SQLite::Schema::Result::Node>, L<IntelliHome::Schema::SQLite::Schema::Result::Command>
+
+=cut
+
 use base qw/DBIx::Class::Core/;
 
 

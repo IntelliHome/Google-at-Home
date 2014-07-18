@@ -45,20 +45,9 @@ sub process {
     my $fh   = shift;             ## IO::Socket
     my $host = $fh->peerhost();
     my $command;
-    $command .= $_ while (<$fh>);
-    my @Received = message_expand($command );
-    my $status = shift @Received;
-
-    if ( $status eq "STATUS" ) {
-        $self->status(@Received);
-    }
-
+    while (<$fh>){ $command .= $_ ;}
+    $self->Parser->event->emit(message_expand($command),$host);
 }
 
-sub status {
-    my $self    = shift;
-    my @Message = shift;
-
-}
 
 1;
