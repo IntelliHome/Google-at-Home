@@ -42,22 +42,28 @@ sub read {
             #Importing data in my hash with an index by host (for convenience)
                 foreach my $Key ( @{$yaml} ) {
 
-                    if (    exists( $Key->{db_dsn} )
-                        and exists( $Key->{db_name} )
-                        and exists( $Key->{database_backend} )
+                    if (exists(
+                            $Key->{database_backend})
+                                and exists( $Key->{language} )
+                      
 
                         #           and exists($Key->{username})
                         #               and exists ($Key->{password})
 
                         )
                     {
-                        $self->DBConfiguration->{'db_dsn'} = $Key->{'db_dsn'};
-                        $output->info( "Database: "
-                                . $self->DBConfiguration->{'db_dsn'} );
-                        $self->DBConfiguration->{'db_name'}
-                            = $Key->{'db_name'};
-                        $output->info( "Database: "
-                                . $self->DBConfiguration->{'db_name'} );
+                        if (    exists( $Key->{db_dsn} )
+                            and exists( $Key->{db_name} ) )
+                        {
+                            $self->DBConfiguration->{'db_dsn'}
+                                = $Key->{'db_dsn'};
+                            $output->info( "Database: "
+                                    . $self->DBConfiguration->{'db_dsn'} );
+                            $self->DBConfiguration->{'db_name'}
+                                = $Key->{'db_name'};
+                            $output->info( "Database: "
+                                    . $self->DBConfiguration->{'db_name'} );
+                        }
                         $self->DBConfiguration->{'database_backend'}
                             = $Key->{'database_backend'};
                         $output->info( "Database backend: "

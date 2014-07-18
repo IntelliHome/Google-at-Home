@@ -33,12 +33,17 @@ return L<threads> C<is_detached()> on the thread
 =cut
 
 use Moo::Role;
-use threads (
-    'yield',
-    'stack_size' => 64 * 4096,
-    'exit'       => 'threads_only',
-    'stringify'
-);
+
+use Config;
+
+if ( $Config{usethreads} ) {
+    require threads;
+    import threads;
+}
+else {
+    require forks;
+    forks->import();
+}
 
 #Or you want to use forks?
 use Carp qw( croak );
@@ -77,7 +82,7 @@ sub stop {
 }
 
 sub signal {
-    my $self = shift;
+    my $self   = shift;
     my $signal = shift;
     if ( defined $self->thread and !$self->thread->is_detached ) {
         $self->thread->kill($signal);

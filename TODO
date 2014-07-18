@@ -1,5 +1,12 @@
 * Add the event collection where the master node polls information status and triggers a specified method of a plugin
 * Plugins that handles physical situations must insert events in the collections to be called when necessary
+
+* Deeme: Emit hourly, daily, half-hour by an integrated cron daemon.
+
+* XXX: Aggiungere l'event emitter anche a StatusListener -> plugin aggiornamento di stato e Aggiungere l'event emitter anche all'rpc.
+
+*https://metacpan.org/pod/Mojo::EventEmitter -> making a Mojo::EventEmitter binded to Mongo db collection
+
 * Split parsing modules (Parser::*) because events would require a different Parser (Unique, just changes the DB Backend)
 * With the avaibility of time, integrating Bread::Board
 
