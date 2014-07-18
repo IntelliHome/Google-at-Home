@@ -1,4 +1,40 @@
 package IntelliHome::Schema::SQLite::Schema::Result::Room;
+
+=head1 NAME
+
+IntelliHome::Schema::SQLite::Schema::Result::Room - DBIx::Class model that represent a Room in the house 
+
+=head1 DESCRIPTION
+
+This object is a model that represent a Room in the house that has one or more nodes in
+
+=head1 ATTRIBUTES
+
+=over
+
+=item roomid()
+
+room unique ID identifier
+
+=item name()
+
+the room name
+
+=item location()
+
+the room location
+
+=item nodes()
+
+the room associated nodes
+
+=back
+
+=head1 SEE ALSO
+
+L<IntelliHome::Schema::SQLite::Schema::Result::GPIO>, L<IntelliHome::Schema::SQLite::Schema::Result::Node>, L<IntelliHome::Schema::SQLite::Schema::Result::Room>
+
+=cut
 use base qw/DBIx::Class::Core/;
  
 __PACKAGE__->table('room');
