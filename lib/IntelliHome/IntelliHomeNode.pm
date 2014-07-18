@@ -8,6 +8,7 @@ require IntelliHome::Workers::Node::AudioProcess;
 require IntelliHome::Schema::YAML::Node;
 require IntelliHome::Workers::Node::MicAdjust;
 require AnyEvent;
+use Carp::Always;
 use base qw(Exporter);
 use IntelliHome::Utils qw(daemonize cleanup);
 use Moo;

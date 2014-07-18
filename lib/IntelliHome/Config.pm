@@ -9,17 +9,20 @@ use Moo;
 with 'MooX::Singleton';
 
 has 'Nodes' => ( is => "rw" );
+has 'RPCConfiguration' => ( is => "rw", default => sub { {} } );
 has 'DBConfiguration' => ( is => "rw", default => sub { {} } );
 
-has 'Dirs' => ( is => "rw" );
+has 'Dirs' => ( is => "rw", default=>sub{['./config']});
 has 'Output' => (
     is      => "rw",
-    default => sub { return IntelliHome::Interfaces::Terminal->instance}
+    default => sub { return IntelliHome::Interfaces::Terminal->instance }
 );
-sub BUILD{
-    my $self=shift;
+
+sub BUILD {
+    my $self = shift;
     $self->read;
 }
+
 sub read {
     my $self   = shift;
     my $output = $self->Output;
@@ -40,22 +43,28 @@ sub read {
             #Importing data in my hash with an index by host (for convenience)
                 foreach my $Key ( @{$yaml} ) {
 
-                    if (    exists( $Key->{db_dsn} )
-                        and exists( $Key->{db_name} )
-                        and exists( $Key->{database_backend} )
+                    if (exists(
+                            $Key->{database_backend})
+                                and exists( $Key->{language} )
+                      
 
                         #           and exists($Key->{username})
                         #               and exists ($Key->{password})
 
                         )
                     {
-                        $self->DBConfiguration->{'db_dsn'} = $Key->{'db_dsn'};
-                        $output->info( "Database: "
-                                . $self->DBConfiguration->{'db_dsn'} );
-                        $self->DBConfiguration->{'db_name'}
-                            = $Key->{'db_name'};
-                        $output->info( "Database: "
-                                . $self->DBConfiguration->{'db_name'} );
+                        if (    exists( $Key->{db_dsn} )
+                            and exists( $Key->{db_name} ) )
+                        {
+                            $self->DBConfiguration->{'db_dsn'}
+                                = $Key->{'db_dsn'};
+                            $output->info( "Database: "
+                                    . $self->DBConfiguration->{'db_dsn'} );
+                            $self->DBConfiguration->{'db_name'}
+                                = $Key->{'db_name'};
+                            $output->info( "Database: "
+                                    . $self->DBConfiguration->{'db_name'} );
+                        }
                         $self->DBConfiguration->{'database_backend'}
                             = $Key->{'database_backend'};
                         $output->info( "Database backend: "
@@ -124,6 +133,18 @@ sub read {
                         $Nodes->{ $Key->{host} }->{mic_step}
                             = $Key->{mic_step}
                             if ( exists( $Key->{mic_step} ) );
+                    }
+
+                    if (    exists( $Key->{rpc_host} )
+                        and exists( $Key->{rpc_port} )
+                        )
+                    {
+                        $self->RPCConfiguration->{'rpc_host'} = $Key->{'rpc_host'};
+                        $output->info( "RPC-Host: "
+                                . $self->RPCConfiguration->{'rpc_host'} );
+                        $self->RPCConfiguration->{'rpc_port'} = $Key->{'rpc_port'};
+                        $output->info( "RPC-Port: "
+                                . $self->RPCConfiguration->{'rpc_port'} );
                     }
                 }
 
