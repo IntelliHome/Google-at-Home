@@ -1,4 +1,4 @@
- $(document).ready(function() {
+$(document).ready(function() {
         var $container = $('#iso');
 
         // Fire Isotope only when images are loaded
@@ -33,7 +33,4 @@
                 $container.isotope( 'appended', $newElems );
             });
         });
-
-
-
-    });
+});
