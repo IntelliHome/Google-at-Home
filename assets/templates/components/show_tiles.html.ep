@@ -1,0 +1,66 @@
+%  if($single){
+% # Tiles detail 
+<div class="col-md-12">
+  <div class="row">
+      <header class="col-md-8 pull-right">
+          <a class="thumbnail" id="<%= '/command/'.$tile->title.'&'.join('&', $tile->params) %>" href="#">
+            %= tag h2 => (id => $tile->id), (class => 'tile-heading') => $tile->title
+          </a>
+      </header>
+      <div class="col-md-4 pull-left">
+          <a class="thumbnail" id="<%= '/command/'.$tile->title.'&'.join('&', $tile->params) %>" href="#">
+            %= image $tile->image => (class => 'img-responsive img-rounded') , alt => $tile->title, itemprop => "image"
+          </a>   
+      </div>
+      <div class="col-md-8 pull-right">
+          %= tag p => (id => $tile->id.'_conent'), (class => 'tile-content') => $tile->content
+      </div>
+  </div>
+</div>
+%  } else {
+% # Tiles Grid
+<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+<div class="box-shadow">
+  <div class="caption">
+    <div class="container col-lg-12 col-md-12 col-xs-12">
+      <div class="row">
+        <div class="container">
+          <h4 itemprop="name">
+          % if ($tile->type eq "toggle"){
+            <a id="<%=  '/command/'.$tile->title.'&'.join('&', $tile->params) %>" href="#">
+              <%= $tile->title =%>
+            </a>
+          % } else {
+            <a href="<%=  '/tile-detail/'.$tile->title %>">
+              <%= $tile->title =%>
+            </a>
+          %}
+          </h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 pull-right">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-xs-12">
+              <span class="pull-left"> 
+              % if ($tile->type ne "toggle"){
+                <span class="glyphicon glyphicon-share-alt" />
+              % } elsif ($tile->type eq "toggle" && $tile->status == "0")
+                <span class="glyphicon glyphicon-remove-circle" />
+              % } else {
+                <span class="glyphicon glyphicon-ok-circle" />
+              % }
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    % if(defined $tile->picture()) {
+    %= image '/thumb/'.$tile->title.'.jpg'  => (class => 'img-responsive') , width=> '260px', alt => $tile->title, itemprop => "image"
+    % } else {
+    %= image '/thumb/no-image.jpg' => (class => 'img-responsive') , width=> '260px', alt => $tile->title, itemprop => "image"
+    % }
+  </div>
+</div>
+%  }

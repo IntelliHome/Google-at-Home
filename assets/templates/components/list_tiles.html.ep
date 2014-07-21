@@ -1,0 +1,9 @@
+% my $tiles_per_row=4;
+% my $rows= ceil((scalar @$tiles)/$tiles_per_row);
+% my @items=@$tiles;
+<div class="row">
+% foreach my $tile (@items) {
+%=  include '/components/show_tiles', tile => $tile, single => $single
+% }
+</div><!-- row -->
+
