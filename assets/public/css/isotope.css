@@ -1,0 +1,52 @@
+#iso {
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Browser Support of ':first-of-type' pseudo-class
+Chrome     Safari     Firefox  Opera     IE     Android   iOS
+Works      3.2+      Works       9.5+     9+      Works      Works
+*/
+#iso .row:first-of-type {
+  margin: 0;
+}
+
+.post {
+    margin: 10px 0;
+    max-width: 100%;
+    padding: 0;
+}
+
+.post .content {
+    padding: 20px;
+}
+
+/*
+* PAGINATION
+*/
+.pagination {
+    display: none;
+    visibility: hidden;
+}
+
+/*
+* MEDIA QUERIES
+*/
+
+@media (min-width: 768px) and (max-width: 980px) {
+  #iso .col-md-3, #iso .col-lg-3 {
+    width: 300px;
+  }
+}
+
+@media (min-width: 980px) and (max-width: 1300px) {
+  #iso .col-md-3, #iso .col-lg-3 {
+    width: 350px;
+  }
+}
+
+@media (min-width: 1300px) {
+  #iso .col-md-3, #iso .col-lg-3 {
+    width: 400px;
+  }
+}
