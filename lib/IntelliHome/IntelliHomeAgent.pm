@@ -7,7 +7,8 @@ require IntelliHome::Config;
 require IntelliHome::Connector;
 require IntelliHome::Workers::Agent::CommandProcess;
 require IntelliHome::Schema::YAML::Node;
-use IntelliHome::Utils qw(daemonize cleanup stop_process search_modules load_module);
+use IntelliHome::Utils
+    qw(daemonize cleanup stop_process search_modules load_module);
 use Moo;
 with 'MooX::Singleton';
 use warnings;
@@ -28,8 +29,9 @@ has 'Output' => (
 );
 
 has 'event' => (
-    is      => "rw",
-    default => sub { return Deeme->new(backend=> Deeme::Backend::Memory->new)}
+    is => "rw",
+    default =>
+        sub { return Deeme->new( backend => Deeme::Backend::Memory->new ) }
 );
 sub stop { stop_process("agent"); }
 
@@ -54,13 +56,17 @@ sub start {
     }
     foreach my $plugin ( search_modules("IntelliHome::Plugin::Agent") ) {
         load_module($plugin);
-        my $Plugin = $plugin->new( app => $self );
+        my $Plugin = $plugin->new( app => $self, IntelliHome => $self );
         $Plugin->install;
         push( @{ $self->{'loaded_plugins'} }, $Plugin );
     }
     my $Connector = IntelliHome::Connector->new( Node => $me );
     $Connector->Worker(
-        IntelliHome::Workers::Agent::CommandProcess->new( app => $self, IntelliHome=>$self ) );
+        IntelliHome::Workers::Agent::CommandProcess->new(
+            app         => $self,
+            IntelliHome => $self
+        )
+    );
     $Connector->blocking(1);
     $Connector->listen();
 }
