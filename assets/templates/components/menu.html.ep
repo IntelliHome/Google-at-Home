@@ -4,7 +4,7 @@
     <div class="navbar-inner">
       <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -14,32 +14,24 @@
         <div class="navbar-collapse collapse navbar-responsive-collapse" id="navbar-main">
           <ul class="nav navbar-nav">
             <li><%= link_to Home  => 'index' %></li>
-
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
-                Submenu<span class="caret" />
+                Rooms
+                <span class="caret" />
               </a>
-              <ul class="dropdown-menu categories-menu" role="menu" aria-labelledby="themes">
+              <ul class="dropdown-menu room-menu" role="menu" aria-labelledby="themes">
               </ul>
             </li>
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes" >
                 Another Menu<span class="caret" />
               </a>
-              <ul class="dropdown-menu categories-menu" role="menu" aria-labelledby="themes" style="    height: auto;
-    max-height: 200px;">
+              <ul class="dropdown-menu room-menu" role="menu" aria-labelledby="themes" style="height: auto; max-height: 200px;">
                   <li>
                        <a href='#' > Item 1</a>
                   </li>
                    <li>
                        <a href='#' > Item 2</a>
-                  </li>
-          
-        <li>
-                       <a href='#' > Item 3</a>
-                  </li>
-                  <li>
-                       <a href='#' > Item 4</a>
                   </li>
               </ul>
             </li>
