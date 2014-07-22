@@ -70,8 +70,8 @@ sub detectTasks {
         ## Dunque, si riempie i dati del task precedente,
         ## così l'altro thread può terminare la richiesta e quindi la risposta (se eventualmente genera altri task, ci sarà un motivo)
         ## Si controllano comandi di tipologia di annullamento, in tal caso si pone il task in deletion così il thread si chiude.
-    }
-    else {
+   # }
+     #else {
         #   $self->Output->info( "nessun task per " . $self->Node->Host );
 
     }

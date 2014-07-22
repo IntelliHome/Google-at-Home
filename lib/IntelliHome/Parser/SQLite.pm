@@ -107,8 +107,8 @@ sub detectTriggers {
             #     }
             # }
 
-        }
-        else {
+      #  }
+       # else {
             #   print "No match for trigger.\n";
 
         }
