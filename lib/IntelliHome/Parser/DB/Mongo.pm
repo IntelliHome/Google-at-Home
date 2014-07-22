@@ -27,6 +27,10 @@ sub getTriggers {
 }
 
 sub installPlugin {
+    shift->installTrigger($_) for @_;
+}
+
+sub installTrigger {
     my $self    = shift;
     my $Options = shift;
     $Options->{'plugin'} = ( split( /::/, caller ) )[-1]
