@@ -1,0 +1,4 @@
+% layout 'default';
+% title  'Google at Home - ' . $tile->title;
+
+%= include 'components/show_tiles', tile => $tile, single => 1
