@@ -6,6 +6,12 @@ use IntelliHome::Workers::SocketAsync;
 use IntelliHome::Utils qw(message_compact SEPARATOR);
 use Fcntl qw(:DEFAULT :flock);
 use IO::Socket;
+use base 'Exporter';
+use constant STATUS_MSG => "STATUS";
+use constant GPIO_MSG => "GPIO"; #### the Drivers messages corresponds to IntelliHome::Driver::XXXX::Type, XXX is the driver and thus it would be XXX_MSG
+#e.g. IntelliHome::Driver::GPIO::Mono => GPIO_MSG
+
+our @EXPORT_OK=qw(STATUS_MSG GPIO_MSG);
 
 has 'Output' => (
     is      => "rw",
