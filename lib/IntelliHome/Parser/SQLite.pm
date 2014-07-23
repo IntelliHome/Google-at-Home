@@ -1,11 +1,44 @@
 package IntelliHome::Parser::SQLite;
 
+=head1 NAME
+
+IntelliHome::Parser::SQLite - SQLite parser for IntelliHome
+
+=head1 DESCRIPTION
+
+This object implement a SQLite parser for IntelliHome, dispatching the text trigger to the appropriate plugin
+
+=head1 METHODS
+
+IntelliHome::Parser::SQLite overrides the IntelliHome::Parser::Base detectTriggers() and parse() functions
+
+=head1 SEE ALSO
+
+L<IntelliHome::Parser::Mongo>, L<IntelliHome::Parser::Base>
+
+=cut
+
+
 use Moo;
 extends 'IntelliHome::Parser::Base';
 use IntelliHome::Parser::DB::SQLite;
 use IntelliHome::Schema::SQLite::Schema;
+use Deeme::Backend::SQLite;
 
 has 'Backend' => ( is => "rw" );
+has 'event' => (
+    is      => "rw",
+    default => sub {
+        my $self = shift;
+        return IntelliHome::EventEmitter->new(
+            backend => Deeme::Backend::SQLite->new(
+                database => $self->Config->DBConfiguration->{'db_name'}
+            ),
+            IntelliHome=>$self,
+            app=> $self
+        );
+    }
+);
 
 sub BUILD {
     my $self = shift;
@@ -75,8 +108,8 @@ sub detectTriggers {
             #     }
             # }
 
-        }
-        else {
+      #  }
+       # else {
             #   print "No match for trigger.\n";
 
         }
