@@ -1,4 +1,44 @@
 package IntelliHome::Schema::SQLite::Schema::Result::Tag;
+=head1 NAME
+
+IntelliHome::Schema::SQLite::Schema::Result::Tag - DBIx::Class model that represent a Tag associated to a gpio 
+
+=head1 DESCRIPTION
+
+This object is a model that represent a tag associated to a gpio
+
+=head1 ATTRIBUTES
+
+=over
+
+=item tagid()
+
+tag unique ID identifier
+
+=item gpioid()
+
+the gpio id of the tag
+
+=item tag()
+
+the tag name
+
+=item description()
+
+the tag description
+
+=item gpio()
+
+the gpios that have that tag
+
+=back
+
+=head1 SEE ALSO
+
+L<IntelliHome::Schema::SQLite::Schema::Result::GPIO>, L<IntelliHome::Schema::SQLite::Schema::Result::Node>, L<IntelliHome::Schema::SQLite::Schema::Result::Room>
+
+=cut
+
 use base qw/DBIx::Class::Core/;
  
 __PACKAGE__->table('tag');

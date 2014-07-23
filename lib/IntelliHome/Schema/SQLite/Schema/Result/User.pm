@@ -1,4 +1,69 @@
 package IntelliHome::Schema::SQLite::Schema::Result::User;
+
+=head1 NAME
+
+IntelliHome::Schema::SQLite::Schema::Result::User - DBIx::Class model that represent a User
+
+=head1 DESCRIPTION
+
+This object is a model that represent a User
+
+=head1 ATTRIBUTES
+
+=over
+
+=item userid()
+
+user unique ID identifier
+
+=item username()
+
+username of the user
+
+=item password()
+
+password of the user
+
+=item name()
+
+the user name
+
+=item picture()
+
+the user picture
+
+=item admin()
+
+returns 1 if the user is admin, 0 otherwise
+
+=item remotecontrollayouts()
+
+custom remote controllers layout of the user
+
+=item usergpio()
+
+gpios associated to the user
+
+=item userroom()
+
+the rooms that can be managed by the user
+
+=item gpios()
+
+gpios that can be handled by the user
+
+=item rooms()
+
+rooms that are associated to the user
+
+=back
+
+=head1 SEE ALSO
+
+L<IntelliHome::Schema::SQLite::Schema::Result::GPIO>, L<IntelliHome::Schema::SQLite::Schema::Result::Node>, L<IntelliHome::Schema::SQLite::Schema::Result::Command>
+
+=cut
+
 use base qw/DBIx::Class::Core/;
 use Digest::SHA1  qw(sha1);
 

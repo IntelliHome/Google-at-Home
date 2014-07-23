@@ -1,12 +1,29 @@
 package IntelliHome::Parser::Mongo;
 
+=head1 NAME
+
+IntelliHome::Parser::Mongo - Mongo parser for IntelliHome
+
+=head1 DESCRIPTION
+
+This object implement a Mongo parser for IntelliHome, dispatching the text trigger to the appropriate plugin
+
+=head1 METHODS
+
+IntelliHome::Parser::Mongo overrides the IntelliHome::Parser::Base detectTriggers() and parse() functions
+
+=head1 SEE ALSO
+
+L<IntelliHome::Parser::SQLite>, L<IntelliHome::Parser::Base>
+
+=cut
+
 use Moo;
 extends 'IntelliHome::Parser::Base';
 use IntelliHome::Schema::Mongo::Trigger;
 use IntelliHome::Schema::Mongo::Task;
 use IntelliHome::Parser::DB::Mongo;
 use Mongoose;
-use Deeme;
 use Deeme::Backend::Mango;
 
 has 'Backend' => ( is => "rw" );
@@ -14,11 +31,13 @@ has 'event' => (
     is      => "rw",
     default => sub {
         my $self = shift;
-        return Deeme->new(
+        return IntelliHome::EventEmitter->new(
             backend => Deeme::Backend::Mango->new(
                 host     => $self->Config->DBConfiguration->{'db_dsn'},
                 database => $self->Config->DBConfiguration->{'db_name'}
-            )
+            ),
+            IntelliHome => $self,
+            app         => $self
         );
     }
 );
@@ -51,8 +70,8 @@ sub detectTasks {
         ## Dunque, si riempie i dati del task precedente,
         ## così l'altro thread può terminare la richiesta e quindi la risposta (se eventualmente genera altri task, ci sarà un motivo)
         ## Si controllano comandi di tipologia di annullamento, in tal caso si pone il task in deletion così il thread si chiude.
-    }
-    else {
+        # }
+        #else {
         #   $self->Output->info( "nessun task per " . $self->Node->Host );
 
     }

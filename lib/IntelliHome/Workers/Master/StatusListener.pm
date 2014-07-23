@@ -9,7 +9,7 @@ IntelliHome::Workers::Master::StatusListener - Process the incoming connection
 This Object implement process() that is called by the master node to parse and process the given command
 
 
-=head1 ATTRIBUTES 
+=head1 ATTRIBUTES
 
 StatusListener implements the IntelliHome::Workers::Base attributes and implement the new one
 
@@ -38,27 +38,16 @@ use IntelliHome::Utils qw(message_expand SEPARATOR);
 extends 'IntelliHome::Workers::Base';
 with("IntelliHome::Workers::Role::Parser");
 
-has 'Output' => ( is => "rw", default => IntelliHome::Interfaces::Terminal->new );
+has 'Output' =>
+    ( is => "rw", default => IntelliHome::Interfaces::Terminal->new );
 
 sub process {
     my $self = shift;
     my $fh   = shift;             ## IO::Socket
     my $host = $fh->peerhost();
     my $command;
-    $command .= $_ while (<$fh>);
-    my @Received = message_expand($command );
-    my $status = shift @Received;
-
-    if ( $status eq "STATUS" ) {
-        $self->status(@Received);
-    }
-
-}
-
-sub status {
-    my $self    = shift;
-    my @Message = shift;
-
+    while (<$fh>) { $command .= $_; }
+    $self->Parser->event->emit( message_expand($command), $host );
 }
 
 1;
