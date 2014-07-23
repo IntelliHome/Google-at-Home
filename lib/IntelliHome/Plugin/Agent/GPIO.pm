@@ -67,13 +67,12 @@ sub install {    #Called on install
             if ( $Port->can($method) ) {
                 $return = $Port->$method(@args);
                 #### XXX: This should be reported in a better way
-                IntelliHome::Connector->new(
-                    Node => $self->app->nodes->selectFromType("master") )
-                    ->send( STATUS_MSG, $Pin->Pin, $return )
-                    if $Driver ne "Dual";
-                IntelliHome::Connector->new(
-                    Node => $self->app->nodes->selectFromType("master") )
-                    ->send( STATUS_MSG, $Pin->onPin, $return )
+                my $master = IntelliHome::Connector->new(
+                    Node => $self->app->nodes->selectFromType("master") );
+                $master->send( STATUS_MSG, $Pin->Pin, $return )
+                    if $Driver ne "Mono";
+
+                $master->send( STATUS_MSG, $Pin->onPin, $return )
                     if $Driver eq "Dual";
             }
             else {
