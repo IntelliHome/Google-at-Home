@@ -2,15 +2,17 @@ package IntelliHome::Workers::Master::RPC;
 
 =head1 NAME
 
-IntelliHome::Workers::Node::RPC - This thread starts the RPC server
+IntelliHome::Workers::Node::RPC - This object represent a thread that starts the RPC server
 
 =head1 DESCRIPTION
 
-This Object starts the RPC internal server
+This object represent the instance of the RPC internal server
 
 =head1 USAGE
 
 This object is used internally by G@H
+
+	IntelliHome::Workers::Node::RPC->new(%opts)->launch
 
 =cut
 

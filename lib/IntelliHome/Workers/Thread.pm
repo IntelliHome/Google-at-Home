@@ -38,7 +38,7 @@ use Config;
 
 if ( $Config{usethreads} ) {
     require threads;
-    import threads;
+    threads->import();
 }
 else {
     require forks;
