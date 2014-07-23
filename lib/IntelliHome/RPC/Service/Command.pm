@@ -38,6 +38,7 @@ use Carp::Always;
 use Mojo::Base 'IntelliHome::RPC::Service::Base';
 use feature 'say';
 use Data::Dumper;
+use IntelliHome::Connector qw(GPIO_MSG);
 has 'IntelliHome';
 
 sub gpio {
@@ -48,7 +49,7 @@ sub gpio {
         if !$Client;
     $self->IntelliHome->Parser->Node($Client);
     $self->IntelliHome->Parser->Output->Node($Client);
-    $self->IntelliHome->Parser->event->emit("GPIO",@params);
+    $self->IntelliHome->Parser->event->emit(GPIO_MSG,@params);
     return "Received " . join( " ", @params );
 }
 
