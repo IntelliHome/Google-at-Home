@@ -16,10 +16,8 @@ sub search_gpio {
 }
 
 sub search_gpio_pin {
-    my $self = shift;
-    my $pin  = shift;
     return IntelliHome::Schema::Mongo::GPIO->find_one(
-        { '$or' => [ { pin_id => $pin }, { pins => $pin } ] } );
+        { '$or' => [ { pin_id => $_[1] }, { pins => $_[1] } ] } );
 }
 
 sub getTriggers {
