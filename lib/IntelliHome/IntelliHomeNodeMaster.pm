@@ -29,7 +29,7 @@ has 'Output' => (
 has 'Remote' => (
     is      => "rw",
     default => sub {
-        my $self=shift;
+        my $self = shift;
         IntelliHome::Workers::Master::RemoteSynth->new(
             Config => $self->Config );
     }
@@ -63,42 +63,26 @@ sub update_plugin {
 
 sub start {
     my $class      = shift;
-    my $self=__PACKAGE__->instance;
+    my $self       = __PACKAGE__->instance;
     my $foreground = shift;
-    my $IHOutput   = $self->Output;
-    my $Config     = $self->Config;           #specify where yaml file are
-    my $remote     = $self->Remote;
-    $IHOutput->info("IntelliHome : Node master started");
-    $IHOutput->info(
+    $self->Output->info("IntelliHome : Node master started");
+    $self->Output->info(
         "Bringing up sockets (not secured, i assume you have properly secured your network)"
     );
-
     unless ($foreground) {
         if ( !daemonize("master") ) {
-            $IHOutput->debug("Process already started");
+            $self->Output->debug("Process already started");
             exit 0;
         }
     }
-
-    my $RPC = IntelliHome::Workers::Master::RPC->new();
-    $RPC->launch;
-
-    my $me = $self->Remote->Parser->node->selectFromType("master")
-        ; # this for now forces the network to have one master, we can easily rid about that in the future
-    my $Connector
-        = IntelliHome::Connector->new( Config => $Config, Node => $me )
+    IntelliHome::Workers::Master::RPC->new()->launch;
+    IntelliHome::Connector->new(
+        Config   => $self->Config,
+        Node     => $self->Remote->Parser->node->selectFromType("master"),
+        Worker   => $self->Remote,
+        blocking => 1
+        )->listen()
         ; #Config parameter is optional, only needed if you wanna send broadcast messages
-    $Connector->Worker($remote);
-    $Connector->blocking(1);
-    $Connector->listen();
-
-#blocking so down can't be executed (was used just for test)
-# my $NodeToDeploy
-#     = IntelliHome::Node->new( Config => $Config )->selectFromDescription("ih0");
-# $NodeToDeploy->deploy();
-
-    #$Connector->broadcastMessage("node","test");
-
 }
 
 !!42;
