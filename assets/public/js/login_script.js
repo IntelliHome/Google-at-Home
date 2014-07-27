@@ -49,6 +49,7 @@ $(function(){
                                 "background-image": "url('http://api.randomuser.me/0.3.2/portraits/women/35.jpg')"
                         });
                         */
+                        window.location.href = msg.redirectURL;
                     });
                     loginRequest.fail(function() {
                         //remove success mesage replaced with error message
