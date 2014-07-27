@@ -1,5 +1,5 @@
 $(document).ready(function() {
-        var $container = $('#iso');
+        var $container = $('.iso,#iso');
 
         // Fire Isotope only when images are loaded
         $container.imagesLoaded(function(){
@@ -14,7 +14,7 @@ $(document).ready(function() {
         });
 
         // Infinite Scroll
-        $('#iso').infinitescroll({
+        $('.iso,#iso').infinitescroll({
             navSelector  : 'div.pagination',
             nextSelector : 'div.pagination a:first',
             itemSelector : '.alert',
