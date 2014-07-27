@@ -1,9 +1,9 @@
 % layout 'default' ;
 % title config('name');
 % content_for head => begin
-<meta name="keywords" content="Index" />
+%= asset 'isotope.css'
 % end
-<div id="iso" class="content">
+<div class="iso content">
 
     <div class="row">
 
@@ -90,10 +90,6 @@
               </div>
             </div>
 
-    </div>
-
-     <div class="pagination">
-        <a href="#/page/2/">Next</a>
     </div>
 
 </div>
