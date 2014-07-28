@@ -21,6 +21,8 @@
                 <span class="caret" />
               </a>
               <ul class="dropdown-menu room-menu" role="menu" aria-labelledby="themes">
+            % my @rooms=@{stash("rooms")};
+            % if (@rooms and scalar @rooms > 0){
             %   foreach (@rooms) {
                 <li>
                   %= link_to $_ => '#' => (id => $_ ) => (class => 'room') 
