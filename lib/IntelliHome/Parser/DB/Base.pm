@@ -4,18 +4,27 @@ use Carp qw(croak);
 with("MooX::Singleton");
 use IntelliHome::Utils qw(load_module);
 
-has 'Config' => (is=>"rw");
+has 'Config' => ( is => "rw" );
 
 sub installPlugin {
-    croak 'installPlugin() is not implemented by IntelliHome::Parser::DB::Base';
+    my $self = shift;
+    if ( $self->can("installTrigger") ) {
+        $self->installTrigger($_) for @_;
+    }
+    else {
+        croak
+            'installPlugin()/installTrigger() is not implemented by IntelliHome::Parser::DB::Base';
+    }
 }
 
 sub removePlugin {
-    croak 'removePlugin() is not implemented by IntelliHome::Parser::DB::Base';
+    croak
+        'removePlugin() is not implemented by IntelliHome::Parser::DB::Base';
 }
 
 sub updatePlugin {
-    croak 'updatePlugin() is not implemented by IntelliHome::Parser::DB::Base';
+    croak
+        'updatePlugin() is not implemented by IntelliHome::Parser::DB::Base';
 }
 
 sub node {
