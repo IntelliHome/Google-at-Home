@@ -4,8 +4,9 @@ use namespace::autoclean;
 use Mongoose::Class;
 with 'Mongoose::Document' => {
     -collection_name => 'gpio',
-    -pk              => [qw/ pin_id /]
+    -pk              => [qw/ id /]
 };
+has 'id' => (is=>"rw");
 
 has 'pin_id' => ( is => "rw" );
 has 'pins'=> (is=>"rw",  isa => 'ArrayRef'); #This is required if the GPIO is driven by two or more GPIOs
