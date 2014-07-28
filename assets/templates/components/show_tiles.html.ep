@@ -13,7 +13,10 @@
           </a>   
       </div>
       <div class="col-md-8 pull-right">
-          %= tag p => (id => $tile->id.'_conent'), (class => 'tile-content') => $tile->content
+          % foreach my $tag (@{$tile->tag}){
+          %= tag p => (class => 'tile-tag', id => $tag) => $tag
+          % }
+          %= include 'components/drivers/'.$tile->driver, tile => $tile
       </div>
   </div>
 </div>
