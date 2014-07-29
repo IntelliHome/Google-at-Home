@@ -2,7 +2,7 @@
 <html lang="en">
   %= include 'components/head'
   <body>
-    %= include 'components/menu', rooms => @rooms
+    %= include 'components/menu'
     <div class="jumbotron header-logo">
       <div class="container">
         <div class="row">
