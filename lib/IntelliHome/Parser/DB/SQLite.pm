@@ -23,17 +23,25 @@ sub search_gpio {
 
 sub search_gpio_pin {
     my $self = shift;
-    my $pin  = shift;
+    my $id   = shift;
 
-    # return IntelliHome::Schema::Mongo::GPIO->find_one(
-    #     { '$or' => [ { pin_id => $pin }, { pins => $pin } ] } );
+    my $gpio_rs
+        = $self->Schema->resultset('GPIO')->single( { gpioid => $id } );
+    return $gpio_rs->search_related('pins')->all;
+}
+
+sub search_gpio_id {
+    my $self = shift;
+    my $id   = shift;
+
+    return $self->Schema->resultset('GPIO')->single( { gpioid => $id } );
 }
 
 sub search_trigger {
     my $self    = shift;
     my $trigger = shift;
     return $self->Schema->resultset('Trigger')
-        ->search( { trigger => { 'like', '%' . $trigger . '%' }, } );
+        ->search( { trigger => { 'like', '%' . $trigger . '%' } } );
 }
 
 sub getTriggers {
