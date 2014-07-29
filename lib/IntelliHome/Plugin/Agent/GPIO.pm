@@ -34,11 +34,12 @@ installs the plugin hooks
 
 use Moo;
 extends("IntelliHome::Plugin::Agent::Base");
+use IntelliHome::Connector qw(STATUS_MSG GPIO_MSG);
 
 sub install {    #Called on install
     my $self = shift;
     $self->app->event->on(
-        "GPIO" => sub {
+        GPIO_MSG => sub {
             use IntelliHome::Utils qw(load_module);
             my $self   = shift;
             my @args   = @_;
@@ -65,6 +66,14 @@ sub install {    #Called on install
 
             if ( $Port->can($method) ) {
                 $return = $Port->$method(@args);
+                #### XXX: This should be reported in a better way
+                my $master = IntelliHome::Connector->new(
+                    Node => $self->app->nodes->selectFromType("master") );
+                $master->send( STATUS_MSG, $Pin->Pin, $return )
+                    if $Driver ne "Mono";
+
+                $master->send( STATUS_MSG, $Pin->onPin, $return )
+                    if $Driver eq "Dual";
             }
             else {
                 die("Cannot set $Port $method with @args");

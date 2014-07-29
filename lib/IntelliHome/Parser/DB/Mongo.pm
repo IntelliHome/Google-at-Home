@@ -15,6 +15,15 @@ sub search_gpio {
         ->all();
 }
 
+sub search_gpio_pin {
+    return IntelliHome::Schema::Mongo::GPIO->find_one(
+        { '$or' => [ { pin_id => $_[1] }, { pins => $_[1] } ] } );
+}
+
+sub search_gpio_id {
+    return IntelliHome::Schema::Mongo::GPIO->find_one( { id => $_[1] } );
+}
+
 sub getTriggers {
     my $self = shift;
     my $language;
@@ -27,6 +36,10 @@ sub getTriggers {
 }
 
 sub installPlugin {
+    shift->installTrigger($_) for @_;
+}
+
+sub installTrigger {
     my $self    = shift;
     my $Options = shift;
     $Options->{'plugin'} = ( split( /::/, caller ) )[-1]

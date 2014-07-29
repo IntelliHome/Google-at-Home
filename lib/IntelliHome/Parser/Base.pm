@@ -61,6 +61,7 @@ L<IntelliHome::Parser::Mongo>, L<IntelliHome::Parser::SQLite>
 use Moo;
 use Carp qw(croak);
 use IntelliHome::Utils qw(load_module);
+use IntelliHome::EventEmitter;
 has 'Config'  => ( is => "rw" );
 has 'Plugins' => ( is => "rw", default => sub { {} } );
 has 'Output'  => ( is => "rw" );
