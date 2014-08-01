@@ -18,6 +18,7 @@ use Mojolicious::Plugin::AssetPack;
 use Mojolicious::Plugin::StaticCompressor;
 use Mojolicious::Plugin::Bootstrap3;
 
+has 'rooms';
 
 sub startup {
 
@@ -32,24 +33,34 @@ sub startup {
 
     # script.js and extern.js are bundled in the app.js asset
 
-    $app->asset( 'app.js' => '/js/script.js', '/js/extern.js' );
-    $app->asset( 'style.css' => '/css/style.css' );
+    $app->asset(
+        'app.js' => '/js/functions_script.js',
+        '/js/isotope_script.js'
+    );
+    $app->asset( 'login.js' => '/js/login_script.js' );
+    $app->asset( 'style.css' =>
+            ( '/css/style.css', '/css/user-panel.css', '/css/isotope.css' ) );
+    $app->asset( 'login-style.css' => '/css/login.css' );
 
     # assets from web
 
     $app->asset(
         'web.js' => (
-            '/js/isotope.pkgd.min.js',
-            '/js/jquery.infinitescroll.min.js',
-            '/js/imagesloaded.pkgd.min.js'
-            )
+            '/js/libs/isotope.pkgd.min.js',
+            '/js/libs/jquery.infinitescroll.min.js',
+            '/js/libs/imagesloaded.js',
+            '/js/libs/fitcolumns.js',
+            '/js/libs/hammer.js',
+            '/js/libs/jquery.hammer.js',
+            '/js/libs/extern.js'
+        )
     );
 
 ################# Load plugin namespace
 
     push @{ $app->plugins->namespaces }, 'IntelliHome::WebUI::Plugin';
-    $app->static->paths(   [  './assets/public' ] );
-    $app->renderer->paths( [ './assets/templates' ] );
+    $app->static->paths(   ['./assets/public'] );
+    $app->renderer->paths( ['./assets/templates'] );
 
 ################# GZip Compression
 
@@ -83,6 +94,17 @@ sub startup {
 
     );
 
+################# Room dispatch
+    #$app->rooms( "search for rooms on rpc" );
+    #$app->hook(
+    #    before_dispatch => sub {
+    #        my $app = shift;
+
+    #        my @rooms = sort (@{ $app->app->rooms });
+    #        $app->stash( rooms => \@rooms);
+
+    #    }
+    #);
 ################# Routes
 
     my $r = $app->routes;
