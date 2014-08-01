@@ -14,15 +14,11 @@ my @rooms;
 #if ( my $user = $self->session("username") ) {
     #User is logged.
 #}
-# 
-# TODO: Add creation of tiles and rooms for every backend.
-
-@rooms = sort ( @rooms );
+#
 
 $self->stash(
     tiles      => \@tiles,
     single        => 0,
-    rooms => \@rooms
 );
 $self->render("index");
 }
