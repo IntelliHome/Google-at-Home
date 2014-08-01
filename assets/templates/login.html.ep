@@ -1,0 +1,3 @@
+% layout 'login-layout';
+% title config('name');
+%=  include '/components/login'
