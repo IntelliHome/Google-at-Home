@@ -25,7 +25,7 @@ sub register {
                 }
             }
             else {
-                $callback->( $client->tx->res );
+                return $client->tx->res;
             }
         }
     );
