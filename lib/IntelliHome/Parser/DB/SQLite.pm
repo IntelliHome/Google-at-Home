@@ -4,14 +4,9 @@ extends 'IntelliHome::Parser::DB::Base';
 use IntelliHome::Schema::SQLite::Schema;
 use IntelliHome::Utils qw(load_module);
 
-has 'Schema' => ( is => "rw" );
-
-sub BUILD {
-    my $self = shift;
-    $self->Schema(
-        IntelliHome::Schema::SQLite::Schema->connect(
-            'dbi:SQLite:/var/lib/intellihome/intellihome.db')
-    );
+sub Schema {
+    return IntelliHome::Schema::SQLite::Schema->connect(
+        'dbi:SQLite:/var/lib/intellihome/intellihome.db');
 }
 
 sub search_gpio {
