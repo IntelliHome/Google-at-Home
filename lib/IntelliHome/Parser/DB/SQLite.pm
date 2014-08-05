@@ -116,7 +116,10 @@ sub getActiveTasks {
 }
 
 sub node {
-    return shift;
+    my $self = shift;
+    my $node
+        = "IntelliHome::Schema::SQLite::Schema::Result::Node";
+    return $node->new() if ( load_module($node) );
 }
 
 sub selectFromHost {
