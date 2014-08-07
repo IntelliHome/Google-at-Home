@@ -27,12 +27,13 @@
   % my $data-post = "/tile-detail/".$tile->title;
   % if ($tile->toggle == 1) { 
   %   $class = "tile-toggle command"; 
-  %   $class .= (exists $tile->status && $tile->status == 1) ? "tile-status-on";
+  %   $class .= (exists $tile->status && $tile->status == 0) ? "tile-status-off";
   %   $data-post = "/command/".$tile->title;
   % }
+  % $class .= " ".$tile->room;
   <div <%= 'class="tile-item clickable '.$class.'" data-room="'.$tile->room.'" data-tag="'.$tile->tag.'" data-post="$data-post"' %>>
     <h3 class="name"><%= $tile->title %></h3>
-    <p class="symbol"><% #glipycon light-bulb %></p>
+    <p class="symbol"><span class="glyphicon glyphicon-lightbulb"></span></p>
     <p class="pin-number"><%= $tile->gpio %></p>
     <p class="tile-room"><%= $tile->room %></p>
   </div>
