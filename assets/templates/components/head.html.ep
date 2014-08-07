@@ -6,7 +6,6 @@
 	%= asset "bootstrap.js"
 	%= asset "bootstrap.css"
 	%= asset "style.css"
-	%= asset "login-style.css"
 	<link rel="alternate" type="application/atom+xml" title="ATOM feed" href="/feed">
 	% if (defined stash 'tag_feed_url') {
 	<link rel="alternate" type="application/atom+xml" title="ATOM tag feed" href="<%= stash 'tag_feed_url' %>">
