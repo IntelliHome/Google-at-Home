@@ -1,0 +1,16 @@
+% layout 'default';
+% title config('name');
+<div class="container">
+<div class="row">
+	<h1>GPIOs Table</h1>
+</div>
+<div class="row">
+    <p>Here you can find the GPIOS in your home.</p>
+</div>
+<div class="row">
+	%=  include '/components/gpios_table', gpios => stash('gpios')
+    <button type="button" class="btn btn-success pull-right" id="add-gpio">
+    	<span class="glyphicon glyphicon-plus"></span> Add new GPIO
+    </button>
+</row>
+</div>
