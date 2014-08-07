@@ -1,5 +1,5 @@
-<div class="container" id="footer">
-	<footer>
+<div class="footer">
+	<footer class="container" id="footer">
 		<ul class="list-inline">
 			<li class="pull-right"><a href="#top">Back to top</a></li>
 			<li><a href="https://github.com/IntelliHome/Google-at-Home" target="_new">GitHub page</a></li>
