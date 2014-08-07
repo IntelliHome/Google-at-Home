@@ -12,39 +12,45 @@
           <%= link_to config('name')  => 'index' => (class => 'navbar-brand')  %>
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse" id="navbar-main">
-          <ul class="nav navbar-nav">
-            <li><%= link_to Home  => 'index' %></li>
-            % if (@rooms) {
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
-                Rooms
-                <span class="caret" />
-              </a>
-              <ul class="dropdown-menu room-menu" role="menu" aria-labelledby="themes">
-            % my @rooms=@{stash("rooms")};
-            % if (@rooms and scalar @rooms > 0){
-            %   foreach (@rooms) {
-                <li>
-                  %= link_to $_ => '#' => (class => 'room',id => $_) 
-                </li>
-            %   }
-              </ul>
-            </li>
-            % }
-          </ul>
-          <form class="navbar-form navbar-right" action="/search/" method="GET">
-            <div class="form-group">
-              <input type="text" name="term" placeholder="Search" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Search</button>
-          </form>
-          % #<ul class="nav navbar-nav navbar-right">
-            % # if ($logged == 1) {
+          % if($logged == 1 && $admin == 1){
+            <ul class="nav navbar-nav">
+              <li><a href="admin/nodes/">Nodes</a></li>
+              <li><a href="admin/gpios/">GPIOs</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
             % #= include 'components/userpanel'
-            % #} else {
-            % #   <li><a href="login/">Login</a></li>
-            % #}
-          % #</ul>
+              <li><a href="logout/">Logout</a></li>
+            </ul>
+          % } else {
+            <ul class="nav navbar-nav">
+              % if (@rooms) {
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
+                  Rooms
+                  <span class="caret" />
+                </a>
+                <ul class="dropdown-menu room-menu" role="menu" aria-labelledby="themes">
+              % my @rooms=@{stash("rooms")};
+              % if (@rooms and scalar @rooms > 0){
+              %   foreach (@rooms) {
+                 <li>
+                    %= link_to $_ => '#' => (class => 'room',id => $_) 
+                  </li>
+              %   }
+                </ul>
+              </li>
+              % }
+            </ul>
+            <form class="navbar-form navbar-right" action="/search/" method="GET">
+              <div class="form-group">
+                <input type="text" name="term" placeholder="Search" class="form-control">
+              </div>
+              <button type="submit" class="btn btn-success">Search</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="login/">Login</a></li>
+            </ul>
+          % }
         </div>
       </div>
     </div>
