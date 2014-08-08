@@ -11,7 +11,6 @@ our $VERSION = '0.01';
 use Mojo::Base 'Mojolicious';
 
 use Mojo::Loader;
-use Mojolicious::Plugin::Disqus::Tiny;
 use IO::Compress::Gzip 'gzip';
 use Mojolicious::Plugin::BootstrapAlerts;
 use Mojolicious::Plugin::AssetPack;
