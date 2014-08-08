@@ -44,6 +44,9 @@ has 'IntelliHome';
 
 sub gpio {
     my ( $self, $tx, $tag ) = @_;
+    return $self->IntelliHome->Parser->Backend->get_all_gpio()
+        if ( $self->IntelliHome->Parser->Backend->can("get_all_gpio")
+        && !defined($tag) );
     return $self->IntelliHome->Parser->Backend->search_gpio( $tag ||= "." );
 }
 
