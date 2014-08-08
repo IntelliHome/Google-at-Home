@@ -3,7 +3,6 @@ package IntelliHome::Config;
 #Handles configuration import
 use YAML::Tiny;
 use IntelliHome::Interfaces::Terminal;
-use Data::Dumper;
 use File::Find::Object;
 use Moo;
 with 'MooX::Singleton';
