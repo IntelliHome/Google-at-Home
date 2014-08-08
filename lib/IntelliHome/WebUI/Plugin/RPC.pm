@@ -1,7 +1,12 @@
 package IntelliHome::WebUI::Plugin::RPC;
 
 use Mojo::Base 'Mojolicious::Plugin';
-use Mojox::JSON:RPC:Client;
+use MojoX::JSON::RPC::Client;
+use IntelliHome::Schema::SQLite::Schema;
+use IntelliHome::Schema::SQLite::Schema::Result::GPIO;
+use DBI;
+use DBIx::Class;
+use YAML qw'freeze thaw';
 
 sub register {
     my ( $self, $app, $conf ) = @_;
@@ -22,11 +27,11 @@ sub register {
                     print 'Error : ', $res->error_message . "\n";
                 }
                 else {
-                    print $res->result . "\n";
+                    return map { $_ = thaw($_); $_ } @{ $res->result };
                 }
             }
             else {
-                return $client->tx->res;
+                return map { $_ = thaw($_); $_ } @{ $client->tx->res };
             }
         }
     );
@@ -51,7 +56,8 @@ sub register {
                             print 'Error : ', $res->error_message . "\n";
                         }
                         else {
-                            print $res->result . "\n";
+                            $callback->( $res->result );
+                            #print $res->result . "\n";
                         }
                     }
                     else {
