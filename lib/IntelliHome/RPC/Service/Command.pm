@@ -36,8 +36,6 @@ L<IntelliHome>, L<IntelliHome::Workers::Master::RPC> , L<MojoX::JSON::RPC::Servi
 
 use Carp::Always;
 use Mojo::Base 'IntelliHome::RPC::Service::Base';
-use feature 'say';
-use Data::Dumper;
 use IntelliHome::Connector qw(GPIO_MSG);
 has 'IntelliHome';
 
@@ -53,6 +51,6 @@ sub gpio {
     return "Received " . join( " ", @params );
 }
 
-__PACKAGE__->register_rpc_method_names('parse');
+__PACKAGE__->register_rpc_method_names('gpio');
 
 1;
