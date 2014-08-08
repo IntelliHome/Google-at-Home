@@ -22,23 +22,31 @@ has 'rooms';
 sub startup {
 
     my $app = shift;
+
+################# Load plugin namespace
+
+    push @{ $app->plugins->namespaces }, 'IntelliHome::WebUI::Plugin';
+    $app->static->paths(   ['./assets/public'] );
+    $app->renderer->paths( ['./assets/templates'] );
+
 ################# Basic plugin loading
     $app->plugin( 'Config' => { file => './config/webui.conf' } );
     $app->plugin('StaticCompressor');
     $app->plugin('AssetPack');
     $app->plugin("BootstrapAlerts");
     $app->plugin("bootstrap3");
+################# Custom Plugin 
+    $app->plugin("ModelFactory");
+    $app->plugin("RPC");
+
 ################# Assets definitions
-
-    # script.js and extern.js are bundled in the app.js asset
-
     $app->asset(
         'app.js' => '/js/functions_script.js',
         '/js/isotope_script.js'
     );
     $app->asset( 'login.js' => '/js/login_script.js' );
     $app->asset( 'style.css' =>
-            ( '/css/style.css', '/css/user-panel.css', '/css/isotope.css' ) );
+            ( '/css/style.css', '/css/user-panel.css', '/css/isotope.css', '/css/jquery.tzineClock.css' ) );
     $app->asset( 'login-style.css' => '/css/login.css' );
 
     # assets from web
@@ -51,15 +59,10 @@ sub startup {
             '/js/libs/fitcolumns.js',
             '/js/libs/hammer.js',
             '/js/libs/jquery.hammer.js',
-            '/js/libs/extern.js'
+            '/js/libs/extern.js',
+            '/js/libs/jquery.tzineClock.js'
         )
     );
-
-################# Load plugin namespace
-
-    push @{ $app->plugins->namespaces }, 'IntelliHome::WebUI::Plugin';
-    $app->static->paths(   ['./assets/public'] );
-    $app->renderer->paths( ['./assets/templates'] );
 
 ################# GZip Compression
 
@@ -119,3 +122,42 @@ sub startup {
 }
 
 1;
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+IntelliHome::IntelliHomeWebUI - Mojolicious web application for IntelliHome
+
+=head1 SYNOPSIS
+
+  $ perl intellihome-master #Starting the master will launch also the web interface
+  $ morbo bin/intellihome-webui # for developing purposes
+  $ hypnotoad bin/intellihome-webui #forking webserver
+
+=head1 DESCRIPTION
+
+This is the top module containing the routes to make the web interface working. This module communicate with the IntelliHome libs thru the RPC server, acting as a layer between the user and the libs itself. It uses the L<IntelliHome::WebUI::Plugin::ModelFactory> and L<IntelliHome::WebUI::Plugin::RPC>
+
+=head1 ROUTES
+
+
+=head1 AUTHOR
+
+skullbocks E<lt>dgikiller@gmail.comtE<gt>
+
+=head1 COPYRIGHT
+
+Copyright 2014- skullbocks
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=head1 SEE ALSO
+L<IntelliHome::WebUI::Plugin::ModelFactory>, L<IntelliHome::WebUI::Plugin::RPC>
+
+=cut
+
