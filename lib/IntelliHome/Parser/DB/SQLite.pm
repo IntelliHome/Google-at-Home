@@ -38,6 +38,27 @@ sub get_all_gpio {
     return $self->Schema->resultset('GPIO')->all();
 }
 
+sub get_all_gpio_data {
+    my $self = shift;
+    my $tag  = shift;
+    return map {
+        $_ = {
+            title  => $_->tags->first()->tag,
+            id     => $_->gpioid,
+            image  => 0,
+            driver => $_->driver,
+            status => $_->status,
+            toggle => (
+                ( split( /::/, $_->driver ) )[-1] eq "Mono"
+                ) ? 1 : 0,
+            gpio => $_->pin_id,
+            room => $_->node->room->name,
+            tag  => map { $_->tag } $_->tags->all()
+        };
+        $_;
+    } $self->Schema->resultset('GPIO')->all();
+}
+
 sub search_trigger {
     my $self    = shift;
     my $trigger = shift;
@@ -123,8 +144,7 @@ sub getActiveTasks {
 
 sub node {
     my $self = shift;
-    my $node
-        = "IntelliHome::Schema::SQLite::Schema::Result::Node";
+    my $node = "IntelliHome::Schema::SQLite::Schema::Result::Node";
     return $node->new() if ( load_module($node) );
 }
 
