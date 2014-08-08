@@ -1,6 +1,5 @@
 package IntelliHome::Schema::SQLite::Schema::Result::Node;
 
-
 =head1 NAME
 
 IntelliHome::Schema::SQLite::Schema::Result::Node - DBIx::Class model that represent a Node 
@@ -95,6 +94,14 @@ sub Host {
 
 sub Port {
     shift->port(@_);
+}
+
+sub selectFromType {
+    caller->instance->Remote->Parser->Backend->selectFromType($_[1]);
+}
+
+sub selectFromHost {
+    caller->instance->Remote->Parser->Backend->selectFromHost($_[1],$_[2]);
 }
 
 1;
