@@ -5,19 +5,16 @@ use List::Util qw(min max);
 use POSIX;
 use Encode;
 use IntelliHome::WebUI::Model::Tile;
-use IntelliHome::WebUI::Plugin::ModelFactory;
 
 sub index {
     my $self = shift;
-    my @tiles;
-    my @rooms;
 
     #User login
     #if ( my $user = $self->session("username") ) {
     #User is logged.
     #}
     #
-    my @tiles = $self->build_tiles("gpio");
+    my @tiles = $self->app->build_tiles("ask","gpio_data");
 
     $self->stash(
         tiles  => \@tiles,
