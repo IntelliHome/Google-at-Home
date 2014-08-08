@@ -1,6 +1,7 @@
 package IntelliHome::WebUI::Plugin::RPC;
 
 use Mojo::Base 'Mojolicious::Plugin';
+use Mojox::JSON:RPC:Client;
 
 sub register {
     my ( $self, $app, $conf ) = @_;
