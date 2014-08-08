@@ -11,8 +11,7 @@ our @EXPORT_OK = qw(
 
 sub load_module($) {
     my $module=shift;
-    my $loader=Mojo::Loader->new;
-    my $e = $loader->load($module);
+    my $e = Mojo::Loader->new->load($module);
     warn qq{Loading "$module" failed: $e} and return 0 if ref $e;
     return 1;
 }

@@ -7,6 +7,7 @@ requires 'DBIx::Class::Schema';
 requires 'Deeme';
 requires 'Deeme::Backend::Mango';
 requires 'Deeme::Backend::Memory';
+requires 'Deeme::Backend::SQLite';
 requires 'Digest::SHA1';
 requires 'Encode';
 requires 'File::Find::Object';

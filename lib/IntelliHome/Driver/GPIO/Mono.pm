@@ -47,6 +47,7 @@ sub toggle {
     else {
         $self->on();
     }
+    return $self->Status;
 }
 
 sub status {

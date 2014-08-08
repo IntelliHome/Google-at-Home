@@ -1,5 +1,55 @@
 package IntelliHome::IntelliHomeRPC;
 
+=head1 NAME
+
+IntelliHome::IntelliHomeRPC - Top class for the IntelliHome RPC server
+
+=head1 DESCRIPTION
+
+This object represent a Mojolicious Application with the RPC plugin activated. At startup load all the services installed in the C<IntelliHome::RPC::Service::*> namespace. 
+
+=head1 METHODS
+
+=over
+
+=item build
+
+Set up parser from the configuration file, searches and load all the services in the C<IntelliHome::RPC::Service::*> namespace.
+
+=item startup
+
+Starts the RPC server with the loaded services.
+
+=back
+
+=head1 ATTRIBUTES
+
+=over
+
+=item Config
+
+Give access to the loaded L<IntelliHome::Config>
+
+=item Services
+
+Contains an HashRef of initialized services in the form C</hook => Service::Obj> the key contain the hook for the rpc service, the value has an instantiation of the object and the instance of L<IntelliHome::IntelliHomeRPC>
+
+=item Parser
+
+Contains the L<IntelliHome::Parser::*> dynamically loaded from the config specification
+
+=item Output
+
+Contains the output interface, see L<IntelliHome::Interfaces::Interface>,L<IntelliHome::Interfaces::Terminal>, L<IntelliHome::Interfaces::Voice>
+
+=back
+
+=head1 SEE ALSO
+
+L<IntelliHome>, L<IntelliHome::Workers::Master::RPC> , L<MojoX::JSON::RPC::Service>
+
+=cut
+
 use Carp::Always;
 
 use Mojo::Base 'Mojolicious';

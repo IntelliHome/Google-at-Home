@@ -34,6 +34,7 @@ installs the plugin hooks
 
 use Moo;
 has 'app' => (is=>"rw");
+has 'IntelliHome' => (is=>"rw");
 
 sub install {    #Called on install
     my $self = shift;
