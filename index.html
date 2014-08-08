@@ -59,6 +59,107 @@
 <p>IntelliHome is a set of Perl libraries to handle all the domotic needs, like dispatching information on nodes, saving configurations, plugin handling and much more that bound together with google services form Google-at-Home, a complete, easy and affordable solution for your home control.</p>
 
 <h2>
+<a name="development-status" class="anchor" href="#development-status"><span class="octicon octicon-link"></span></a>Development status</h2>
+
+<p>For now you can setup some agents and a master: you speak at the microphone at an agent and the master compute the answer.</p>
+
+<p>Really, really prototype.</p>
+
+<p>Some things works, others don't, that's because it's currently in development so doesn't expect to run something successfully every time now, code is also ugly
+and obscure in some parts.</p>
+
+<p><strong>Until we reach a proper state of functionalities, won't be released a major release.</strong></p>
+
+<p>Some things must be properly redesigned yet.</p>
+
+<h2>
+<a name="structure" class="anchor" href="#structure"><span class="octicon octicon-link"></span></a>Structure</h2>
+
+<p>There are 2 kind of nodes:</p>
+
+<ul>
+<li>masters,</li>
+<li>agents or basics nodes.</li>
+</ul><p>A basic node can either be an agent or a master.</p>
+
+<p>The master takes the requests of agent's nodes, process them in a unique interface and send a reply back, so you will talk to the same Entity but you can ask things in parallel in different places on the house/infrastructure.
+The Agents can be a PC or an embedded device and we plan to give also a display interface.</p>
+
+<h2>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<h3>
+<a name="configurations" class="anchor" href="#configurations"><span class="octicon octicon-link"></span></a>Configurations</h3>
+
+<p>For now, we use SoX for recording on the mic so files are split up by silence (avoiding storage leaks) you have to calibrate properly those params (a proper wiki page will be prepared soon).</p>
+
+<h4>
+<a name="confignodesyaml" class="anchor" href="#confignodesyaml"><span class="octicon octicon-link"></span></a>config/nodes.yaml</h4>
+
+<p>For testing the default configuration are enough: they are configured so the master is also the node.
+You can set up the audio device by setting <em>HW</em>  according to what <code>aplay -l</code> gives you (need to find your recording device looking at the <code>card,device</code> pair).</p>
+
+<h4>
+<a name="configdatabaseyaml" class="anchor" href="#configdatabaseyaml"><span class="octicon octicon-link"></span></a>config/database.yaml</h4>
+
+<p>For testing the default configuration are enough.
+This file represent the configuration of the database backend, the <em>language</em> can be set there.</p>
+
+<h3>
+<a name="installing-dependencies" class="anchor" href="#installing-dependencies"><span class="octicon octicon-link"></span></a>Installing dependencies</h3>
+
+<p>You can install all deps typing <code>cpanm --installdeps .</code> (user install)
+If you want to have the dependencies avaible system wide run the command as root <code>sudo cpanm --installdeps .</code></p>
+
+<h3>
+<a name="software-dependencies" class="anchor" href="#software-dependencies"><span class="octicon octicon-link"></span></a>Software Dependencies</h3>
+
+<p>The nodes needs only <code>sox</code> installed in the box as external dependency.
+The master needs the proper database installed and configured:</p>
+
+<p>For now it's implemented the MongoDB Backend, this requires mongodb installed <em>only in the box of the master node</em>.</p>
+
+<p><strong>This repository ships out a default configuration of master and node on the same pc.</strong></p>
+
+<h3>
+<a name="full-setup" class="anchor" href="#full-setup"><span class="octicon octicon-link"></span></a>Full Setup</h3>
+
+<p>You don't need to install the software, you can just clone this repository and launch
+<code>intellihome-master</code> or <code>intellihome-node</code>.
+If you wish to install:</p>
+
+<pre><code>perl Makefile.PL      # optionally "perl Makefile.PL verbose"
+make
+make test             # optionally set TEST_VERBOSE=1
+sudo make install     # only if you want main modules installed in your libpath
+</code></pre>
+
+<h4>
+<a name="database" class="anchor" href="#database"><span class="octicon octicon-link"></span></a>Database</h4>
+
+<p>In the <code>ex/</code> directory there is a backup of a pre-configured database, if you have a clean install just do:</p>
+
+<p><code>mongorestore ex/dump</code>.</p>
+
+<h3>
+<a name="quick-start" class="anchor" href="#quick-start"><span class="octicon octicon-link"></span></a>Quick Start</h3>
+
+<p>You wanna just try out? fire up your terminal, clone the repository and launch :</p>
+
+<pre><code>git clone https://github.com/mudler/Google-at-Home.git
+cd Google-at-Home
+cpanm --installdeps .
+./intellihome-master
+</code></pre>
+
+<p>and in another terminal:</p>
+
+<pre><code>./intellihome-node
+</code></pre>
+
+<p>Now your PC will work both as master and node(default configuration). The plugin system is working, and the database setup it's WiP.</p>
+
+<h2>
 <a name="plugin" class="anchor" href="#plugin"><span class="octicon octicon-link"></span></a>Plugin</h2>
 
 <p>The plugin systems allow to extend the system by triggers that can be invoked by voice.
@@ -90,14 +191,35 @@ Currently plugins are WiP so api can change and most of them are drafts:</p>
 <li>[x] Ideas for a better database schema to collect and display informations</li>
 <li>[x] Auto-Calibration of mic <del>or an aided one</del>
 </li>
-<li>[x] Write an api so to open the possibility to build an Android app or a web interface</li>
-<li>[x] Relay control plugin</li>
+<li>[ ] Write an api so to open the possibility to build an Android app or a web interface</li>
+<li>[ ] Relay control plugin</li>
 <li>[ ] <em>Google Now</em> functionality interface</li>
 <li>[ ] Write Display interface</li>
 <li>[ ] Agents offline routines</li>
 <li>[ ] Video surveillance and alarm</li>
 <li>[ ] Simple majordomo interface with a personality (did you remember Jarvis?:P)</li>
-</ul>
+</ul><hr><h2>
+<a name="special-gsoc" class="anchor" href="#special-gsoc"><span class="octicon octicon-link"></span></a>Special: GSoC</h2>
+
+<p>Have a look at <a href="GSoC.md">GSoC</a> to see what are the proposed tasks</p>
+
+<hr><h2>
+<a name="notes" class="anchor" href="#notes"><span class="octicon octicon-link"></span></a>Notes</h2>
+
+<p>We need to buy a raspberryPi but we are testing our work on a FOXG20 board. But the code is written to be portable so we don't think things
+works really different.
+Another thing, this project is strictly correlated with our lifes, that's because we are making our home with that: let's consider us first
+alfa-proto-beta-testers :)</p>
+
+<hr><h2>
+<a name="contact" class="anchor" href="#contact"><span class="octicon octicon-link"></span></a>Contact</h2>
+
+<p>Suggestions, pull request or contributors, Bugs report, everything is well accepted.
+E-Mail: <a href="mailto:mudler@dark-lab.net">mudler@dark-lab.net</a>, <a href="mailto:skullbocks@dark-lab.net">skullbocks@dark-lab.net</a></p>
+
+<p>IRC: irc.perl.org , #google-at-home</p>
+
+<hr><p>Everything is released under GPLv3</p>
         </section>
 
         <footer>
