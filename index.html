@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Google-at-home by IntelliHome</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Google-at-home</h1>
+          <h2>Google@Home brings google in your house!</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/IntelliHome/Google-at-Home/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/IntelliHome/Google-at-Home/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/IntelliHome/Google-at-Home" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a name="googlehome-" class="anchor" href="#googlehome-"><span class="octicon octicon-link"></span></a>Google@Home <a href="https://travis-ci.org/IntelliHome/Google-at-Home"><img src="https://travis-ci.org/IntelliHome/Google-at-Home.png?branch=master" alt="Build Status"></a>
+</h1>
+
+<p><strong><em>##########################################################</em></strong></p>
+
+<p><strong>ATTENTION! This project is not an official Google Project</strong></p>
+
+<p><strong><em>##########################################################</em></strong></p>
+
+<p>Do you like <strong>Google</strong> services? Would you like to bring them at home too? So are we, so this is why we started the deployment of this project. <em>Google@Home</em> aim is to let control your home in your own way that could be with android device or for example your voice, with the feature of an easy installation on every kind of embedded device that have GPIO inteface and could run <em>GNU/Linux</em>.</p>
+
+<p>Would be great to fuse the Google Now functions in your domotic control of the house: the goal is to speak to your home to make google searches, use google now capability and open doors, gates and shutter at the same time.</p>
+
+<p>Picture that:</p>
+
+<p><em>Let's suppose that we are an electronic/computer enthusiast that want to enhance our home with some domotics control, but in non-expansive way. Then probably our choise would be to take some RaspberryPi and relay boards, then link the relayboards to the interested points (shutters, lights, dim lights, etc...) we plan to control: maybe a raspberry for floor it's enough, maybe not, but that doesn't matter. Then we install G@H and we can control those points using the voice, web interface, or even mobile device.</em></p>
+
+<p>It's just easy as to say <em>"open shutter"</em> or a <em>touch</em> on your mobile phone.</p>
+
+<h2>
+<a name="intellihome-library" class="anchor" href="#intellihome-library"><span class="octicon octicon-link"></span></a>IntelliHome library</h2>
+
+<p><img src="http://www.mudler.pm/img/intellihome_logo.png" alt="IntelliHome Logo" title="IntelliHome Logo"></p>
+
+<p>IntelliHome is a set of Perl libraries to handle all the domotic needs, like dispatching information on nodes, saving configurations, plugin handling and much more that bound together with google services form Google-at-Home, a complete, easy and affordable solution for your home control.</p>
+
+<h2>
+<a name="plugin" class="anchor" href="#plugin"><span class="octicon octicon-link"></span></a>Plugin</h2>
+
+<p>The plugin systems allow to extend the system by triggers that can be invoked by voice.
+Currently plugins are WiP so api can change and most of them are drafts:</p>
+
+<ul>
+<li>
+<a href="https://github.com/mudler/IntelliHome-Plugin-Wikipedia">IntelliHome::Plugin::Wikipedia</a> - Allow to search in wikipedia with the <em>"wikipedia "</em> trigger</li>
+<li>
+<a href="https://github.com/mudler/IntelliHome-Plugin-Hailo">IntelliHome::Plugin::Hailo</a> - Makes your computer speak with MegaHAL! - just for fun :)</li>
+<li>
+<a href="https://github.com/IntelliHome/IntelliHome-Plugin-Relay">IntelliHome::Plugin::Relay</a> - Allow to command the agents relays </li>
+<li>...</li>
+</ul><h2>
+<a name="android-application" class="anchor" href="#android-application"><span class="octicon octicon-link"></span></a>Android application</h2>
+
+<p>The android application its in WiP, if you are interested contributing, <a href="https://github.com/IntelliHome/Google-at-Home-Remote-Controller">here it is the repository</a></p>
+
+<h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>Todo</h2>
+
+<ul>
+<li>[x] Making a wrapper to linux gpio functionality</li>
+<li>[x] Make the node communicate</li>
+<li>[x] Delivering functions on a master node</li>
+<li>[x] Master node accept and respond to requests</li>
+<li>[x] Speech interface thru google</li>
+<li>[x] SpeechToText thru google</li>
+<li>[x] Ideas for a better database schema to collect and display informations</li>
+<li>[x] Auto-Calibration of mic <del>or an aided one</del>
+</li>
+<li>[x] Write an api so to open the possibility to build an Android app or a web interface</li>
+<li>[x] Relay control plugin</li>
+<li>[ ] <em>Google Now</em> functionality interface</li>
+<li>[ ] Write Display interface</li>
+<li>[ ] Agents offline routines</li>
+<li>[ ] Video surveillance and alarm</li>
+<li>[ ] Simple majordomo interface with a personality (did you remember Jarvis?:P)</li>
+</ul>
+        </section>
+
+        <footer>
+          Google-at-home is maintained by <a href="https://github.com/IntelliHome">IntelliHome</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
