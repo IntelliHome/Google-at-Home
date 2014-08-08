@@ -35,29 +35,6 @@
         });
         $gpioAdd.click(function() {
             /* TODO: Open GPIO box to insert new gpio */
-            $('#gpios-table tbody').append('<tr class="gpio" id="">
-                                                <td class="gpio-id"></td>
-                                                <td class="gpio-pin-id"></td>
-                                                <td class="gpio-node"></td>
-                                                <td class="gpio-type"><%= $_->type %></td>
-                                                <td class="gpio-value"><%= $_->value %></td>
-                                                <td class="gpio-driver <%= $_->driver %>"><%= $_->driver %></td>
-                                                <td>
-                                                    <button type="button" class="btn btn-default">
-                                                        <span class="glyphicon glyphicon-th-list gpio-tags" id="<%= $_->id %>"></span> Tags
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-default">
-                                                        <span class="glyphicon glyphicon-th-list gpio-pins" id="<%= $_->id %>"></span> Pins
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="gpio-delete" id="<%= $_->id %>">
-                                                        <span class="glyphicon glyphicon-trash"></span>
-                                                    </a>
-                                                </td>
-                                            </tr>');
         });
         $nodeAdd.click(function() {
             /* TODO: Open Node box to insert new gpio */
