@@ -13,7 +13,7 @@ sub search_gpio {
     my $self = shift;
     my $tag  = shift;
     return $self->Schema->resultset('GPIO')
-        ->search( { 'tag.tag' => $tag }, { join => [qw/ gpioid /] } );
+        ->search( { 'tag.tag' => $tag }, { join => [qw/ gpioid /] } )->all();
 }
 
 sub search_gpio_pin {
@@ -30,6 +30,12 @@ sub search_gpio_id {
     my $id   = shift;
 
     return $self->Schema->resultset('GPIO')->single( { gpioid => $id } );
+}
+
+sub get_all_gpio {
+    my $self = shift;
+    my $tag  = shift;
+    return $self->Schema->resultset('GPIO')->all();
 }
 
 sub search_trigger {
