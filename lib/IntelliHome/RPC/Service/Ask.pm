@@ -41,20 +41,39 @@ L<IntelliHome>, L<IntelliHome::Workers::Master::RPC> , L<MojoX::JSON::RPC::Servi
 use Carp::Always;
 use Mojo::Base 'IntelliHome::RPC::Service::Base';
 has 'IntelliHome';
+use YAML qw'freeze thaw';
 
 sub gpio {
     my ( $self, $tx, $tag ) = @_;
-    return $self->IntelliHome->Parser->Backend->get_all_gpio()
+
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->get_all_gpio() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_gpio")
         && !defined($tag) );
-    return $self->IntelliHome->Parser->Backend->search_gpio( $tag ||= "." );
+    return
+        map { $_ = freeze $_; $_ }
+        $self->IntelliHome->Parser->Backend->search_gpio( $tag ||= "." );
+
+}
+
+sub gpio_data {
+    my ( $self, $tx, $tag ) = @_;
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->get_all_gpio_data() ]
+        if ( $self->IntelliHome->Parser->Backend->can("get_all_gpio_data")
+        && !defined($tag) );
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->search_gpio( $tag ||= "." )
+    ];
+
 }
 
 sub nodes {
     my ( $self, $tx, $query ) = @_;
-    return $self->IntelliHome->Parser->Backend->getNodes($query);
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->getNodes($query) ];
 }
 
-__PACKAGE__->register_rpc_method_names( 'gpio', 'nodes' );
+__PACKAGE__->register_rpc_method_names( 'gpio', 'nodes', 'gpio_data' );
 
 1;
