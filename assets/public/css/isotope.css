@@ -78,7 +78,6 @@ Works      3.2+      Works       9.5+     9+      Works      Works
   padding: 10px;
   background: #888;
   color: #262524;
-  border: #000 1px solid;
   opacity:1;
 }
 
@@ -124,8 +123,8 @@ Works      3.2+      Works       9.5+     9+      Works      Works
     opacity:0.5;
 }
 
-/* Defining color and background of tile type */
-.tile-item.lounge          { background: #F00; background: hsl(   0, 100%, 50%); }
+/* Defining color and background of tile type 
+.tile-item.lounge          { background: #F0*0; background: hsl(   0, 100%, 50%); }
 .tile-item.alkaline-earth  { background: #F80; background: hsl(  36, 100%, 50%); }
 .tile-item.kitchen      { background: #FF0; background: hsl(  72, 100%, 50%); }
 .tile-item.actinoid        { background: #0F0; background: hsl( 108, 100%, 50%); }
@@ -135,3 +134,4 @@ Works      3.2+      Works       9.5+     9+      Works      Works
 .tile-item.diatomic        { background: #00F; background: hsl( 252, 100%, 50%); }
 .tile-item.halogen         { background: #F0F; background: hsl( 288, 100%, 50%); }
 .tile-item.noble-gas       { background: #F08; background: hsl( 324, 100%, 50%); }
+*/
