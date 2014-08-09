@@ -34,8 +34,8 @@ sub startup {
     $app->plugin('StaticCompressor');
     $app->plugin('AssetPack');
     $app->plugin("BootstrapAlerts");
-    $app->plugin("bootstrap3");
-################# Custom Plugin 
+    $app->plugin( bootstrap3 => { jquery => 0 } );
+################# Custom Plugin
     $app->plugin("ModelFactory");
     $app->plugin("RPC");
 
@@ -45,8 +45,12 @@ sub startup {
         '/js/isotope_script.js'
     );
     $app->asset( 'login.js' => '/js/login_script.js' );
-    $app->asset( 'style.css' =>
-            ( '/css/style.css', '/css/user-panel.css', '/css/isotope.css', '/css/jquery.tzineClock.css' ) );
+    $app->asset(
+        'style.css' => (
+            '/css/style.css',   '/css/user-panel.css',
+            '/css/isotope.css', '/css/jquery.tzineClock.css'
+        )
+    );
     $app->asset( 'login-style.css' => '/css/login.css' );
 
     # assets from web
@@ -63,6 +67,9 @@ sub startup {
             '/js/libs/jquery.tzineClock.js'
         )
     );
+
+    $app->asset( 'jquery.js' =>
+            ( '/js/libs/jquery.min.js', '/js/libs/jquery-migrate.min.js' ) );
 
 ################# GZip Compression
 
@@ -97,16 +104,12 @@ sub startup {
     );
 
 ################# Room dispatch
-    #$app->rooms( "search for rooms on rpc" );
-    #$app->hook(
-    #    before_dispatch => sub {
-    #        my $app = shift;
-
-    #        my @rooms = sort (@{ $app->app->rooms });
-    #        $app->stash( rooms => \@rooms);
-
-    #    }
-    #);
+    $app->rooms( [map{$_ = $_->name;$_}@{ $app->app->build_rooms() }] );
+    $app->hook(
+       before_dispatch => sub {
+           $_[0]->stash( rooms => shift->app->rooms);
+       }
+    );
 ################# Routes
 
     my $r = $app->routes;
