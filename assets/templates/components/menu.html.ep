@@ -33,22 +33,19 @@
               % if (scalar @rooms > 0){
               %   foreach (@rooms) {
                  <li>
-                    %= link_to $_ => '#' => (class => 'room',id => $_) 
+                    <a href="#" class="room" id="<%= $_ %>"><%= $_ %></a>
                   </li>
               %   }
               % }
                 </ul>
               </li>
             </ul>
-            <form class="navbar-form navbar-right" action="/search/" method="GET">
-              <div class="form-group">
-                <input type="text" name="term" placeholder="Search" class="form-control">
-              </div>
-              <button type="submit" class="btn btn-success">Search</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="login/">Login</a></li>
-            </ul>
+          <div class="navbar-form navbar-right">
+            <div class="form-group">
+              <input type="text" name="term" placeholder="Search" class="form-control" id="searchString">
+            </div>
+            <a href="admin/"><button type="submit" class="btn btn-default">Admin</button></a>
+          </div>
           % }
         </div>
       </div>
