@@ -68,12 +68,24 @@ sub gpio_data {
 
 }
 
+sub get_rooms {
+    my ( $self, $tx, $room ) = @_;
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->get_all_rooms() ]
+        if ( $self->IntelliHome->Parser->Backend->can("get_all_rooms")
+        && !defined($room) );
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->search_room( $room ||= "." )
+    ];
+
+}
+
 sub nodes {
     my ( $self, $tx, $query ) = @_;
     return [ map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->getNodes($query) ];
 }
 
-__PACKAGE__->register_rpc_method_names( 'gpio', 'nodes', 'gpio_data' );
+__PACKAGE__->register_rpc_method_names( 'gpio', 'nodes', 'gpio_data', 'get_rooms' );
 
 1;
