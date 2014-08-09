@@ -59,6 +59,18 @@ sub get_all_gpio_data {
     } $self->Schema->resultset('GPIO')->all();
 }
 
+sub get_all_rooms {
+    my $self = shift;
+    return $self->Schema->resultset('Room')->all();
+}
+
+sub search_room {
+    my $self = shift;
+    my $room  = shift;
+    return $self->Schema->resultset('Room')
+        ->search( { name => { 'like', '%' . $room . '%' } })->all();
+}
+
 sub search_trigger {
     my $self    = shift;
     my $trigger = shift;
