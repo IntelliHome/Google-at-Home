@@ -14,7 +14,7 @@ sub index {
     #User is logged.
     #}
     #
-    my @tiles = $self->app->build_tiles("ask","gpio_data");
+    my @tiles = $self->app->build_tiles();
 
     $self->stash(
         tiles  => \@tiles,
