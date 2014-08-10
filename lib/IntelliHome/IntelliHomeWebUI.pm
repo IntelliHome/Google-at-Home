@@ -18,6 +18,7 @@ use Mojolicious::Plugin::StaticCompressor;
 use Mojolicious::Plugin::Bootstrap3;
 
 has 'rooms';
+has 'node_types';
 
 sub startup {
 
@@ -48,7 +49,8 @@ sub startup {
     $app->asset(
         'style.css' => (
             '/css/style.css',   '/css/user-panel.css',
-            '/css/isotope.css', '/css/jquery.tzineClock.css'
+            '/css/isotope.css', '/css/jquery.tzineClock.css',
+            'css/font-awesome.css'
         )
     );
     $app->asset( 'login-style.css' => '/css/login.css' );
@@ -104,11 +106,19 @@ sub startup {
     );
 
 ################# Room dispatch
-    $app->rooms( [map{$_ = $_->name;$_}@{ $app->app->build_rooms() }] );
+    $app->rooms(
+        [ map { $_ = $_->name; $_ } @{ $app->app->build_rooms() } ] );
     $app->hook(
-       before_dispatch => sub {
-           $_[0]->stash( rooms => shift->app->rooms);
-       }
+        before_dispatch => sub {
+            $_[0]->stash( rooms => shift->app->rooms );
+        }
+    );
+################# Node types dispatch
+    $app->node_types( [qw(master node agent)] );
+    $app->hook(
+        before_dispatch => sub {
+            $_[0]->stash( node_types => shift->app->node_types );
+        }
     );
 ################# Routes
 
