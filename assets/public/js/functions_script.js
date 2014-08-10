@@ -37,7 +37,18 @@
             /* TODO: Open GPIO box to insert new gpio */
         });
         $nodeAdd.click(function() {
-            /* TODO: Open Node box to insert new gpio */
+            $("#add-node-spinner").addClass('fa fa-spinner fa-spin');
+            $( "form#add-node-form" ).submit(function( event ) {
+                $.post( 'add-node/', $('form#add-node-form').serialize(), function(data) {
+                            $("#add-node-spinner").removeClass('fa fa-spinner fa-spin');
+                            $("#node-box").modal('hide').each(function() {
+                                    this.reset();
+                                });
+                        },
+                        'json' // JSON response
+                    );
+                event.preventDefault();
+            });
         });
         $('#fancyClock').tzineClock();
     });
