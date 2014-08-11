@@ -1,4 +1,4 @@
-<table class="table" id="nodes-table">
+<table class="table" id="nodes-table" data-type="node">
   <thead>
     <tr>
       <th>#</th>
@@ -21,7 +21,7 @@
       <td class="node-port"><%= $_->port %></td>
       <td class="node-type <%= $_->type %>"><%= $_->type %></td>
       <td class="node-description"><%= $_->description %></td>
-      <td><a href="#" class="node-delete" id="<%= $_->id %>"><span class="glyphicon glyphicon-trash"></span></a></td>
+      <td><a href="#" class="delete-node"><span class="glyphicon glyphicon-trash"></span></a></td>
     </tr>
   % }
   </tbody>

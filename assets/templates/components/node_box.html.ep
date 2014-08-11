@@ -1,5 +1,5 @@
 <!-- Modal Box -->
-<div class="modal fade" id="node-box" tabindex="-1" role="dialog" aria-labelledby="node-box-label" aria-hidden="true">
+<div class="modal fade" id="add-node-box" tabindex="-1" role="dialog" aria-labelledby="node-box-label" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -45,7 +45,7 @@
                 % my @node_types=@{stash("node_types")} if (defined stash("node_types"));
                 % if (scalar @node_types > 0){
                 %   foreach (@node_types) {
-                      <option id="<%= $_ %>"><%= $_ %></option>
+                <option id="<%= $_ %>"><%= $_ %></option>
                 %   }
                 % }
               </select>
@@ -55,12 +55,12 @@
             <label for="new-node-room" class="col-sm-2 control-label">Room</label>
             <div class="col-sm-10">
               <select class="form-control" name="new-node-room">
-              % my @rooms=@{stash("rooms")} if (defined stash("rooms"));
-              % if (scalar @rooms > 0){
-              %   foreach (@rooms) {
-                    <option id="<%= $_ %>"><%= $_ %></option>
-              %   }
-              % }
+                % my @rooms=@{stash("rooms")} if (defined stash("rooms"));
+                % if (scalar @rooms > 0){
+                %   foreach (@rooms) {
+                <option id="<%= $_ %>"><%= $_ %></option>
+                %   }
+                % }
               </select>
             </div>
           </div>
@@ -74,7 +74,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="add-node"><i id="add-node-spinner"></i>Add Node</button>
+        <button type="button" class="btn btn-primary" id="add-node" data-action="add-node"><i id="add-node-spinner"></i>Add Node</button>
       </div>
     </div>
   </div>
