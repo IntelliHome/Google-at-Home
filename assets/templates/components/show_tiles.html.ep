@@ -23,8 +23,7 @@
 %  } else {
 % # Tiles Grid
   % my $color = 0;
-  % print $tile->driver."\n";
-  % $color+= $color+ord($_) || substr(ord($_),0,1)+substr(ord($_),1,1 ) for (split("", lc($tile->driver))); 
+  % $color+= $color+ord($_) || substr(ord($_),0,1)+substr(ord($_),1,1 ) for (split("", lc($tile->room))); 
   % $color = hex(substr($color,0,6)); 
   % my $class = "tile-default tile-detail";
   % my $data_post = "/tile-detail/".$tile->title;
@@ -34,9 +33,9 @@
   %   $data_post = "/command/".$tile->title;
   % }
   % $class .= " ".$tile->room;
-  <div style="background:#<%= $color%>" class="tile-item col-xs-12 col-sm-6 col-md-3 col-lg-3 clickable <%= $class%>" data-room="<%= $tile->room%>" data-tag="<%= $tile->tag%>" data-post="<%= $data_post%>">
+  <div style="background:#<%= $color%>" class="tile-item col-xs-12 col-sm-6 col-md-3 col-lg-3 clickable <%= $class%>" data-room="<%= $tile->room%>" data-tag="<%= map{$_->tag}$tile->tags%>" data-post="<%= $data_post%>">
     <h3 class="name"><%= $tile->title %></h3>
-    <p class="symbol"><span class="glyphicon glyphicon-lightbulb"></span></p>
+    <p class="symbol"><span class="fa fa-lightbulb-o"></span></p>
     <p class="pin-number"><%= $tile->gpio %></p>
     <p class="tile-room"><%= $tile->room %></p>
   </div>
