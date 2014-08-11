@@ -19,6 +19,8 @@ use Mojolicious::Plugin::Bootstrap3;
 
 has 'rooms';
 has 'node_types';
+has 'gpio_types';
+has 'drivers';
 
 sub startup {
 
@@ -106,8 +108,7 @@ sub startup {
     );
 
 ################# Room dispatch
-    $app->rooms(
-        [ map { $_ = $_->name; $_ } @{ $app->app->build_rooms() } ] );
+    $app->rooms( $app->app->build_rooms() );
     $app->hook(
         before_dispatch => sub {
             $_[0]->stash( rooms => shift->app->rooms );
@@ -118,6 +119,22 @@ sub startup {
     $app->hook(
         before_dispatch => sub {
             $_[0]->stash( node_types => shift->app->node_types );
+        }
+    );
+################# GPIO types dispatch
+# TODO: pass types from rpc query
+    $app->node_types( [qw(analog switch)] );
+    $app->hook(
+        before_dispatch => sub {
+            $_[0]->stash( gpio_types => shift->app->gpio_types );
+        }
+    );
+################# Drivers types dispatch
+# TODO: pass drivers from rpc query
+    $app->drivers( [qw(IntelliHome::Driver::GPIO::Mono IntelliHome::Driver::GPIO::Dual)] );
+    $app->hook(
+        before_dispatch => sub {
+            $_[0]->stash( drivers => shift->app->drivers );
         }
     );
 ################# Routes
