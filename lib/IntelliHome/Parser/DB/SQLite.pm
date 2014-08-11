@@ -48,12 +48,11 @@ sub get_all_gpio_data {
             image  => 0,
             driver => $_->driver,
             status => $_->status,
-            toggle => (
-                ( split( /::/, $_->driver ) )[-1] eq "Mono"
-                ) ? 1 : 0,
-            gpio => $_->pin_id,
-            room => $_->node->room->name,
-            tag  => map { $_->tag } $_->tags->all()
+            toggle => ( ( split( /::/, $_->driver ) )[-1] eq "Mono" ) ? 1 : 0,
+            gpio   => $_->pin_id,
+            room   => $_->node->room->name,
+            tags   => $_->tags->all(),
+            pins   => $_->pins->all()
         };
         $_;
     } $self->Schema->resultset('GPIO')->all();
@@ -66,9 +65,9 @@ sub get_all_rooms {
 
 sub search_room {
     my $self = shift;
-    my $room  = shift;
+    my $room = shift;
     return $self->Schema->resultset('Room')
-        ->search( { name => { 'like', '%' . $room . '%' } })->all();
+        ->search( { name => { 'like', '%' . $room . '%' } } )->all();
 }
 
 sub search_trigger {
