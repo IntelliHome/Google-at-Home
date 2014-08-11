@@ -4,9 +4,13 @@ extends 'IntelliHome::Parser::DB::Base';
 use IntelliHome::Schema::SQLite::Schema;
 use IntelliHome::Utils qw(load_module);
 
+has 'dsn' => (
+    is      => "rw",
+    default => 'dbi:SQLite:/var/lib/intellihome/intellihome.db'
+);
+
 sub Schema {
-    return IntelliHome::Schema::SQLite::Schema->connect(
-        'dbi:SQLite:/var/lib/intellihome/intellihome.db');
+    return IntelliHome::Schema::SQLite::Schema->connect( shift->dsn );
 }
 
 sub search_gpio {
@@ -28,19 +32,16 @@ sub search_gpio_pin {
 sub search_gpio_id {
     my $self = shift;
     my $id   = shift;
-
     return $self->Schema->resultset('GPIO')->single( { gpioid => $id } );
 }
 
 sub get_all_gpio {
     my $self = shift;
-    my $tag  = shift;
     return $self->Schema->resultset('GPIO')->all();
 }
 
 sub get_all_gpio_data {
     my $self = shift;
-    my $tag  = shift;
     return map {
         $_ = {
             title  => $_->tags->first()->tag,
@@ -50,9 +51,11 @@ sub get_all_gpio_data {
             status => $_->status,
             toggle => ( ( split( /::/, $_->driver ) )[-1] eq "Mono" ) ? 1 : 0,
             gpio   => $_->pin_id,
-            room   => $_->node->room->name,
-            tags   => $_->tags->all(),
-            pins   => $_->pins->all()
+            node_data => [ $_->node ],
+            type      => $_->type,
+            room      => $_->node->room->name,
+            tags_data => [ $_->tags->all() ],
+            pins_data => [ $_->pins->all() ]
         };
         $_;
     } $self->Schema->resultset('GPIO')->all();
@@ -60,7 +63,36 @@ sub get_all_gpio_data {
 
 sub get_all_rooms {
     my $self = shift;
-    return $self->Schema->resultset('Room')->all();
+    return map {
+        $_ = {
+            id          => $_->roomid,
+            name        => $_->name,
+            location    => $_->location,
+            description => $_->description,
+            notes       => $_->notes,
+            nodes_data  => [ $_->nodes->all() ]
+        };
+        $_;
+    } $self->Schema->resultset('Room')->all();
+}
+
+sub get_all_nodes {
+    my $self = shift;
+    return map {
+        $_ = {
+            id          => $_->nodeid,
+            name        => $_->name,
+            description => $_->description,
+            host        => $_->host,
+            port        => $_->port,
+            type        => $_->type,
+            username    => $_->username,
+            password    => $_->password,
+            gpios_data  => [ $_->gpios->all() ],
+            room_data   => [ $_->room ]
+        };
+        $_;
+    } $self->Schema->resultset('Node')->all();
 }
 
 sub search_room {
@@ -68,6 +100,13 @@ sub search_room {
     my $room = shift;
     return $self->Schema->resultset('Room')
         ->search( { name => { 'like', '%' . $room . '%' } } )->all();
+}
+
+sub search_node {
+    my $self = shift;
+    my $node = shift;
+    return $self->Schema->resultset('Node')
+        ->search( { name => { 'like', '%' . $node . '%' } } )->all();
 }
 
 sub search_trigger {
