@@ -1,0 +1,44 @@
+<div class="popover-gpio-pins hide">
+	<div class="head">
+		Pins for this GPIO
+	</div>
+	<div class="content container">
+		<table class="table" data-type="pin">
+			<tbody>
+				% foreach (@{$pins}){
+				<tr class="pin" id="<%= $_->pinid %>">
+					<td class="pin-pin"><%= $_->pin %></td>
+					<td class="pin-type"><%= $_->type %></td>
+					<td><a href="#" class="delete-pin"><span class="glyphicon glyphicon-trash"></span></a></td>
+				</tr>
+				% }
+			</tbody>
+		</table>
+		<div class="hide">
+			<form class="form-horizontal add-pin-form" role="form" data-gpioid="<%= $gpioid %>">
+				<div class="form-group">
+					<label for="new-pin" class="col-sm-2 control-label">Pin</label>
+					<div class="col-sm-10">
+						<input type="text" name="new-pin" placeholder="ex.: 23" class="form-control" id="new-pin">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="new-pin-type" class="col-sm-2 control-label">Type</label>
+					<div class="col-sm-10">
+						<select class="form-control" name="new-pin-type">
+							% my @gpio_types=@{stash("gpio_types")} if (defined stash("gpio_types"));
+							% if (scalar @gpio_types > 0){
+							%   foreach (@gpio_types) {
+							<option class="<%= $_ %>"><%= $_ %></option>
+							%   }
+							% }
+						</select>
+					</div>
+				</div>
+			</form>
+		</div>
+		<button type="button" class="btn btn-success pull-right add-pin" data-action="add-node">
+		<span class="glyphicon glyphicon-plus"></span> Add new Pin
+		</button>
+	</div>
+</div>
