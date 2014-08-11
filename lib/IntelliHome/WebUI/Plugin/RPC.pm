@@ -38,14 +38,14 @@ sub register {
     $app->helper(
         rpc_call => sub {
             shift;
-            my $client  = MojoX::JSON::RPC::Client->new;
-            my $url     = 'http://localhost:3000/' . shift;
-            my $callobj = {
+            my $client   = MojoX::JSON::RPC::Client->new;
+            my $url      = 'http://localhost:3000/' . shift;
+            my $callback = shift;
+            my $callobj  = {
                 id     => 1,
                 method => shift,
                 params => \@_
             };
-            my $callback = shift;
             $client->call(
                 $url, $callobj,
                 sub {
@@ -57,6 +57,7 @@ sub register {
                         }
                         else {
                             $callback->( $res->result );
+
                             #print $res->result . "\n";
                         }
                     }
