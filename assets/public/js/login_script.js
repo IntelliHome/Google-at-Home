@@ -1,26 +1,29 @@
-$(function(){
+$(function() {
     var userField = $("input[name=username]");
     var passwordField = $("input[name=password]");
-            $('button[type="submit"]').click(function(e) {
-                e.preventDefault();
-                if (userField.val() == "") {
-                    //remove success mesage replaced with error message
-                    $("#output").removeClass(' alert alert-success');
-                    $("#output").addClass("alert alert-danger animated fadeInUp").html("Did you forget to enter username?");
-                } else if (passwordField.val() == "") {
-                    //remove success mesage replaced with error message
-                    $("#output").removeClass(' alert alert-success');
-                    $("#output").addClass("alert alert-danger animated fadeInUp").html("Did you forget to enter password?");
-                } else {
-                    var loginRequest = $.ajax({
-                        type: "POST",
-                        url : '/auth',
-                        data : {username : userField.val(), password : passwordField.val()}, 
-                        dataType : 'json', //gives back a JSON object
-                    });
-                    loginRequest.done(function( msg ) {
-                        //Display a message for login
-                        /*
+    $('button[type="submit"]').click(function(e) {
+        e.preventDefault();
+        if (userField.val() == "") {
+            //remove success mesage replaced with error message
+            $("#output").removeClass(' alert alert-success');
+            $("#output").addClass("alert alert-danger animated fadeInUp").html("Did you forget to enter username?");
+        } else if (passwordField.val() == "") {
+            //remove success mesage replaced with error message
+            $("#output").removeClass(' alert alert-success');
+            $("#output").addClass("alert alert-danger animated fadeInUp").html("Did you forget to enter password?");
+        } else {
+            var loginRequest = $.ajax({
+                type: "POST",
+                url: '/auth',
+                data: {
+                    username: userField.val(),
+                    password: passwordField.val()
+                },
+                dataType: 'json', //gives back a JSON object
+            });
+            loginRequest.done(function(msg) {
+                //Display a message for login
+                /*
                         $("#output").addClass("alert alert-success animated fadeInUp").html("Welcome back " + "<span style='text-transform:uppercase'>" + userField.val() + "</span>");
                         $("#output").removeClass(' alert-danger');
                         $("input").css({
@@ -30,8 +33,8 @@ $(function(){
                             "opacity":"0"
                         });
                         */
-                        //Change button  
-                        /*
+                //Change button  
+                /*
                         $('button[type="submit"]').html("continue")
                             .removeClass("btn-info")
                             .addClass("btn-default").click(function(){
@@ -43,20 +46,20 @@ $(function(){
                             });
                         */
 
-                        //Display user avatar
-                        /*
+                //Display user avatar
+                /*
                         $(".avatar").css({
                                 "background-image": "url('http://api.randomuser.me/0.3.2/portraits/women/35.jpg')"
                         });
                         */
-                        window.location.href = msg.redirectURL;
-                    });
-                    loginRequest.fail(function() {
-                        //remove success mesage replaced with error message
-                        $("#output").removeClass(' alert alert-success');
-                        $("#output").addClass("alert alert-danger animated fadeInUp").html("Server have some trouble!");
-                    });
-                    
-                }
+                window.location.href = msg.redirectURL;
             });
+            loginRequest.fail(function() {
+                //remove success mesage replaced with error message
+                $("#output").removeClass(' alert alert-success');
+                $("#output").addClass("alert alert-danger animated fadeInUp").html("Server have some trouble!");
+            });
+
+        }
+    });
 });
