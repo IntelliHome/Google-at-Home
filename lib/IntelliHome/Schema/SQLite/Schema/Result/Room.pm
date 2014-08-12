@@ -35,17 +35,21 @@ the room associated nodes
 L<IntelliHome::Schema::SQLite::Schema::Result::GPIO>, L<IntelliHome::Schema::SQLite::Schema::Result::Node>, L<IntelliHome::Schema::SQLite::Schema::Result::Room>
 
 =cut
+
 use base qw/DBIx::Class::Core/;
- 
+
 __PACKAGE__->table('room');
 __PACKAGE__->add_columns(
-	'roomid' => { data_type=>'int', is_auto_increment=>1 }, 
-	'name', 
-	'location' => { is_nullable => 1},
-	'description' => { is_nullable => 1},
-	'notes' => { is_nullable => 1} );
+    'roomid' => { data_type => 'int', is_auto_increment => 1 },
+    'name',
+    'location'    => { is_nullable => 1 },
+    'description' => { is_nullable => 1 },
+    'notes'       => { is_nullable => 1 }
+);
 __PACKAGE__->set_primary_key('roomid');
-__PACKAGE__->has_many(nodes => 'IntelliHome::Schema::SQLite::Schema::Result::Node','roomid');
+__PACKAGE__->has_many(
+    nodes => 'IntelliHome::Schema::SQLite::Schema::Result::Node',
+    'roomid'
+);
 
- 
 1;
