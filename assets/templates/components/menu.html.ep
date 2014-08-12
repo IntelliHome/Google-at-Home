@@ -12,15 +12,15 @@
           <%= link_to config('name')  => 'index' => (class => 'navbar-brand')  %>
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse" id="navbar-main">
-          % if(defined stash("logged") and stash("admin") and ( stash("logged") == 1 && stash("admin") == 1)){
+          % if(session("logged") and session("admin")){
             <ul class="nav navbar-nav">
-              <li><a href="admin/nodes/">Nodes</a></li>
-              <li><a href="admin/rooms/">Rooms</a></li>
-              <li><a href="admin/gpios/">GPIOs</a></li>
+              <li><a href="/admin/nodes/">Nodes</a></li>
+              <li><a href="/admin/rooms/">Rooms</a></li>
+              <li><a href="/admin/gpios/">GPIOs</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
             % #= include 'components/userpanel'
-              <li><a href="logout/">Logout</a></li>
+              <li><a href="/logout/">Logout</a></li>
             </ul>
           % } else {
             <ul class="nav navbar-nav">
@@ -45,7 +45,7 @@
             <div class="form-group">
               <input type="text" name="term" placeholder="Search" class="form-control" id="searchString">
             </div>
-            <a href="admin/"><button type="submit" class="btn btn-default">Admin</button></a>
+            <a href="/admin/"><button type="submit" class="btn btn-default">Admin</button></a>
           </div>
           % }
         </div>

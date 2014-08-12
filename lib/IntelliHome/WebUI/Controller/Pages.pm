@@ -1,4 +1,4 @@
-package IntelliHome::WebUI::Controller::Index;
+package IntelliHome::WebUI::Controller::Pages;
 use Mojo::Base 'Mojolicious::Controller';
 use Mojo::Util qw(hmac_sha1_sum);
 use List::Util qw(min max);
@@ -23,6 +23,20 @@ sub index {
         admin  => 0
     );
     $self->render("index");
+}
+
+sub admin {
+    my $self = shift;
+    $self->session( "logged" => 1, "admin" => 1 );
+    $self->redirect_to('/admin/gpios');
+}
+
+sub admin_gpios {
+    my $self  = shift;
+    my @gpios = $self->app->build_tiles();
+
+    $self->stash( gpios => \@gpios, );
+    $self->render("gpios");
 }
 
 1;

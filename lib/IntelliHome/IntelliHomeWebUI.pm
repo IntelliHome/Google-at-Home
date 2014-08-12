@@ -111,7 +111,7 @@ sub startup {
     $app->rooms( $app->app->build_rooms() );
     $app->hook(
         before_dispatch => sub {
-            $_[0]->stash( rooms => shift->app->rooms );
+            $_[0]->stash( rooms => [ shift->app->rooms ] );
         }
     );
 ################# Node types dispatch
@@ -122,7 +122,7 @@ sub startup {
         }
     );
 ################# GPIO types dispatch
-# TODO: pass types from rpc query
+    # TODO: pass types from rpc query
     $app->node_types( [qw(analog switch)] );
     $app->hook(
         before_dispatch => sub {
@@ -130,8 +130,10 @@ sub startup {
         }
     );
 ################# Drivers types dispatch
-# TODO: pass drivers from rpc query
-    $app->drivers( [qw(IntelliHome::Driver::GPIO::Mono IntelliHome::Driver::GPIO::Dual)] );
+    # TODO: pass drivers from rpc query
+    $app->drivers(
+        [qw(IntelliHome::Driver::GPIO::Mono IntelliHome::Driver::GPIO::Dual)]
+    );
     $app->hook(
         before_dispatch => sub {
             $_[0]->stash( drivers => shift->app->drivers );
@@ -140,14 +142,28 @@ sub startup {
 ################# Routes
 
     my $r = $app->routes;
-
+    $app->session( "admin" => 0, "logged" => 0 );
     $r->namespaces( ['IntelliHome::WebUI::Controller'] );
 
     # Index
 
-    $r->any('/')->to('index#index');
+    $r->get('/')->to('pages#index');
 
-    $r->any('/index')->to('index#index');
+    $r->get('/index')->to('pages#index');
+
+    $r->get('/admin')->to('pages#admin');
+
+    my $is_admin = $r->under(
+        sub {
+            my $self = shift;
+            return 0
+                unless $self->session("admin") && $self->session("logged");
+        }
+    );
+
+    ######### FAVOURITE
+
+    $is_admin->get('/admin/gpios')->to('pages#admin_gpios');
 
 }
 
