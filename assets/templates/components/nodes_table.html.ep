@@ -17,9 +17,10 @@
     <tr class="node" id="<%= $_->id %>">
       <td class="node-id"><%= $_->id %></td>
       <td class="node-name"><%= $_->name %></td>
-      <td class="node-ip"><%= $_->ip %></td>
+      <td class="node-host"><%= $_->host %></td>
       <td class="node-port"><%= $_->port %></td>
       <td class="node-type <%= $_->type %>"><%= $_->type %></td>
+      <td class="node-room"><%= $_->room %></td>
       <td class="node-description"><%= $_->description %></td>
       <td><a href="#" class="delete-node"><span class="glyphicon glyphicon-trash"></span></a></td>
     </tr>

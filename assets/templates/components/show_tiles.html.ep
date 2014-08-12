@@ -28,7 +28,7 @@
   % my $class = "tile-default tile-detail";
   % my $data_post = "/tile-detail/".$tile->title;
   % if ($tile->toggle == 1) { 
-  %   $class = "tile-toggle command"; 
+  %   $class = "tile-toggle command "; 
   %   $class .= "tile-status-off" if (defined $tile->status && $tile->status == 0);
   %   $data_post = "/command/".$tile->title;
   % }

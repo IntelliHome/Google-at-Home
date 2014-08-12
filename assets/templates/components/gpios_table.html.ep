@@ -18,25 +18,26 @@
     %   foreach (@gpios) {
     <tr class="gpio" id="<%= $_->id %>">
       <td class="gpio-id"><%= $_->id %></td>
-      <td class="gpio-pin-id"><%= $_->pinid %></td>
+      <td class="gpio-pin-id"><%= $_->gpio %></td>
       <td class="gpio-node"><%= $_->node %></td>
       <td class="gpio-type <%= $_->type %>"><%= $_->type %></td>
-      <td class="gpio-value"><%= $_->value %></td>
+      <td class="gpio-value"><%= $_->status %></td>
       <td class="gpio-driver <%= $_->driver %>"><%= $_->driver %></td>
       <td>
         <button type="button" class="btn btn-default gpio-tags" data-poptype="gpio-tags">
         <span class="glyphicon glyphicon-th-list"></span> Tags
         </button>
-        %=  include '/components/tags_popover', tags => $_->tags, gpioid => $_->id
+        %=  include '/components/tags_popover', tags => $_->tags_data, gpioid => $_->id
       </td>
       <td>
         <button type="button" class="btn btn-default gpio-pins" data-poptype="gpio-pins">
         <span class="glyphicon glyphicon-th-list"></span> Pins
         </button>
-        %=  include '/components/pins_popover', tags => $_->pins, gpioid => $_->id
+        %=  include '/components/pins_popover', pins => $_->pins_data, gpioid => $_->id
       </td>
       <td><a href="#" class="delete-gpio"><span class="glyphicon glyphicon-trash"></span></a></td>
     </tr>
+    %   }
     % }
   </tbody>
 </table>
