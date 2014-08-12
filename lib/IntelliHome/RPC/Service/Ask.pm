@@ -80,6 +80,18 @@ sub get_rooms {
 
 }
 
+sub get_nodes {
+    my ( $self, $tx, $node ) = @_;
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->get_all_nodes() ]
+        if ( $self->IntelliHome->Parser->Backend->can("get_all_nodes")
+        && !defined($node) );
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->search_node( $node ||= "." )
+    ];
+
+}
+
 sub nodes {
     my ( $self, $tx, $query ) = @_;
     return [ map { $_ = freeze $_; $_ }
