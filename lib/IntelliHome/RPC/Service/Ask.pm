@@ -98,6 +98,7 @@ sub nodes {
             $self->IntelliHome->Parser->Backend->getNodes($query) ];
 }
 
-__PACKAGE__->register_rpc_method_names( 'gpio', 'nodes', 'gpio_data', 'get_rooms' );
+__PACKAGE__->register_rpc_method_names( 'gpio', 'nodes', 'gpio_data',
+    'get_rooms', 'get_nodes' );
 
 1;
