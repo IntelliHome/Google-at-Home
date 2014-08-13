@@ -9,7 +9,7 @@
 	</div>
 	<div class="row">
 		%=  include '/components/nodes_table', nodes => stash('nodes')
-		% my $node_button_attr = (defined stash("rooms") && scalar @{stash("rooms")} > 0) ? 'data-toggle="modal" data-target="#add-node-box"' : 'disabled="disabled"' ;
+		% my $node_button_attr = (stash("rooms")) ? "data-toggle=modal data-target=#add-node-box" : "disabled=disabled" ;
 		<button type="button" class="btn btn-success pull-right" <%= $node_button_attr%> >
 		<span class="glyphicon glyphicon-plus"></span> Add new Node
 		</button>

@@ -9,7 +9,7 @@
 	</div>
 	<div class="row">
 		%=  include '/components/gpios_table', gpios => stash('gpios')
-		% my $gpio_button_attr = (defined stash("nodes") && scalar @{stash("nodes")} > 0) ? 'data-toggle="modal" data-target="#add-gpio-box"' : 'disabled="disabled"' ;
+		% my $gpio_button_attr = (stash("nodes")) ? "data-toggle=modal data-target=#add-gpio-box" : 'disabled=disabled' ;
 		<button type="button" class="btn btn-success pull-right"  <%= $gpio_button_attr%>>
 		<span class="glyphicon glyphicon-plus"></span> Add new GPIO
 		</button>
