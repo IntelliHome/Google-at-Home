@@ -104,3 +104,6 @@ hr.message-inner-separator
   background-color: #d690a6;
   color: #8c5b5c;
 }
+
+/* Text Area propreties */
+textarea { resize:vertical; }
