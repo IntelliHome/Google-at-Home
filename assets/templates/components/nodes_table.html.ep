@@ -11,9 +11,9 @@
     </tr>
   </thead>
   <tbody>
-  % my @nodes=@$nodes;
-  % if (@nodes and scalar @nodes > 0){
-  %   foreach (@nodes) {
+    % my @nodes=@$nodes;
+    % if (@nodes and scalar @nodes > 0){
+    %   foreach (@nodes) {
     <tr class="node" id="<%= $_->id %>">
       <td class="node-id"><%= $_->id %></td>
       <td class="node-name"><%= $_->name %></td>
@@ -24,6 +24,7 @@
       <td class="node-description"><%= $_->description %></td>
       <td><a href="#" class="delete-node"><span class="glyphicon glyphicon-trash"></span></a></td>
     </tr>
-  % }
+    %   }
+    % }
   </tbody>
 </table>

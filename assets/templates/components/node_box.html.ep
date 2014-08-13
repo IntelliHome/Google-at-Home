@@ -55,10 +55,9 @@
             <label for="new-node-room" class="col-sm-2 control-label">Room</label>
             <div class="col-sm-10">
               <select class="form-control" name="new-node-room">
-                % my @rooms=@{stash("rooms")} if (defined stash("rooms"));
-                % if (scalar @rooms > 0){
-                %   foreach (@rooms) {
-                <option id="<%= $_ %>"><%= $_ %></option>
+                %if(stash("rooms")){
+                %   foreach (@{stash("rooms")}) {
+                <option id="<%= $_->id %>"><%= $_->name %></option>
                 %   }
                 % }
               </select>

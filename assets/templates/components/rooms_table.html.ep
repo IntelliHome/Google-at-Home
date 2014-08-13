@@ -9,9 +9,8 @@
     </tr>
   </thead>
   <tbody>
-  % my @rooms=@$rooms;
-  % if (scalar @rooms > 0){
-  %   foreach (@rooms) {
+    %if(stash("rooms")){
+    %   foreach (@{stash("rooms")}) {
     <tr class="room" id="<%= $_->id %>">
       <td class="room-id"><%= $_->id %></td>
       <td class="room-name"><%= $_->name %></td>
@@ -20,6 +19,7 @@
       <td class="room-notes"><%= $_->notes %></td>
       <td><a href="#" class="delete-room"><span class="glyphicon glyphicon-trash"></span></a></td>
     </tr>
-  % }
+    %   }
+    % }
   </tbody>
 </table>
