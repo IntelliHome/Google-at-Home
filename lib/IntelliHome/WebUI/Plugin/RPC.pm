@@ -31,7 +31,11 @@ sub register {
                 }
             }
             else {
-                return map { $_ = thaw($_); $_ } @{ $client->tx->res };
+                return
+                    ref $client->tx->res eq "ARRAY"
+                    ? map { $_ = thaw($_); $_ } @{ $client->tx->res }
+                    : ();
+
             }
         }
     );
