@@ -17,10 +17,9 @@ sub index {
     my @tiles = $self->app->build_tiles();
 
     $self->stash(
-        tiles  => \@tiles,
-        single => 0,
-        logged => 0,
-        admin  => 0
+        tiles      => \@tiles,
+        single     => 0,
+        show_tiles => 1,
     );
     $self->render("index");
 }
@@ -34,9 +33,32 @@ sub admin {
 sub admin_gpios {
     my $self  = shift;
     my @gpios = $self->app->build_tiles();
+    my @nodes = $self->app->build_nodes();
 
-    $self->stash( gpios => \@gpios, );
+    $self->stash(
+        gpios => \@gpios,
+        nodes => \@nodes
+    );
     $self->render("gpios");
+}
+
+sub admin_nodes {
+    my $self  = shift;
+    my @nodes = $self->app->build_nodes();
+
+    $self->stash( nodes => \@nodes );
+    $self->render("nodes");
+}
+
+sub admin_rooms {
+    my $self = shift;
+    $self->render("rooms");
+}
+
+sub logout {
+    my $self = shift;
+    $self->session( "logged" => 0, "admin" => 0 );
+    $self->redirect_to('/');
 }
 
 1;
