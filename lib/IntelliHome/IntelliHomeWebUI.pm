@@ -111,7 +111,8 @@ sub startup {
     $app->rooms( $app->app->build_rooms() );
     $app->hook(
         before_dispatch => sub {
-            $_[0]->stash( rooms => [ shift->app->rooms ] );
+            $_[0]->stash( rooms => [ shift->app->rooms ] )
+                if $_[0]->app->rooms;
         }
     );
 ################# Node types dispatch
@@ -164,6 +165,9 @@ sub startup {
     ######### FAVOURITE
 
     $is_admin->get('/admin/gpios')->to('pages#admin_gpios');
+    $is_admin->get('/admin/nodes')->to('pages#admin_nodes');
+    $is_admin->get('/admin/rooms')->to('pages#admin_rooms');
+    $is_admin->get('/logout')->to('pages#logout');
 
 }
 
