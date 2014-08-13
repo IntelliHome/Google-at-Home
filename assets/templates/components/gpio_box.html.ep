@@ -21,7 +21,7 @@
                 % my @nodes=@{stash("nodes")} if (defined stash("nodes"));
                 % if (scalar @nodes > 0){
                 %   foreach (@nodes) {
-                <option id="<%= $_->nodeid %>"><%= $_->name %></option>
+                <option id="<%= $_->id %>"><%= $_->name %></option>
                 %   }
                 % }
               </select>
