@@ -3,7 +3,7 @@
     $(document).ready(function() {
         var $command = $('.command');
         var $tileDetail = $('.tile-detail');
-        var $table = $('table');
+        var $body = $('body');
         var $gpioPopover = $('.gpio-tags,.gpio-pins');
         var $addButton = $('#add-gpio,#add-node,#add-room,.add-tag');
         $command.click(function() {
@@ -14,7 +14,8 @@
         $tileDetail.click(function() {
             window.location.href = $(this).attr("data-post");
         });
-        $table.on('click', '.delete-' + $(this).attr("data-type"), function() {
+        $body.on('click', '.delete-row',function() {
+            alert("/delete-" + $(this).attr("data-type") + "/" + $(this).parent().parent().attr("id"));
             $.post("/delete-" + $(this).attr("data-type") + "/" + $(this).parent().parent().attr("id"), function(data) {
                 $(this).parent().parent().remove();
             }, "json");
@@ -28,7 +29,7 @@
                 return $(this).parent().find('.popover-' + $(this).attr('data-poptype')).find('.content').html();
             },
             container: 'body',
-            placement: 'bottom'
+            placement: 'right'
         });
         $addButton.click(function() {
             $("#" + $(this).attr('data-action') + "-spinner").addClass('fa fa-spinner fa-spin');

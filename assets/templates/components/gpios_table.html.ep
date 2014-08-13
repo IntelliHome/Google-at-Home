@@ -1,4 +1,4 @@
-<table class="table" id="gpios-table" data-type="gpio">
+<table class="table" id="gpios-table">
   <thead>
     <tr>
       <th>#</th>
@@ -35,7 +35,7 @@
         </button>
         %=  include '/components/pins_popover', pins => $_->pins_data, gpioid => $_->id
       </td>
-      <td><a href="#" class="delete-gpio"><span class="glyphicon glyphicon-trash"></span></a></td>
+      <td><a href="#" class="delete-row" data-type="gpio"><span class="glyphicon glyphicon-trash"></span></a></td>
     </tr>
     %   }
     % }

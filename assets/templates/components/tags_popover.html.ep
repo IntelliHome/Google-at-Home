@@ -3,13 +3,13 @@
 		Tags for this GPIO
 	</div>
 	<div class="content container">
-		<table class="table" data-type="tag">
+		<table class="table">
 			<tbody>
 				% foreach (@{$tags}){
 				<tr class="tag" id="<%= $_->tagid %>">
 					<td class="tag-tag"><%= $_->tag %></td>
 					<td class="tag-description"><%= $_->description %></td>
-					<td><a href="#" class="delete-tag"><span class="glyphicon glyphicon-trash"></span></a></td>
+					<td><a href="#" class="delete-row" data-type="tag"><span class="glyphicon glyphicon-trash"></span></a></td>
 				</tr>
 				% }
 			</tbody>
