@@ -5,7 +5,6 @@
         var $tileDetail = $('.tile-detail');
         var $body = $('body');
         var $gpioPopover = $('.gpio-tags,.gpio-pins');
-        var $addButton = $('#add-gpio,#add-node,#add-room,.add-tag');
         $command.click(function() {
             var $commandPost = $.post($(this).attr("data-post"), function(data) {
                 $(this).toggleClass("tile-status-off", data.result);
@@ -14,7 +13,7 @@
         $tileDetail.click(function() {
             window.location.href = $(this).attr("data-post");
         });
-        $body.on('click', '.delete-row',function() {
+        $body.on('click', '.delete-row', function() {
             alert("/delete-" + $(this).attr("data-type") + "/" + $(this).parent().parent().attr("id"));
             $.post("/delete-" + $(this).attr("data-type") + "/" + $(this).parent().parent().attr("id"), function(data) {
                 $(this).parent().parent().remove();
@@ -31,19 +30,37 @@
             container: 'body',
             placement: 'right'
         });
-        $addButton.click(function() {
-            $("#" + $(this).attr('data-action') + "-spinner").addClass('fa fa-spinner fa-spin');
-            $("form#" + $(this).attr('data-action') + "-form").submit(function(event) {
-                $.post($(this).attr('data-action') + '/', $("form#" + $(this).attr('data-action') + "-form").serialize(), function(data) {
-                        $("#" + $(this).attr('data-action') + "-spinner").removeClass('fa fa-spinner fa-spin');
-                        $("#" + $(this).attr('data-action') + "-box").modal('hide').each(function() {
-                            this.reset();
-                        });
-                    },
-                    'json' // JSON response
-                );
-                event.preventDefault();
-            });
+        $body.on('click', '.modal-add', function() {
+            var $thisButton = $(this);
+            var buttonText = $(this).children('span').text();
+            $thisButton.attr('disabled', 'disabled');
+            $thisButton.children('span').text("  Loading...");
+            $thisButton.children('i').addClass('fa fa-spinner fa-spin');
+            alert($thisButton.parent().parent(".form-data-body").find('form').serialize());
+            var $thisForm = $thisButton.parent().parent(".form-data-body").find('form');
+            $.post($thisButton.attr('data-action') + '/', $thisForm.serialize(), function(data) {
+                    $thisButton.removeAttr('disabled');
+                    $thisButton.children('span').text(buttonText);
+                    $thisButton.children('i').removeClass('fa fa-spinner fa-spin');
+                    $thisForm.each(function() {
+                        this.reset();
+                    });
+                    if ($thisButton.hasClass('is-popover')) {
+                        $thisButton.parent(".form-data-body").hide('fast');
+                    } else {
+                        $thisButton.parent(".modal").modal("hide");
+                    }
+                },
+                'json' // JSON response
+            );
+        });
+        $body.on('click','.popover-form-open',function(){
+            $(this).fadeOut('fast');
+            $(this).parent('.popover-content').find(".form-data-body").fadeIn("fast").toggleClass('hide');
+        });
+        $body.on('click','.popover-form-close',function(){
+            $(this).parent().parent(".form-data-body").fadeOut("fast").toggleClass('hide');
+            $(this).parent().parent().parent('.popover-content').find(".popover-form-open").fadeIn('fast');
         });
         $('#fancyClock').tzineClock();
     });

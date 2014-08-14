@@ -1,7 +1,7 @@
 <!-- Modal Box -->
 <div class="modal fade" id="add-room-box" tabindex="-1" role="dialog" aria-labelledby="room-box-label" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content form-data-body">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h3 class="modal-title" id="room-box-label">Add new Room</h3>
@@ -36,7 +36,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="add-room" data-action="add-room"><i id="add-room-spinner"></i>Add Room</button>
+        <button type="button" class="btn btn-primary modal-add" id="add-room-button" data-action="add-room">
+          <i id="add-room-spinner"></i>
+          <span>Add Room</span>
+        </button>
       </div>
     </div>
   </div>

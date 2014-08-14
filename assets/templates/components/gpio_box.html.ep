@@ -1,7 +1,7 @@
 <!-- Modal Box -->
 <div class="modal fade" id="add-gpio-box" tabindex="-1" role="dialog" aria-labelledby="gpio-box-label" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content form-data-body">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h3 class="modal-title" id="gpio-box-label">Add new GPIO</h3>
@@ -70,7 +70,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="add-gpio" data-action="add-gpio"><i id="add-gpio-spinner"></i>Add GPIO</button>
+        <button type="button" class="btn btn-primary modal-add" id="add-gpio-button" data-action="add-gpio">
+          <i id="add-gpio-spinner"></i>
+          <span>Add GPIO</span>
+        </button>
       </div>
     </div>
   </div>
