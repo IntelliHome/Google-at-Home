@@ -52,7 +52,7 @@ sub startup {
         'style.css' => (
             '/css/style.css',   '/css/user-panel.css',
             '/css/isotope.css', '/css/jquery.tzineClock.css',
-            'css/font-awesome.css'
+            '/css/font-awesome.css'
         )
     );
     $app->asset( 'login-style.css' => '/css/login.css' );
