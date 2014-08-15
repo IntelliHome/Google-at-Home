@@ -192,6 +192,29 @@ This is the top module containing the routes to make the web interface working. 
 
 =head1 ROUTES
 
+=head2 /index or /
+
+show the dashboard
+
+=head2 /admin
+
+show the admin dashboard (actually redirect to admin/gpios)
+
+=head2 /admin/gpios
+
+show the gpios managing page
+
+=head2 /admin/nodes
+
+show the nodes managing page
+
+=head2 /admin/rooms
+
+show the rooms managing page
+
+=head2 /logout
+
+logout from the admin section
 
 =head1 AUTHOR
 
