@@ -38,3 +38,61 @@ sub register {
 
 1;
 
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+IntelliHome::WebUI::Plugin::ModelFactory - ModelFactory plugin for mojolicious web application
+
+=head1 SYNOPSIS
+
+    build_tiles;
+    #...
+    build_rooms;
+    #...
+    build_nodes;
+
+=head1 DESCRIPTION
+
+This Mojolicious plugin allow to build internal structures used into the web application
+
+=head1 METHODS
+
+=head2 build_rooms
+
+returns an array ref containing the rooms object L<IntelliHome::WebUI::Model::Room>
+
+    build_rooms
+
+=head2 build_tiles
+
+returns an array of L<IntelliHome::WebUI::Model::Tile> objects
+
+    build_tiles;
+
+=head2 build_nodes
+
+returns an array of L<IntelliHome::WebUI::Model::Node> objects
+
+    build_nodes;
+
+=head1 AUTHOR
+
+skullbocks E<lt>dgikiller@gmail.comtE<gt>
+
+=head1 COPYRIGHT
+
+Copyright 2014- skullbocks
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=head1 SEE ALSO
+L<IntelliHome::WebUI::Plugin::ModelFactory>, L<IntelliHome::IntelliHomeWebUI>, L<IntelliHome::Schema::SQLite::Schema::Result::Room>, L<IntelliHome::Schema::SQLite::Schema::Result::Room>
+
+
+=cut
