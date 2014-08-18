@@ -132,6 +132,8 @@ is( ( $Backend->get_all_gpio_data() )[0]->{toggle},
    1, "Get first gpio toggle" );
 is( ( $Backend->get_all_nodes() )[0]->{type},
    "master", "Get first node type" );
+is( $Backend->delete_element("Node",$node_one->nodeid),
+   1, "Deleting Node 1 ok" );
 ###### TESTING BACKEND DB CONSISTENCY
 
 
