@@ -166,18 +166,82 @@ sub addTask {
 }
 
 sub addNode {
-    my $self    = shift;
-    my $Options = shift;
-    my $Room    = shift;
-    my $r       = $self->Schema->resultset('Room')
-        ->search( { name => $Room->{'name'} } );
+    my $self = shift;
+    my $node = shift;
+    my $room = shift;
+    my $r    = $self->Schema->resultset('Room')
+        ->search( { name => $room->{'name'} } );
     return 0 unless ($r);
-    my $Node = $self->Schema->resultset('Node')
-        ->search( { host => $Options->{'host'} } );
-    return 0 unless ($Node);
-    my $new_node = $self->Schema->resultset('Node')->new( %{$Options} );
-    $new_node->room( $r->roomid );
-    return $new_node->insert;
+    return 0
+        if ( $self->Schema->resultset('Node')
+        ->search( { host => $node->{'host'}, type => $node->{'type'} } ) );
+    $node->{'roomid'} = $r->roomid;
+    return $self->Schema->resultset('Node')->create( %{$node} );
+}
+
+sub add_room {
+    my $self = shift;
+    my $room = shift;
+    return 0
+        if ( $self->Schema->resultset('Room')
+        ->search( { name => $room->{'name'} } ) );
+    return $self->Schema->resultset('Room')->create( %{$room} );
+}
+
+sub add_tag {
+    my $self = shift;
+    my $tag  = shift;
+    my $gpio = shift;
+    my $g    = $self->Schema->resultset('GPIO')
+        ->search( { gpioid => $gpio->{'id'} } );
+    return 0 unless ($g);
+    return 0
+        if (
+        $self->Schema->resultset('Tag')->search( { tag => $tag->{'tag'} } ) );
+    $tag->{'gpioid'} = $g->gpioid;
+    return $self->Schema->resultset('GPIO')->create( %{$tag} );
+}
+
+sub add_pin {
+    my $self = shift;
+    my $pin  = shift;
+    my $gpio = shift;
+    my $g    = $self->Schema->resultset('GPIO')
+        ->search( { gpioid => $gpio->{'id'} } );
+    return 0 unless ($g);
+    return 0
+        if ( $self->Schema->resultset('Pin')
+        ->search( { pin => $pin->{'pin'}, gpioid => $g->gpioid } ) );
+    $pin->{'gpioid'} = $g->gpioid;
+    return $self->Schema->resultset('Pin')->create( %{$pin} );
+}
+
+sub add_gpio {
+    my $self = shift;
+    my $gpio = shift;
+    my $node = shift;
+    my $n    = $self->Schema->resultset('Node')
+        ->search( { nodeid => $node->{'id'} } );
+    return 0 unless ($n);
+    return 0
+        if ( $self->Schema->resultset('GPIO')
+        ->search( { pin_id => $gpio->{'pin_id'}, nodeid => $n->nodeid } ) );
+    $gpio->{'nodeid'} = $n->nodeid;
+    return $self->Schema->resultset('GPIO')->create( %{$gpio} );
+}
+
+sub delete_element {
+    my $self   = shift;
+    my $entity = shift;
+    my $id     = shift;
+    our @available_classes = qw(GPIO Node Pin Room Tag Trigger User Command);
+    return 0
+        if ( !defined $entity
+        or !( grep { $_ eq $entity } @available_classes ) );
+    return $self->Schema->resultset($entity)
+        ->search(
+        { lc($entity)."id" => $id } )
+        ->delete();
 }
 
 sub getNodes {
