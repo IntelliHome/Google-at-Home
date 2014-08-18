@@ -12,7 +12,7 @@ sub on {
     if ( $self->Connector )
     {    # if it's defined a connector, the command will be sent to a node
         return $self->Connector->send_command(
-            message_compact( TYPE, DRIVER, $self->Pin, 1, $self->Direction )
+            message_compact( TYPE, DRIVER, $self->Pin, $self->Direction, "on" )
         );
     }
     else {
@@ -27,7 +27,7 @@ sub off {
     my $self = shift;
     if ( $self->Connector ) {
         return $self->Connector->send_command(
-            message_compact( TYPE, DRIVER, $self->Pin, 0, $self->Direction )
+            message_compact( TYPE, DRIVER, $self->Pin, $self->Direction , "off")
         );
     }
     else {
