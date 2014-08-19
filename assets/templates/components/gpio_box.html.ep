@@ -9,28 +9,28 @@
       <div class="modal-body">
         <form class="form-horizontal" role="form" id="add-gpio-form">
           <div class="form-group">
-            <label for="new-gpio-pinid" class="col-sm-2 control-label">Pin ID</label>
+            <label for="new-pin_id" class="col-sm-2 control-label">Pin ID</label>
             <div class="col-sm-10">
-              <input type="text" name="new-gpio-pinid" placeholder="ex.: 25" class="form-control" id="new-gpio-pinid">
+              <input type="text" name="new-pin_id" placeholder="Default pin (ex.: 25)" class="form-control" id="new-gpio-pinid">
             </div>
           </div>
           <div class="form-group">
-            <label for="new-gpio-node" class="col-sm-2 control-label">Node</label>
+            <label for="new-node" class="col-sm-2 control-label">Node</label>
             <div class="col-sm-10">
-              <select class="form-control" name="new-gpio-node">
+              <select class="form-control" name="new-nodeid">
                 % my @nodes=@{stash("nodes")} if (defined stash("nodes"));
                 % if (scalar @nodes > 0){
                 %   foreach (@nodes) {
-                <option id="<%= $_->id %>"><%= $_->name %></option>
+                <option value="<%= $_->id %>"><%= $_->name %>, <%= $_->host %>, <%= $_->type %></option>
                 %   }
                 % }
               </select>
             </div>
           </div>
           <div class="form-group">
-            <label for="new-gpio-type" class="col-sm-2 control-label">Type</label>
+            <label for="new-type" class="col-sm-2 control-label">Type</label>
             <div class="col-sm-10">
-              <select class="form-control" name="new-gpio-type">
+              <select class="form-control" name="new-type">
                 % my @gpio_types=@{stash("gpio_types")} if (defined stash("gpio_types"));
                 % if (scalar @gpio_types > 0){
                 %   foreach (@gpio_types) {
@@ -41,9 +41,9 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="new-gpio-driver" class="col-sm-2 control-label">Driver</label>
+            <label for="new-driver" class="col-sm-2 control-label">Driver</label>
             <div class="col-sm-10">
-              <select class="form-control" name="new-gpio-driver">
+              <select class="form-control" name="new-driver">
                 % my @drivers=@{stash("drivers")} if (defined stash("drivers"));
                 % if (scalar @drivers > 0){
                 %   foreach (@drivers) {
@@ -70,7 +70,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary modal-add" id="add-gpio-button" data-action="add-gpio">
+        <button type="button" class="btn btn-primary modal-add" id="add-gpio-button" data-action="add_gpio">
           <i id="add-gpio-spinner"></i>
           <span>Add GPIO</span>
         </button>
