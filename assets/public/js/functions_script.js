@@ -14,8 +14,8 @@
             window.location.href = $(this).attr("data-post");
         });
         $body.on('click', '.delete-row', function() {
-            alert("/delete-" + $(this).attr("data-type") + "/" + $(this).parent().parent().attr("id"));
-            $.post("/delete-" + $(this).attr("data-type") + "/" + $(this).parent().parent().attr("id"), function(data) {
+            alert("/delete_" + $(this).attr("data-type") + "/" + $(this).parent().parent().attr("id"));
+            $.post("/admin/delete_" + $(this).attr("data-type") + "/" + $(this).parent().parent().attr("id"), function(data) {
                 $(this).parent().parent().remove();
             }, "json");
         });
@@ -36,9 +36,10 @@
             $thisButton.attr('disabled', 'disabled');
             $thisButton.children('span').text("  Loading...");
             $thisButton.children('i').addClass('fa fa-spinner fa-spin');
-            alert($thisButton.parent().parent(".form-data-body").find('form').serialize());
             var $thisForm = $thisButton.parent().parent(".form-data-body").find('form');
-            $.post($thisButton.attr('data-action') + '/', $thisForm.serialize(), function(data) {
+            var formData = JSON.stringify($thisForm.serializeArray());
+                        console.log(formData);
+            $.post("/admin/"+$thisButton.attr('data-action') + '/', {data: formData}, function(data) {
                     $thisButton.removeAttr('disabled');
                     $thisButton.children('span').text(buttonText);
                     $thisButton.children('i').removeClass('fa fa-spinner fa-spin');
