@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 use lib './lib';
-use Mojo::Util qw(decamelize spurt);
+use Mojo::Util qw(spurt);
 use Pod::POM;
 use Pod::POM::View::Pod;
 
@@ -32,7 +32,7 @@ sub pull {
 
 sub commit {
     chdir(SUBMODULE_DIR);
-    system("mv intelli_home.md Home.md");
+    system("mv IntelliHome.md Home.md");
     system("git checkout master");
     system("git add --all .");
     system(   "git commit -am 'Documentation automatic snapshot - "
