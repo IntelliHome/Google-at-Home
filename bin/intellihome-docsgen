@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 use lib './lib';
-use Mojo::Util qw(decamelize spurt);
+use Mojo::Util qw(spurt);
 use Pod::POM;
 use Pod::POM::View::Pod;
 
@@ -17,7 +17,7 @@ sub modulepod2markdown {
     my $pod = Pod::POM->new();
     my $pom = $pod->parse_file( $_[0] ) || die $pod->error();
     my $markdown;
-    my $parser = Pod::Markdown::Github->new;
+    my $parser = Pod::Markdown::Github->new(perldoc_url_prefix => 'https://github.com/IntelliHome/Google-at-Home/wiki/');
     $parser->output_string( \$markdown );
     $parser->parse_string_document( Pod::POM::View::Pod->print($pom) );
     spurt( $markdown, SUBMODULE_DIR . $_[1] ) if $markdown =~ /[a-zA-Z]/g;
@@ -32,7 +32,7 @@ sub pull {
 
 sub commit {
     chdir(SUBMODULE_DIR);
-    system("mv intelli_home.md Home.md");
+    system("mv IntelliHome.md Home.md");
     system("git checkout master");
     system("git add --all .");
     system(   "git commit -am 'Documentation automatic snapshot - "
