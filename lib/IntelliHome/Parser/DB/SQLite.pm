@@ -44,9 +44,9 @@ sub get_all_gpio_data {
     my $self = shift;
     return map {
         $_ = {
-            title  => $_->tags->first()->tag,
-            id     => $_->gpioid,
-            image  => 0,
+            title => $_->tags->first ? $_->tags->first()->tag : "",
+            id    => $_->gpioid,
+            image => 0,
             driver => $_->driver,
             status => $_->status,
             toggle => ( ( split( /::/, $_->driver ) )[-1] eq "Mono" ) ? 1 : 0,
@@ -170,22 +170,23 @@ sub addNode {
     my $node = shift;
     my $room = shift;
     my $r    = $self->Schema->resultset('Room')
-        ->search( { name => $room->{'name'} } );
-    return 0 unless ($r);
-    return 0
+        ->search( { roomid => $room->{'id'} } )->single;
+    return undef unless ($r);
+    return undef
         if ( $self->Schema->resultset('Node')
-        ->search( { host => $node->{'host'}, type => $node->{'type'} } ) );
-    $node->{'roomid'} = $r->roomid;
-    return $self->Schema->resultset('Node')->create( %{$node} );
+        ->search( { host => $node->{'host'}, type => $node->{'type'} } )
+        ->single );
+    $node->{'roomid'} = $room->{'id'};
+    return $self->Schema->resultset('Node')->create($node);
 }
 
 sub add_room {
     my $self = shift;
     my $room = shift;
-    return 0
-        if ( $self->Schema->resultset('Room')
-        ->search( { name => $room->{'name'} } ) );
-    return $self->Schema->resultset('Room')->create( %{$room} );
+   # return undef
+    #    if ( $self->Schema->resultset('Room')
+     #   ->search( { name => $room->{'name'} } )->single );
+    return $self->Schema->resultset('Room')->create($room);
 }
 
 sub add_tag {
@@ -193,13 +194,14 @@ sub add_tag {
     my $tag  = shift;
     my $gpio = shift;
     my $g    = $self->Schema->resultset('GPIO')
-        ->search( { gpioid => $gpio->{'id'} } );
-    return 0 unless ($g);
-    return 0
+        ->search( { gpioid => $gpio->{'id'} } )->single;
+    return undef unless ($g);
+    return undef
         if (
-        $self->Schema->resultset('Tag')->search( { tag => $tag->{'tag'} } ) );
-    $tag->{'gpioid'} = $g->gpioid;
-    return $self->Schema->resultset('GPIO')->create( %{$tag} );
+        $self->Schema->resultset('Tag')->search( { tag => $tag->{'tag'} } )
+        ->single );
+    $tag->{'gpioid'} = $gpio->{'id'};
+    return $self->Schema->resultset('Tag')->create($tag);
 }
 
 sub add_pin {
@@ -207,13 +209,15 @@ sub add_pin {
     my $pin  = shift;
     my $gpio = shift;
     my $g    = $self->Schema->resultset('GPIO')
-        ->search( { gpioid => $gpio->{'id'} } );
-    return 0 unless ($g);
-    return 0
+        ->search( { gpioid => $gpio->{'id'} } )->single;
+    return undef unless ($g);
+    return undef
         if ( $self->Schema->resultset('Pin')
-        ->search( { pin => $pin->{'pin'}, gpioid => $g->gpioid } ) );
-    $pin->{'gpioid'} = $g->gpioid;
-    return $self->Schema->resultset('Pin')->create( %{$pin} );
+        ->search( { pin => $pin->{'pin'}, gpioid => $gpio->{'id'} } )
+        ->single );
+    $pin->{'gpioid'} = $gpio->{'id'};
+    $pin->{'value'} = 0 if ( !exists $pin->{'value'} );
+    return $self->Schema->resultset('Pin')->create($pin);
 }
 
 sub add_gpio {
@@ -221,13 +225,16 @@ sub add_gpio {
     my $gpio = shift;
     my $node = shift;
     my $n    = $self->Schema->resultset('Node')
-        ->search( { nodeid => $node->{'id'} } );
-    return 0 unless ($n);
-    return 0
+        ->search( { nodeid => $node->{'id'} } )->single;
+    return undef unless ($n);
+    return undef
         if ( $self->Schema->resultset('GPIO')
-        ->search( { pin_id => $gpio->{'pin_id'}, nodeid => $n->nodeid } ) );
-    $gpio->{'nodeid'} = $n->nodeid;
-    return $self->Schema->resultset('GPIO')->create( %{$gpio} );
+        ->search( { pin_id => $gpio->{'pin_id'}, nodeid => $node->{'id'} } )
+        ->single );
+    $gpio->{'nodeid'} = $node->{'id'};
+    $gpio->{'value'} = 0 if ( !exists $gpio->{'value'} );
+
+    return $self->Schema->resultset('GPIO')->create($gpio);
 }
 
 sub delete_element {
@@ -235,13 +242,12 @@ sub delete_element {
     my $entity = shift;
     my $id     = shift;
     our @available_classes = qw(GPIO Node Pin Room Tag Trigger User Command);
-    return 0
+    return undef
         if ( !defined $entity
         or !( grep { $_ eq $entity } @available_classes ) );
-    return $self->Schema->resultset($entity)
-        ->search(
-        { lc($entity)."id" => $id } )
-        ->delete();
+    return 1
+        if $self->Schema->resultset($entity)
+        ->search( { lc($entity) . "id" => $id } )->single->delete();
 }
 
 sub getNodes {
