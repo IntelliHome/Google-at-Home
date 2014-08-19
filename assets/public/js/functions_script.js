@@ -14,10 +14,11 @@
             window.location.href = $(this).attr("data-post");
         });
         $body.on('click', '.delete-row', function() {
-            alert("/delete_" + $(this).attr("data-type") + "/" + $(this).parent().parent().attr("id"));
             $.post("/admin/delete_" + $(this).attr("data-type") + "/" + $(this).parent().parent().attr("id"), function(data) {
-                $(this).parent().parent().remove();
-            }, "json");
+                if (data == 1) {
+                    $(this).parent().parent().hide("fast").remove();
+                }
+            });
         });
         $gpioPopover.popover({
             html: true,
@@ -47,10 +48,12 @@
                         this.reset();
                     });
                     if ($thisButton.hasClass('is-popover')) {
-                        $thisButton.parent(".form-data-body").hide('fast');
+                        $thisButton.parent().parent(".form-data-body").hide('fast');
+                        $thisButton.parent().parent().parent('.popover-content').find(".popover-form-open").fadeIn('fast');
                     } else {
-                        $thisButton.parent(".modal").modal("hide");
+                        $thisButton.parent().parent().parent().parent(".modal").modal("hide");
                     }
+                    window.location.reload();
                 },
                 'json' // JSON response
             );
@@ -60,7 +63,7 @@
             $(this).parent('.popover-content').find(".form-data-body").fadeIn("fast").toggleClass('hide');
         });
         $body.on('click','.popover-form-close',function(){
-            $(this).parent().parent(".form-data-body").fadeOut("fast").toggleClass('hide');
+            $(this).parent().parent(".form-data-body").hide("fast").toggleClass('hide');
             $(this).parent().parent().parent('.popover-content').find(".popover-form-open").fadeIn('fast');
         });
         $('#fancyClock').tzineClock();
