@@ -37,6 +37,7 @@ sub admin_gpios {
 
     $self->stash(
         gpios => \@gpios,
+        gpio_types=> [1,2,3],
         nodes => \@nodes
     );
     $self->render("gpios");
@@ -46,7 +47,7 @@ sub admin_nodes {
     my $self  = shift;
     my @nodes = $self->app->build_nodes();
 
-    $self->stash( nodes => \@nodes );
+    $self->stash( nodes => \@nodes, node_types=>["master","node","agent"]);
     $self->render("nodes");
 }
 
