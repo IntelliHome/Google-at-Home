@@ -108,10 +108,10 @@ sub startup {
     );
 
 ################# Room dispatch
-    $app->rooms( $app->app->build_rooms() );
+    $app->rooms( [$app->app->build_rooms()] );
     $app->hook(
         before_dispatch => sub {
-            $_[0]->stash( rooms => [ shift->app->rooms ] )
+            $_[0]->stash( rooms => shift->app->rooms )
                 if $_[0]->app->rooms;
         }
     );
@@ -167,6 +167,20 @@ sub startup {
     $is_admin->get('/admin/gpios')->to('pages#admin_gpios');
     $is_admin->get('/admin/nodes')->to('pages#admin_nodes');
     $is_admin->get('/admin/rooms')->to('pages#admin_rooms');
+
+    $is_admin->post("/admin/add_gpio")->to("gpio#add");
+    $is_admin->post("/admin/add_node")->to("node#add");
+    $is_admin->post("/admin/add_tag")->to("gpio#add_tag");
+    $is_admin->post("/admin/add_pin")->to("gpio#add_pin");
+    $is_admin->post("/admin/add_room")->to("room#add");
+
+
+    $is_admin->post("/admin/delete_gpio/:id")->to("gpio#delete");
+    $is_admin->post("/admin/delete_node/:id")->to("node#delete");
+    $is_admin->post("/admin/delete_tag/:id")->to("gpio#delete_tag");
+    $is_admin->post("/admin/delete_pin/:id")->to("gpio#delete_pin");
+    $is_admin->post("/admin/delete_room/:id")->to("room#delete");
+
     $is_admin->get('/logout')->to('pages#logout');
 
 }
