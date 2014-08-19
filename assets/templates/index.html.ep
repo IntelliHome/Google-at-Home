@@ -1,0 +1,15 @@
+% layout 'default';
+% title config('name');
+<div class="jumbotron header-logo">
+	<div class="container">
+    	<div class="row">
+        	<div class="col-md-4 col-sm-12 col-xs-12"><img src="img/intellihome.png" class="img-responsive"></div>
+          	<div class="col-md-8 col-sm-12 col-xs-12"><div id="fancyClock"></div></div>
+        </div>
+    </div>
+</div>
+<div class="container">
+<div class="iso content">
+%=  include '/components/list_tiles', tiles=>stash('tiles'), single => $single
+</div>
+</div>

@@ -17,7 +17,6 @@ This object is used internally by G@H
 use Moo;
 use AnyEvent;
 use AnyEvent::Filesys::Notify;
-use Data::Dumper;
 use Carp qw( croak );
 with("IntelliHome::Workers::Thread");    #is a thread
 

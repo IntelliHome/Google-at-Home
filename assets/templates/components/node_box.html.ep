@@ -1,0 +1,83 @@
+<!-- Modal Box -->
+<div class="modal fade" id="add-node-box" tabindex="-1" role="dialog" aria-labelledby="node-box-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content form-data-body">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title" id="node-box-label">Add new Node</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" role="form" id="add-node-form">
+          <div class="form-group">
+            <label for="new-name" class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+              <input type="text" name="new-name" placeholder="ex.: node-1" class="form-control" id="new-node-name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="new-host" class="col-sm-2 control-label">Host</label>
+            <div class="col-sm-10">
+              <input type="text" name="new-host" placeholder="ex.: 192.168.1.1" class="form-control" id="new-node-host">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="new-port" class="col-sm-2 control-label">Port</label>
+            <div class="col-sm-10">
+              <input type="text" name="new-port" placeholder="ex.: 59000" class="form-control" id="new-node-port">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="new-username" class="col-sm-2 control-label">Username</label>
+            <div class="col-sm-10">
+              <input type="text" name="new-username" placeholder="ex.: intelliuser" class="form-control" id="new-node-username">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="new-password" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+              <input type="text" name="new-password" placeholder="ex.: newpasswd" class="form-control" id="new-node-password">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="new-type" class="col-sm-2 control-label">Type</label>
+            <div class="col-sm-10">
+              <select class="form-control" name="new-type">
+                % my @node_types=@{stash("node_types")} if (defined stash("node_types"));
+                % if (scalar @node_types > 0){
+                %   foreach (@node_types) {
+                <option id="<%= $_ %>"><%= $_ %></option>
+                %   }
+                % }
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="new-roomid" class="col-sm-2 control-label">Room</label>
+            <div class="col-sm-10">
+              <select class="form-control" name="new-roomid">
+                %if(stash("rooms")){
+                %   foreach (@{stash("rooms")}) {
+                <option value="<%= $_->id %>"><%= $_->name %></option>
+                %   }
+                % }
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="new-description" class="col-sm-2 control-label">Description (optional)</label>
+            <div class="col-sm-10">
+              <textarea name="new-description" placeholder="Description" class="form-control" rows="3" id="new-node-description"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary modal-add" id="add-node-button" data-action="add_node">
+          <i id="add-node-spinner"></i>
+          <span>Add Node</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

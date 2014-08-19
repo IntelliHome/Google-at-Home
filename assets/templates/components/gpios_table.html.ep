@@ -1,0 +1,43 @@
+<table class="table" id="gpios-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Pin ID</th>
+      <th>Node</th>
+      <th>Type</th>
+      <th>Value</th>
+      <th>Driver</th>
+      <th>Tags</th>
+      <th>Pins</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    % my @gpios=@$gpios;
+    % if (@gpios and scalar @gpios > 0){
+    %   foreach (@gpios) {
+    <tr class="gpio" id="<%= $_->id %>">
+      <td class="gpio-id"><%= $_->id %></td>
+      <td class="gpio-pin-id"><%= $_->gpio %></td>
+      <td class="gpio-node"><%= $_->node %></td>
+      <td class="gpio-type <%= $_->type %>"><%= $_->type %></td>
+      <td class="gpio-value"><%= $_->status %></td>
+      <td class="gpio-driver <%= $_->driver %>"><%= $_->driver %></td>
+      <td>
+        <button type="button" class="btn btn-default gpio-tags" data-poptype="gpio-tags">
+        <span class="glyphicon glyphicon-th-list"></span> Tags
+        </button>
+        %=  include '/components/tags_popover', tags => $_->tags_data, gpioid => $_->id
+      </td>
+      <td>
+        <button type="button" class="btn btn-default gpio-pins" data-poptype="gpio-pins">
+        <span class="glyphicon glyphicon-th-list"></span> Pins
+        </button>
+        %=  include '/components/pins_popover', pins => $_->pins_data, gpioid => $_->id
+      </td>
+      <td><a href="#" class="delete-row" data-type="gpio"><span class="glyphicon glyphicon-trash"></span></a></td>
+    </tr>
+    %   }
+    % }
+  </tbody>
+</table>

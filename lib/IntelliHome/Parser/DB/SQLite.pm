@@ -4,36 +4,116 @@ extends 'IntelliHome::Parser::DB::Base';
 use IntelliHome::Schema::SQLite::Schema;
 use IntelliHome::Utils qw(load_module);
 
-has 'Schema' => ( is => "rw" );
+has 'dsn' => (
+    is      => "rw",
+    default => 'dbi:SQLite:/var/lib/intellihome/intellihome.db'
+);
 
-sub BUILD {
-    my $self = shift;
-    $self->Schema(
-        IntelliHome::Schema::SQLite::Schema->connect(
-            'dbi:SQLite:/var/lib/intellihome/intellihome.db')
-    );
+sub Schema {
+    return IntelliHome::Schema::SQLite::Schema->connect( shift->dsn );
 }
 
 sub search_gpio {
     my $self = shift;
     my $tag  = shift;
     return $self->Schema->resultset('GPIO')
-        ->search( { 'tag.tag' => $tag }, { join => [qw/ gpioid /] } );
+        ->search( { 'tag.tag' => $tag }, { join => [qw/ gpioid /] } )->all();
 }
 
 sub search_gpio_pin {
     my $self = shift;
-    my $pin  = shift;
+    my $id   = shift;
 
-    # return IntelliHome::Schema::Mongo::GPIO->find_one(
-    #     { '$or' => [ { pin_id => $pin }, { pins => $pin } ] } );
+    my $gpio_rs
+        = $self->Schema->resultset('GPIO')->single( { gpioid => $id } );
+    return $gpio_rs->search_related('pins')->all;
+}
+
+sub search_gpio_id {
+    my $self = shift;
+    my $id   = shift;
+    return $self->Schema->resultset('GPIO')->single( { gpioid => $id } );
+}
+
+sub get_all_gpio {
+    my $self = shift;
+    return $self->Schema->resultset('GPIO')->all();
+}
+
+sub get_all_gpio_data {
+    my $self = shift;
+    return map {
+        $_ = {
+            title => $_->tags->first ? $_->tags->first()->tag : "",
+            id    => $_->gpioid,
+            image => 0,
+            driver => $_->driver,
+            status => $_->status,
+            toggle => ( ( split( /::/, $_->driver ) )[-1] eq "Mono" ) ? 1 : 0,
+            gpio   => $_->pin_id,
+            node_data => [ $_->node ],
+            type      => $_->type,
+            room      => $_->node->room->name,
+            tags_data => [ $_->tags->all() ],
+            pins_data => [ $_->pins->all() ]
+        };
+        $_;
+    } $self->Schema->resultset('GPIO')->all();
+}
+
+sub get_all_rooms {
+    my $self = shift;
+    return map {
+        $_ = {
+            id          => $_->roomid,
+            name        => $_->name,
+            location    => $_->location,
+            description => $_->description,
+            notes       => $_->notes,
+            nodes_data  => [ $_->nodes->all() ]
+        };
+        $_;
+    } $self->Schema->resultset('Room')->all();
+}
+
+sub get_all_nodes {
+    my $self = shift;
+    return map {
+        $_ = {
+            id          => $_->nodeid,
+            name        => $_->name,
+            description => $_->description,
+            host        => $_->host,
+            port        => $_->port,
+            type        => $_->type,
+            username    => $_->username,
+            password    => $_->password,
+            gpios_data  => [ $_->gpios->all() ],
+            room_data   => [ $_->room ]
+        };
+        $_;
+    } $self->Schema->resultset('Node')->all();
+}
+
+sub search_room {
+    my $self = shift;
+    my $room = shift;
+    return $self->Schema->resultset('Room')
+        ->search( { name => { 'like', '%' . $room . '%' } } )->all();
+}
+
+sub search_node {
+    my $self = shift;
+    my $node = shift;
+    return $self->Schema->resultset('Node')
+        ->search( { name => { 'like', '%' . $node . '%' } } )->all();
 }
 
 sub search_trigger {
     my $self    = shift;
     my $trigger = shift;
     return $self->Schema->resultset('Trigger')
-        ->search( { trigger => { 'like', '%' . $trigger . '%' }, } );
+        ->search( { trigger => { 'like', '%' . $trigger . '%' } } );
 }
 
 sub getTriggers {
@@ -86,18 +166,88 @@ sub addTask {
 }
 
 sub addNode {
-    my $self    = shift;
-    my $Options = shift;
-    my $Room    = shift;
-    my $r       = $self->Schema->resultset('Room')
-        ->search( { name => $Room->{'name'} } );
-    return 0 unless ($r);
-    my $Node = $self->Schema->resultset('Node')
-        ->search( { host => $Options->{'host'} } );
-    return 0 unless ($Node);
-    my $new_node = $self->Schema->resultset('Node')->new( %{$Options} );
-    $new_node->room( $r->roomid );
-    return $new_node->insert;
+    my $self = shift;
+    my $node = shift;
+    my $room = shift;
+    my $r    = $self->Schema->resultset('Room')
+        ->search( { roomid => $room->{'id'} } )->single;
+    return undef unless ($r);
+    return undef
+        if ( $self->Schema->resultset('Node')
+        ->search( { host => $node->{'host'}, type => $node->{'type'} } )
+        ->single );
+    $node->{'roomid'} = $room->{'id'};
+    return $self->Schema->resultset('Node')->create($node);
+}
+
+sub add_room {
+    my $self = shift;
+    my $room = shift;
+   # return undef
+    #    if ( $self->Schema->resultset('Room')
+     #   ->search( { name => $room->{'name'} } )->single );
+    return $self->Schema->resultset('Room')->create($room);
+}
+
+sub add_tag {
+    my $self = shift;
+    my $tag  = shift;
+    my $gpio = shift;
+    my $g    = $self->Schema->resultset('GPIO')
+        ->search( { gpioid => $gpio->{'id'} } )->single;
+    return undef unless ($g);
+    return undef
+        if (
+        $self->Schema->resultset('Tag')->search( { tag => $tag->{'tag'} } )
+        ->single );
+    $tag->{'gpioid'} = $gpio->{'id'};
+    return $self->Schema->resultset('Tag')->create($tag);
+}
+
+sub add_pin {
+    my $self = shift;
+    my $pin  = shift;
+    my $gpio = shift;
+    my $g    = $self->Schema->resultset('GPIO')
+        ->search( { gpioid => $gpio->{'id'} } )->single;
+    return undef unless ($g);
+    return undef
+        if ( $self->Schema->resultset('Pin')
+        ->search( { pin => $pin->{'pin'}, gpioid => $gpio->{'id'} } )
+        ->single );
+    $pin->{'gpioid'} = $gpio->{'id'};
+    $pin->{'value'} = 0 if ( !exists $pin->{'value'} );
+    return $self->Schema->resultset('Pin')->create($pin);
+}
+
+sub add_gpio {
+    my $self = shift;
+    my $gpio = shift;
+    my $node = shift;
+    my $n    = $self->Schema->resultset('Node')
+        ->search( { nodeid => $node->{'id'} } )->single;
+    return undef unless ($n);
+    return undef
+        if ( $self->Schema->resultset('GPIO')
+        ->search( { pin_id => $gpio->{'pin_id'}, nodeid => $node->{'id'} } )
+        ->single );
+    $gpio->{'nodeid'} = $node->{'id'};
+    $gpio->{'value'} = 0 if ( !exists $gpio->{'value'} );
+
+    return $self->Schema->resultset('GPIO')->create($gpio);
+}
+
+sub delete_element {
+    my $self   = shift;
+    my $entity = shift;
+    my $id     = shift;
+    our @available_classes = qw(GPIO Node Pin Room Tag Trigger User Command);
+    return undef
+        if ( !defined $entity
+        or !( grep { $_ eq $entity } @available_classes ) );
+    return 1
+        if $self->Schema->resultset($entity)
+        ->search( { lc($entity) . "id" => $id } )->single->delete();
 }
 
 sub getNodes {
@@ -113,7 +263,9 @@ sub getActiveTasks {
 }
 
 sub node {
-    return shift;
+    my $self = shift;
+    my $node = "IntelliHome::Schema::SQLite::Schema::Result::Node";
+    return $node->new() if ( load_module($node) );
 }
 
 sub selectFromHost {

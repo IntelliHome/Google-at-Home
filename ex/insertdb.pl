@@ -9,8 +9,8 @@ my $schema = IntelliHome::Schema::SQLite::Schema->connect(
     'dbi:SQLite:/var/lib/intellihome/intellihome.db');
 
 my $room_data = {
-    'name'     => "cucina",
-    'location' => "cucina"
+    'name'     => "bedroom",
+    'location' => "bedroom first floor"
 };
 
 my $room = $schema->resultset('Room')->create($room_data);
@@ -40,7 +40,7 @@ my $node_two = $schema->resultset('Node')->create($node_data2);
 
 my $gpio_data1 = {
     'nodeid'   => $node_two->id,
-    'num_gpio' => 1,
+    'pin_id' => 1,
     'type'     => 3,
     'value'    => 0,
     'driver'   => "IntelliHome::Driver::GPIO::Mono"
@@ -48,7 +48,7 @@ my $gpio_data1 = {
 
 my $gpio_data2 = {
     'nodeid'   => $node_two->id,
-    'num_gpio' => 2,
+    'pin_id' => 2,
     'type'     => 1,
     'value'    => 1,
     'driver'   => "IntelliHome::Driver::GPIO::Dual"

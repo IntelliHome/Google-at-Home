@@ -1,0 +1,7 @@
+% my @items=@$tiles;
+<div class="row">
+% foreach my $tile (@items) {
+%=  include '/components/show_tiles', tile => $tile, single => $single
+% }
+</div><!-- row -->
+

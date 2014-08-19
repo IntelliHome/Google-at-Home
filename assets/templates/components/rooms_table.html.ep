@@ -1,0 +1,25 @@
+<table class="table" id="rooms-table" data-type="room">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Location</th>
+      <th>Description</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    %if(stash("rooms")){
+    %   foreach (@{stash("rooms")}) {
+    <tr class="room" id="<%= $_->id %>">
+      <td class="room-id"><%= $_->id %></td>
+      <td class="room-name"><%= $_->name %></td>
+      <td class="room-location"><%= $_->location %></td>
+      <td class="room-description"><%= $_->description %></td>
+      <td class="room-notes"><%= $_->notes %></td>
+      <td><a href="#" class="delete-row" data-type="room"><span class="glyphicon glyphicon-trash"></span></a></td>
+    </tr>
+    %   }
+    % }
+  </tbody>
+</table>
