@@ -22,7 +22,7 @@
       <td class="node-type <%= $_->type %>"><%= $_->type %></td>
       <td class="node-room"><%= $_->room %></td>
       <td class="node-description"><%= $_->description %></td>
-      <td><a href="#" class="delete-node"><span class="glyphicon glyphicon-trash"></span></a></td>
+      <td><a href="#" class="delete-row" data-type="node"><span class="glyphicon glyphicon-trash"></span></a></td>
     </tr>
     %   }
     % }

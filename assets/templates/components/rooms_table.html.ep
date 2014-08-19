@@ -17,7 +17,7 @@
       <td class="room-location"><%= $_->location %></td>
       <td class="room-description"><%= $_->description %></td>
       <td class="room-notes"><%= $_->notes %></td>
-      <td><a href="#" class="delete-room"><span class="glyphicon glyphicon-trash"></span></a></td>
+      <td><a href="#" class="delete-row" data-type="room"><span class="glyphicon glyphicon-trash"></span></a></td>
     </tr>
     %   }
     % }
