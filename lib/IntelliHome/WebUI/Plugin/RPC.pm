@@ -27,7 +27,9 @@ sub register {
                     print 'Error : ', $res->error_message . "\n";
                 }
                 else {
-                    return map { $_ = thaw($_); $_ } @{ $res->result };
+                    ref  $res->result eq "ARRAY"
+                        ? map { $_ = thaw($_); $_ } @{ $res->result }
+                        : ();
                 }
             }
             else {
