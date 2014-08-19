@@ -5,6 +5,7 @@ use IntelliHome::WebUI::Plugin::RPC;
 use IntelliHome::WebUI::Model::Tile;
 use IntelliHome::WebUI::Model::Room;
 use IntelliHome::WebUI::Model::Node;
+use JSON;
 
 sub register {
     my ( $self, $app, $conf ) = @_;
@@ -12,7 +13,7 @@ sub register {
         build_tiles => sub {
             my @tiles;
             push( @tiles, IntelliHome::WebUI::Model::Tile->new( %{$_} ) )
-                for shift->app->rpc_call_blocking("ask","gpio_data");
+                for shift->app->rpc_call_blocking( "ask", "gpio_data" );
             return @tiles;
         }
     );
@@ -20,7 +21,7 @@ sub register {
         build_rooms => sub {
             my @rooms;
             push( @rooms, IntelliHome::WebUI::Model::Room->new( %{$_} ) )
-                for shift->app->rpc_call_blocking("ask","get_rooms");
+                for shift->app->rpc_call_blocking( "ask", "get_rooms" );
             return @rooms;
             #return [shift->app->rpc_call_blocking("ask","get_rooms")];
         }
@@ -29,11 +30,72 @@ sub register {
         build_nodes => sub {
             my @nodes;
             push( @nodes, IntelliHome::WebUI::Model::Node->new( %{$_} ) )
-                for shift->app->rpc_call_blocking("ask","get_nodes");
+                for shift->app->rpc_call_blocking( "ask", "get_nodes" );
             return @nodes;
+
             #return [shift->app->rpc_call_blocking("ask","get_nodes")];
         }
     );
+
+    $app->helper(
+        build_new_node => sub {
+            return
+                shift->app->rpc_call_blocking( "db", "add_node", shift,
+                shift );
+
+            #return [shift->app->rpc_call_blocking("ask","get_nodes")];
+        }
+    );
+
+    $app->helper(
+        build_new_tag => sub {
+            return
+                shift->app->rpc_call_blocking( "db", "add_tag", shift,
+                shift );
+
+            #return [shift->app->rpc_call_blocking("ask","get_nodes")];
+        }
+    );
+
+    $app->helper(
+        build_new_gpio => sub {
+            return
+                shift->app->rpc_call_blocking( "db", "add_gpio", shift,
+                shift );
+        }
+    );
+    $app->helper(
+        build_new_pin => sub {
+            return
+                shift->app->rpc_call_blocking( "db", "add_pin", shift,
+                shift );
+        }
+    );
+    $app->helper(
+        build_new_room => sub {
+            my $room
+                = $_[0]->app->rpc_call_blocking( "db", "add_room", $_[1] );
+
+           # push( @{ $_[0]->app->rooms }, $room );
+           use Data::Dumper;
+           print Dumper $room;
+           # XXX:: Add room! missing javascript action after insert/delete
+            return $room;
+        }
+    );
+    $app->helper(
+        delete_entity => sub {
+            return
+                shift->app->rpc_call_blocking( "db", "delete", shift, shift );
+        }
+    );
+    $app->helper(
+        deserialize_form_data => sub {
+            map { ( $_->{name} =~ /new-(.*?)$/ )[0] => $_->{value} }
+                @{ decode_json $_[1] };
+        }
+    );
+
 }
 
 1;
