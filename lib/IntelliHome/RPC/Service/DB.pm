@@ -58,6 +58,7 @@ L<IntelliHome>, L<IntelliHome::Workers::Master::RPC> , L<MojoX::JSON::RPC::Servi
 use Carp::Always;
 use Mojo::Base 'IntelliHome::RPC::Service::Base';
 has 'IntelliHome';
+use YAML qw'freeze thaw';
 
 sub add_node {
     my ( $self, $tx, $node, $room ) = @_;
@@ -65,8 +66,8 @@ sub add_node {
     return [ map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->addNode( $node, $room ) ]
         if ( $self->IntelliHome->Parser->Backend->can("addNode")
-        && !defined($room)
-        && !defined($node) );
+        && defined($room)
+        && defined($node) );
 }
 
 sub delete {
@@ -75,8 +76,8 @@ sub delete {
         $self->IntelliHome->Parser->Backend->delete_element( $entity, $id )
         ]
         if ( $self->IntelliHome->Parser->Backend->can("delete_element")
-        && !defined($entity)
-        && !defined($id) );
+        && defined($entity)
+        && defined($id) );
 }
 
 sub add_room {
@@ -84,17 +85,16 @@ sub add_room {
     return [ map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->add_room($room) ]
         if ( $self->IntelliHome->Parser->Backend->can("add_room")
-        && !defined($room) );
+        && defined($room) );
 }
 
 sub add_gpio {
-    my ( $self, $tx, $gpio, $node ) = @_;
-
+    my ( $self, $tx,$gpio, $node ) = @_;
     return [ map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->add_gpio( $gpio, $node ) ]
         if ( $self->IntelliHome->Parser->Backend->can("add_gpio")
-        && !defined($gpio)
-        && !defined($node) );
+        && defined($gpio)
+        && defined($node) );
 }
 
 sub add_tag {
@@ -103,8 +103,8 @@ sub add_tag {
     return [ map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->add_tag( $tag, $gpio ) ]
         if ( $self->IntelliHome->Parser->Backend->can("add_tag")
-        && !defined($tag)
-        && !defined($gpio) );
+        && defined($tag)
+        && defined($gpio) );
 }
 
 sub add_pin {
@@ -113,8 +113,8 @@ sub add_pin {
     return [ map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->add_pin( $pin, $gpio ) ]
         if ( $self->IntelliHome->Parser->Backend->can("add_pin")
-        && !defined($pin)
-        && !defined($gpio) );
+        && defined($pin)
+        && defined($gpio) );
 }
 
 __PACKAGE__->register_rpc_method_names( 'add_node', 'add_room', 'add_gpio', 'add_tag', 'add_pin', 'delete' );
