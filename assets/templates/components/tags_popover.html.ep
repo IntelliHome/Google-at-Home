@@ -17,6 +17,7 @@
 		<div class="form-data-body col-sm-12 hide">
 			<div class="form-wrapper">
 				<form class="form-horizontal add-tag-form" role="form" data-gpioid="<%= $gpioid %>">
+					<input name="new-gpioid" type="hidden" value="<%= $gpioid %>">
 					<div class="form-group">
 						<div class="col-sm-12">
 							<input type="text" name="new-tag" placeholder="Tag Name (ex.: bedroom)" class="form-control" id="new-tag">
@@ -24,7 +25,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-12">
-							<input type="text" name="new-tag-description" placeholder="Tag Description" class="form-control" id="new-tag-description">
+							<input type="text" name="new-description" placeholder="Tag Description" class="form-control" id="new-tag-description">
 						</div>
 					</div>
 				</form>
@@ -34,7 +35,7 @@
 				<span class="glyphicon glyphicon-remove"></span>
 				<span>Close</span>
 				</button>
-				<button type="button" class="btn btn-primary modal-add is-popover" data-action="add-tag">
+				<button type="button" class="btn btn-primary modal-add is-popover" data-action="add_tag">
 				<i id="add-tag-spinner"></i>
 				<span>Add Tag</span>
 				</button>
