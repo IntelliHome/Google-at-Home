@@ -53,7 +53,7 @@ find(
             next if ( !/\.pm$/ );
             s/\.\///;
             s/\.pm/\.md/;
-            modulepod2markdown( $file, decamelize(s/\//::/reg) );
+            modulepod2markdown( $file, s/\//::/reg );
         },
         no_chdir => 1
     },
