@@ -129,6 +129,10 @@ is( ( $Backend->get_all_nodes() )[0]->{type},
     "master", "Get first node type" );
 is( $Backend->delete_element( "Node", $node_one->nodeid ),
     1, "Deleting Node 1 ok" );
+is( $Backend->delete_element( "Node", 42 ),
+    0, "Deleting non exitent node ok" );
+
+
 
 my $new_gpio = $Backend->add_gpio(
     {   'pin_id' => '22',
