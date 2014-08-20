@@ -1,0 +1,64 @@
+#!/usr/bin/perl
+use lib './lib';
+use Mojo::Util qw(spurt);
+use Pod::POM;
+use Pod::POM::View::Pod;
+
+use Pod::Markdown::Github;
+use File::Find;
+use constant SUBMODULE_DIR => "../docs/";
+use constant LIBS_DIR      => "./lib/";
+use feature 'say';
+use DateTime;
+use constant DATE => DateTime->now->hms . " " . DateTime->now->dmy('/');
+use feature 'say';
+
+sub modulepod2markdown {
+    my $pod = Pod::POM->new();
+    my $pom = $pod->parse_file( $_[0] ) || die $pod->error();
+    my $markdown;
+    my $parser = Pod::Markdown::Github->new( perldoc_url_prefix =>
+            'https://github.com/IntelliHome/Google-at-Home/wiki/' );
+    $parser->output_string( \$markdown );
+    $parser->parse_string_document( Pod::POM::View::Pod->print($pom) );
+    spurt( $markdown, SUBMODULE_DIR . $_[1] ) if $markdown =~ /[a-zA-Z]/g;
+}
+
+sub pull {
+    my $b = shift;
+    system("git pull");
+    system( "git merge origin " . $b );
+    system("git submodule update");
+}
+
+sub commit {
+    chdir(SUBMODULE_DIR);
+    system("mv IntelliHome.md Home.md");
+    system("git checkout master");
+    system("git add --all .");
+    system(   "git commit -am 'Documentation automatic snapshot - "
+            . DATE
+            . "'; git push -u origin master" );
+
+    chdir("../");
+    system(
+        "git commit -am 'Documentation automatic snapshot - " . DATE . "'" );
+}
+
+pull( $ARGV[0] ) if $ARGV[0];
+chdir(LIBS_DIR);
+
+find(
+    {   wanted => sub {
+            my $file = $_;
+            next if ( !/\.pm$/ );
+            s/\.\///;
+            s/\.pm/\.md/;
+            modulepod2markdown( $file, s/\//::/reg );
+        },
+        no_chdir => 1
+    },
+    "."
+);
+
+commit;
