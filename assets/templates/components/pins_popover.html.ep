@@ -4,12 +4,19 @@
 	</div>
 	<div class="content container">
 		<table class="table" data-type="pin">
+			<thead>
+				<tr>
+					<th>Pin</th>
+					<th>Type</th>
+					<th></th>
+				</tr>
+			</thead>
 			<tbody>
 				% foreach (@{$pins}){
-				<tr class="pin" id="<%= $_->pinid %>">
-					<td class="pin-pin"><%= $_->pin %></td>
-					<td class="pin-type"><%= $_->type %></td>
-					<td><a href="#" class="delete-pin" data-type="pin"><span class="glyphicon glyphicon-trash"></span></a></td>
+				<tr class="pin" id="<%= $_->{id} %>">
+					<td class="pin-pin"><%= $_->{pin} %></td>
+					<td class="pin-type"><%= $_->{type} %></td>
+					<td><a href="#" class="delete-row popover-remove-row" data-type="pin"><span class="glyphicon glyphicon-trash"></span></a></td>
 				</tr>
 				% }
 			</tbody>

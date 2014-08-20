@@ -4,12 +4,19 @@
 	</div>
 	<div class="content container">
 		<table class="table">
+			<thead>
+				<tr>
+					<th>Tag</th>
+					<th>Description</th>
+					<th></th>
+				</tr>
+			</thead>
 			<tbody>
 				% foreach (@{$tags}){
-				<tr class="tag" id="<%= $_->tagid %>">
-					<td class="tag-tag"><%= $_->tag %></td>
-					<td class="tag-description"><%= $_->description %></td>
-					<td><a href="#" class="delete-row" data-type="tag"><span class="glyphicon glyphicon-trash"></span></a></td>
+				<tr class="tag" id="<%= $_->{id} %>">
+					<td class="tag-tag"><%= $_->{tag} %></td>
+					<td class="tag-description"><%= $_->{description} %></td>
+					<td><a href="#" class="delete-row popover-remove-row" data-type="tag"><span class="glyphicon glyphicon-trash"></span></a></td>
 				</tr>
 				% }
 			</tbody>
