@@ -6,6 +6,7 @@
       <th>Host</th>
       <th>Port</th>
       <th>Type</th>
+      <th>Room</th>
       <th>Description</th>
       <th>Delete</th>
     </tr>
