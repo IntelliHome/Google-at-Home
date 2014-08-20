@@ -1,37 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
     <title>Google-at-home by IntelliHome</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
-
   <body>
-    <div id="container">
-      <div class="inner">
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/IntelliHome/Google-at-Home">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/IntelliHome/Google-at-Home/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/IntelliHome/Google-at-Home/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-        <header>
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
           <h1>Google-at-home</h1>
-          <h2>Google@Home brings google in your house!</h2>
-        </header>
+          <p>Google@Home brings google in your house!</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/IntelliHome">IntelliHome</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/IntelliHome/Google-at-Home/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/IntelliHome/Google-at-Home/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/IntelliHome/Google-at-Home" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
-
-        <hr>
-
-        <section id="main_content">
-          <h1>
+        <h1>
 <a name="googlehome-" class="anchor" href="#googlehome-"><span class="octicon octicon-link"></span></a>Google@Home <a href="https://travis-ci.org/IntelliHome/Google-at-Home"><img src="https://travis-ci.org/IntelliHome/Google-at-Home.png?branch=master" alt="Build Status"></a>
 </h1>
 
@@ -59,176 +66,15 @@
 <p>IntelliHome is a set of Perl libraries to handle all the domotic needs, like dispatching information on nodes, saving configurations, plugin handling and much more that bound together with google services form Google-at-Home, a complete, easy and affordable solution for your home control.</p>
 
 <h2>
-<a name="development-status" class="anchor" href="#development-status"><span class="octicon octicon-link"></span></a>Development status</h2>
-
-<p>For now you can setup some agents and a master: you speak at the microphone at an agent and the master compute the answer.</p>
-
-<p>Really, really prototype.</p>
-
-<p>Some things works, others don't, that's because it's currently in development so doesn't expect to run something successfully every time now, code is also ugly
-and obscure in some parts.</p>
-
-<p><strong>Until we reach a proper state of functionalities, won't be released a major release.</strong></p>
-
-<p>Some things must be properly redesigned yet.</p>
-
-<h2>
-<a name="structure" class="anchor" href="#structure"><span class="octicon octicon-link"></span></a>Structure</h2>
-
-<p>There are 2 kind of nodes:</p>
-
-<ul>
-<li>masters,</li>
-<li>agents or basics nodes.</li>
-</ul><p>A basic node can either be an agent or a master.</p>
-
-<p>The master takes the requests of agent's nodes, process them in a unique interface and send a reply back, so you will talk to the same Entity but you can ask things in parallel in different places on the house/infrastructure.
-The Agents can be a PC or an embedded device and we plan to give also a display interface.</p>
-
-<h2>
 <a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
 
-<h3>
-<a name="configurations" class="anchor" href="#configurations"><span class="octicon octicon-link"></span></a>Configurations</h3>
-
-<p>For now, we use SoX for recording on the mic so files are split up by silence (avoiding storage leaks) you have to calibrate properly those params (a proper wiki page will be prepared soon).</p>
-
-<h4>
-<a name="confignodesyaml" class="anchor" href="#confignodesyaml"><span class="octicon octicon-link"></span></a>config/nodes.yaml</h4>
-
-<p>For testing the default configuration are enough: they are configured so the master is also the node.
-You can set up the audio device by setting <em>HW</em>  according to what <code>aplay -l</code> gives you (need to find your recording device looking at the <code>card,device</code> pair).</p>
-
-<h4>
-<a name="configdatabaseyaml" class="anchor" href="#configdatabaseyaml"><span class="octicon octicon-link"></span></a>config/database.yaml</h4>
-
-<p>For testing the default configuration are enough.
-This file represent the configuration of the database backend, the <em>language</em> can be set there.</p>
-
-<h3>
-<a name="installing-dependencies" class="anchor" href="#installing-dependencies"><span class="octicon octicon-link"></span></a>Installing dependencies</h3>
-
-<p>You can install all deps typing <code>cpanm --installdeps .</code> (user install)
-If you want to have the dependencies avaible system wide run the command as root <code>sudo cpanm --installdeps .</code></p>
-
-<h3>
-<a name="software-dependencies" class="anchor" href="#software-dependencies"><span class="octicon octicon-link"></span></a>Software Dependencies</h3>
-
-<p>The nodes needs only <code>sox</code> installed in the box as external dependency.
-The master needs the proper database installed and configured:</p>
-
-<p>For now it's implemented the MongoDB Backend, this requires mongodb installed <em>only in the box of the master node</em>.</p>
-
-<p><strong>This repository ships out a default configuration of master and node on the same pc.</strong></p>
-
-<h3>
-<a name="full-setup" class="anchor" href="#full-setup"><span class="octicon octicon-link"></span></a>Full Setup</h3>
-
-<p>You don't need to install the software, you can just clone this repository and launch
-<code>intellihome-master</code> or <code>intellihome-node</code>.
-If you wish to install:</p>
-
-<pre><code>perl Makefile.PL      # optionally "perl Makefile.PL verbose"
-make
-make test             # optionally set TEST_VERBOSE=1
-sudo make install     # only if you want main modules installed in your libpath
-</code></pre>
-
-<h4>
-<a name="database" class="anchor" href="#database"><span class="octicon octicon-link"></span></a>Database</h4>
-
-<p>In the <code>ex/</code> directory there is a backup of a pre-configured database, if you have a clean install just do:</p>
-
-<p><code>mongorestore ex/dump</code>.</p>
-
-<h3>
-<a name="quick-start" class="anchor" href="#quick-start"><span class="octicon octicon-link"></span></a>Quick Start</h3>
-
-<p>You wanna just try out? fire up your terminal, clone the repository and launch :</p>
-
-<pre><code>git clone https://github.com/mudler/Google-at-Home.git
-cd Google-at-Home
-cpanm --installdeps .
-./intellihome-master
-</code></pre>
-
-<p>and in another terminal:</p>
-
-<pre><code>./intellihome-node
-</code></pre>
-
-<p>Now your PC will work both as master and node(default configuration). The plugin system is working, and the database setup it's WiP.</p>
-
-<h2>
-<a name="plugin" class="anchor" href="#plugin"><span class="octicon octicon-link"></span></a>Plugin</h2>
-
-<p>The plugin systems allow to extend the system by triggers that can be invoked by voice.
-Currently plugins are WiP so api can change and most of them are drafts:</p>
-
-<ul>
-<li>
-<a href="https://github.com/mudler/IntelliHome-Plugin-Wikipedia">IntelliHome::Plugin::Wikipedia</a> - Allow to search in wikipedia with the <em>"wikipedia "</em> trigger</li>
-<li>
-<a href="https://github.com/mudler/IntelliHome-Plugin-Hailo">IntelliHome::Plugin::Hailo</a> - Makes your computer speak with MegaHAL! - just for fun :)</li>
-<li>
-<a href="https://github.com/IntelliHome/IntelliHome-Plugin-Relay">IntelliHome::Plugin::Relay</a> - Allow to command the agents relays </li>
-<li>...</li>
-</ul><h2>
-<a name="android-application" class="anchor" href="#android-application"><span class="octicon octicon-link"></span></a>Android application</h2>
-
-<p>The android application its in WiP, if you are interested contributing, <a href="https://github.com/IntelliHome/Google-at-Home-Remote-Controller">here it is the repository</a></p>
-
-<h2>
-<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>Todo</h2>
-
-<ul>
-<li>[x] Making a wrapper to linux gpio functionality</li>
-<li>[x] Make the node communicate</li>
-<li>[x] Delivering functions on a master node</li>
-<li>[x] Master node accept and respond to requests</li>
-<li>[x] Speech interface thru google</li>
-<li>[x] SpeechToText thru google</li>
-<li>[x] Ideas for a better database schema to collect and display informations</li>
-<li>[x] Auto-Calibration of mic <del>or an aided one</del>
-</li>
-<li>[ ] Write an api so to open the possibility to build an Android app or a web interface</li>
-<li>[ ] Relay control plugin</li>
-<li>[ ] <em>Google Now</em> functionality interface</li>
-<li>[ ] Write Display interface</li>
-<li>[ ] Agents offline routines</li>
-<li>[ ] Video surveillance and alarm</li>
-<li>[ ] Simple majordomo interface with a personality (did you remember Jarvis?:P)</li>
-</ul><hr><h2>
-<a name="special-gsoc" class="anchor" href="#special-gsoc"><span class="octicon octicon-link"></span></a>Special: GSoC</h2>
-
-<p>Have a look at <a href="GSoC.md">GSoC</a> to see what are the proposed tasks</p>
-
-<hr><h2>
-<a name="notes" class="anchor" href="#notes"><span class="octicon octicon-link"></span></a>Notes</h2>
-
-<p>We need to buy a raspberryPi but we are testing our work on a FOXG20 board. But the code is written to be portable so we don't think things
-works really different.
-Another thing, this project is strictly correlated with our lifes, that's because we are making our home with that: let's consider us first
-alfa-proto-beta-testers :)</p>
-
-<hr><h2>
-<a name="contact" class="anchor" href="#contact"><span class="octicon octicon-link"></span></a>Contact</h2>
-
-<p>Suggestions, pull request or contributors, Bugs report, everything is well accepted.
-E-Mail: <a href="mailto:mudler@dark-lab.net">mudler@dark-lab.net</a>, <a href="mailto:skullbocks@dark-lab.net">skullbocks@dark-lab.net</a></p>
-
-<p>IRC: irc.perl.org , #google-at-home</p>
+<p>For installation, configuration and documentation have a look at the <a href="https://github.com/IntelliHome/Google-at-Home/wiki">Wiki</a></p>
 
 <hr><p>Everything is released under GPLv3</p>
-        </section>
+      </section>
 
-        <footer>
-          Google-at-home is maintained by <a href="https://github.com/IntelliHome">IntelliHome</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
-
-        
-      </div>
     </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
   </body>
 </html>
