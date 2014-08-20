@@ -14,11 +14,16 @@
             window.location.href = $(this).attr("data-post");
         });
         $body.on('click', '.delete-row', function() {
-            $.post("/admin/delete_" + $(this).attr("data-type") + "/" + $(this).parent().parent().attr("id"), function(data) {
-                if (data == 1) {
-                    $(this).parent().parent().hide("fast").remove();
+            var $thisButton = $(this);
+            console.log($thisButton.parent().parent());
+            $.post("/admin/delete_" + $thisButton.attr("data-type") + "/" + $thisButton.parent().parent().attr("id"), function(data) {
+                if (data.result == 1) {
+                    $thisButton.parent().parent().hide("fast").remove();
+                    if ($thisButton.hasClass('.popover-remove-row')){
+                        $(".popover-gpio-"+$thisButton.attr("data-type")).find('tr#'+$thisButton.parent().parent().attr("id")).remove();
+                    }
                 }
-            });
+            }, 'json');
         });
         $gpioPopover.popover({
             html: true,
