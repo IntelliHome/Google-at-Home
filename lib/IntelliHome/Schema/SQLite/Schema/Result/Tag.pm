@@ -2,7 +2,7 @@ package IntelliHome::Schema::SQLite::Schema::Result::Tag;
 
 =head1 NAME
 
-IntelliHome::Schema::SQLite::Schema::Result::Tag - DBIx::Class model that represent a Tag associated to a gpio 
+IntelliHome::Schema::SQLite::Schema::Result::Tag - DBIx::Class model that represent a Tag associated to a gpio
 
 =head1 DESCRIPTION
 
@@ -55,4 +55,11 @@ __PACKAGE__->belongs_to(
     'gpioid'
 );
 
+sub serialize {
+    {   id       => $_[0]->tagid,
+        gpioid      => $_[0]->gpioid,
+        tag         => $_[0]->tag,
+        description => $_[0]->description,
+    };
+}
 1;

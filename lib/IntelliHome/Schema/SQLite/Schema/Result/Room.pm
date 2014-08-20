@@ -2,7 +2,7 @@ package IntelliHome::Schema::SQLite::Schema::Result::Room;
 
 =head1 NAME
 
-IntelliHome::Schema::SQLite::Schema::Result::Room - DBIx::Class model that represent a Room in the house 
+IntelliHome::Schema::SQLite::Schema::Result::Room - DBIx::Class model that represent a Room in the house
 
 =head1 DESCRIPTION
 
@@ -51,5 +51,15 @@ __PACKAGE__->has_many(
     nodes => 'IntelliHome::Schema::SQLite::Schema::Result::Node',
     'roomid'
 );
+
+sub serialize {
+    {   id          => $_[0]->roomid,
+        name        => $_[0]->name,
+        location    => $_[0]->location,
+        description => $_[0]->description,
+        notes       => $_[0]->notes,
+        nodes_data  => [ map { $_->serialize } $_[0]->nodes->all() ]
+    };
+}
 
 1;

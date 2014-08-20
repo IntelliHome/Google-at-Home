@@ -2,7 +2,7 @@ package IntelliHome::Schema::SQLite::Schema::Result::GPIO;
 
 =head1 NAME
 
-IntelliHome::Schema::SQLite::Schema::Result::GPIO - DBIx::Class model that represent a GPIO 
+IntelliHome::Schema::SQLite::Schema::Result::GPIO - DBIx::Class model that represent a GPIO
 
 =head1 DESCRIPTION
 
@@ -89,6 +89,22 @@ __PACKAGE__->many_to_many( 'commands' => 'commandgpio', 'commandid' );
 
 sub status {
     shift->value(@_);
+}
+
+sub serialize {
+    {   title => $_[0]->tags->first ? $_[0]->tags->first()->tag : "",
+        id    => $_[0]->gpioid,
+        image => 0,
+        driver => $_[0]->driver,
+        status => $_[0]->status,
+        toggle => ( ( split( /::/, $_[0]->driver ) )[-1] eq "Mono" ) ? 1 : 0,
+        gpio   => $_[0]->pin_id,
+        node_data => [ $_[0]->node ],
+        type      => $_[0]->type,
+        room      => $_[0]->node->room->name,
+        tags_data => [ map { $_->serialize } $_[0]->tags->all() ],
+        pins_data => [ map { $_->serialize } $_[0]->pins->all() ]
+    };
 }
 
 1;
