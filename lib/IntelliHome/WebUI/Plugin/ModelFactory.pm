@@ -23,6 +23,7 @@ sub register {
             push( @rooms, IntelliHome::WebUI::Model::Room->new( %{$_} ) )
                 for shift->app->rpc_call_blocking( "ask", "get_rooms" );
             return @rooms;
+
             #return [shift->app->rpc_call_blocking("ask","get_rooms")];
         }
     );
@@ -75,11 +76,10 @@ sub register {
         build_new_room => sub {
             my $room
                 = $_[0]->app->rpc_call_blocking( "db", "add_room", $_[1] );
-
-           # push( @{ $_[0]->app->rooms }, $room );
-           use Data::Dumper;
-           print Dumper $room;
-           # XXX:: Add room! missing javascript action after insert/delete
+            push(
+                @{ $_[0]->app->rooms },
+                IntelliHome::WebUI::Model::Room->new( %{$room} )
+            );
             return $room;
         }
     );
