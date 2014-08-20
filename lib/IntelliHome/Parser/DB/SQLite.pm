@@ -37,62 +37,22 @@ sub search_gpio_id {
 
 sub get_all_gpio {
     my $self = shift;
-    return $self->Schema->resultset('GPIO')->all();
+    return map { $_->serialize } $self->Schema->resultset('GPIO')->all();
 }
 
 sub get_all_gpio_data {
     my $self = shift;
-    return map {
-        $_ = {
-            title => $_->tags->first ? $_->tags->first()->tag : "",
-            id    => $_->gpioid,
-            image => 0,
-            driver => $_->driver,
-            status => $_->status,
-            toggle => ( ( split( /::/, $_->driver ) )[-1] eq "Mono" ) ? 1 : 0,
-            gpio   => $_->pin_id,
-            node_data => [ $_->node ],
-            type      => $_->type,
-            room      => $_->node->room->name,
-            tags_data => [ $_->tags->all() ],
-            pins_data => [ $_->pins->all() ]
-        };
-        $_;
-    } $self->Schema->resultset('GPIO')->all();
+    return map { $_->serialize } $self->Schema->resultset('GPIO')->all();
 }
 
 sub get_all_rooms {
     my $self = shift;
-    return map {
-        $_ = {
-            id          => $_->roomid,
-            name        => $_->name,
-            location    => $_->location,
-            description => $_->description,
-            notes       => $_->notes,
-            nodes_data  => [ $_->nodes->all() ]
-        };
-        $_;
-    } $self->Schema->resultset('Room')->all();
+    return map { $_->serialize } $self->Schema->resultset('Room')->all();
 }
 
 sub get_all_nodes {
     my $self = shift;
-    return map {
-        $_ = {
-            id          => $_->nodeid,
-            name        => $_->name,
-            description => $_->description,
-            host        => $_->host,
-            port        => $_->port,
-            type        => $_->type,
-            username    => $_->username,
-            password    => $_->password,
-            gpios_data  => [ $_->gpios->all() ],
-            room_data   => [ $_->room ]
-        };
-        $_;
-    } $self->Schema->resultset('Node')->all();
+    return map { $_->serialize } $self->Schema->resultset('Node')->all();
 }
 
 sub search_room {
@@ -175,7 +135,7 @@ sub addNode {
     return undef
         if ( $self->Schema->resultset('Node')
         ->search( { host => $node->{'host'}, type => $node->{'type'} } )
-        ->single );
+        ->first );
     $node->{'roomid'} = $room->{'id'};
     return $self->Schema->resultset('Node')->create($node);
 }
@@ -183,9 +143,10 @@ sub addNode {
 sub add_room {
     my $self = shift;
     my $room = shift;
-   # return undef
-    #    if ( $self->Schema->resultset('Room')
-     #   ->search( { name => $room->{'name'} } )->single );
+
+    return undef
+       if ( $self->Schema->resultset('Room')
+      ->search( { name => $room->{'name'} } )->first );
     return $self->Schema->resultset('Room')->create($room);
 }
 
@@ -230,7 +191,7 @@ sub add_gpio {
     return undef
         if ( $self->Schema->resultset('GPIO')
         ->search( { pin_id => $gpio->{'pin_id'}, nodeid => $node->{'id'} } )
-        ->single );
+        ->first );
     $gpio->{'nodeid'} = $node->{'id'};
     $gpio->{'value'} = 0 if ( !exists $gpio->{'value'} );
 
@@ -245,9 +206,10 @@ sub delete_element {
     return undef
         if ( !defined $entity
         or !( grep { $_ eq $entity } @available_classes ) );
-    return 1
-        if $self->Schema->resultset($entity)
-        ->search( { lc($entity) . "id" => $id } )->single->delete();
+    my $rs = $self->Schema->resultset($entity)
+        ->search( { lc($entity) . "id" => $id } )->single;
+    return 0 unless $rs;
+    return 1 if $rs->delete();
 }
 
 sub getNodes {
@@ -271,12 +233,12 @@ sub node {
 sub selectFromHost {
     return
         shift->Schema->resultset('Node')
-        ->search( { Host => shift, type => shift } )->single;
+        ->search( { Host => shift, type => shift } )->first;
 }
 
 sub selectFromType {
     return
-        shift->Schema->resultset('Node')->search( { type => shift } )->single;
+        shift->Schema->resultset('Node')->search( { type => shift } )->first;
 
 }
 
