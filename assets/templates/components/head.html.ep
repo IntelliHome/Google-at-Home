@@ -1,0 +1,16 @@
+<head>
+	<meta charset="utf-8">
+	<title><%= title %></title>
+	%= content 'head'
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	%= asset "jquery.js"
+	%= asset "bootstrap.js"
+	%= asset "bootstrap.css"
+	%= asset "style.css"
+	<link rel="alternate" type="application/atom+xml" title="ATOM feed" href="/feed">
+	% if (defined stash 'tag_feed_url') {
+	<link rel="alternate" type="application/atom+xml" title="ATOM tag feed" href="<%= stash 'tag_feed_url' %>">
+	% }
+	<link href="http://fonts.googleapis.com/css?family=Skranji" rel="stylesheet" type="text/css">
+	<link href="http://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" type="text/css">
+</head>

@@ -1,0 +1,32 @@
+#!/usr/bin/env perl
+use lib './lib';
+
+use File::Basename 'dirname';
+
+use File::Spec;
+
+push @INC,
+    join( '/', File::Spec->splitdir( dirname(__FILE__) ), '..', 'lib' );
+use IntelliHome::IntelliHomeNodeMaster;
+use Getopt::Long;
+use Carp::Always;
+
+# Check if Mojolicious is installed;
+
+die <<EOF unless eval 'use Mojolicious::Commands; 1';
+
+It looks like you don't have the Mojolicious framework installed.
+
+Please visit http://mojolicio.us for detailed installation instructions.
+
+
+EOF
+
+# Application
+
+$ENV{MOJO_APP} ||= 'IntelliHome::IntelliHomeWebUI';
+
+# Start commands
+
+Mojolicious::Commands->start_app('IntelliHome::IntelliHomeWebUI');
+

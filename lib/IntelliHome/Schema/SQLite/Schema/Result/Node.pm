@@ -1,9 +1,8 @@
 package IntelliHome::Schema::SQLite::Schema::Result::Node;
 
-
 =head1 NAME
 
-IntelliHome::Schema::SQLite::Schema::Result::Node - DBIx::Class model that represent a Node 
+IntelliHome::Schema::SQLite::Schema::Result::Node - DBIx::Class model that represent a Node
 
 =head1 DESCRIPTION
 
@@ -95,6 +94,28 @@ sub Host {
 
 sub Port {
     shift->port(@_);
+}
+
+sub selectFromType {
+    caller->instance->Remote->Parser->Backend->selectFromType( $_[1] );
+}
+
+sub serialize {
+    {   id          => $_[0]->nodeid,
+        name        => $_[0]->name,
+        description => $_[0]->description,
+        host        => $_[0]->host,
+        port        => $_[0]->port,
+        type        => $_[0]->type,
+        username    => $_[0]->username,
+        password    => $_[0]->password,
+        gpios_data  => [ map { $_->serialize } $_[0]->gpios->all() ],
+        room_data   => [ $_[0]->room ]
+    };
+}
+
+sub selectFromHost {
+    caller->instance->Remote->Parser->Backend->selectFromHost( $_[1], $_[2] );
 }
 
 1;

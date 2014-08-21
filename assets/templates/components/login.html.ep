@@ -1,0 +1,17 @@
+<div class="container">
+	<div class="login-container">
+        <div id="output"></div>
+        <div class="avatar"></div>
+        <div class="form-box">
+            <form action="" method="">
+                %= text_field 'username', type => 'text', required => "true", class=> "form-control", placeholder=> "username"
+                %= password_field 'password', required => "true", class=> "form-control" , placeholder=>"password"
+                %= submit_button 'Login', class => 'btn btn-info btn-block login'
+            </form>
+            <hr>
+            <a type="button" class="btn btn-default btn-lg" href="/">
+                <span class="glyphicon glyphicon-home"></span> Back to Home
+            </a>
+        </div>
+    </div> 
+</div>

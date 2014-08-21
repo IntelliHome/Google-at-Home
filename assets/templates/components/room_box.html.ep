@@ -1,0 +1,46 @@
+<!-- Modal Box -->
+<div class="modal fade" id="add-room-box" tabindex="-1" role="dialog" aria-labelledby="room-box-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content form-data-body">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title" id="room-box-label">Add new Room</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" role="form" id="add-room-form">
+          <div class="form-group">
+            <label for="new-name" class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+              <input type="text" name="new-name" placeholder="ex.: bedroom" class="form-control" id="new-room-name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="new-location" class="col-sm-2 control-label">Location (optional)</label>
+            <div class="col-sm-10">
+              <input type="text" name="new-location" placeholder="ex.: backyard" class="form-control" id="new-room-location">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="new-description" class="col-sm-2 control-label">Description (optional)</label>
+            <div class="col-sm-10">
+              <textarea name="new-description" placeholder="Description" class="form-control" rows="3" id="new-room-description"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="new-notes" class="col-sm-2 control-label">Notes (optional)</label>
+            <div class="col-sm-10">
+              <textarea name="new-notes" placeholder="Notes" class="form-control" rows="3" id="new-room-notes"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary modal-add" id="add-room-button" data-action="add_room">
+          <i id="add-room-spinner"></i>
+          <span>Add Room</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

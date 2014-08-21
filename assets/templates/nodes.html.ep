@@ -1,0 +1,18 @@
+% layout 'default';
+% title config('name');
+<div class="container">
+	<div class="row">
+		<h1>Nodes Table</h1>
+	</div>
+	<div class="row">
+		Here you can find the nodes in your home.
+	</div>
+	<div class="row">
+		%=  include '/components/nodes_table', nodes => stash('nodes')
+		% my $node_button_attr = (stash("rooms")) ? "data-toggle=modal data-target=#add-node-box" : "disabled=disabled" ;
+		<button type="button" class="btn btn-success pull-right" <%= $node_button_attr%> >
+		<span class="glyphicon glyphicon-plus"></span> Add new Node
+		</button>
+	</div>
+</div>
+%=  include '/components/node_box'

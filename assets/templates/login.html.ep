@@ -1,0 +1,6 @@
+% layout 'login-layout';
+% title config('name');
+% content_for head => begin
+%= asset "login-style.css"
+% end
+%=  include '/components/login'

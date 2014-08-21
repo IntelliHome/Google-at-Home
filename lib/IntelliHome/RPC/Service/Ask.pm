@@ -26,6 +26,24 @@ Query the database backend, returning a list of nodes object (Schema dependant).
 The C<$query> must be an hashref of key => values that matches a gpio.
 If C<$query> is not given it returns all the elements.
 
+=item get_nodes($name)
+
+Query the database backend, returning a list of YAML serialized nodes.
+The C<$name> is used to filter by name.
+If C<$name> is not given it returns all the elements.
+
+=item gpio_data($tag)
+
+Query the database backend, returning a list of YAML serialized gpios.
+The C<$tag> is used to filter by tag.
+If C<$tag> is not given it returns all the elements.
+
+=item get_rooms($name)
+
+Query the database backend, returning a list of YAML serialized rooms.
+The C<$name> is used to filter by name.
+If C<$name> is not given it returns all the elements.
+
 =back
 
 =head1 ATTRIBUTES
@@ -41,17 +59,64 @@ L<IntelliHome>, L<IntelliHome::Workers::Master::RPC> , L<MojoX::JSON::RPC::Servi
 use Carp::Always;
 use Mojo::Base 'IntelliHome::RPC::Service::Base';
 has 'IntelliHome';
+use YAML qw'freeze thaw';
 
 sub gpio {
     my ( $self, $tx, $tag ) = @_;
-    return $self->IntelliHome->Parser->Backend->search_gpio( $tag ||= "." );
+
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->get_all_gpio() ]
+        if ( $self->IntelliHome->Parser->Backend->can("get_all_gpio")
+        && !defined($tag) );
+    return
+        map { $_ = freeze $_; $_ }
+        $self->IntelliHome->Parser->Backend->search_gpio( $tag ||= "." );
+
+}
+
+sub gpio_data {
+    my ( $self, $tx, $tag ) = @_;
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->get_all_gpio_data() ]
+        if ( $self->IntelliHome->Parser->Backend->can("get_all_gpio_data")
+        && !defined($tag) );
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->search_gpio( $tag ||= "." )
+    ];
+
+}
+
+sub get_rooms {
+    my ( $self, $tx, $room ) = @_;
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->get_all_rooms() ]
+        if ( $self->IntelliHome->Parser->Backend->can("get_all_rooms")
+        && !defined($room) );
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->search_room( $room ||= "." )
+    ];
+
+}
+
+sub get_nodes {
+    my ( $self, $tx, $node ) = @_;
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->get_all_nodes() ]
+        if ( $self->IntelliHome->Parser->Backend->can("get_all_nodes")
+        && !defined($node) );
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->search_node( $node ||= "." )
+    ];
+
 }
 
 sub nodes {
     my ( $self, $tx, $query ) = @_;
-    return $self->IntelliHome->Parser->Backend->getNodes($query);
+    return [ map { $_ = freeze $_; $_ }
+            $self->IntelliHome->Parser->Backend->getNodes($query) ];
 }
 
-__PACKAGE__->register_rpc_method_names( 'gpio', 'nodes' );
+__PACKAGE__->register_rpc_method_names( 'gpio', 'nodes', 'gpio_data',
+    'get_rooms', 'get_nodes' );
 
 1;

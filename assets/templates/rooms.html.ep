@@ -1,0 +1,17 @@
+% layout 'default';
+% title config('name');
+<div class="container">
+	<div class="row">
+		<h1>Rooms Table</h1>
+	</div>
+	<div class="row">
+		Here you can find the rooms of your home.
+	</div>
+	<div class="row">
+		%=  include '/components/rooms_table'
+		<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#add-room-box">
+		<span class="glyphicon glyphicon-plus"></span>Add new Rooms
+		</button>
+	</div>
+</div>
+%=  include '/components/room_box'
