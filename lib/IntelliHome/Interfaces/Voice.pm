@@ -2,7 +2,6 @@ package IntelliHome::Interfaces::Voice;
 use Moo;
 use IntelliHome::Google::TTS;
 use IPC::Open3;
-use Data::Dumper;
 use IntelliHome::Connector;
 
 extends 'IntelliHome::Interfaces::Interface';

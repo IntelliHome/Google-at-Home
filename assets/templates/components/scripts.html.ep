@@ -1,0 +1,10 @@
+%= asset "web.js"
+%= asset "app.js"
+<!--[if lte IE 8]>
+<script>
+$(document).ready(function() {
+	// IE8 compatibility of pseudo-class
+	$('.iso .row').first().css({margin:'0'});
+});
+</script>
+<![endif]-->

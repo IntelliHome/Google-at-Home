@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en">
+  %= include 'components/head'
+  <body>
+    %= include 'components/menu'
+    %= content
+    %= include 'components/footer'
+    %= include 'components/scripts'
+  </body>
+</html>

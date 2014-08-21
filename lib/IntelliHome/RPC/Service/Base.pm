@@ -1,4 +1,5 @@
 package IntelliHome::RPC::Service::Base;
+
 =head1 NAME
 
 IntelliHome::RPC::Service::Base - Base class for RPC Services
@@ -32,9 +33,12 @@ has 'IntelliHome';
 sub new {
     my $self = shift;
     $self = $self->SUPER::new(@_);
-    $self->{'_rpcs'}
-        ->{ lc( ( split( "::", ( $self =~ /(.*)\=/ )[0] ) )[-1] ) }
-        ->{'with_mojo_tx'} = 1;
+
+    #   $self->{'_rpcs'}
+    #     ->{ lc( ( split( "::", ( $self =~ /(.*)\=/ )[0] ) )[-1] ) }
+    #    ->{'with_mojo_tx'} = 1;
+    $self->{'_rpcs'}->{$_}->{'with_mojo_tx'} = 1
+        for ( keys %{ $self->{'_rpcs'} } );
     return $self;
 }
 

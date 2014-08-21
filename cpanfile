@@ -48,4 +48,5 @@ on configure => sub {
 on test => sub {
     requires 'MojoX::JSON::RPC::Client';
     requires 'Test::More';
+    requires 'DBD::SQLite';
 };

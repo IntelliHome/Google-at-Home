@@ -1,0 +1,56 @@
+<div class="popover-gpio-tags hide">
+	<div class="head">
+		Tags for this GPIO
+	</div>
+	<div class="content container">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Tag</th>
+					<th>Description</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				% foreach (@{$tags}){
+				<tr class="tag" id="<%= $_->{id} %>">
+					<td class="tag-tag"><%= $_->{tag} %></td>
+					<td class="tag-description"><%= $_->{description} %></td>
+					<td><a href="#" class="delete-row popover-remove-row" data-type="tag"><span class="glyphicon glyphicon-trash"></span></a></td>
+				</tr>
+				% }
+			</tbody>
+		</table>
+		<div class="form-data-body col-sm-12 hide">
+			<div class="form-wrapper">
+				<form class="form-horizontal add-tag-form" role="form" data-gpioid="<%= $gpioid %>">
+					<input name="new-gpioid" type="hidden" value="<%= $gpioid %>">
+					<div class="form-group">
+						<div class="col-sm-12">
+							<input type="text" name="new-tag" placeholder="Tag Name (ex.: bedroom)" class="form-control" id="new-tag">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<input type="text" name="new-description" placeholder="Tag Description" class="form-control" id="new-tag-description">
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="button-wrapper col-sm-12 pull-right">
+				<button type="button" class="btn btn-default popover-form-close is-popover">
+				<span class="glyphicon glyphicon-remove"></span>
+				<span>Close</span>
+				</button>
+				<button type="button" class="btn btn-primary modal-add is-popover" data-action="add_tag">
+				<i id="add-tag-spinner"></i>
+				<span>Add Tag</span>
+				</button>
+			</div>
+		</div>
+		<button type="button" class="btn btn-success pull-right popover-form-open add-tag">
+		<span class="glyphicon glyphicon-plus"></span>
+		<span> Add new Tag </span>
+		</button>
+	</div>
+</div>

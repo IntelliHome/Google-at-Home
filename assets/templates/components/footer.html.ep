@@ -1,0 +1,13 @@
+<div class="footer">
+	<footer class="container" id="footer">
+		<ul class="list-inline">
+			<li class="pull-right"><a href="#top">Back to top</a></li>
+			<li><a href="https://github.com/IntelliHome/Google-at-Home" target="_new">GitHub page</a></li>
+		</ul>
+		<div class="row">
+			<div class="col-md-12">
+				<p>IntelliHome Web Interface</p>
+			</div>
+		</div>
+	</footer>
+</div>

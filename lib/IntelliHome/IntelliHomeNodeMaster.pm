@@ -3,6 +3,7 @@ require IntelliHome::Interfaces::Terminal;
 require IntelliHome::Connector;
 require IntelliHome::Config;
 require IntelliHome::Workers::Master::RemoteSynth;
+require IntelliHome::Workers::Master::WebUI;
 require IntelliHome::Workers::Master::RPC;
 require IntelliHome::Parser::Base;
 require AnyEvent;
@@ -75,6 +76,7 @@ sub start {
             exit 0;
         }
     }
+
     IntelliHome::Workers::Master::RPC->new()->launch;
     IntelliHome::Connector->new(
         Config   => $self->Config,

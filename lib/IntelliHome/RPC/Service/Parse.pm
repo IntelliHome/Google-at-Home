@@ -34,7 +34,6 @@ L<IntelliHome>, L<IntelliHome::RPC::Service::Command>, L<IntelliHome::Workers::M
 use Carp::Always;
 use Mojo::Base 'IntelliHome::RPC::Service::Base';
 use feature 'say';
-use Data::Dumper;
 has 'IntelliHome';
 
 sub parse {

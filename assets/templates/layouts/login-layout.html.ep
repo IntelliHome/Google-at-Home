@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en">
+  %= include 'components/head'
+  <body>
+    %= content
+    %= asset "web.js"
+    %= asset "login.js"
+  </body>
+</html>

@@ -1,0 +1,137 @@
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+/* ---- .iso ---- */
+
+.iso {
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* clear fix */
+.iso:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+/* Browser Support of ':first-of-type' pseudo-class
+Chrome     Safari     Firefox  Opera     IE     Android   iOS
+Works      3.2+      Works       9.5+     9+      Works      Works
+*/
+.iso .row:first-of-type {
+  margin: 0;
+}
+
+.post {
+    margin: 10px 0;
+    max-width: 100%;
+    padding: 0;
+}
+
+.post .content {
+    padding: 20px;
+}
+
+/*
+* PAGINATION
+*/
+.pagination {
+    display: none;
+    visibility: hidden;
+}
+
+/*
+* MEDIA QUERIES
+*/
+
+@media (min-width: 768px) and (max-width: 980px) {
+  #iso .col-md-3, #iso .col-lg-3 {
+    width: 300px;
+  }
+}
+
+@media (min-width: 980px) and (max-width: 1300px) {
+  #iso .col-md-3, #iso .col-lg-3 {
+    width: 350px;
+  }
+}
+
+@media (min-width: 1300px) {
+  #iso .col-md-3, #iso .col-lg-3 {
+    width: 400px;
+  }
+}
+
+
+
+/* ---- .tile-item ---- */
+
+.tile-item {
+  position: relative;
+  float: left;
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  padding: 10px;
+  background: #888;
+  color: #262524;
+  opacity:1;
+}
+
+.tile-item > * {
+  margin: 0;
+  padding: 0;
+}
+
+.tile-item .name {
+  position: absolute;
+
+  left: 10px;
+  top: 60px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.tile-item .symbol {
+  position: absolute;
+  left: 10px;
+  top: 0px;
+  font-size: 42px;
+  font-weight: bold;
+  color: white;
+}
+
+.tile-item .pin-number {
+  position: absolute;
+  right: 8px;
+  top: 5px;
+}
+
+.tile-item .tile-room {
+  position: absolute;
+  left: 10px;
+  top: 76px;
+  font-size: 12px;
+}
+
+.tile-status-off {
+    opacity:0.5;
+}
+
+/* Defining color and background of tile type 
+.tile-item.lounge          { background: #F0*0; background: hsl(   0, 100%, 50%); }
+.tile-item.alkaline-earth  { background: #F80; background: hsl(  36, 100%, 50%); }
+.tile-item.kitchen      { background: #FF0; background: hsl(  72, 100%, 50%); }
+.tile-item.actinoid        { background: #0F0; background: hsl( 108, 100%, 50%); }
+.tile-item.transition      { background: #0F8; background: hsl( 144, 100%, 50%); }
+.tile-item.post-transition { background: #0FF; background: hsl( 180, 100%, 50%); }
+.tile-item.bedroom       { background: #08F; background: hsl( 216, 100%, 50%); }
+.tile-item.diatomic        { background: #00F; background: hsl( 252, 100%, 50%); }
+.tile-item.halogen         { background: #F0F; background: hsl( 288, 100%, 50%); }
+.tile-item.noble-gas       { background: #F08; background: hsl( 324, 100%, 50%); }
+*/
