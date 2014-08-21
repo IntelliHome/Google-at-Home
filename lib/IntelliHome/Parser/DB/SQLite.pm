@@ -36,8 +36,7 @@ sub search_gpio_id {
 }
 
 sub get_all_gpio {
-    my $self = shift;
-    return map { $_->serialize } $self->Schema->resultset('GPIO')->all();
+    shift->get_all_gpio_data;
 }
 
 sub get_all_gpio_data {
@@ -145,8 +144,8 @@ sub add_room {
     my $room = shift;
 
     return undef
-       if ( $self->Schema->resultset('Room')
-      ->search( { name => $room->{'name'} } )->first );
+        if ( $self->Schema->resultset('Room')
+        ->search( { name => $room->{'name'} } )->first );
     return $self->Schema->resultset('Room')->create($room);
 }
 

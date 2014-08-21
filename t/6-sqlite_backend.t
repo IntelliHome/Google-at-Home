@@ -117,9 +117,9 @@ is( ( $Backend->get_all_rooms )[0]->{name},
 is( scalar( $Backend->get_all_rooms ), 1, "One room" );
 is( ( $Backend->search_room("bed") )[0]->name,
     "bedroom", "Searching room name" );
-is( ( $Backend->get_all_gpio() )[0]->type,  3, "Get first gpio type" );
-is( ( $Backend->get_all_gpio() )[1]->type,  1, "Get second gpio type" );
-is( ( $Backend->get_all_gpio() )[1]->value, 1, "Get second gpio value" );
+is( ( $Backend->get_all_gpio() )[0]->{type},  3, "Get first gpio type" );
+is( ( $Backend->get_all_gpio() )[1]->{type},  1, "Get second gpio type" );
+is( ( $Backend->get_all_gpio() )[1]->{value}, 1, "Get second gpio value" );
 is( scalar( $Backend->get_all_gpio ), 2, "Two GPIOs" );
 is( ( $Backend->get_all_gpio_data() )[0]->{title},
     "serranda 1", "Get first gpio title (first tag)" );
@@ -127,16 +127,14 @@ is( ( $Backend->get_all_gpio_data() )[0]->{toggle},
     1, "Get first gpio toggle" );
 is( ( $Backend->get_all_nodes() )[0]->{type},
     "master", "Get first node type" );
-is( $Backend->delete_element( "Node", $node_one->nodeid ),
-    1, "Deleting Node 1 ok" );
 is( $Backend->delete_element( "Node", 42 ),
-    0, "Deleting non exitent node ok" );
+    0, "Deleting not exitent node ok" );
 
 
 
 my $new_gpio = $Backend->add_gpio(
-    {   'pin_id' => '22',
-        'type'   => '1',
+    {   'pin_id' => 22,
+        'type'   => 1,
         'driver' => 'IntelliHome::Driver::GPIO::Mono'
     },
     { id => 1 }
@@ -181,6 +179,8 @@ is( $Backend->addNode(
     "agent",
     "Adding a new node to the previous created room"
 );
+is( $Backend->delete_element( "Node", $node_one->nodeid ),
+    1, "Deleting Node 1 ok" );
 
 ###### TESTING BACKEND DB CONSISTENCY
 
