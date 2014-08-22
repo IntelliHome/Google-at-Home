@@ -14,31 +14,31 @@ IntelliHome::RPC::Service::Ask inherits all methods from  L<IntelliHome::RPC::Se
 
 =over
 
-=item gpio($tag)
+=item rpc_gpio($tag)
 
 Query the database backend, returning a list of GPIOs object (Schema dependant).
 The C<$tag> must be a tagged gpio.
 If C<$tag> is not given it returns all the elements.
 
-=item nodes($query)
+=item rpc_nodes($query)
 
 Query the database backend, returning a list of nodes object (Schema dependant).
 The C<$query> must be an hashref of key => values that matches a gpio.
 If C<$query> is not given it returns all the elements.
 
-=item get_nodes($name)
+=item rpc_get_nodes($name)
 
 Query the database backend, returning a list of YAML serialized nodes.
 The C<$name> is used to filter by name.
 If C<$name> is not given it returns all the elements.
 
-=item gpio_data($tag)
+=item rpc_gpio_data($tag)
 
 Query the database backend, returning a list of YAML serialized gpios.
 The C<$tag> is used to filter by tag.
 If C<$tag> is not given it returns all the elements.
 
-=item get_rooms($name)
+=item rpc_get_rooms($name)
 
 Query the database backend, returning a list of YAML serialized rooms.
 The C<$name> is used to filter by name.

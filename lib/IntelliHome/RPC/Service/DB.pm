@@ -14,45 +14,29 @@ IntelliHome::RPC::Service::DB inherits all methods from  L<IntelliHome::RPC::Ser
 
 =over
 
-=item add_node({ name => "NODENAME", port=>"NODEPORT"}, {id=>$room->id })
+=item rpc_add_node({ name => "NODENAME", port=>"NODEPORT"}, {id=>$room->id })
 
 Add the node to the db (the id is for roomid)
 
-=item add_room({name => "test", location => "bedroom first floor" })
+=item rpc_add_room({name => "test", location => "bedroom first floor" })
 
 Add the room to the db
 
-=item add_gpio({'pin_id' => '22','type' => '1','driver' => 'IntelliHome::Driver::GPIO::Mono'},{ id => $node->id })
+=item rpc_add_gpio({'pin_id' => '22','type' => '1','driver' => 'IntelliHome::Driver::GPIO::Mono'},{ id => $node->id })
 
 Add the gpio to the db (the id is for nodeid)
 
-=item add_tag({ tag => "test" }, { id => $gpio->id })
+=item rpc_add_tag({ tag => "test" }, { id => $gpio->id })
 
 Add the tag to the db (the id is for gpioid)
 
-=item add_pin({ pin => 44, type  => 4, value => 0 }, { id => $gpio->id })
+=item rpc_add_pin({ pin => 44, type  => 4, value => 0 }, { id => $gpio->id })
 
 Add the pin to the db (the id is for gpioid)
 
-=item delete_node("Node", 42)
+=item rpc_delete("Node", 42)
 
-delete the node to the db
-
-=item delete_room("Room", 42)
-
-delete the room to the db
-
-=item delete_gpio("GPIO", 42)
-
-delete the gpio to the db
-
-=item delete_tag("Tag", 42)
-
-delete the tag to the db
-
-=item delete_pin("Pin", 42)
-
-delete the pin to the db
+delete the Node resultset with the given id from the db
 
 =back
 
