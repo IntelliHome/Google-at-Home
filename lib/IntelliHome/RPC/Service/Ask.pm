@@ -61,10 +61,10 @@ use Mojo::Base 'IntelliHome::RPC::Service::Base';
 has 'IntelliHome';
 use YAML qw'freeze thaw';
 
-sub gpio {
+sub rpc_gpio {
     my ( $self, $tx, $tag ) = @_;
 
-    return [ map { $_ = freeze $_; $_ }
+    return [map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->get_all_gpio() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_gpio")
         && !defined($tag) );
@@ -74,9 +74,9 @@ sub gpio {
 
 }
 
-sub gpio_data {
+sub rpc_gpio_data {
     my ( $self, $tx, $tag ) = @_;
-    return [ map { $_ = freeze $_; $_ }
+    return [map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->get_all_gpio_data() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_gpio_data")
         && !defined($tag) );
@@ -86,9 +86,9 @@ sub gpio_data {
 
 }
 
-sub get_rooms {
+sub rpc_get_rooms {
     my ( $self, $tx, $room ) = @_;
-    return [ map { $_ = freeze $_; $_ }
+    return [map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->get_all_rooms() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_rooms")
         && !defined($room) );
@@ -98,9 +98,9 @@ sub get_rooms {
 
 }
 
-sub get_nodes {
+sub rpc_get_nodes {
     my ( $self, $tx, $node ) = @_;
-    return [ map { $_ = freeze $_; $_ }
+    return [map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->get_all_nodes() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_nodes")
         && !defined($node) );
@@ -110,13 +110,12 @@ sub get_nodes {
 
 }
 
-sub nodes {
+sub rpc_nodes {
     my ( $self, $tx, $query ) = @_;
     return [ map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->getNodes($query) ];
 }
 
-__PACKAGE__->register_rpc_method_names( 'gpio', 'nodes', 'gpio_data',
-    'get_rooms', 'get_nodes' );
+__PACKAGE__->register_rpc;
 
 1;
