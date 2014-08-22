@@ -1,6 +1,6 @@
 ---
 db_dsn: 'mongodb://localhost:27017'
-db_name: 'google-at-home'
-database_backend: Mongo
+db_name: '/var/lib/intellihome.db'
+database_backend: SQLite
 language: 'it'
 
