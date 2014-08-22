@@ -42,5 +42,18 @@ sub new {
     return $self;
 }
 
+sub register_rpc {
+    my $symbol = { eval( '%' . caller . "::" ) };
+    local @_;
+    foreach my $entry ( keys %{$symbol} ) {
+        no strict 'refs';
+        if ( defined &{ caller . "::$entry" } ) {
+            push( @_, $entry ) if $entry =~ /^rpc\_/; # this allows method suffixed by rpc_ to be automatically exported as rpc public services
+        }
+    }
+    use strict 'refs';
+    caller->register_rpc_method_names(@_);
+}
+
 1;
 
