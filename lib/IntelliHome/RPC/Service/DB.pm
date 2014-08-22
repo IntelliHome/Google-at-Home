@@ -20,7 +20,7 @@ Add the node to the db (the id is for roomid)
 
 =item add_room({name => "test", location => "bedroom first floor" })
 
-Add the room to the db 
+Add the room to the db
 
 =item add_gpio({'pin_id' => '22','type' => '1','driver' => 'IntelliHome::Driver::GPIO::Mono'},{ id => $node->id })
 
@@ -69,9 +69,8 @@ L<IntelliHome>, L<IntelliHome::Workers::Master::RPC> , L<MojoX::JSON::RPC::Servi
 use Carp::Always;
 use Mojo::Base 'IntelliHome::RPC::Service::Base';
 has 'IntelliHome';
-use YAML qw'freeze thaw';
 
-sub add_node {
+sub rpc_add_node {
     my ( $self, $tx, $node, $room ) = @_;
     my $newnode;
     return
@@ -84,7 +83,7 @@ sub add_node {
         : undef;
 }
 
-sub delete {
+sub rpc_delete {
     my ( $self, $tx, $entity, $id ) = @_;
     return !( $self->IntelliHome->Parser->Backend->can("delete_element")
         && defined($entity)
@@ -93,7 +92,7 @@ sub delete {
         : $self->IntelliHome->Parser->Backend->delete_element( $entity, $id );
 }
 
-sub add_room {
+sub rpc_add_room {
     my ( $self, $tx, $room ) = @_;
     my $newroom;
     return
@@ -104,7 +103,7 @@ sub add_room {
         : undef;
 }
 
-sub add_gpio {
+sub rpc_add_gpio {
     my ( $self, $tx, $gpio, $node ) = @_;
     my $newgpio;
 
@@ -118,7 +117,7 @@ sub add_gpio {
         : undef;
 }
 
-sub add_tag {
+sub rpc_add_tag {
     my ( $self, $tx, $tag, $gpio ) = @_;
     my $newtag;
 
@@ -132,7 +131,7 @@ sub add_tag {
         : undef;
 }
 
-sub add_pin {
+sub rpc_add_pin {
     my ( $self, $tx, $pin, $gpio ) = @_;
     my $newpin;
     return
@@ -145,6 +144,5 @@ sub add_pin {
         : undef;
 }
 
-__PACKAGE__->register_rpc_method_names( 'add_node', 'add_room', 'add_gpio',
-    'add_tag', 'add_pin', 'delete' );
+__PACKAGE__->register_rpc;
 1;

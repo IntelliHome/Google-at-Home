@@ -17,8 +17,9 @@ sub add {
 
 sub delete {
     my $self = shift;
-    $self->render(
-        { result => $self->delete_entity( "Node", $self->param("id") ) } );
+    $self->render( json =>
+            { result => $self->delete_entity( "Node", $self->param("id") ) }
+    );
 }
 
 1;
