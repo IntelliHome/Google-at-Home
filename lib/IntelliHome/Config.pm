@@ -7,11 +7,11 @@ use File::Find::Object;
 use Moo;
 with 'MooX::Singleton';
 
-has 'Nodes' => ( is => "rw" );
+has 'Nodes'            => ( is => "rw" );
 has 'RPCConfiguration' => ( is => "rw", default => sub { {} } );
-has 'DBConfiguration' => ( is => "rw", default => sub { {} } );
+has 'DBConfiguration'  => ( is => "rw", default => sub { {} } );
 
-has 'Dirs' => ( is => "rw", default=>sub{['./config']});
+has 'Dirs' => ( is => "rw", default => sub { ['./config'] } );
 has 'Output' => (
     is      => "rw",
     default => sub { return IntelliHome::Interfaces::Terminal->instance }
@@ -20,6 +20,12 @@ has 'Output' => (
 sub BUILD {
     my $self = shift;
     $self->read;
+}
+
+sub db {
+    return $_[0]->DBConfiguration->{'db_dsn'}
+        ? $_[0]->DBConfiguration->{'db_dsn'}
+        : $_[0]->DBConfiguration->{'db_name'};
 }
 
 sub read {
@@ -42,10 +48,8 @@ sub read {
             #Importing data in my hash with an index by host (for convenience)
                 foreach my $Key ( @{$yaml} ) {
 
-                    if (exists(
-                            $Key->{database_backend})
-                                and exists( $Key->{language} )
-                      
+                    if (    exists( $Key->{database_backend} )
+                        and exists( $Key->{language} )
 
                         #           and exists($Key->{username})
                         #               and exists ($Key->{password})
@@ -135,13 +139,14 @@ sub read {
                     }
 
                     if (    exists( $Key->{rpc_host} )
-                        and exists( $Key->{rpc_port} )
-                        )
+                        and exists( $Key->{rpc_port} ) )
                     {
-                        $self->RPCConfiguration->{'rpc_host'} = $Key->{'rpc_host'};
+                        $self->RPCConfiguration->{'rpc_host'}
+                            = $Key->{'rpc_host'};
                         $output->info( "RPC-Host: "
                                 . $self->RPCConfiguration->{'rpc_host'} );
-                        $self->RPCConfiguration->{'rpc_port'} = $Key->{'rpc_port'};
+                        $self->RPCConfiguration->{'rpc_port'}
+                            = $Key->{'rpc_port'};
                         $output->info( "RPC-Port: "
                                 . $self->RPCConfiguration->{'rpc_port'} );
                     }

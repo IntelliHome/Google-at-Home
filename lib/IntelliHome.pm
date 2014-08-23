@@ -134,10 +134,7 @@ you wish to install:
 
 =head2 Database
 
-In the C<ex/> directory there is a backup of a pre-configured database,
-if you have a clean install just do:
-
-C<mongorestore ex/dump>.
+Have a look at L<IntelliHome::Deployer::Schema::SQLite> to deploy the SQL schemas
 
 =head2 Quick Start
 
@@ -202,10 +199,10 @@ informations
 
 =item * [x] Auto-Calibration of mic
 
-=item * [ ] Write an api so to open the possibility to build an Android
+=item * [x] Write an api so to open the possibility to build an Android
 app or a web interface
 
-=item * [ ] Relay control plugin
+=item * [x] Relay control plugin
 
 =item * [ ] I<Google Now> functionality interface
 
