@@ -33,10 +33,16 @@ return L<threads> C<is_detached()> on the thread
 =cut
 
 use Moo::Role;
+use Config;
+if ( $Config{usethreads} ) {
+    require threads;
+    threads->import();
+}
+else {
+    require forks;
+    forks->import();
+}
 
-use forks;
-
-#Or you want to use forks?
 use Carp qw( croak );
 use IntelliHome::Utils qw(class_inner_name);
 has 'Directory' => ( is => "rw", default => "/tmp" );
