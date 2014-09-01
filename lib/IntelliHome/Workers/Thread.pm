@@ -34,13 +34,14 @@ return L<threads> C<is_detached()> on the thread
 
 use Moo::Role;
 use Config;
-if ( $Config{usethreads} ) {
+if ( $Config{usethreads} or $Config{useithreads} ) {
     require threads;
     threads->import();
 }
 else {
     require forks;
     forks->import();
+    $ENV{MOJO_REACTOR}="Mojo::Reactor::Poll";  #workaround for #34
 }
 
 use Carp qw( croak );
@@ -52,17 +53,8 @@ has 'thread'    => ( is => "rw" );
 
 sub start {
     my $self = shift;
-    if ( !defined $self->callback ) {
-        croak 'No callback defined for thread';
-    }
-    my $thr = threads->create(
-
-        $self->callback()
-
-        , @{ $self->args() }
-    );
-    $self->thread($thr);
-
+    croak 'No callback defined for thread' if ( !defined $self->callback );
+    $self->thread( threads->create( $self->callback(), @{ $self->args() } ) );
 }
 
 sub launch {
@@ -74,33 +66,27 @@ sub launch {
 }
 
 sub join {
-    my $self = shift;
-    if ( defined $self->thread ) {
-        $self->thread->join;
-    }
+    $_[0]->thread->join
+        if ( defined $_[0]->thread );
+    return $_[0];
 }
 
 sub stop {
-    my $self = shift;
-    if ( defined $self->thread and !$self->thread->is_detached ) {
-        $self->thread->kill('KILL')->detach;
-    }
+    $_[0]->thread->kill('KILL')->detach
+        if ( defined $_[0]->thread and !$_[0]->thread->is_detached );
+    return $_[0];
 }
 
 sub detach {
-    my $self = shift;
-    if ( defined $self->thread and !$self->thread->is_detached ) {
-        $self->thread->detach;
-    }
+    $_[0]->thread->detach
+        if ( defined $_[0]->thread and !$_[0]->thread->is_detached );
+    return $_[0];
 }
 
 sub signal {
-    my $self   = shift;
-    my $signal = shift;
-    if ( defined $self->thread and !$self->thread->is_detached ) {
-        $self->thread->kill($signal);
-    }
-    return $self->thread;
+    $_[0]->thread->kill( $_[1] )
+        if ( defined $_[0]->thread and !$_[0]->thread->is_detached );
+    return $_[0];
 }
 
 sub is_running { shift->thread->is_running(); }
