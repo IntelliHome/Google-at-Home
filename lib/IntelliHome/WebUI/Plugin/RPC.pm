@@ -49,8 +49,12 @@ sub register {
     $app->helper(
         rpc_call => sub {
             shift;
-            my $client   = MojoX::JSON::RPC::Client->new;
-            my $url      = 'http://localhost:3000/' . shift;
+            my $client = MojoX::JSON::RPC::Client->new;
+            my $url
+                = 'http://'
+                . $app->ih_config->RPCConfiguration->{'rpc_host'} . ':'
+                . $app->ih_config->RPCConfiguration->{'rpc_host'}
+                . shift;
             my $callback = shift;
             my $callobj  = {
                 id     => 1,
