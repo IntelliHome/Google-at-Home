@@ -4,7 +4,10 @@ use Carp qw(croak);
 with("MooX::Singleton");
 use IntelliHome::Utils qw(load_module);
 
-has 'Config' => ( is => "rw" );
+has 'Config' => (
+    is      => "rw",
+    default => sub { IntelliHome::Config->instance( Dirs => ['./config'] ) }
+);
 
 sub installPlugin {
     my $self = shift;

@@ -77,7 +77,7 @@ sub start {
         }
     }
 
-    IntelliHome::Workers::Master::RPC->new()->launch;
+    IntelliHome::Workers::Master::RPC->new()->launch("prefork", '-l', 'http://*:3000');
     IntelliHome::Connector->new(
         Config   => $self->Config,
         Node     => $self->Remote->Parser->node->selectFromType("master"),

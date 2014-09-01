@@ -4,6 +4,7 @@ use IntelliHome::Parser::DB::SQLite;
 use File::Path qw(make_path remove_tree);
 use_ok("IntelliHome::Deployer::Schema::SQLite");
 use_ok("DBD::SQLite");
+$ENV{INTELLIHOME_DB_NAME} = "/tmp/intellihome.db";
 
 #CLEANING
 unlink("/tmp/intellihome.db");

@@ -5,9 +5,13 @@ use IntelliHome::Schema::SQLite::Schema;
 use IntelliHome::Utils qw(load_module);
 
 has 'dsn' => (
-    is      => "rw",
-    default => 'dbi:SQLite:/var/lib/intellihome/intellihome.db'
+    is => "rw"
 );
+
+sub BUILD {
+    my $self = shift;
+    $self->dsn( 'dbi:SQLite:' . $self->Config->DBConfiguration->{'db_name'} );
+}
 
 sub Schema {
     return IntelliHome::Schema::SQLite::Schema->connect( shift->dsn );
