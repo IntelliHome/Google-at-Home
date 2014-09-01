@@ -27,13 +27,13 @@ sub run {
     # Application
     $ENV{MOJO_APP} = 'IntelliHome::IntelliHomeRPC';
     # Start commands
-    Mojolicious::Commands->start_app('IntelliHome::IntelliHomeRPC',"prefork", '-l', 'http://*:3000');
+    Mojolicious::Commands->start_app('IntelliHome::IntelliHomeRPC',@_);
 }
 
 sub launch {
     my $self = shift;
     $self->callback( \&run );
-    $self->args( [$self] );
+    $self->args( [$self,@_] );
     $self->start();
 }
 

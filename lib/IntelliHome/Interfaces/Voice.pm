@@ -7,16 +7,16 @@ use IntelliHome::Connector;
 extends 'IntelliHome::Interfaces::Interface';
 
 #declare display to change: has this arguments (caller, method,@message)
-has 'TTS' =>
-    ( is => "rw", default => sub { return IntelliHome::Google::TTS->new } );
+has 'TTS' => ( is => "rw" );
 has 'failback' => (
     is      => "rw",
     default => sub { return IntelliHome::Interfaces::Terminal->new }
 );
-has 'Node'   => ( is => "rw" );
+has 'Node' => ( is => "rw" );
 
 sub BUILD {
     my $self = shift;
+    $self->TTS( IntelliHome::Google::TTS->new );
     $self->TTS->Language( $self->Config->DBConfiguration->{'language'} )
         if ( defined $self->Config );
 }

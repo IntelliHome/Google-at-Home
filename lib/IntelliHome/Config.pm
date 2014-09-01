@@ -17,10 +17,7 @@ has 'Output' => (
     default => sub { return IntelliHome::Interfaces::Terminal->instance }
 );
 
-sub BUILD {
-    my $self = shift;
-    $self->read;
-}
+sub BUILD { shift->read; }
 
 sub db {
     return $_[0]->DBConfiguration->{'db_dsn'}
@@ -60,11 +57,16 @@ sub read {
                             and exists( $Key->{db_name} ) )
                         {
                             $self->DBConfiguration->{'db_dsn'}
-                                = $Key->{'db_dsn'};
+                                = $ENV{INTELLIHOME_DB_DSN}
+                                ? $ENV{INTELLIHOME_DB_DSN}
+                                : $Key->{'db_dsn'};
                             $output->info( "Database: "
                                     . $self->DBConfiguration->{'db_dsn'} );
+
                             $self->DBConfiguration->{'db_name'}
-                                = $Key->{'db_name'};
+                                = $ENV{INTELLIHOME_DB_NAME}
+                                ? $ENV{INTELLIHOME_DB_NAME}
+                                : $Key->{'db_name'};
                             $output->info( "Database: "
                                     . $self->DBConfiguration->{'db_name'} );
                         }

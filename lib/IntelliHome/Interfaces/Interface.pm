@@ -3,13 +3,15 @@ use Log::Any::Adapter;
 use Time::Piece;
 use Moo;
 with 'MooX::Singleton';
-has 'Today' => ( is => "rw" );
-has 'Year'  => ( is => "rw" );
-has 'Month' => ( is => "rw" );
-has 'Config' => (is=>"rw");
+has 'Today'  => ( is => "rw" );
+has 'Year'   => ( is => "rw" );
+has 'Month'  => ( is => "rw" );
+has 'Config' => ( is => "rw" );
+has 'log'    => ( is => "rw", default => sub {1} );
 
 sub setLogFile {
-    my $self  = shift;
+    my $self = shift;
+    return 1 if ( $self->log != 1 );
     my $month = Time::Piece->new->strftime('%m');
     my $day   = Time::Piece->new->strftime('%d');
     my $year  = Time::Piece->new->strftime('%Y');
@@ -50,13 +52,10 @@ sub AUTOLOAD {
     my $caller = caller();
     ( my $method = $AUTOLOAD ) =~ s/.*:://s;    # remove package name
     my $printable = uc($method);
-    if($method ne "DESTROY"){
-            $self->setLogFile();
-            $self->display( $caller, $method, @_ );
-
-
+    if ( $method ne "DESTROY" ) {
+        $self->setLogFile();
+        $self->display( $caller, $method, @_ );
     }
-
 }
 
 return 1;
