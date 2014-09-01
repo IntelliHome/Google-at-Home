@@ -77,7 +77,11 @@ sub start {
         }
     }
 
-    IntelliHome::Workers::Master::RPC->new()->launch("prefork", '-l', 'http://*:3000');
+    IntelliHome::Workers::Master::RPC->new()->launch( "prefork", '-l',
+              'http://'
+            . $self->Config->RPCConfiguration->{'rpc_host'} . ':'
+            . $self->Config->RPCConfiguration->{'rpc_port'} );
+    IntelliHome::Workers::Master::WebUI->new()->launch;
     IntelliHome::Connector->new(
         Config   => $self->Config,
         Node     => $self->Remote->Parser->node->selectFromType("master"),

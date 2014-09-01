@@ -38,6 +38,7 @@ use forks;
 
 #Or you want to use forks?
 use Carp qw( croak );
+use IntelliHome::Utils qw(class_inner_name);
 has 'Directory' => ( is => "rw", default => "/tmp" );
 has 'callback'  => ( is => "rw" );
 has 'args'      => ( is => "rw" );
@@ -56,6 +57,13 @@ sub start {
     );
     $self->thread($thr);
 
+}
+
+sub launch {
+    my $self = shift;
+    $self->callback( class_inner_name($self) . "::run" );
+    $self->args( [ $self, @_ ] );
+    $self->start();
 }
 
 sub join {
