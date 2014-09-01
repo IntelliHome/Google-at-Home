@@ -33,7 +33,7 @@ my $callobj = {
     params => ["apri serranda"]
 };
 my $RPC = IntelliHome::Workers::Master::RPC->new();
-$RPC->launch( "prefork", '-l', 'http://*:3000' );
+$RPC->launch( "prefork", '-l', 'http://*:3000' )->detach;
 sleep(4);
 $client->call(
     $url, $callobj,
@@ -56,7 +56,6 @@ $client->call(
                 = 'HTTP response ' . $tx_res->code . ' ' . $tx_res->message;
         }
         is( $output, "DUMMY-YUMMY!", "rpc-answer" );
-        $RPC->signal("TERM")->detach;
         $ENV{INTELLIHOME_DB_NAME} = undef;
 
         Mojo::IOLoop->stop;
