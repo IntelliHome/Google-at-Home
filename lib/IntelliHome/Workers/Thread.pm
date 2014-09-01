@@ -70,6 +70,7 @@ sub launch {
     $self->callback( class_inner_name($self) . "::run" );
     $self->args( [ $self, @_ ] );
     $self->start();
+    return $self;
 }
 
 sub join {
@@ -83,6 +84,13 @@ sub stop {
     my $self = shift;
     if ( defined $self->thread and !$self->thread->is_detached ) {
         $self->thread->kill('KILL')->detach;
+    }
+}
+
+sub detach {
+    my $self = shift;
+    if ( defined $self->thread and !$self->thread->is_detached ) {
+        $self->thread->detach;
     }
 }
 
