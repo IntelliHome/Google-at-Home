@@ -34,13 +34,14 @@ return L<threads> C<is_detached()> on the thread
 
 use Moo::Role;
 use Config;
-if ( $Config{usethreads} ) {
+if ( $Config{usethreads} or $Config{useithreads} ) {
     require threads;
     threads->import();
 }
 else {
     require forks;
     forks->import();
+    $ENV{MOJO_REACTOR}="Mojo::Reactor::Poll";  #workaround for #34
 }
 
 use Carp qw( croak );
