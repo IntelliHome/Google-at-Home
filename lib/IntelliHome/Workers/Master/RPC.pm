@@ -30,11 +30,4 @@ sub run {
     Mojolicious::Commands->start_app('IntelliHome::IntelliHomeRPC',@_);
 }
 
-sub launch {
-    my $self = shift;
-    $self->callback( \&run );
-    $self->args( [$self,@_] );
-    $self->start();
-}
-
 1;

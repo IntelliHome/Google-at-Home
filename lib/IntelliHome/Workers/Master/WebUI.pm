@@ -28,11 +28,4 @@ sub run {
     Mojolicious::Commands->start_app('IntelliHome::IntelliHomeWebUI',"prefork", '-l', 'http://*:8080');
 }
 
-sub launch {
-    my $self = shift;
-    $self->callback( \&run );
-    $self->args( [$self] );
-    $self->start();
-}
-
 1;

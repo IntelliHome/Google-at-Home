@@ -7,16 +7,19 @@ use Mojo::Loader;
 use constant SEPARATOR => ":";
 our @EXPORT_OK = qw(
     message_expand SEPARATOR message_compact daemonize cleanup stop_process load_module search_modules
+    class_inner_name
 );
 
 sub load_module($) {
-    my $module=shift;
-    my $e = Mojo::Loader->new->load($module);
+    my $module = shift;
+    my $e      = Mojo::Loader->new->load($module);
     warn qq{Loading "$module" failed: $e} and return 0 if ref $e;
     return 1;
 }
 
-sub search_modules($){
+sub class_inner_name($) { ( shift =~ /(.*)\=/ )[0]; }
+
+sub search_modules($) {
     return @{ Mojo::Loader->new->search(shift) };
 }
 
