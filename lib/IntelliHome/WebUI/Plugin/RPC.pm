@@ -13,8 +13,13 @@ sub register {
     $app->helper(
         rpc_call_blocking => sub {
             shift;
-            my $client  = MojoX::JSON::RPC::Client->new;
-            my $url     = 'http://localhost:3000/' . shift;
+
+            my $client = MojoX::JSON::RPC::Client->new;
+            my $url
+                = 'http://'
+                . $app->ih_config->RPCConfiguration->{'rpc_host'} . ':'
+                . $app->ih_config->RPCConfiguration->{'rpc_host'}
+                . shift;
             my $callobj = {
                 id     => 1,
                 method => shift,
@@ -27,16 +32,16 @@ sub register {
                     print 'Error : ', $res->error_message . "\n";
                 }
                 else {
-                    ref  $res->result eq "ARRAY"
+                    ref $res->result eq "ARRAY"
                         ? map { $_ = thaw($_); $_ } @{ $res->result }
-                        :  $res->result;
+                        : $res->result;
                 }
             }
             else {
                 return
                     ref $client->tx->res eq "ARRAY"
                     ? map { $_ = thaw($_); $_ } @{ $client->tx->res }
-                    :  $client->tx->res;
+                    : $client->tx->res;
 
             }
         }

@@ -16,11 +16,14 @@ use Mojolicious::Plugin::BootstrapAlerts;
 use Mojolicious::Plugin::AssetPack;
 use Mojolicious::Plugin::StaticCompressor;
 use Mojolicious::Plugin::Bootstrap3;
+use IntelliHome::Config;
 
 has 'rooms';
 has 'node_types';
 has 'gpio_types';
 has 'drivers';
+has 'ih_config' =>
+    sub { return IntelliHome::Config->instance( Dirs => ['./config'] ) };
 
 sub startup {
 
@@ -108,7 +111,7 @@ sub startup {
     );
 
 ################# Room dispatch
-    $app->rooms( [$app->app->build_rooms()] );
+    $app->rooms( [ $app->app->build_rooms() ] );
     $app->hook(
         before_dispatch => sub {
             $_[0]->stash( rooms => shift->app->rooms )
@@ -173,7 +176,6 @@ sub startup {
     $is_admin->post("/admin/add_tag")->to("gpio#add_tag");
     $is_admin->post("/admin/add_pin")->to("gpio#add_pin");
     $is_admin->post("/admin/add_room")->to("room#add");
-
 
     $is_admin->post("/admin/delete_gpio/:id")->to("gpio#delete");
     $is_admin->post("/admin/delete_node/:id")->to("node#delete");

@@ -61,8 +61,8 @@ sub start {
 
 sub launch {
     my $self = shift;
-    $self->callback( class_inner_name($self)."::run" );
-    $self->args( [$self,@_] );
+    $self->callback( class_inner_name($self) . "::run" );
+    $self->args( [ $self, @_ ] );
     $self->start();
 }
 
