@@ -38,8 +38,12 @@ use IntelliHome::Utils qw(message_expand SEPARATOR);
 extends 'IntelliHome::Workers::Base';
 with("IntelliHome::Workers::Role::Parser");
 
-has 'Output' =>
-    ( is => "rw", default => IntelliHome::Interfaces::Terminal->new );
+has 'Output' => (
+	is      => "rw",
+	default => sub {
+		IntelliHome::Interfaces::Terminal->new();
+	},
+);
 
 sub process {
     my $self = shift;
