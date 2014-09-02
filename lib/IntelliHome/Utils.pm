@@ -4,10 +4,12 @@ use warnings;
 use strict;
 use base qw(Exporter);
 use Mojo::Loader;
+use File::Basename qw(fileparse);
+use File::Spec::Functions qw(catdir catfile splitdir);
 use constant SEPARATOR => ":";
 our @EXPORT_OK = qw(
     message_expand SEPARATOR message_compact daemonize cleanup stop_process load_module search_modules
-    class_inner_name
+    class_inner_name search_modulesd
 );
 
 sub load_module($) {
@@ -21,6 +23,32 @@ sub class_inner_name($) { ( shift =~ /(.*)\=/ )[0]; }
 
 sub search_modules($) {
     return @{ Mojo::Loader->new->search(shift) };
+}
+
+sub search_modulesd($) {
+    my $ns = shift;
+    my %modules;
+    for my $directory (@INC) {
+        next unless -d ( my $path = catdir $directory, split( /::|'/, $ns ) );
+
+        # List "*.pm" files in directory
+        opendir( my $dir, $path );
+        for my $file ( readdir $dir ) {
+            next if $file eq '..' or $file eq '.';
+            if ( -d catdir $path, $file ) {
+                $modules{$_}++
+                    for ( &search_modulesd("${ns}::${file}") )
+                    ;    #making recursive
+            }
+            elsif ( $file =~ /\.pm/ ) {
+                next if -d catfile splitdir($path), $file;
+                $modules{ "${ns}::" . fileparse $file, qr/\.pm/ }++;
+            }
+
+        }
+    }
+
+    wantarray ? ( keys %modules ) : return [ keys %modules ];
 }
 
 sub stop_process($) {
