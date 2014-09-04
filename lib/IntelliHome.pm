@@ -169,9 +169,9 @@ Once you downloaded and installed the plugin via CPAN you can install the plugin
 
 =head3 Plugin Removal
 
-    $ sudo perl intellihome-master -i Relay
+    $ sudo perl intellihome-master -r Relay
     $ ...
-    $ sudo perl intellihome-master -i Wikipedia
+    $ sudo perl intellihome-master -r Wikipedia
 
 =over
 
