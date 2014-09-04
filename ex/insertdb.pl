@@ -6,7 +6,7 @@ use lib './lib';
 use IntelliHome::Schema::SQLite::Schema;
 
 my $schema = IntelliHome::Schema::SQLite::Schema->connect(
-    'dbi:SQLite:/var/lib/intellihome/intellihome.db');
+    'dbi:SQLite:/var/tmp/intellihome.db');
 
 my $room_data = {
     'name'     => "bedroom",

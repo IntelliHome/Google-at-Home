@@ -1,7 +1,7 @@
 <table class="table" id="rooms-table" data-type="room">
   <thead>
     <tr>
-      <th>#</th>
+      <th><span class="glyphicon glyphicon-envelope"></span></th>
       <th>Name</th>
       <th>Location</th>
       <th>Description</th>
