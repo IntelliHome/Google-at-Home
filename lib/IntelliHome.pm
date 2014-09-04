@@ -159,6 +159,20 @@ The plugin systems allow to extend the system by triggers that can be
 invoked by voice. Currently plugins are WiP so api can change and most
 of them are drafts:
 
+=head3 Plugin Installation
+
+Once you downloaded and installed the plugin via CPAN you can install the plugin easily:
+
+    $ sudo perl intellihome-master -i Relay
+    $ ...
+    $ sudo perl intellihome-master -i Wikipedia
+
+=head3 Plugin Removal
+
+    $ sudo perl intellihome-master -i Relay
+    $ ...
+    $ sudo perl intellihome-master -i Wikipedia
+
 =over
 
 =item * IntelliHome::Plugin::Wikipedia - Allow to search in wikipedia
