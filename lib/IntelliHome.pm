@@ -134,7 +134,7 @@ you wish to install:
 
 =head2 Database
 
-Have a look at L<IntelliHome::Deployer::Schema::SQLite> to deploy the SQL schemas
+Google@Home needs a backend to store all informations and data, currently is supported SQLite and MongoDB. By the way, you might want to install the SQLite Backend that is aligned with all the features: have a look at L<IntelliHome::Deployer::Schema::SQLite> to deploy the SQL schemas
 
 =head2 Quick Start
 
@@ -144,6 +144,8 @@ launch :
  git clone https://github.com/mudler/Google-at-Home.git
  cd Google-at-Home
  cpanm --installdeps .
+ ./intellihome-deployer -b SQLite -c prepare
+  ./intellihome-deployer -b SQLite -c install
  ./intellihome-master
 
 and in another terminal:
