@@ -180,7 +180,7 @@ Once you downloaded and installed the plugin via CPAN you can install the plugin
 
 =over
 
-=item * L<IntelliHome::Plugin::Hailo|https://github.com/IntelliHome/IntelliHome-Plugin-Hailo - Makes your computer speak with
+=item * L<IntelliHome::Plugin::Hailo|https://github.com/IntelliHome/IntelliHome-Plugin-Hailo> - Makes your computer speak with
 MegaHAL! - just for fun :)
 
 =item * L<IntelliHome::Plugin::Relay|https://github.com/IntelliHome/IntelliHome-Plugin-Relay> - Allow to command the agents relays
