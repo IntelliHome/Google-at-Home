@@ -145,7 +145,7 @@ launch :
  cd Google-at-Home
  cpanm --installdeps .
  ./intellihome-deployer -b SQLite -c prepare
-  ./intellihome-deployer -b SQLite -c install
+ ./intellihome-deployer -b SQLite -c install
  ./intellihome-master
 
 and in another terminal:
@@ -154,6 +154,9 @@ and in another terminal:
 
 Now your PC will work both as master and node(default configuration).
 The plugin system is working, and the database setup it's WiP.
+If you want to run in foreground to debug , the C<-f> attribute flag is available e.g.
+
+    ./intellihome-master -f
 
 =head2 Plugin
 
@@ -177,13 +180,13 @@ Once you downloaded and installed the plugin via CPAN you can install the plugin
 
 =over
 
-=item * IntelliHome::Plugin::Wikipedia - Allow to search in wikipedia
-with the I<"wikipedia "> trigger
-
-=item * IntelliHome::Plugin::Hailo - Makes your computer speak with
+=item * L<IntelliHome::Plugin::Hailo|https://github.com/IntelliHome/IntelliHome-Plugin-Hailo - Makes your computer speak with
 MegaHAL! - just for fun :)
 
-=item * IntelliHome::Plugin::Relay - Allow to command the agents relays
+=item * L<IntelliHome::Plugin::Relay|https://github.com/IntelliHome/IntelliHome-Plugin-Relay> - Allow to command the agents relays
+
+=item * L<IntelliHome::Plugin::Wikipedia|https://github.com/IntelliHome/IntelliHome-Plugin-Wikipedia> - Allow to search in wikipedia
+with the I<"wikipedia "> trigger
 
 =item * ...
 
@@ -192,7 +195,7 @@ MegaHAL! - just for fun :)
 =head2 Android application
 
 The android application its in WiP, if you are interested contributing,
-here it is the repository
+L<here it is the repository|https://github.com/IntelliHome/Google-at-Home-Remote-Controller>
 
 =head2 Todo
 
@@ -232,22 +235,6 @@ app or a web interface
 remember Jarvis?:P)
 
 =back
-
-----
-
-=head2 Special: GSoC
-
-Have a look at GSoC to see what are the proposed tasks
-
-----
-
-=head2 Notes
-
-We need to buy a raspberryPi but we are testing our work on a FOXG20
-board. But the code is written to be portable so we don't think things
-works really different. Another thing, this project is strictly
-correlated with our lifes, that's because we are making our home with
-that: let's consider us first alfa-proto-beta-testers :)
 
 ----
 
