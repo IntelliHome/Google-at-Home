@@ -58,13 +58,12 @@ L<IntelliHome>, L<IntelliHome::Workers::Master::RPC> , L<MojoX::JSON::RPC::Servi
 
 use Carp::Always;
 use Mojo::Base 'IntelliHome::RPC::Service::Base';
-has 'IntelliHome';
 use YAML qw'freeze thaw';
 
 sub rpc_gpio {
-    my ( $self, $tx, $tag ) = @_;
+    my ( $self, $tx, undef, $tag ) = @_;
 
-    return [map { $_ = freeze $_; $_ }
+    return [ map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->get_all_gpio() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_gpio")
         && !defined($tag) );
@@ -75,8 +74,8 @@ sub rpc_gpio {
 }
 
 sub rpc_gpio_data {
-    my ( $self, $tx, $tag ) = @_;
-    return [map { $_ = freeze $_; $_ }
+    my ( $self, $tx, undef, $tag ) = @_;
+    return [ map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->get_all_gpio_data() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_gpio_data")
         && !defined($tag) );
@@ -87,8 +86,8 @@ sub rpc_gpio_data {
 }
 
 sub rpc_get_rooms {
-    my ( $self, $tx, $room ) = @_;
-    return [map { $_ = freeze $_; $_ }
+    my ( $self, $tx, undef, $room ) = @_;
+    return [ map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->get_all_rooms() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_rooms")
         && !defined($room) );
@@ -99,8 +98,8 @@ sub rpc_get_rooms {
 }
 
 sub rpc_get_nodes {
-    my ( $self, $tx, $node ) = @_;
-    return [map { $_ = freeze $_; $_ }
+    my ( $self, $tx, undef, $node ) = @_;
+    return [ map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->get_all_nodes() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_nodes")
         && !defined($node) );
@@ -111,7 +110,7 @@ sub rpc_get_nodes {
 }
 
 sub rpc_nodes {
-    my ( $self, $tx, $query ) = @_;
+    my ( $self, $tx, undef, $query ) = @_;
     return [ map { $_ = freeze $_; $_ }
             $self->IntelliHome->Parser->Backend->getNodes($query) ];
 }

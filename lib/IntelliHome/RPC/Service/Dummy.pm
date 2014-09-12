@@ -1,4 +1,5 @@
 package IntelliHome::RPC::Service::Dummy;
+
 =head1 NAME
 
 IntelliHome::RPC::Service::Dummy - IntelliHome "Dummy" service for RPC server
@@ -36,10 +37,10 @@ use Mojo::Base 'IntelliHome::RPC::Service::Base';
 has 'IntelliHome';
 
 sub dummy {
-    my ( $self, @params ) = @_;
-    
+    my ( $self, $tx, undef, @params ) = @_;
+
     return "DUMMY-YUMMY!";
-} 
+}
 
 __PACKAGE__->register_rpc_method_names('dummy');
 

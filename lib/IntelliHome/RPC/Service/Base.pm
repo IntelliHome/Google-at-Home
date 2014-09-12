@@ -27,33 +27,9 @@ L<IntelliHome>, L<IntelliHome::Workers::Master::RPC>, L<MojoX::JSON::RPC::Servic
 =cut
 
 use Carp::Always;
-use Mojo::Base 'MojoX::JSON::RPC::Service';
+use Mojo::Base 'MojoX::JSON::RPC::Service::AutoRegister';
 has 'IntelliHome';
 
-sub new {
-    my $self = shift;
-    $self = $self->SUPER::new(@_);
-
-    #   $self->{'_rpcs'}
-    #     ->{ lc( ( split( "::", ( $self =~ /(.*)\=/ )[0] ) )[-1] ) }
-    #    ->{'with_mojo_tx'} = 1;
-    $self->{'_rpcs'}->{$_}->{'with_mojo_tx'} = 1
-        for ( keys %{ $self->{'_rpcs'} } );
-    return $self;
-}
-
-sub register_rpc {
-    my $symbol = { eval( '%' . caller . "::" ) };
-    local @_;
-    foreach my $entry ( keys %{$symbol} ) {
-        no strict 'refs';
-        if ( defined &{ caller . "::$entry" } ) {
-            push( @_, $entry ) if $entry =~ /^rpc\_/; # this allows method suffixed by rpc_ to be automatically exported as rpc public services
-        }
-    }
-    use strict 'refs';
-    caller->register_rpc_method_names(@_);
-}
 
 1;
 

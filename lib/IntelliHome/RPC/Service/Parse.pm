@@ -37,7 +37,7 @@ use feature 'say';
 has 'IntelliHome';
 
 sub parse {
-    my ( $self, $tx, @params ) = @_;
+    my ( $self, $tx, undef, @params ) = @_;
     my $Client = $self->IntelliHome->Parser->node->selectFromHost(
         $tx->remote_address, "node" );
     $Client = $self->IntelliHome->Parser->node->selectFromType("master")

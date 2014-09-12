@@ -55,7 +55,7 @@ use Mojo::Base 'IntelliHome::RPC::Service::Base';
 has 'IntelliHome';
 
 sub rpc_add_node {
-    my ( $self, $tx, $node, $room ) = @_;
+    my ( $self, $tx, undef, $node, $room ) = @_;
     my $newnode;
     return
         !( $self->IntelliHome->Parser->Backend->can("addNode")
@@ -68,7 +68,7 @@ sub rpc_add_node {
 }
 
 sub rpc_delete {
-    my ( $self, $tx, $entity, $id ) = @_;
+    my ( $self, $tx, undef, $entity, $id ) = @_;
     return !( $self->IntelliHome->Parser->Backend->can("delete_element")
         && defined($entity)
         && defined($id) )
@@ -77,7 +77,7 @@ sub rpc_delete {
 }
 
 sub rpc_add_room {
-    my ( $self, $tx, $room ) = @_;
+    my ( $self, $tx, undef, $room ) = @_;
     my $newroom;
     return
         !( $self->IntelliHome->Parser->Backend->can("add_room")
@@ -88,7 +88,7 @@ sub rpc_add_room {
 }
 
 sub rpc_add_gpio {
-    my ( $self, $tx, $gpio, $node ) = @_;
+    my ( $self, $tx, undef, $gpio, $node ) = @_;
     my $newgpio;
 
     return
@@ -102,7 +102,7 @@ sub rpc_add_gpio {
 }
 
 sub rpc_add_tag {
-    my ( $self, $tx, $tag, $gpio ) = @_;
+    my ( $self, $tx, undef, $tag, $gpio ) = @_;
     my $newtag;
 
     return
@@ -116,7 +116,7 @@ sub rpc_add_tag {
 }
 
 sub rpc_add_pin {
-    my ( $self, $tx, $pin, $gpio ) = @_;
+    my ( $self, $tx, undef, $pin, $gpio ) = @_;
     my $newpin;
     return
         !( $self->IntelliHome->Parser->Backend->can("add_pin")
