@@ -64,23 +64,23 @@ use YAML qw'freeze thaw';
 sub rpc_gpio {
     my ( $self, $tx, $tag ) = @_;
 
-    return [map { $_ = freeze $_; $_ }
+    return [ map { $_ = $_->serialize; $_ }
             $self->IntelliHome->Parser->Backend->get_all_gpio() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_gpio")
         && !defined($tag) );
     return
-        map { $_ = freeze $_; $_ }
+        map { $_ = $_->serialize; $_ }
         $self->IntelliHome->Parser->Backend->search_gpio( $tag ||= "." );
 
 }
 
 sub rpc_gpio_data {
     my ( $self, $tx, $tag ) = @_;
-    return [map { $_ = freeze $_; $_ }
+    return [map { $_ = $_->serialize; $_ }
             $self->IntelliHome->Parser->Backend->get_all_gpio_data() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_gpio_data")
         && !defined($tag) );
-    return [ map { $_ = freeze $_; $_ }
+    return [ map { $_ = $_->serialize; $_ }
             $self->IntelliHome->Parser->Backend->search_gpio( $tag ||= "." )
     ];
 
@@ -88,11 +88,11 @@ sub rpc_gpio_data {
 
 sub rpc_get_rooms {
     my ( $self, $tx, $room ) = @_;
-    return [map { $_ = freeze $_; $_ }
+    return [ map { $_ = $_->serialize; $_ }
             $self->IntelliHome->Parser->Backend->get_all_rooms() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_rooms")
         && !defined($room) );
-    return [ map { $_ = freeze $_; $_ }
+    return [ map { $_ = $_->serialize; $_ }
             $self->IntelliHome->Parser->Backend->search_room( $room ||= "." )
     ];
 
@@ -100,11 +100,11 @@ sub rpc_get_rooms {
 
 sub rpc_get_nodes {
     my ( $self, $tx, $node ) = @_;
-    return [map { $_ = freeze $_; $_ }
+    return [ map { $_ = $_->serialize; $_ }
             $self->IntelliHome->Parser->Backend->get_all_nodes() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_nodes")
         && !defined($node) );
-    return [ map { $_ = freeze $_; $_ }
+    return [ map { $_ = $_->serialize; $_ }
             $self->IntelliHome->Parser->Backend->search_node( $node ||= "." )
     ];
 
@@ -112,7 +112,7 @@ sub rpc_get_nodes {
 
 sub rpc_nodes {
     my ( $self, $tx, $query ) = @_;
-    return [ map { $_ = freeze $_; $_ }
+    return [ map { $_ = $_->serialize; $_ }
             $self->IntelliHome->Parser->Backend->getNodes($query) ];
 }
 

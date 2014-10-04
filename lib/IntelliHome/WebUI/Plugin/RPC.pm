@@ -33,14 +33,14 @@ sub register {
                 }
                 else {
                     ref $res->result eq "ARRAY"
-                        ? map { $_ = thaw($_); $_ } @{ $res->result }
+                        ? @{ $res->result }
                         : $res->result;
                 }
             }
             else {
                 return
                     ref $client->tx->res eq "ARRAY"
-                    ? map { $_ = thaw($_); $_ } @{ $client->tx->res }
+                    ? @{ $client->tx->res }
                     : $client->tx->res;
 
             }
