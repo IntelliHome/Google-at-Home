@@ -24,98 +24,15 @@ my $Deployer = IntelliHome::Deployer::Schema::SQLite->new(
 
 $Deployer->prepare;
 $Deployer->install;
-my $schema = IntelliHome::Schema::SQLite::Schema->connect(
-    'dbi:SQLite:/tmp/intellihome.db');
 
-my $room_data = {
-    'name'     => "bedroom",
-    'location' => "bedroom first floor"
-};
 
-my $room = $schema->resultset('Room')->create($room_data);
-
-my $node_data1 = {
-    'roomid'   => $room->id,
-    'name'     => 'master',
-    'host'     => 'localhost',
-    'port'     => 23459,
-    'type'     => 'master',
-    'username' => 'username',
-    'password' => 'passwd'
-};
-
-my $node_data2 = {
-    'roomid'   => $room->id,
-    'name'     => 'master',
-    'host'     => '127.0.0.1',
-    'port'     => 23456,
-    'type'     => 'node',
-    'username' => 'username',
-    'password' => 'passwd'
-};
-
-my $node_one = $schema->resultset('Node')->create($node_data1);
-my $node_two = $schema->resultset('Node')->create($node_data2);
-
-my $gpio_data1 = {
-    'nodeid' => $node_two->id,
-    'pin_id' => 1,
-    'type'   => 3,
-    'value'  => 0,
-    'driver' => "IntelliHome::Driver::GPIO::Mono"
-};
-
-my $gpio_data2 = {
-    'nodeid' => $node_two->id,
-    'pin_id' => 2,
-    'type'   => 1,
-    'value'  => 1,
-    'driver' => "IntelliHome::Driver::GPIO::Dual"
-};
-
-my $gpio_one = $schema->resultset('GPIO')->create($gpio_data1);
-my $gpio_two = $schema->resultset('GPIO')->create($gpio_data2);
-
-my $tag_data1 = {
-    'gpioid' => $gpio_one->id,
-    'tag'    => "serranda 1"
-};
-
-my $tag_data2 = {
-    'gpioid' => $gpio_two->id,
-    'tag'    => "serranda 2"
-};
-
-my $tag_one = $schema->resultset('Tag')->create($tag_data1);
-my $tag_two = $schema->resultset('Tag')->create($tag_data2);
-
-my $user_data1 = {
-    'username' => "user1",
-    'password' => "password",
-    'name'     => "User 1",
-    'admin'    => 0
-};
-
-my $user_data2 = {
-    'username' => "user2",
-    'password' => "password",
-    'name'     => "User 2",
-    'admin'    => 1
-};
-
-my $user_one = $schema->resultset('User')->create($user_data1);
-my $user_two = $schema->resultset('User')->create($user_data2);
-
-$schema->DESTROY();
-
-my $Backend = IntelliHome::Parser::DB::SQLite->new(
-    dsn => 'dbi:SQLite:/tmp/intellihome.db' );
+my $Backend = $Deployer->dh->schema;
 
 ###### TESTING BACKEND DB CONSISTENCY
 is( ( $Backend->get_all_rooms )[0]->{name},
     "bedroom", "Getting first room name" );
 
-is( scalar( $Backend->get_all_rooms ), 1, "One room" );
+is( scalar( $Backend->get_all_rooms ), 2, "Two room" );
 is( ( $Backend->search_room("bed") )[0]->name,
     "bedroom", "Searching room name" );
 is( ( $Backend->get_all_gpio() )[0]->{type},  3, "Get first gpio type" );
@@ -123,7 +40,7 @@ is( ( $Backend->get_all_gpio() )[1]->{type},  1, "Get second gpio type" );
 is( ( $Backend->get_all_gpio() )[1]->{value}, 1, "Get second gpio value" );
 is( scalar( $Backend->get_all_gpio ), 2, "Two GPIOs" );
 is( ( $Backend->get_all_gpio_data() )[0]->{title},
-    "serranda 1", "Get first gpio title (first tag)" );
+    "shutter 1", "Get first gpio title (first tag)" );
 is( ( $Backend->get_all_gpio_data() )[0]->{toggle},
     1, "Get first gpio toggle" );
 is( ( $Backend->get_all_nodes() )[0]->{type},
