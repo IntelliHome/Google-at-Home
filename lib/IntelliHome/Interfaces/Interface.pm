@@ -3,6 +3,7 @@ use Log::Any::Adapter;
 use Time::Piece;
 use Moo;
 with 'MooX::Singleton';
+use constant LOG_DIR => $ENV{HOME} . '/.intellihome/logs/';
 has 'Today'  => ( is => "rw" );
 has 'Year'   => ( is => "rw" );
 has 'Month'  => ( is => "rw" );
@@ -26,15 +27,15 @@ sub setLogFile {
     $self->Today($day);
     $self->Year($year);
     $self->Month($month);
-    mkdir("/var/log/intellihome") if ( !-d "/var/log/intellihome" );
-    mkdir( "/var/log/intellihome/" . $year )
-        if ( !-d "/var/log/intellihome/" . $year );
-    mkdir( "/var/log/intellihome/" . $year . "/" . $month )
-        if ( !-d "/var/log/intellihome/" . $year . "/" . $month );
+    mkdir(LOG_DIR) if ( !-d LOG_DIR );
+    mkdir( LOG_DIR . $year )
+        if ( !-d LOG_DIR . $year );
+    mkdir( LOG_DIR . $year . "/" . $month )
+        if ( !-d LOG_DIR . $year . "/" . $month );
 
-    if ( -d "/var/log/intellihome/" . $year . "/" . $month ) {
+    if ( -d LOG_DIR . $year . "/" . $month ) {
         Log::Any::Adapter->set( 'File',
-                  "/var/log/intellihome/"
+                  LOG_DIR
                 . $year . "/"
                 . $month . "/"
                 . $day

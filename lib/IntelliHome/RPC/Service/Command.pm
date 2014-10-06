@@ -37,7 +37,6 @@ L<IntelliHome>, L<IntelliHome::Workers::Master::RPC> , L<MojoX::JSON::RPC::Servi
 use Carp::Always;
 use Mojo::Base 'IntelliHome::RPC::Service::Base';
 use IntelliHome::Connector qw(GPIO_MSG);
-has 'IntelliHome';
 
 sub gpio {
     my ( $self, $tx, undef, @params ) = @_;

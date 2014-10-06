@@ -33,9 +33,6 @@ L<IntelliHome>, L<IntelliHome::RPC::Service::Command>, L<IntelliHome::Workers::M
 
 use Carp::Always;
 use Mojo::Base 'IntelliHome::RPC::Service::Base';
-
-has 'IntelliHome';
-
 sub dummy {
     my ( $self, $tx, undef, @params ) = @_;
 

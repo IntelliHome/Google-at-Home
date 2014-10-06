@@ -18,7 +18,7 @@ sub register {
             my $url
                 = 'http://'
                 . $app->ih_config->RPCConfiguration->{'rpc_host'} . ':'
-                . $app->ih_config->RPCConfiguration->{'rpc_port'}
+                . $app->ih_config->RPCConfiguration->{'rpc_port'}."/"
                 . shift;
             my $callobj = {
                 id     => 1,
@@ -33,14 +33,14 @@ sub register {
                 }
                 else {
                     ref $res->result eq "ARRAY"
-                        ? map { $_ = thaw($_); $_ } @{ $res->result }
+                        ? @{ $res->result }
                         : $res->result;
                 }
             }
             else {
                 return
                     ref $client->tx->res eq "ARRAY"
-                    ? map { $_ = thaw($_); $_ } @{ $client->tx->res }
+                    ? @{ $client->tx->res }
                     : $client->tx->res;
 
             }
@@ -53,7 +53,7 @@ sub register {
             my $url
                 = 'http://'
                 . $app->ih_config->RPCConfiguration->{'rpc_host'} . ':'
-                . $app->ih_config->RPCConfiguration->{'rpc_port'}
+                . $app->ih_config->RPCConfiguration->{'rpc_port'}."/"
                 . shift;
             my $callback = shift;
             my $callobj  = {

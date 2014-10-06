@@ -52,10 +52,11 @@ L<IntelliHome>, L<IntelliHome::Workers::Master::RPC> , L<MojoX::JSON::RPC::Servi
 
 use Carp::Always;
 use Mojo::Base 'IntelliHome::RPC::Service::Base';
-has 'IntelliHome';
+use constant DEBUG => $ENV{DEBUG} || 0;
 
 sub rpc_add_node {
     my ( $self, $tx, undef, $node, $room ) = @_;
+    warn "rpc_add_node(@_) called" if DEBUG;
     my $newnode;
     return
         !( $self->IntelliHome->Parser->Backend->can("addNode")
@@ -69,6 +70,7 @@ sub rpc_add_node {
 
 sub rpc_delete {
     my ( $self, $tx, undef, $entity, $id ) = @_;
+    warn "rpc_delete(@_) called" if DEBUG;
     return !( $self->IntelliHome->Parser->Backend->can("delete_element")
         && defined($entity)
         && defined($id) )
@@ -78,6 +80,7 @@ sub rpc_delete {
 
 sub rpc_add_room {
     my ( $self, $tx, undef, $room ) = @_;
+    warn "rpc_add_room(@_) called" if DEBUG;
     my $newroom;
     return
         !( $self->IntelliHome->Parser->Backend->can("add_room")
@@ -90,7 +93,7 @@ sub rpc_add_room {
 sub rpc_add_gpio {
     my ( $self, $tx, undef, $gpio, $node ) = @_;
     my $newgpio;
-
+    warn "rpc_add_gpio(@_) called" if DEBUG;
     return
         !( $self->IntelliHome->Parser->Backend->can("add_gpio")
         && defined($gpio)
@@ -103,8 +106,8 @@ sub rpc_add_gpio {
 
 sub rpc_add_tag {
     my ( $self, $tx, undef, $tag, $gpio ) = @_;
+    warn "rpc_add_tag(@_) called" if DEBUG;
     my $newtag;
-
     return
         !( $self->IntelliHome->Parser->Backend->can("add_tag")
         && defined($tag)
@@ -117,6 +120,7 @@ sub rpc_add_tag {
 
 sub rpc_add_pin {
     my ( $self, $tx, undef, $pin, $gpio ) = @_;
+    warn "rpc_add_pin(@_) called" if DEBUG;
     my $newpin;
     return
         !( $self->IntelliHome->Parser->Backend->can("add_pin")

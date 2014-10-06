@@ -5,13 +5,14 @@ use IntelliHome::WebUI::Plugin::RPC;
 use IntelliHome::WebUI::Model::Tile;
 use IntelliHome::WebUI::Model::Room;
 use IntelliHome::WebUI::Model::Node;
-use JSON;
+use constant DEBUG => $ENV{DEBUG} || 0;
 
 sub register {
     my ( $self, $app, $conf ) = @_;
     $app->helper(
         build_tiles => sub {
             my @tiles;
+            warn "build_tiles() called \n" if DEBUG;
             push( @tiles, IntelliHome::WebUI::Model::Tile->new( %{$_} ) )
                 for shift->app->rpc_call_blocking( "ask", "rpc_gpio_data" );
             return @tiles;
@@ -20,6 +21,7 @@ sub register {
     $app->helper(
         build_rooms => sub {
             my @rooms;
+            warn "build_rooms() called \n" if DEBUG;
             push( @rooms, IntelliHome::WebUI::Model::Room->new( %{$_} ) )
                 for shift->app->rpc_call_blocking( "ask", "rpc_get_rooms" );
             return @rooms;
@@ -40,6 +42,8 @@ sub register {
 
     $app->helper(
         build_new_node => sub {
+            warn "build_new_node() called \n" if DEBUG;
+
             return
                 shift->app->rpc_call_blocking( "db", "rpc_add_node", shift,
                 shift );
@@ -50,6 +54,8 @@ sub register {
 
     $app->helper(
         build_new_tag => sub {
+            warn "build_new_tag() called \n" if DEBUG;
+
             return
                 shift->app->rpc_call_blocking( "db", "rpc_add_tag", shift,
                 shift );
@@ -60,6 +66,8 @@ sub register {
 
     $app->helper(
         build_new_gpio => sub {
+            warn "build_new_gpio() called \n" if DEBUG;
+
             return
                 shift->app->rpc_call_blocking( "db", "rpc_add_gpio", shift,
                 shift );
@@ -67,6 +75,8 @@ sub register {
     );
     $app->helper(
         build_new_pin => sub {
+            warn "build_new_pin() called \n" if DEBUG;
+
             return
                 shift->app->rpc_call_blocking( "db", "rpc_add_pin", shift,
                 shift );
@@ -74,8 +84,11 @@ sub register {
     );
     $app->helper(
         build_new_room => sub {
+            warn "build_new_room() called \n" if DEBUG;
+
             my $room
-                = $_[0]->app->rpc_call_blocking( "db", "rpc_add_room", $_[1] );
+                = $_[0]
+                ->app->rpc_call_blocking( "db", "rpc_add_room", $_[1] );
             push(
                 @{ $_[0]->app->rooms },
                 IntelliHome::WebUI::Model::Room->new( %{$room} )
@@ -85,12 +98,17 @@ sub register {
     );
     $app->helper(
         delete_entity => sub {
+            warn "delete_entity() called \n" if DEBUG;
+
             return
-                shift->app->rpc_call_blocking( "db", "rpc_delete", shift, shift );
+                shift->app->rpc_call_blocking( "db", "rpc_delete", shift,
+                shift );
         }
     );
     $app->helper(
         deserialize_form_data => sub {
+            warn "deserialize_form_data() called \n" if DEBUG;
+
             map { ( $_->{name} =~ /new-(.*?)$/ )[0] => $_->{value} }
                 @{ decode_json $_[1] };
         }
