@@ -19,6 +19,7 @@ requires 'Log::Any::Adapter';
 requires 'Mojo::Base';
 requires 'Mojo::Loader';
 requires 'MojoX::JSON::RPC::Service';
+requires 'MojoX::JSON::RPC::Service::AutoRegister';
 requires 'Mojolicious::Commands';
 requires 'Mojolicious::Plugin::JsonRpcDispatcher';
 requires 'Mojolicious::Plugin::BootstrapAlerts';

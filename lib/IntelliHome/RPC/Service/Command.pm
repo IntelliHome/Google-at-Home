@@ -40,7 +40,7 @@ use IntelliHome::Connector qw(GPIO_MSG);
 has 'IntelliHome';
 
 sub gpio {
-    my ( $self, $tx, @params ) = @_;
+    my ( $self, $tx, undef, @params ) = @_;
     my $Client = $self->IntelliHome->Parser->node->selectFromHost(
         $tx->remote_address, "node" );
     $Client = $self->IntelliHome->Parser->node->selectFromType("master")

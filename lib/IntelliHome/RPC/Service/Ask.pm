@@ -58,62 +58,61 @@ L<IntelliHome>, L<IntelliHome::Workers::Master::RPC> , L<MojoX::JSON::RPC::Servi
 
 use Carp::Always;
 use Mojo::Base 'IntelliHome::RPC::Service::Base';
-has 'IntelliHome';
-use YAML qw'freeze thaw';
+use constant DEBUG => $ENV{DEBUG} || 0;
 
 sub rpc_gpio {
-    my ( $self, $tx, $tag ) = @_;
-
-    return [ map { $_ = $_->serialize; $_ }
-            $self->IntelliHome->Parser->Backend->get_all_gpio() ]
+    my ( $self, $tx, undef, $tag ) = @_;
+    warn "rpc_gpio(@_) called" if DEBUG;
+    return [ $self->IntelliHome->Parser->Backend->get_all_gpio() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_gpio")
         && !defined($tag) );
-    return
-        map { $_ = $_->serialize; $_ }
-        $self->IntelliHome->Parser->Backend->search_gpio( $tag ||= "." );
+    return $self->IntelliHome->Parser->Backend->search_gpio( $tag ||= "." );
 
 }
 
 sub rpc_gpio_data {
-    my ( $self, $tx, $tag ) = @_;
-    return [map { $_ = $_->serialize; $_ }
-            $self->IntelliHome->Parser->Backend->get_all_gpio_data() ]
+    my ( $self, $tx, undef, $tag ) = @_;
+    warn "rpc_gpio_data(@_) called" if DEBUG;
+    return [ $self->IntelliHome->Parser->Backend->get_all_gpio_data() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_gpio_data")
         && !defined($tag) );
-    return [ map { $_ = $_->serialize; $_ }
-            $self->IntelliHome->Parser->Backend->search_gpio( $tag ||= "." )
+    return [
+        $self->IntelliHome->Parser->Backend->search_gpio( $tag ||= "." )
     ];
 
 }
 
 sub rpc_get_rooms {
-    my ( $self, $tx, $room ) = @_;
-    return [ map { $_ = $_->serialize; $_ }
-            $self->IntelliHome->Parser->Backend->get_all_rooms() ]
+    my ( $self, $tx, undef, $room ) = @_;
+    warn "rpc_get_rooms(@_) called " if DEBUG;
+
+    return [ $self->IntelliHome->Parser->Backend->get_all_rooms() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_rooms")
         && !defined($room) );
-    return [ map { $_ = $_->serialize; $_ }
-            $self->IntelliHome->Parser->Backend->search_room( $room ||= "." )
+    return [
+        $self->IntelliHome->Parser->Backend->search_room( $room ||= "." )
     ];
 
 }
 
 sub rpc_get_nodes {
-    my ( $self, $tx, $node ) = @_;
-    return [ map { $_ = $_->serialize; $_ }
-            $self->IntelliHome->Parser->Backend->get_all_nodes() ]
+    my ( $self, $tx, undef, $node ) = @_;
+    warn "rpc_get_nodes(@_) called " if DEBUG;
+
+    return [ $self->IntelliHome->Parser->Backend->get_all_nodes() ]
         if ( $self->IntelliHome->Parser->Backend->can("get_all_nodes")
         && !defined($node) );
-    return [ map { $_ = $_->serialize; $_ }
+    return [
             $self->IntelliHome->Parser->Backend->search_node( $node ||= "." )
     ];
 
 }
 
 sub rpc_nodes {
-    my ( $self, $tx, $query ) = @_;
-    return [ map { $_ = $_->serialize; $_ }
-            $self->IntelliHome->Parser->Backend->getNodes($query) ];
+    my ( $self, $tx, undef, $query ) = @_;
+    warn "rpc_get_nodes(@_) called " if DEBUG;
+
+    return [ $self->IntelliHome->Parser->Backend->getNodes($query) ];
 }
 
 __PACKAGE__->register_rpc;

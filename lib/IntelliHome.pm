@@ -134,7 +134,7 @@ you wish to install:
 
 =head2 Database
 
-Have a look at L<IntelliHome::Deployer::Schema::SQLite> to deploy the SQL schemas
+Google@Home needs a backend to store all informations and data, currently is supported SQLite and MongoDB. By the way, you might want to install the SQLite Backend that is aligned with all the features: have a look at L<IntelliHome::Deployer::Schema::SQLite> to deploy the SQL schemas
 
 =head2 Quick Start
 
@@ -144,6 +144,8 @@ launch :
  git clone https://github.com/mudler/Google-at-Home.git
  cd Google-at-Home
  cpanm --installdeps .
+ ./intellihome-deployer -b SQLite -c prepare
+ ./intellihome-deployer -b SQLite -c install
  ./intellihome-master
 
 and in another terminal:
@@ -152,6 +154,9 @@ and in another terminal:
 
 Now your PC will work both as master and node(default configuration).
 The plugin system is working, and the database setup it's WiP.
+If you want to run in foreground to debug , the C<-f> attribute flag is available e.g.
+
+    ./intellihome-master -f
 
 =head2 Plugin
 
@@ -159,15 +164,29 @@ The plugin systems allow to extend the system by triggers that can be
 invoked by voice. Currently plugins are WiP so api can change and most
 of them are drafts:
 
+=head3 Plugin Installation
+
+Once you downloaded and installed the plugin via CPAN you can install the plugin easily:
+
+    $ sudo perl intellihome-master -i Relay
+    $ ...
+    $ sudo perl intellihome-master -i Wikipedia
+
+=head3 Plugin Removal
+
+    $ sudo perl intellihome-master -r Relay
+    $ ...
+    $ sudo perl intellihome-master -r Wikipedia
+
 =over
 
-=item * IntelliHome::Plugin::Wikipedia - Allow to search in wikipedia
-with the I<"wikipedia "> trigger
-
-=item * IntelliHome::Plugin::Hailo - Makes your computer speak with
+=item * L<IntelliHome::Plugin::Hailo|https://github.com/IntelliHome/IntelliHome-Plugin-Hailo> - Makes your computer speak with
 MegaHAL! - just for fun :)
 
-=item * IntelliHome::Plugin::Relay - Allow to command the agents relays
+=item * L<IntelliHome::Plugin::Relay|https://github.com/IntelliHome/IntelliHome-Plugin-Relay> - Allow to command the agents relays
+
+=item * L<IntelliHome::Plugin::Wikipedia|https://github.com/IntelliHome/IntelliHome-Plugin-Wikipedia> - Allow to search in wikipedia
+with the I<"wikipedia "> trigger
 
 =item * ...
 
@@ -176,7 +195,7 @@ MegaHAL! - just for fun :)
 =head2 Android application
 
 The android application its in WiP, if you are interested contributing,
-here it is the repository
+L<here it is the repository|https://github.com/IntelliHome/Google-at-Home-Remote-Controller>
 
 =head2 Todo
 
@@ -216,22 +235,6 @@ app or a web interface
 remember Jarvis?:P)
 
 =back
-
-----
-
-=head2 Special: GSoC
-
-Have a look at GSoC to see what are the proposed tasks
-
-----
-
-=head2 Notes
-
-We need to buy a raspberryPi but we are testing our work on a FOXG20
-board. But the code is written to be portable so we don't think things
-works really different. Another thing, this project is strictly
-correlated with our lifes, that's because we are making our home with
-that: let's consider us first alfa-proto-beta-testers :)
 
 ----
 
