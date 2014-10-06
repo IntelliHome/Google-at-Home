@@ -18,7 +18,7 @@ sub register {
             my $url
                 = 'http://'
                 . $app->ih_config->RPCConfiguration->{'rpc_host'} . ':'
-                . $app->ih_config->RPCConfiguration->{'rpc_port'}
+                . $app->ih_config->RPCConfiguration->{'rpc_port'}."/"
                 . shift;
             my $callobj = {
                 id     => 1,
@@ -53,7 +53,7 @@ sub register {
             my $url
                 = 'http://'
                 . $app->ih_config->RPCConfiguration->{'rpc_host'} . ':'
-                . $app->ih_config->RPCConfiguration->{'rpc_port'}
+                . $app->ih_config->RPCConfiguration->{'rpc_port'}."/"
                 . shift;
             my $callback = shift;
             my $callobj  = {
