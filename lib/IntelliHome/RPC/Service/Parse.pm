@@ -34,8 +34,6 @@ L<IntelliHome>, L<IntelliHome::RPC::Service::Command>, L<IntelliHome::Workers::M
 use Carp::Always;
 use Mojo::Base 'IntelliHome::RPC::Service::Base';
 use feature 'say';
-has 'IntelliHome';
-
 sub parse {
     my ( $self, $tx, undef, @params ) = @_;
     my $Client = $self->IntelliHome->Parser->node->selectFromHost(
