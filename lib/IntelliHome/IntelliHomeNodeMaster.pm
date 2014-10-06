@@ -77,7 +77,7 @@ sub start {
         }
     }
 
-    IntelliHome::Workers::Master::RPC->new()->launch( "prefork", '-l',
+    IntelliHome::Workers::Master::RPC->new()->launch( "daemon", '-l',
               'http://'
             . $self->Config->RPCConfiguration->{'rpc_host'} . ':'
             . $self->Config->RPCConfiguration->{'rpc_port'} )->detach;
