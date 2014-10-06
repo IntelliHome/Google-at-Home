@@ -26,6 +26,8 @@ requires 'Mojolicious::Plugin::BootstrapAlerts';
 requires 'Mojolicious::Plugin::AssetPack';
 requires 'Mojolicious::Plugin::StaticCompressor';
 requires 'Mojolicious::Plugin::Bootstrap3';
+requires 'Mojolicious::Plugin::JQuery';
+requires 'Mojolicious::Plugin::FontAwesome4';
 requires 'Mongoose';
 requires 'Mongoose::Class';
 requires 'Mongoose::Document';

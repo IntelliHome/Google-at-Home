@@ -26,13 +26,14 @@ $Deployer->prepare;
 $Deployer->install;
 
 
-my $Backend = $Deployer->dh->schema;
+my $Backend = IntelliHome::Parser::DB::SQLite->new(
+    dsn => 'dbi:SQLite:/tmp/intellihome.db' );
 
 ###### TESTING BACKEND DB CONSISTENCY
 is( ( $Backend->get_all_rooms )[0]->{name},
     "bedroom", "Getting first room name" );
 
-is( scalar( $Backend->get_all_rooms ), 2, "Two room" );
+is( scalar( $Backend->get_all_rooms ), 2, "Two rooms" );
 is( ( $Backend->search_room("bed") )[0]->name,
     "bedroom", "Searching room name" );
 is( ( $Backend->get_all_gpio() )[0]->{type},  3, "Get first gpio type" );

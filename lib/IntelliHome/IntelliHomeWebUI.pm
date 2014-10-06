@@ -41,6 +41,8 @@ sub startup {
     $app->plugin('AssetPack');
     $app->plugin("BootstrapAlerts");
     $app->plugin( bootstrap3 => { jquery => 0 } );
+    $app->plugin("JQuery");
+    $app->plugin("FontAwesome4");
 ################# Custom Plugin
     $app->plugin("ModelFactory");
     $app->plugin("RPC");
@@ -54,8 +56,7 @@ sub startup {
     $app->asset(
         'style.css' => (
             '/css/style.css',   '/css/user-panel.css',
-            '/css/isotope.css', '/css/jquery.tzineClock.css',
-            '/css/font-awesome.css'
+            '/css/isotope.css', '/css/jquery.tzineClock.css'
         )
     );
     $app->asset( 'login-style.css' => '/css/login.css' );
@@ -74,9 +75,6 @@ sub startup {
             '/js/libs/jquery.tzineClock.js'
         )
     );
-
-    $app->asset( 'jquery.js' =>
-            ( '/js/libs/jquery.min.js', '/js/libs/jquery-migrate.min.js' ) );
 
 ################# GZip Compression
 
@@ -126,7 +124,7 @@ sub startup {
         }
     );
 ################# GPIO types dispatch
-    # TODO: pass types from rpc query
+    # XXX TODO: pass types from rpc query
     $app->node_types( [qw(analog switch)] );
     $app->hook(
         before_dispatch => sub {
@@ -134,7 +132,7 @@ sub startup {
         }
     );
 ################# Drivers types dispatch
-    # TODO: pass drivers from rpc query
+    # XXX TODO: pass drivers from rpc query
     $app->drivers(
         [qw(IntelliHome::Driver::GPIO::Mono IntelliHome::Driver::GPIO::Dual)]
     );
