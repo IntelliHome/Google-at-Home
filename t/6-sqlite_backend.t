@@ -25,7 +25,6 @@ my $Deployer = IntelliHome::Deployer::Schema::SQLite->new(
 $Deployer->prepare;
 $Deployer->install;
 
-
 my $Backend = IntelliHome::Parser::DB::SQLite->new(
     dsn => 'dbi:SQLite:/tmp/intellihome.db' );
 
@@ -49,8 +48,6 @@ is( ( $Backend->get_all_nodes() )[0]->{type},
 is( $Backend->delete_element( "Node", 42 ),
     0, "Deleting not exitent node ok" );
 
-
-
 my $new_gpio = $Backend->add_gpio(
     {   'pin_id' => 22,
         'type'   => 1,
@@ -59,15 +56,12 @@ my $new_gpio = $Backend->add_gpio(
     { id => 1 }
 );
 my $new_room = $Backend->add_room(
-        {   name     => "test",
-            location => "bedroom first floor"
-        }
-        );
-is( $new_gpio->value, 0, "Adding 1 gpio to first node" );
-is( $new_room->name,
-    "test",
-    "Adding a room"
+    {   name     => "test",
+        location => "bedroom first floor"
+    }
 );
+is( $new_gpio->value, 0,      "Adding 1 gpio to first node" );
+is( $new_room->name,  "test", "Adding a room" );
 
 is( $Backend->add_tag( { tag => "test" }, { id => $new_gpio->gpioid } )->tag,
     "test",
@@ -84,20 +78,18 @@ is( $Backend->add_pin(
     44,
     "Adding a new pin to the previous created gpio"
 );
-
-is( $Backend->addNode(
-        {   host=>"test",
-            port=> 42,
-            type=>"agent",
-            name=>"Big tought",
-            username=>"arthur",
-            password=>"dent"
-        },
-        {name => $new_room->name, id=>$new_room->id }
-        )->type,
-    "agent",
-    "Adding a new node to the previous created room"
+my $node_one = $Backend->addNode(
+    {   host     => "test",
+        port     => 42,
+        type     => "agent",
+        name     => "Big tought",
+        username => "arthur",
+        password => "dent"
+    },
+    { name => $new_room->name, id => $new_room->id }
 );
+is( $node_one->type, "agent",
+    "Adding a new node to the previous created room" );
 is( $Backend->delete_element( "Node", $node_one->nodeid ),
     1, "Deleting Node 1 ok" );
 
