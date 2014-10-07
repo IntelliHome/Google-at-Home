@@ -8,7 +8,14 @@ MANIFEST
 pm_to_blib
 MANIFEST.bak
 !META.json
+assets/public/packed
 blib/
 cover_db/
 googleathome.db
 config/nodes.yaml
+/IntelliHome-*
+/_build_params
+/Build
+/Build.bat
+!Build/
+!LICENSE
