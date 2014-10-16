@@ -6,6 +6,12 @@ perl:
   - "5.18"
   - "5.20"                    # installs latest perl 5.20 (if not already available)
   - "blead"                   # install perl from git
+matrix:
+  include:
+    - perl: 5.18
+      env: COVERAGE=1         # enables coverage+coveralls reporting
+  allow_failures:
+    - perl: "blead"           # ignore failures for blead perl
 before_install:
   - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
   - source ~/travis-perl-helpers/init --auto
