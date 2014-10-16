@@ -4,9 +4,9 @@
       "mudler, skullbocks, vytas and all the contributors"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v2.1.1, CPAN::Meta::Converter version 2.142060",
+   "generated_by" : "Dist::Milla version v1.0.5, Dist::Zilla version 5.015, CPAN::Meta::Converter version 2.142060",
    "license" : [
-      "gpl_3"
+      "perl_5"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
@@ -20,25 +20,19 @@
          "inc",
          "share",
          "eg",
-         "examples",
-         "author",
-         "builder"
+         "examples"
       ]
    },
    "prereqs" : {
       "configure" : {
          "requires" : {
             "ExtUtils::MakeMaker" : "0",
-            "Module::Build" : "0.38"
+            "Module::Build::Tiny" : "0.037"
          }
       },
       "develop" : {
          "requires" : {
-            "Test::CPAN::Meta" : "0",
-            "Test::MinimumVersion::Fast" : "0.04",
-            "Test::PAUSE::Permissions" : "0.04",
-            "Test::Pod" : "1.41",
-            "Test::Spellunker" : "v0.2.7"
+            "Test::Pod" : "1.41"
          }
       },
       "runtime" : {
@@ -102,23 +96,25 @@
          }
       }
    },
-   "release_status" : "unstable",
+   "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
-         "web" : "ssh://git@github.com/mudler/Google-at-Home/issues"
+         "web" : "https://github.com/mudler/Google-at-Home/issues"
       },
-      "homepage" : "ssh://git@github.com/mudler/Google-at-Home",
+      "homepage" : "https://github.com/mudler/Google-at-Home",
       "repository" : {
-         "url" : "ssh://git@github.com/mudler/Google-at-Home.git",
-         "web" : "ssh://git@github.com/mudler/Google-at-Home"
+         "type" : "git",
+         "url" : "https://github.com/mudler/Google-at-Home.git",
+         "web" : "https://github.com/mudler/Google-at-Home"
       }
    },
    "version" : "0.002",
    "x_contributors" : [
-      "dgikiller <dgikiller@users.noreply.github.com>",
-      "skullbocks <dgikiller@gmail.com>",
-      "skullbocks <dgikille@gmail.com>",
+      "Ettore Di Giacinto <mudler@dark-lab.net>",
       "Vytas Dauksa <vytdau@gmail.com>",
-      "mudler <mudler@dark-lab.net>"
+      "dgikiller <dgikiller@users.noreply.github.com>",
+      "skullbocks <dgikille@gmail.com>",
+      "skullbocks <dgikiller@gmail.com>"
    ]
 }
+
