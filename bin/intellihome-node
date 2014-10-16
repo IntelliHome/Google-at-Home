@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# PODNAME: intellihome-node
 use lib './lib';
 use IntelliHome::IntelliHomeNode;    #Load node library set
 use Getopt::Long;

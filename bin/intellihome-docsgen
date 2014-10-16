@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# PODNAME: intellihome-docsgen
 use lib './lib';
 use Mojo::Util qw(spurt);
 use Pod::POM;

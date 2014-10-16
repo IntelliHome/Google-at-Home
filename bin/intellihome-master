@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# PODNAME: intellihome-master
 use lib './lib';
 use IntelliHome::IntelliHomeNodeMaster;
 use Getopt::Long;
