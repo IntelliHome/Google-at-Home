@@ -46,7 +46,6 @@ BEGIN {
 		IntelliHome::Schema::Mongo::Question
 		IntelliHome::Schema::Mongo::Need
 		IntelliHome::Schema::Mongo::Token
-		IntelliHome::Schema::Mongo::Event
 		IntelliHome::Schema::Mongo::GPIO
 		IntelliHome::Schema::Mongo::Node
 		IntelliHome::Schema::Mongo::Hypo
