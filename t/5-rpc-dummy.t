@@ -8,7 +8,7 @@ use IntelliHome::Deployer::Schema::SQLite;
 unlink("/tmp/intellihome.db");
 remove_tree("/tmp/db_upgrades");
 $ENV{INTELLIHOME_DB_NAME} = "/tmp/intellihome.db";
-
+$ENV{MOJO_REACTOR} = "Mojo::Reactor::Poll";
 my $Deployer = IntelliHome::Deployer::Schema::SQLite->new(
     dh => DBIx::Class::DeploymentHandler->new(
         {   schema => IntelliHome::Schema::SQLite::Schema->connect(
