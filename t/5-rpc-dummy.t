@@ -1,3 +1,6 @@
+# Workaround for issue #34. Must stay at the top.
+BEGIN{ $ENV{MOJO_REACTOR} = "Mojo::Reactor::Poll"; }
+
 use Test::More;
 use MojoX::JSON::RPC::Client;
 use IntelliHome::RPC::Service::Dummy;
@@ -8,7 +11,6 @@ use IntelliHome::Deployer::Schema::SQLite;
 unlink("/tmp/intellihome.db");
 remove_tree("/tmp/db_upgrades");
 $ENV{INTELLIHOME_DB_NAME} = "/tmp/intellihome.db";
-$ENV{MOJO_REACTOR} = "Mojo::Reactor::Poll";
 my $Deployer = IntelliHome::Deployer::Schema::SQLite->new(
     dh => DBIx::Class::DeploymentHandler->new(
         {   schema => IntelliHome::Schema::SQLite::Schema->connect(
