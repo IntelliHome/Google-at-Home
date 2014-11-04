@@ -21,14 +21,13 @@ use Carp qw( croak );
 use feature 'say';
 use Mojolicious::Commands;
 with("IntelliHome::Workers::Thread");    #is a thread
-
+BEGIN{ $ENV{MOJO_REACTOR} = "Mojo::Reactor::Poll"; } #workaround for #34
 sub run {
     my $self = shift;
 
     # Application
     $ENV{MOJO_APP}     = 'IntelliHome::IntelliHomeRPC';
-    $ENV{MOJO_REACTOR} = "Mojo::Reactor::Poll";           #workaround for #34
-                                                          # Start commands
+    # Start commands
     Mojolicious::Commands->start_app( 'IntelliHome::IntelliHomeRPC', @_ );
 }
 
