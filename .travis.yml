@@ -1,20 +1,11 @@
 language: perl
 perl:
-  - "5.8"                     # normal pre-installed perl
-  - "5.8.4"                   # installs perl 5.8.4
-  - "5.8.4-thr"               # installs perl 5.8.4 with threading
   - "5.18"
-  - "5.20"                    # installs latest perl 5.20 (if not already available)
-  - "blead"                   # install perl from git
-matrix:
-  include:
-    - perl: 5.18
-      env: COVERAGE=1         # enables coverage+coveralls reporting
-  allow_failures:
-    - perl: "blead"           # ignore failures for blead perl
-before_install:
-  - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
-  - source ~/travis-perl-helpers/init --auto
+  - "5.16"
+  - "5.14"
+  - "5.12"
+  - "5.10"
+
 git:
   submodules: false
 
