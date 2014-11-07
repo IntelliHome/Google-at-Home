@@ -11,8 +11,9 @@ has 'Config' => (
 
 sub installPlugin {
     my $self = shift;
+    my $plugin = ( split( /::/, caller ) )[-1];
     if ( $self->can("installTrigger") ) {
-        $self->installTrigger($_) for @_;
+        $_->{'plugin'} = $plugin and shift->installTrigger($_) for @_;
     }
     else {
         croak
