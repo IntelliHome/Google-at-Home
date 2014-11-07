@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# PODNAME: intellihome-agent
 use lib './lib';
 use IntelliHome::IntelliHomeAgent;
 use Getopt::Long;

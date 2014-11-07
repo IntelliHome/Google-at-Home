@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# PODNAME: intellihome-deployer
 use lib './lib';
 use Getopt::Long;
 use Carp::Always;
@@ -30,7 +31,7 @@ if ($@) {
     $Output->error($@);
 }
 
-    $Deployer->$action(@ARGV); 
+    $Deployer->$action(@ARGV);
 sub help {
     $Output->info(
         "At least an argument to --cmd it's required : [install,upgrade,prepare] "

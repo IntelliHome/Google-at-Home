@@ -4,7 +4,11 @@ our $VERSION = "0.002";
 
 1;
 __END__
-=head1 Google@Home
+=encoding utf-8
+
+=head1 NAME
+
+IntelliHome - Domotic control software
 
 B<I<##########################################################>>
 
@@ -236,6 +240,18 @@ remember Jarvis?:P)
 
 =back
 
+----
+
+=head2 Author
+
+mudler, skullbocks, vytas and all the contributors
+
+
+----
+
+=head2 License
+
+Released under GPL-3
 ----
 
 =head2 Contact

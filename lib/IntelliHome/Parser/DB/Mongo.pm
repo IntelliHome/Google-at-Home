@@ -35,15 +35,14 @@ sub getTriggers {
         if ( defined $language );
 }
 
-sub installPlugin {
-    shift->installTrigger($_) for @_;
-}
+# sub installPlugin {
+#     my $plugin = ( split( /::/, caller ) )[-1];
+#     $_->{'plugin'} = $plugin and shift->installTrigger($_) for @_;
+# }
 
 sub installTrigger {
     my $self    = shift;
     my $Options = shift;
-    $Options->{'plugin'} = ( split( /::/, caller ) )[-1]
-        if ( !exists $Options->{'plugin'} );
     my $Trigger = IntelliHome::Schema::Mongo::Trigger->find_one($Options);
     return $Trigger if ($Trigger);
     $Trigger = IntelliHome::Schema::Mongo::Trigger->new( %{$Options} );
