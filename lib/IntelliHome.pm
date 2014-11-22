@@ -131,10 +131,9 @@ You don't need to install the software, you can just clone this
 repository and launch C<intellihome-master> or C<intellihome-node>. If
 you wish to install:
 
- perl Makefile.PL      # optionally "perl Makefile.PL verbose"
- make
- make test             # optionally set TEST_VERBOSE=1
- sudo make install     # only if you want main modules installed in your libpath
+ perl Build.PL
+ ./Build
+ ./Build install     # only if you want main modules installed in your libpath
 
 =head2 Database
 
