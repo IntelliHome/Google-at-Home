@@ -17,7 +17,7 @@ has 'Output' => (
     default => sub { return IntelliHome::Interfaces::Terminal->instance }
 );
 
-sub BUILD { shift->read; }
+sub BUILD { shift->_read; }
 
 sub db {
     return $_[0]->DBConfiguration->{'db_dsn'}
@@ -25,7 +25,7 @@ sub db {
         : $_[0]->DBConfiguration->{'db_name'};
 }
 
-sub read {
+sub _read {
     my $self   = shift;
     my $output = $self->Output;
     my $Tiny   = YAML::Tiny->new;
