@@ -1,5 +1,5 @@
 # Workaround for issue #34. Must stay at the top.
-BEGIN{ $ENV{MOJO_REACTOR} = "Mojo::Reactor::Poll"; }
+BEGIN { $ENV{MOJO_REACTOR} = "Mojo::Reactor::Poll"; }
 
 use Test::More;
 use MojoX::JSON::RPC::Client;
@@ -35,34 +35,24 @@ my $callobj = {
     params => ["apri serranda"]
 };
 my $RPC = IntelliHome::Workers::Master::RPC->new();
-$RPC->launch( "prefork", '-l', 'http://*:3000' )->detach;
+$RPC->launch( "prefork", '-l', 'http://*:3000' );
 sleep(4);
-$client->call(
-    $url, $callobj,
-    sub {
-        # With callback
-        my $res = pop;
-        my $output;
+$res=$client->call( $url, $callobj );
+my $output;
 
-        if ($res) {
-            if ( $res->is_error ) {    # RPC ERROR
-                $output = 'Error : ', $res->error_message;
-            }
-            else {
-                $output = $res->result;
-            }
-        }
-        else {
-            my $tx_res = $client->tx->res;    # Mojo::Message::Response object
-            $output
-                = 'HTTP response ' . $tx_res->code . ' ' . $tx_res->message;
-        }
-        is( $output, "DUMMY-YUMMY!", "rpc-answer" );
-        $ENV{INTELLIHOME_DB_NAME} = undef;
-
-        Mojo::IOLoop->stop;
+if ($res) {
+    if ( $res->is_error ) {    # RPC ERROR
+        $output = 'Error : ', $res->error_message;
     }
-);
-
-Mojo::IOLoop->start;
+    else {
+        $output = $res->result;
+    }
+}
+else {
+    my $tx_res = $client->tx->res;    # Mojo::Message::Response object
+    $output = 'HTTP response ' . $tx_res->code . ' ' . $tx_res->message;
+}
+is( $output, "DUMMY-YUMMY!", "rpc-answer" );
+$ENV{INTELLIHOME_DB_NAME} = undef;
+$RPC->stop;
 done_testing;
