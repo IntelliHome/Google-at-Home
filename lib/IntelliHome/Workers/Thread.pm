@@ -33,15 +33,7 @@ return L<threads> C<is_detached()> on the thread
 =cut
 
 use Moo::Role;
-use Config;
-if ( $Config{usethreads} or $Config{useithreads} ) {
-    require threads;
-    threads->import();
-}
-else {
-    require Child;
-    Child->import();
-}
+use Child;
 
 use Carp qw( croak );
 use IntelliHome::Utils qw(class_inner_name);
@@ -54,13 +46,13 @@ sub start {
     my $self = shift;
     croak 'No callback defined for thread' if ( !defined $self->callback );
     $self->thread(
-        Child->new( sub { &$self->callback( @{ $self->args() } ) } )->start );
+        Child->new( sub { $self->run( $self->args()  ) } )->start );
 }
 
 sub launch {
     my $self = shift;
     $self->callback( class_inner_name($self) . "::run" );
-    $self->args( [ $self, @_ ] );
+    $self->args( @_ );
     $self->start();
     return $self;
 }
@@ -72,7 +64,7 @@ sub join {
 }
 
 sub stop {
-    $_[0]->thread->unix_exit()
+    $_[0]->thread->kill(9)
         if ( defined $_[0]->thread );
     return $_[0];
 }
