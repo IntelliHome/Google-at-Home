@@ -33,15 +33,7 @@ return L<threads> C<is_detached()> on the thread
 =cut
 
 use Moo::Role;
-use Config;
-if ( $Config{usethreads} or $Config{useithreads} ) {
-    require threads;
-    threads->import();
-}
-else {
-    require forks;
-    forks->import();
-}
+use Child;
 
 use Carp qw( croak );
 use IntelliHome::Utils qw(class_inner_name);
@@ -53,42 +45,41 @@ has 'thread'    => ( is => "rw" );
 sub start {
     my $self = shift;
     croak 'No callback defined for thread' if ( !defined $self->callback );
-    $self->thread( threads->create( $self->callback(), @{ $self->args() } ) );
+    $self->thread(
+        Child->new( sub { $self->run( $self->args()  ) } )->start );
 }
 
 sub launch {
     my $self = shift;
     $self->callback( class_inner_name($self) . "::run" );
-    $self->args( [ $self, @_ ] );
+    $self->args( @_ );
     $self->start();
     return $self;
 }
 
 sub join {
-    $_[0]->thread->join
+    $_[0]->thread->wait
         if ( defined $_[0]->thread );
     return $_[0];
 }
 
 sub stop {
-    $_[0]->thread->kill('KILL')->detach
-        if ( defined $_[0]->thread and !$_[0]->thread->is_detached );
+    $_[0]->thread->kill(9)
+        if ( defined $_[0]->thread );
     return $_[0];
 }
 
 sub detach {
-    $_[0]->thread->detach
-        if ( defined $_[0]->thread and !$_[0]->thread->is_detached );
     return $_[0];
 }
 
 sub signal {
     $_[0]->thread->kill( $_[1] )
-        if ( defined $_[0]->thread and !$_[0]->thread->is_detached );
+        if ( defined $_[0]->thread );
     return $_[0];
 }
 
-sub is_running { shift->thread->is_running(); }
+sub is_running { !$_[0]->thread->is_complete; }
 
-sub is_detached { shift->thread->is_detached(); }
+sub is_detached {1}
 1;
