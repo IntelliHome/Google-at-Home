@@ -1,6 +1,7 @@
 requires 'AnyEvent';
 requires 'AnyEvent::Filesys::Notify';
 requires 'Carp::Always';
+requires 'Child';
 requires 'DBIx::Class::Core';
 requires 'DBIx::Class::DeploymentHandler';
 requires 'DBIx::Class::Schema';
@@ -44,7 +45,6 @@ requires 'URI';
 requires 'Unix::PID';
 requires 'YAML::Tiny';
 requires 'feature';
-requires 'forks';
 requires 'namespace::autoclean';
 requires 'perl', '5.010';
 

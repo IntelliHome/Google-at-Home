@@ -39,8 +39,8 @@ if ( $Config{usethreads} or $Config{useithreads} ) {
     threads->import();
 }
 else {
-    require forks;
-    forks->import();
+    require Child;
+    Child->import();
 }
 
 use Carp qw( croak );
@@ -53,7 +53,8 @@ has 'thread'    => ( is => "rw" );
 sub start {
     my $self = shift;
     croak 'No callback defined for thread' if ( !defined $self->callback );
-    $self->thread( threads->create( $self->callback(), @{ $self->args() } ) );
+    $self->thread(
+        Child->new( sub { &$self->callback( @{ $self->args() } ) } )->start );
 }
 
 sub launch {
@@ -65,30 +66,28 @@ sub launch {
 }
 
 sub join {
-    $_[0]->thread->join
+    $_[0]->thread->wait
         if ( defined $_[0]->thread );
     return $_[0];
 }
 
 sub stop {
-    $_[0]->thread->kill('KILL')->detach
-        if ( defined $_[0]->thread and !$_[0]->thread->is_detached );
+    $_[0]->thread->unix_exit()
+        if ( defined $_[0]->thread );
     return $_[0];
 }
 
 sub detach {
-    $_[0]->thread->detach
-        if ( defined $_[0]->thread and !$_[0]->thread->is_detached );
     return $_[0];
 }
 
 sub signal {
     $_[0]->thread->kill( $_[1] )
-        if ( defined $_[0]->thread and !$_[0]->thread->is_detached );
+        if ( defined $_[0]->thread );
     return $_[0];
 }
 
-sub is_running { shift->thread->is_running(); }
+sub is_running { !$_[0]->thread->is_complete; }
 
-sub is_detached { shift->thread->is_detached(); }
+sub is_detached {1}
 1;
