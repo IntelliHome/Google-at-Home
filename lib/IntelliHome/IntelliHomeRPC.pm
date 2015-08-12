@@ -54,14 +54,13 @@ use Carp::Always;
 
 use Mojo::Base 'Mojolicious';
 use MojoX::JSON::RPC::Service;
-use Mojo::Loader;
+use Mojo::Loader qw(data_section find_modules load_class);
 use Mojolicious::Plugin::JsonRpcDispatcher;  #ensure the plugin it's available
 
 use IntelliHome::Config;
 use IntelliHome::Google::Synth;
 use IntelliHome::Interfaces::Voice;
 
-has 'Loader' => sub { return Mojo::Loader->new; };
 has 'Config';
 has 'GSynth';
 has 'Services' => sub { {} };
@@ -73,11 +72,10 @@ sub build {
     $self->Config( IntelliHome::Config->instance( Dirs => ['./config'] ) );
     $self->Output(
         IntelliHome::Interfaces::Voice->new( Config => $self->Config ) );
-    for my $module ( @{ $self->Loader->search('IntelliHome::RPC::Service') } )
-    {
+    for my $module ( find_modules 'IntelliHome::RPC::Service' ) {
 
         # Load them safely
-        my $e = $self->Loader->load($module);
+        my $e = load_class $module;
         warn qq{Loading "$module" failed: $e} and next if ref $e;
         my $Hook = $module;
         $Hook =~ s/.*\:\://g;
@@ -88,7 +86,7 @@ sub build {
     }
     my $Parser = 'IntelliHome::Parser::'
         . $self->Config->DBConfiguration->{'database_backend'};
-    $self->Loader->load($Parser);
+    load_class $Parser;
     $Parser = $Parser->new(
         Config => $self->Config,
         Output => $self->Output
