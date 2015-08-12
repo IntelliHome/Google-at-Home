@@ -1,6 +1,0 @@
-name = "IntelliHome"
-badges = ["travis"]
-#module_maker="ModuleBuildTiny"
-license="gpl_3"
-[release]
-do_not_upload_to_cpan=true
