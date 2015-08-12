@@ -3,7 +3,7 @@ package IntelliHome::Utils;
 use warnings;
 use strict;
 use base qw(Exporter);
-use Mojo::Loader;
+use Mojo::Loader qw(load_class);
 use File::Basename qw(fileparse);
 use File::Spec::Functions qw(catdir catfile splitdir);
 use constant SEPARATOR => ":";
@@ -14,15 +14,15 @@ our @EXPORT_OK = qw(
 
 sub load_module($) {
     my $module = shift;
-    my $e      = Mojo::Loader->new->load($module);
-    warn qq{Loading "$module" failed: $e} and return 0 if ref $e;
+    my $e      = load_class $module;
+    warn qq{Loading "$module" failed: $e} and next if ref $e;
     return 1;
 }
 
 sub class_inner_name($) { ( shift =~ /(.*)\=/ )[0]; }
 
 sub search_modules($) {
-    return @{ Mojo::Loader->new->search(shift) };
+    return find_modules(shift);
 }
 
 sub search_modulesd($) {
