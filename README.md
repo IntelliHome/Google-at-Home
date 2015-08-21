@@ -1,5 +1,7 @@
 #Google@Home [![Build Status](https://travis-ci.org/IntelliHome/Google-at-Home.png?branch=master)](https://travis-ci.org/IntelliHome/Google-at-Home)
 
+[![Join the chat at https://gitter.im/IntelliHome/Google-at-Home](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/IntelliHome/Google-at-Home?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ***##########################################################***
 
 **ATTENTION! This project is not an official Google Project**
